@@ -319,6 +319,230 @@ const levelLabel = (level) => {
 };
 
 // ═══════════════════════════════════════════════════════════════
+// ANIMATED COMPONENTS
+// ═══════════════════════════════════════════════════════════════
+
+// Animated counting number
+function AnimatedNumber({ value, suffix = "", prefix = "", duration = 500 }) {
+  const [displayValue, setDisplayValue] = useState(value);
+
+  useEffect(() => {
+    const startValue = displayValue;
+    const endValue = value;
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const current = Math.round(startValue + (endValue - startValue) * eased);
+      setDisplayValue(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [value]);
+
+  return <>{prefix}{displayValue}{suffix}</>;
+}
+
+// Completion celebration pulse effect
+function CompletionPulse({ children, isComplete }) {
+  return (
+    <div className={`transition-all duration-500 ${isComplete ? 'animate-pulse' : ''}`}>
+      {children}
+    </div>
+  );
+}
+
+// Progress ring with animation
+function AnimatedProgressRing({ progress, size = 80, strokeWidth = 6, color = "#1B4F72" }) {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <svg width={size} height={size} className="transform -rotate-90">
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="none"
+        stroke="#E5E7EB"
+        strokeWidth={strokeWidth}
+      />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="none"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={strokeDashoffset}
+        strokeLinecap="round"
+        className="transition-all duration-700 ease-out"
+      />
+    </svg>
+  );
+}
+
+// Live Assessment Summary Panel (floating sidebar)
+function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [recentRatings, setRecentRatings] = useState([]);
+
+  // Track recent ratings
+  useEffect(() => {
+    const rated = [];
+    FRAMEWORK.themes.forEach(t => {
+      t.metrics.forEach(m => {
+        const r = ratings[m.id];
+        if (r?.updatedAt) {
+          rated.push({ metricId: m.id, metricName: m.name, themeName: t.name, themeId: t.id, level: r.level, updatedAt: r.updatedAt });
+        }
+      });
+    });
+    rated.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    setRecentRatings(rated.slice(0, 3));
+  }, [ratings]);
+
+  // Find incomplete themes
+  const incompleteThemes = FRAMEWORK.themes.filter(t => {
+    const s = scores.themeScores[t.id];
+    return s?.rated < s?.total;
+  });
+
+  const completionPct = scores.totalMetrics > 0 ? Math.round((scores.ratedCount / scores.totalMetrics) * 100) : 0;
+  const isAllComplete = scores.ratedCount === scores.totalMetrics;
+
+  return (
+    <div className={`fixed right-4 top-20 z-50 transition-all duration-300 ${isExpanded ? 'w-72' : 'w-12'}`}>
+      {/* Toggle button */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="absolute -left-3 top-4 w-6 h-6 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-xs hover:bg-blue-700 transition-colors z-10"
+      >
+        {isExpanded ? '›' : '‹'}
+      </button>
+
+      {isExpanded ? (
+        <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+          {/* Header */}
+          <div className={`px-4 py-3 ${isAllComplete ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-600 to-indigo-600'} text-white`}>
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-sm">Live Progress</span>
+              {isAllComplete && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">✓ Complete!</span>}
+            </div>
+          </div>
+
+          {/* Main Stats */}
+          <div className="p-4 border-b border-gray-100">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <AnimatedProgressRing progress={completionPct} color={isAllComplete ? "#10B981" : "#1B4F72"} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-lg font-bold text-gray-800">
+                    <AnimatedNumber value={completionPct} suffix="%" />
+                  </span>
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="text-2xl font-bold text-gray-800">
+                  <AnimatedNumber value={scores.pct} suffix="%" />
+                </div>
+                <div className="text-xs text-gray-500">Maturity Score</div>
+                <div className="text-xs text-gray-400 mt-0.5">
+                  {scores.ratedCount}/{scores.totalMetrics} metrics rated
+                </div>
+              </div>
+            </div>
+
+            {/* Earnout if applicable */}
+            {scores.earnout.max > 0 && (
+              <div className="mt-3 p-2 bg-purple-50 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-purple-600 flex items-center gap-1">
+                    <Sparkles size={10} /> Earnout
+                  </span>
+                  <span className="text-sm font-bold text-purple-700">
+                    £<AnimatedNumber value={scores.earnout.score} />k
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Jump to Incomplete */}
+          {incompleteThemes.length > 0 && (
+            <div className="p-3 border-b border-gray-100">
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Quick Jump</div>
+              <div className="space-y-1">
+                {incompleteThemes.slice(0, 3).map(t => {
+                  const s = scores.themeScores[t.id];
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => onJumpToTheme(t.id)}
+                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-blue-50 transition-colors group"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
+                        <span className="text-xs text-gray-600 group-hover:text-blue-600 truncate">{t.name}</span>
+                      </div>
+                      <span className="text-xs text-gray-400">{s?.rated}/{s?.total}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Recent Activity */}
+          {recentRatings.length > 0 && (
+            <div className="p-3">
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Recent Activity</div>
+              <div className="space-y-2">
+                {recentRatings.map((r, i) => (
+                  <div key={i} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${r.level >= 2.5 ? 'bg-green-100 text-green-700' :
+                      r.level >= 1.5 ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-red-100 text-red-700'
+                      }`}>
+                      {r.level}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-gray-700 truncate">{r.metricName}</div>
+                      <div className="text-xs text-gray-400">{r.themeName}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Collapsed State */
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-2">
+          <div className="relative w-8 h-8 mx-auto">
+            <AnimatedProgressRing progress={completionPct} size={32} strokeWidth={3} color={isAllComplete ? "#10B981" : "#1B4F72"} />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xs font-bold text-gray-700">{completionPct}</span>
+            </div>
+          </div>
+          <div className="text-center mt-2">
+            <div className="text-xs font-bold text-gray-700">{scores.pct}%</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 // COMPONENTS
 // ═══════════════════════════════════════════════════════════════
 
@@ -345,6 +569,7 @@ function ScoreGauge({ score, max, label }) {
 function MetricCard({ metric, rating, onRate, onComment }) {
   const [showComment, setShowComment] = useState(false);
   const [comment, setComment] = useState(rating?.comment || "");
+  const [animatingLevel, setAnimatingLevel] = useState(null);
   const levels = [
     { level: 1, label: "Foundational", text: metric.foundational, color: "#922B21", bg: "#FDEDEC", border: "#E6B0AA" },
     { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#FEF9E7", border: "#F9E79F" },
@@ -352,26 +577,32 @@ function MetricCard({ metric, rating, onRate, onComment }) {
   ];
   const currentLevel = rating?.level;
 
+  const handleRate = (level) => {
+    setAnimatingLevel(level);
+    onRate(metric.id, level);
+    setTimeout(() => setAnimatingLevel(null), 300);
+  };
+
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-4 overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-4 overflow-hidden hover-lift transition-all duration-200">
       <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <h4 className="font-semibold text-gray-800 text-sm">{metric.name}</h4>
-          {metric.weight > 0 && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">{metric.weight} pts</span>}
+          {metric.weight > 0 && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium transition-transform hover:scale-105">{metric.weight} pts</span>}
           {metric.weight === 0 && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Supplementary</span>}
           {metric.earnout && metric.earnout !== "X" && !isNaN(parseInt(metric.earnout)) && (
-            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1 transition-transform hover:scale-105">
               <Sparkles size={10} /> £{metric.earnout}k earnout
             </span>
           )}
         </div>
         <div className="flex items-center gap-2">
           {currentLevel && (
-            <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 px-1" title="Clear rating">
+            <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 hover:scale-110 transition-all px-1" title="Clear rating">
               <X size={14} />
             </button>
           )}
-          <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded ${comment ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
+          <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-all button-press ${comment ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
             <MessageSquare size={12} />
             {comment ? "Note" : "Add note"}
           </button>
@@ -381,24 +612,46 @@ function MetricCard({ metric, rating, onRate, onComment }) {
       <div className="grid grid-cols-3 gap-0">
         {levels.map(l => {
           const selected = currentLevel === l.level;
+          const isAnimating = animatingLevel === l.level;
           return (
-            <button key={l.level} onClick={() => onRate(metric.id, l.level)} className="relative text-left p-3 border-r last:border-r-0 border-gray-100 transition-all hover:shadow-inner" style={{ backgroundColor: selected ? l.bg : "white", borderBottom: selected ? `3px solid ${l.color}` : "3px solid transparent" }}>
+            <button
+              key={l.level}
+              onClick={() => handleRate(l.level)}
+              className={`relative text-left p-3 border-r last:border-r-0 border-gray-100 transition-all duration-200 hover:bg-opacity-50 ${isAnimating ? 'animate-scale-pop' : ''}`}
+              style={{
+                backgroundColor: selected ? l.bg : "white",
+                borderBottom: selected ? `3px solid ${l.color}` : "3px solid transparent",
+              }}
+            >
               <div className="flex items-center gap-1.5 mb-1.5">
-                {selected ? <CheckCircle2 size={14} style={{ color: l.color }} /> : <Circle size={14} className="text-gray-300" />}
-                <span className="text-xs font-bold uppercase tracking-wide" style={{ color: selected ? l.color : "#9CA3AF" }}>{l.label}</span>
+                <div className={`transition-transform duration-200 ${selected ? 'scale-110' : ''}`}>
+                  {selected ? <CheckCircle2 size={14} style={{ color: l.color }} /> : <Circle size={14} className="text-gray-300 group-hover:text-gray-400" />}
+                </div>
+                <span className="text-xs font-bold uppercase tracking-wide transition-colors" style={{ color: selected ? l.color : "#9CA3AF" }}>{l.label}</span>
               </div>
-              <p className="text-xs leading-relaxed" style={{ color: selected ? l.color : "#6B7280" }}>{l.text}</p>
+              <p className="text-xs leading-relaxed transition-colors" style={{ color: selected ? l.color : "#6B7280" }}>{l.text}</p>
+              {/* Selection indicator */}
+              {selected && (
+                <div className="absolute top-1 right-1 w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: l.color }} />
+              )}
             </button>
           );
         })}
       </div>
 
-      {/* Half-level selector */}
+      {/* Half-level selector with animations */}
       {currentLevel && (
-        <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 flex items-center gap-2">
+        <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 flex items-center gap-2 animate-fade-in">
           <span className="text-xs text-gray-500">Fine-tune:</span>
           {[1, 1.5, 2, 2.5, 3].map(v => (
-            <button key={v} onClick={() => onRate(metric.id, v)} className={`text-xs px-2 py-0.5 rounded-full transition-all ${currentLevel === v ? "bg-blue-600 text-white font-bold" : "bg-gray-200 text-gray-600 hover:bg-gray-300"}`}>
+            <button
+              key={v}
+              onClick={() => handleRate(v)}
+              className={`text-xs px-2 py-0.5 rounded-full transition-all duration-200 button-press ${currentLevel === v
+                  ? "bg-blue-600 text-white font-bold scale-110 shadow-md"
+                  : "bg-gray-200 text-gray-600 hover:bg-gray-300 hover:scale-105"
+                }`}
+            >
               {v}
             </button>
           ))}
@@ -406,8 +659,8 @@ function MetricCard({ metric, rating, onRate, onComment }) {
       )}
 
       {showComment && (
-        <div className="px-4 py-3 bg-gray-50 border-t border-gray-100">
-          <textarea value={comment} onChange={e => { setComment(e.target.value); onComment(metric.id, e.target.value); }} placeholder="Add evidence notes, reasoning, or commentary..." className="w-full text-xs border border-gray-200 rounded p-2 h-16 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400" />
+        <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 animate-fade-in">
+          <textarea value={comment} onChange={e => { setComment(e.target.value); onComment(metric.id, e.target.value); }} placeholder="Add evidence notes, reasoning, or commentary..." className="w-full text-xs border border-gray-200 rounded p-2 h-16 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" />
         </div>
       )}
     </div>
@@ -912,35 +1165,52 @@ function AssessmentView({ assessment, onRate, onComment, onBack }) {
   const scores = calcScores(assessment.ratings);
   const theme = FRAMEWORK.themes.find(t => t.id === selectedTheme);
 
+  const handleJumpToTheme = (themeId) => {
+    setSelectedTheme(themeId);
+  };
+
   return (
     <div className="flex h-full">
       <ThemeSidebar themes={FRAMEWORK.themes} selectedTheme={selectedTheme} onSelect={setSelectedTheme} scores={scores} />
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pr-80"> {/* Add padding for the floating panel */}
         <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={onBack} className="text-gray-400 hover:text-gray-600"><ArrowLeft size={16} /></button>
+            <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={16} /></button>
             <div>
-              <h2 className="text-lg font-bold" style={{ color: theme.color }}>{theme.name}</h2>
+              <h2 className="text-lg font-bold transition-colors" style={{ color: theme.color }}>{theme.name}</h2>
               <p className="text-xs text-gray-400">{theme.metrics.length} metrics &middot; {theme.totalWeight} valuation points</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
               <div className="text-xs text-gray-400">Theme Score</div>
-              <div className="text-sm font-bold" style={{ color: theme.color }}>{scores.themeScores[theme.id]?.pct || 0}%</div>
+              <div className="text-sm font-bold transition-all" style={{ color: theme.color }}>
+                <AnimatedNumber value={scores.themeScores[theme.id]?.pct || 0} suffix="%" />
+              </div>
             </div>
             <div className="text-right">
               <div className="text-xs text-gray-400">Overall</div>
-              <div className="text-sm font-bold text-blue-600">{scores.pct}% ({scores.ratedCount}/{scores.totalMetrics})</div>
+              <div className="text-sm font-bold text-blue-600">
+                <AnimatedNumber value={scores.pct} suffix="%" /> ({scores.ratedCount}/{scores.totalMetrics})
+              </div>
             </div>
           </div>
         </div>
         <div className="p-4">
-          {theme.metrics.map(m => (
-            <MetricCard key={m.id} metric={m} rating={assessment.ratings[m.id]} onRate={onRate} onComment={onComment} />
+          {theme.metrics.map((m, i) => (
+            <div key={m.id} className="animate-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+              <MetricCard metric={m} rating={assessment.ratings[m.id]} onRate={onRate} onComment={onComment} />
+            </div>
           ))}
         </div>
       </div>
+
+      {/* Live Assessment Panel */}
+      <LiveAssessmentPanel
+        scores={scores}
+        ratings={assessment.ratings}
+        onJumpToTheme={handleJumpToTheme}
+      />
     </div>
   );
 }
