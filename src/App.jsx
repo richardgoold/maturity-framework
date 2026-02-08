@@ -221,6 +221,205 @@ const saveState = (state) => {
 const genId = () => Math.random().toString(36).substr(2, 9);
 
 // ═══════════════════════════════════════════════════════════════
+// DEMO DATA - Sample firms and assessments for demonstration
+// ═══════════════════════════════════════════════════════════════
+const generateDemoData = () => {
+  // Helper to create ratings with timestamps
+  const createRating = (level, comment = "") => ({
+    level,
+    comment,
+    updatedAt: new Date(Date.now() - Math.random() * 86400000).toISOString()
+  });
+
+  // Demo Firm 1: Apex Consulting (Top Performer)
+  const apexRatings = {
+    // Financial Performance
+    fin_revenue: createRating(3, "Strong 15% YoY growth with diversified revenue"),
+    fin_gm: createRating(3, "Consistent 55% gross margin"),
+    fin_ebitda: createRating(2.5, "EBITDA at 22%, improving trend"),
+    fin_cash: createRating(3, "Excellent cash conversion, 35 day debtors"),
+    fin_quality: createRating(2.5, "35% recurring revenue from retainers"),
+    fin_rate: createRating(3, "Average day rate £1,800"),
+    // People
+    ppl_talent: createRating(3, "Full competency framework implemented"),
+    ppl_exp: createRating(2.5, "Glassdoor 4.2, eNPS 45"),
+    ppl_recruit: createRating(3, "Strong employer brand, 12 applicants per role"),
+    ppl_churn: createRating(2.5, "Attrition at 18%, improving"),
+    ppl_wf: createRating(3, "85% permanent staff"),
+    // Services & Pricing
+    srv_prop: createRating(2.5, "Clear differentiation in digital transformation"),
+    srv_innov: createRating(2, "4% R&D investment"),
+    srv_ip: createRating(3, "Proprietary methodology and tools"),
+    srv_size: createRating(3, "Average deal size £320k"),
+    srv_price: createRating(2.5, "Value-based pricing model"),
+    // Vision & Strategy
+    vis_market: createRating(3, "AI consulting - hot sector"),
+    vis_comp: createRating(2.5, "Strong differentiation, 4 direct competitors"),
+    vis_align: createRating(3, "Quarterly strategy reviews, full alignment"),
+    vis_plan: createRating(3, "Rolling 5-year plan with quarterly updates"),
+    vis_esg: createRating(2, "ESG policy in place"),
+    // Sales & Pipeline
+    sal_pipe: createRating(3, "78% of next 12 months booked"),
+    sal_conv: createRating(2.5, "45% win rate"),
+    sal_mgmt: createRating(3, "CRM driven, weekly pipeline reviews"),
+    sal_skills: createRating(3, "MEDDIC methodology trained"),
+    // Clients & Relationships
+    cli_conc: createRating(2.5, "Top 3 clients at 28%"),
+    cli_long: createRating(3, "Average tenure 4.2 years"),
+    cli_size: createRating(3, "42% from £250k+ clients"),
+    cli_part: createRating(2.5, "Microsoft and Salesforce partnerships"),
+    // Leadership & Governance
+    led_team: createRating(3, "Ex-Big 4 leadership with M&A experience"),
+    led_deleg: createRating(2.5, "CEO stepping back, strong deputies"),
+    led_gov: createRating(3, "Advisory board with PE representation"),
+    // Cost Optimisation
+    cos_deliv: createRating(2, "10% nearshore delivery"),
+    cos_tech: createRating(3, "Fully integrated CRM, PSA, BI stack"),
+    cos_scale: createRating(2.5, "45% process automation"),
+    cos_data: createRating(3, "Real-time dashboards and reporting"),
+    cos_lever: createRating(3, "Zero debt"),
+    cos_know: createRating(2.5, "Confluence-based knowledge management"),
+    cos_resrc: createRating(3, "82% utilisation"),
+    // Delivery
+    del_sat: createRating(3, "NPS 62, quarterly surveys"),
+    del_util: createRating(3, "82% billable utilisation"),
+    del_qa: createRating(2.5, "QA gates on all projects"),
+    // Market Profile
+    mkt_size: createRating(3, "Large addressable market £2bn+"),
+    mkt_mktg: createRating(2.5, "12% of revenue marketing-influenced"),
+    mkt_award: createRating(3, "MCA winner 2024, shortlisted 2025"),
+    mkt_thought: createRating(3, "6 whitepapers, regular speaking slots"),
+    mkt_brand: createRating(2.5, "Strong sector recognition")
+  };
+
+  // Demo Firm 2: TechBridge Solutions (Mid-Market)
+  const techbridgeRatings = {
+    fin_revenue: createRating(2, "8% growth, stable"),
+    fin_gm: createRating(2, "Gross margin 44%"),
+    fin_ebitda: createRating(2, "EBITDA 15%"),
+    fin_cash: createRating(1.5, "Cash conversion needs work, 52 day debtors"),
+    fin_quality: createRating(1.5, "15% recurring revenue"),
+    fin_rate: createRating(2, "Day rate £1,150"),
+    ppl_talent: createRating(2, "Competency framework exists, inconsistent"),
+    ppl_exp: createRating(2, "Glassdoor 3.8"),
+    ppl_recruit: createRating(1.5, "4 applicants per role"),
+    ppl_churn: createRating(2, "22% attrition"),
+    ppl_wf: createRating(2, "40% contractors"),
+    srv_prop: createRating(2, "Good capability, weak messaging"),
+    srv_innov: createRating(1.5, "Ad-hoc R&D"),
+    srv_ip: createRating(2, "Some reusable accelerators"),
+    srv_size: createRating(2, "Average deal £85k"),
+    srv_price: createRating(1.5, "Cost-plus pricing"),
+    vis_market: createRating(2, "Cloud migration - warm sector"),
+    vis_comp: createRating(2, "Moderate differentiation"),
+    vis_align: createRating(1.5, "Strategy exists but not cascaded"),
+    vis_plan: createRating(2, "Annual planning cycle"),
+    vis_esg: createRating(1, "Basic policy only"),
+    sal_pipe: createRating(2, "55% visibility"),
+    sal_conv: createRating(2, "35% win rate"),
+    sal_mgmt: createRating(1.5, "CRM adoption patchy"),
+    sal_skills: createRating(2, "Some sales training"),
+    cli_conc: createRating(1.5, "Top 3 at 45%"),
+    cli_long: createRating(2, "18 month average tenure"),
+    cli_size: createRating(2, "Mix of SMB and mid-market"),
+    cli_part: createRating(1.5, "One AWS partnership"),
+    led_team: createRating(2, "Capable leadership"),
+    led_deleg: createRating(1.5, "Founder still involved in sales"),
+    led_gov: createRating(2, "Basic governance"),
+    cos_deliv: createRating(1.5, "All onshore"),
+    cos_tech: createRating(2, "Basic CRM and PSA"),
+    cos_scale: createRating(1.5, "25% automation"),
+    cos_data: createRating(2, "Monthly reporting pack"),
+    cos_lever: createRating(2, "Manageable debt"),
+    cos_know: createRating(1.5, "Informal knowledge sharing"),
+    cos_resrc: createRating(2, "68% utilisation"),
+    del_sat: createRating(2, "NPS 38"),
+    del_util: createRating(2, "68% billable"),
+    del_qa: createRating(2, "QA on larger projects"),
+    mkt_size: createRating(2, "Medium market"),
+    mkt_mktg: createRating(1.5, "Minimal marketing ROI tracking"),
+    mkt_award: createRating(1.5, "Regional award winner"),
+    mkt_thought: createRating(1.5, "Occasional blog posts"),
+    mkt_brand: createRating(1.5, "Known locally")
+  };
+
+  // Demo Firm 3: Phoenix Advisory (Turnaround)
+  const phoenixRatings = {
+    fin_revenue: createRating(1, "Flat revenue, margin pressure"),
+    fin_gm: createRating(1.5, "GM 38%"),
+    fin_ebitda: createRating(1, "EBITDA 8%"),
+    fin_cash: createRating(1, "Working capital challenges"),
+    fin_quality: createRating(1, "Project-based revenue"),
+    fin_rate: createRating(1.5, "Day rate £850"),
+    ppl_talent: createRating(1.5, "Basic training"),
+    ppl_exp: createRating(1, "Glassdoor 3.2"),
+    ppl_recruit: createRating(1, "Difficulty attracting talent"),
+    ppl_churn: createRating(1, "32% attrition"),
+    ppl_wf: createRating(1.5, "Heavy contractor reliance"),
+    srv_prop: createRating(1.5, "Generalist positioning"),
+    srv_innov: createRating(1, "No formal R&D"),
+    srv_ip: createRating(1, "No proprietary IP"),
+    srv_size: createRating(1.5, "£40k average deal"),
+    srv_price: createRating(1, "Heavy discounting"),
+    vis_market: createRating(1.5, "Project management - cold sector"),
+    vis_comp: createRating(1, "Highly commoditised"),
+    vis_align: createRating(1, "No clear strategy"),
+    vis_plan: createRating(1.5, "Annual budget only"),
+    vis_esg: createRating(1, "No ESG consideration"),
+    sal_pipe: createRating(1, "30% visibility"),
+    sal_conv: createRating(1.5, "25% win rate"),
+    sal_mgmt: createRating(1, "Spreadsheet based"),
+    sal_skills: createRating(1, "No formal sales process"),
+    cli_conc: createRating(1, "Top 3 at 65%"),
+    cli_long: createRating(1.5, "8 month tenure"),
+    cli_size: createRating(1, "Mostly small contracts"),
+    cli_part: createRating(1, "No partnerships"),
+    led_team: createRating(1.5, "Founder-led, limited depth"),
+    led_deleg: createRating(1, "100% founder dependent"),
+    led_gov: createRating(1, "Minimal governance"),
+    cos_deliv: createRating(1, "100% onshore, high cost"),
+    cos_tech: createRating(1.5, "Basic tools"),
+    cos_scale: createRating(1, "Manual processes"),
+    cos_data: createRating(1.5, "Quarterly reporting"),
+    cos_lever: createRating(1.5, "Some debt"),
+    cos_know: createRating(1, "Tribal knowledge"),
+    cos_resrc: createRating(1, "55% utilisation"),
+    del_sat: createRating(1.5, "NPS 18"),
+    del_util: createRating(1, "55% billable"),
+    del_qa: createRating(1.5, "Inconsistent QA"),
+    mkt_size: createRating(1.5, "Niche market"),
+    mkt_mktg: createRating(1, "No marketing function"),
+    mkt_award: createRating(1, "No awards"),
+    mkt_thought: createRating(1, "No thought leadership"),
+    mkt_brand: createRating(1, "Limited brand awareness")
+  };
+
+  return {
+    firms: [
+      { id: "demo_apex", name: "Apex Consulting Partners", sector: "Consulting", createdAt: "2025-01-15T10:00:00Z" },
+      { id: "demo_techbridge", name: "TechBridge Solutions", sector: "Technology Services", createdAt: "2025-02-01T14:30:00Z" },
+      { id: "demo_phoenix", name: "Phoenix Advisory Group", sector: "Consulting", createdAt: "2025-02-05T09:00:00Z" }
+    ],
+    assessments: [
+      { id: "demo_apex_a1", firmId: "demo_apex", createdAt: "2025-01-20T11:00:00Z", ratings: apexRatings },
+      { id: "demo_techbridge_a1", firmId: "demo_techbridge", createdAt: "2025-02-03T16:00:00Z", ratings: techbridgeRatings },
+      { id: "demo_phoenix_a1", firmId: "demo_phoenix", createdAt: "2025-02-06T10:30:00Z", ratings: phoenixRatings }
+    ]
+  };
+};
+
+// Get initial state: load from storage, or use demo data
+const getInitialState = () => {
+  const saved = loadState();
+  if (saved && saved.firms && saved.firms.length > 0) {
+    return saved;
+  }
+  // No saved data - use demo data
+  return generateDemoData();
+};
+
+
+// ═══════════════════════════════════════════════════════════════
 // SCORING ENGINE (with Earnout Tracking)
 // ═══════════════════════════════════════════════════════════════
 const calcScores = (ratings) => {
@@ -648,8 +847,8 @@ function MetricCard({ metric, rating, onRate, onComment }) {
               key={v}
               onClick={() => handleRate(v)}
               className={`text-xs px-2 py-0.5 rounded-full transition-all duration-200 button-press ${currentLevel === v
-                  ? "bg-blue-600 text-white font-bold scale-110 shadow-md"
-                  : "bg-gray-200 text-gray-600 hover:bg-gray-300 hover:scale-105"
+                ? "bg-blue-600 text-white font-bold scale-110 shadow-md"
+                : "bg-gray-200 text-gray-600 hover:bg-gray-300 hover:scale-105"
                 }`}
             >
               {v}
@@ -1302,8 +1501,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack }) {
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
   const [state, setState] = useState(() => {
-    const saved = loadState();
-    return saved || { firms: [], assessments: {} };
+    return getInitialState();
   });
   const [view, setView] = useState("firms");
   const [selectedFirmId, setSelectedFirmId] = useState(null);
