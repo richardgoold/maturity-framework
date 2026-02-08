@@ -400,11 +400,11 @@ const generateDemoData = () => {
       { id: "demo_techbridge", name: "TechBridge Solutions", sector: "Technology Services", createdAt: "2025-02-01T14:30:00Z" },
       { id: "demo_phoenix", name: "Phoenix Advisory Group", sector: "Consulting", createdAt: "2025-02-05T09:00:00Z" }
     ],
-    assessments: [
-      { id: "demo_apex_a1", firmId: "demo_apex", createdAt: "2025-01-20T11:00:00Z", ratings: apexRatings },
-      { id: "demo_techbridge_a1", firmId: "demo_techbridge", createdAt: "2025-02-03T16:00:00Z", ratings: techbridgeRatings },
-      { id: "demo_phoenix_a1", firmId: "demo_phoenix", createdAt: "2025-02-06T10:30:00Z", ratings: phoenixRatings }
-    ]
+    assessments: {
+      "demo_apex_a1": { id: "demo_apex_a1", firmId: "demo_apex", createdAt: "2025-01-20T11:00:00Z", ratings: apexRatings },
+      "demo_techbridge_a1": { id: "demo_techbridge_a1", firmId: "demo_techbridge", createdAt: "2025-02-03T16:00:00Z", ratings: techbridgeRatings },
+      "demo_phoenix_a1": { id: "demo_phoenix_a1", firmId: "demo_phoenix", createdAt: "2025-02-06T10:30:00Z", ratings: phoenixRatings }
+    }
   };
 };
 
