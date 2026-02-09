@@ -1380,7 +1380,6 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                       <div className="text-xs text-gray-400">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
                   <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
-                  <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
                     <ChevronRight size={16} className="text-gray-300" />
                   </div>
                 </div>
@@ -1520,6 +1519,10 @@ export default function App() {
     setState(s => {
       const assessments = { ...s.assessments };
 
+      Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
+      return { firms: s.firms.filter(f => f.id !== id), assessments };
+    });
+  };
   const deleteAssessment = (assessmentId) => {
     if (!confirm('Delete this assessment? This cannot be undone.')) return;
     setState(prev => {
@@ -1528,10 +1531,7 @@ export default function App() {
       return { ...prev, assessments: newAssessments };
     });
   };
-      Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
-      return { firms: s.firms.filter(f => f.id !== id), assessments };
-    });
-  };
+
   const createAssessment = (firmId, templateRatings = {}) => {
     const id = genId();
     // Convert template ratings to proper format with level property
