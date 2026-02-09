@@ -842,31 +842,39 @@ function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
 }
 
 function HeatmapGrid({ ratings }) {
+  const themes = FRAMEWORK.themes;
+  const half = Math.ceil(themes.length / 2);
+  const leftThemes = themes.slice(0, half);
+  const rightThemes = themes.slice(half);
+
+  const renderTheme = (theme) => (
+    <div key={theme.id}>
+      <div className="text-xs font-semibold text-gray-500 mb-1">{theme.name}</div>
+      <div className="flex flex-wrap gap-1">
+        {theme.metrics.map(m => {
+          const r = ratings[m.id];
+          const lc = levelColor(r?.level);
+          return (
+            <div key={m.id} title={`${m.name}: ${levelLabel(r?.level)}`} className="relative group">
+              <div className="w-8 h-8 rounded flex items-center justify-center text-xs font-bold cursor-default border" style={{ backgroundColor: lc.bg, color: lc.text, borderColor: lc.border }}>
+                {r?.level || "-"}
+              </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10">
+                {m.name}: {levelLabel(r?.level)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <h3 className="text-sm font-bold text-gray-700 mb-3">Maturity Heatmap (All Metrics)</h3>
-      <div className="space-y-3">
-        {FRAMEWORK.themes.map(theme => (
-          <div key={theme.id}>
-            <div className="text-xs font-semibold text-gray-500 mb-1">{theme.name}</div>
-            <div className="flex flex-wrap gap-1">
-              {theme.metrics.map(m => {
-                const r = ratings[m.id];
-                const lc = levelColor(r?.level);
-                return (
-                  <div key={m.id} title={`${m.name}: ${levelLabel(r?.level)}`} className="relative group">
-                    <div className="w-8 h-8 rounded flex items-center justify-center text-xs font-bold cursor-default border" style={{ backgroundColor: lc.bg, color: lc.text, borderColor: lc.border }}>
-                      {r?.level || "-"}
-                    </div>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10">
-                      {m.name}: {levelLabel(r?.level)}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-0">
+        <div className="space-y-3">{leftThemes.map(renderTheme)}</div>
+        <div className="space-y-3">{rightThemes.map(renderTheme)}</div>
       </div>
       <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-gray-100 border border-gray-300" /><span className="text-xs text-gray-500">Not rated</span></div>
@@ -1452,14 +1460,12 @@ function AssessmentView({ assessment, onRate, onComment, onBack }) {
 
 function DashboardView({ assessment, firmName, firmSector, onBack }) {
   const scores = calcScores(assessment.ratings);
-
   const radarData = FRAMEWORK.themes.map(t => ({
     theme: t.name.length > 15 ? t.name.substring(0, 14) + "..." : t.name,
     fullName: t.name,
     score: scores.themeScores[t.id]?.pct || 0,
     fullMark: 100,
   }));
-
   const barData = FRAMEWORK.themes.map(t => ({
     name: t.name.length > 12 ? t.name.substring(0, 11) + "..." : t.name,
     score: scores.themeScores[t.id]?.score || 0,
@@ -1467,34 +1473,36 @@ function DashboardView({ assessment, firmName, firmSector, onBack }) {
     pct: scores.themeScores[t.id]?.pct || 0,
     color: t.color,
   }));
-
   return (
     <div className="overflow-y-auto p-6">
-      
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">{firmName} - Maturity Dashboard</h1>
-          <p className="text-sm text-gray-500">Assessment from {new Date(assessment.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+          <p className="text-sm text-gray-500">Assessment from {new Date(assessment.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}{firmSector ? ` \u00B7 ${firmSector}` : ""}</p>
         </div>
         <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
       </div>
-
-
-      {/* Radar Overview & Benchmark side by side */}
+      {/* Theme Score Summary Strip */}
+      <div className="grid grid-cols-5 gap-2 mb-4">
+        {FRAMEWORK.themes.map(t => {
+          const ts = scores.themeScores[t.id];
+          const pct = ts?.pct || 0;
+          return (
+            <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-2 text-center">
+              <div className="text-xs font-medium text-gray-500 truncate">{t.name}</div>
+              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 80 ? "#16A34A" : pct >= 50 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%</div>
+            </div>
+          );
+        })}
+      </div>
+      {/* Charts */}
       <div className="grid grid-cols-2 gap-6 mb-4">
         <RadarOverview radarData={radarData} />
         <BenchmarkComparison scores={scores} />
       </div>
-
-      <div className="mb-4">
-        <StrengthsWeaknesses ratings={assessment.ratings} />
-      </div>
-
-      <div className="mb-4">
-        <HeatmapGrid ratings={assessment.ratings} />
-      </div>
-
-      {/* Export Panel */}
+      <div className="mb-4"><StrengthsWeaknesses ratings={assessment.ratings} /></div>
+      <div className="mb-4"><HeatmapGrid ratings={assessment.ratings} /></div>
       <ExportPanel assessment={assessment} firmName={firmName} scores={scores} />
     </div>
   );
