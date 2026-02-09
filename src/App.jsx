@@ -1720,9 +1720,7 @@ function LandingPage({ onGetStarted }) {
         <h1 className="text-4xl font-bold text-gray-800 mb-3">Growth Drivers Maturity Framework</h1>
         <p className="text-lg text-gray-500 mb-2">Assess. Benchmark. Grow.</p>
         <p className="text-sm text-gray-400 max-w-2xl mx-auto mb-8">
- const DashboardView = (
-
- )         A structured M&A due diligence assessment platform that evaluates professional services firms
+          A structured M&A due diligence assessment platform that evaluates professional services firms
           across 10 growth themes and 47 metrics, benchmarked against industry standards.
         </p>
         <button
@@ -1922,7 +1920,6 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   );
 }
 
-// Maturity Heatmap
 function AssessmentView({ assessment, onRate, onComment, onBack }) {
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
@@ -2115,8 +2112,7 @@ export default function App() {
             <p className="text-xs text-gray-400">M&A Due Diligence Assessment Platform</p>
           </div>
         </div>
-view === "dashboard"
-Page_Down        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-1">
           {navItems.map(n => (
             <button key={n.id} disabled={n.disabled} onClick={() => {
               if (n.id === "dashboard") { if (selectedAssessmentId) setDashboardAssessmentId(selectedAssessmentId); }
@@ -2129,6 +2125,7 @@ Page_Down        <nav className="flex items-center gap-1">
           ))}
         </nav>
       </header>
+
       {/* Breadcrumbs */}
       <Breadcrumbs
         view={view}
@@ -2151,11 +2148,11 @@ Page_Down        <nav className="flex items-center gap-1">
           <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} />
         )}
         {view === "firmDetail" && selectedFirm && (
-          <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />        )}
+          <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />
+        )}
         {view === "assess" && selectedAssessment && (
           <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }} />
         )}
- const DashboardView
         {view === "dashboard" && (dashboardAssessment || selectedAssessment) && (
           <DashboardView
             assessment={dashboardAssessment || selectedAssessment}
