@@ -444,8 +444,6 @@ const calcScores = (ratings) => {
         themeRated++;
 
         }
-      }
-
       themeMax += 3 * m.weight;
     });
 
@@ -470,6 +468,7 @@ const calcScores = (ratings) => {
     ratedCount,
     totalMetrics
   };
+};
 
 // ═══════════════════════════════════════════════════════════════
 // COLOUR HELPERS
