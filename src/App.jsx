@@ -1272,7 +1272,7 @@ function LandingPage({ onGetStarted }) {
   );
 }
 
-function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, assessments }) {
+function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments }) {
   const [showCreate, setShowCreate] = useState(false);
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
@@ -1339,6 +1339,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, assessm
                         <div className="text-xs text-gray-400">{latestScores.ratedCount}/{latestScores.totalMetrics} rated</div>
                       </div>
                     )}
+                    {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-blue-600 p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
                     <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
                       <Trash2 size={14} />
                     </button>
@@ -1354,7 +1355,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, assessm
   );
 }
 
-function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onBack }) {
+function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack }) {
   const [showTemplates, setShowTemplates] = useState(false);
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -1409,6 +1410,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                       <div className="text-lg font-bold" style={{ color: scores.pct >= 66 ? "#1E8449" : scores.pct >= 33 ? "#B7950B" : "#922B21" }}>{scores.pct}%</div>
                       <div className="text-xs text-gray-400">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
+                  <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-blue-600 transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
                   <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
                     <ChevronRight size={16} className="text-gray-300" />
                   </div>
@@ -1601,7 +1603,7 @@ export default function App() {
   const navItems = [
     { id: "firms", label: "Firms", icon: Building2 },
     { id: "assess", label: "Assess", icon: ClipboardCheck, disabled: !selectedAssessmentId },
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId },
   ];
 
   return (
@@ -1620,7 +1622,7 @@ export default function App() {
         <nav className="flex items-center gap-1">
           {navItems.map(n => (
             <button key={n.id} disabled={n.disabled} onClick={() => {
-              if (n.id === "dashboard" && selectedAssessmentId) { setDashboardAssessmentId(selectedAssessmentId); }
+              if (n.id === "dashboard") { if (selectedAssessmentId) setDashboardAssessmentId(selectedAssessmentId); }
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 setView(n.id);
@@ -1650,10 +1652,10 @@ export default function App() {
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
       {view === "firms" && !selectedFirmId && (
-          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} />
+          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} />
         )}
         {view === "firmDetail" && selectedFirm && (
-          <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} />
+          <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />
         )}
         {view === "assess" && selectedAssessment && (
           <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }} />
