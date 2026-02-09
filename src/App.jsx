@@ -2,9 +2,9 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 import { Building2, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, TrendingUp, Target, Award, MessageSquare, X, ArrowLeft, Trash2, Download, FileText, BarChart3, Copy } from "lucide-react";
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const FRAMEWORK = {
   themes: [
     {
@@ -110,35 +110,23 @@ const FRAMEWORK = {
 const TOTAL_MAX_SCORE = FRAMEWORK.themes.reduce((sum, t) => sum + t.metrics.reduce((s, m) => s + m.weight * 3, 0), 0);
 const TOTAL_WEIGHTED_POINTS = FRAMEWORK.themes.reduce((sum, t) => sum + t.totalWeight, 0); // 3000
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // INDUSTRY BENCHMARKS - Average scores by sector
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const BENCHMARKS = {
-  "Consulting": {
-    financial: 55, people: 60, services: 50, vision: 55, sales: 50,
-    clients: 55, leadership: 60, cost: 45, delivery: 60, market: 50
-  },
-  "Technology Services": {
-    financial: 60, people: 55, services: 65, vision: 65, sales: 55,
-    clients: 50, leadership: 55, cost: 70, delivery: 65, market: 60
-  },
-  "Legal & Compliance": {
-    financial: 65, people: 50, services: 55, vision: 50, sales: 45,
-    clients: 70, leadership: 65, cost: 40, delivery: 55, market: 45
-  },
-  "Engineering & Design": {
-    financial: 50, people: 55, services: 60, vision: 55, sales: 45,
-    clients: 55, leadership: 50, cost: 50, delivery: 65, market: 50
+  "Professional Services": {
+    financial: 58, people: 55, services: 58, vision: 56, sales: 49,
+    clients: 58, leadership: 58, cost: 51, delivery: 61, market: 51
   }
 };
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // ASSESSMENT TEMPLATES - Pre-configured starting points
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const TEMPLATES = {
   "Top Performer": {
     description: "High-performing firm ready for acquisition",
-    icon: "🏆",
+    icon: "ð",
     ratings: {
       fin_revenue: 3, fin_gm: 3, fin_ebitda: 2.5, fin_cash: 3, fin_quality: 2.5, fin_rate: 3,
       ppl_talent: 3, ppl_exp: 2.5, ppl_recruit: 3, ppl_churn: 3, ppl_wf: 3,
@@ -154,7 +142,7 @@ const TEMPLATES = {
   },
   "Typical Mid-Market": {
     description: "Average professional services firm",
-    icon: "📊",
+    icon: "ð",
     ratings: {
       fin_revenue: 2, fin_gm: 2, fin_ebitda: 2, fin_cash: 1.5, fin_quality: 1.5, fin_rate: 2,
       ppl_talent: 2, ppl_exp: 2, ppl_recruit: 1.5, ppl_churn: 2, ppl_wf: 2,
@@ -170,7 +158,7 @@ const TEMPLATES = {
   },
   "Turnaround Target": {
     description: "Firm with significant improvement potential",
-    icon: "🔧",
+    icon: "ð§",
     ratings: {
       fin_revenue: 1, fin_gm: 1.5, fin_ebitda: 1, fin_cash: 1, fin_quality: 1, fin_rate: 1.5,
       ppl_talent: 1.5, ppl_exp: 1, ppl_recruit: 1, ppl_churn: 1, ppl_wf: 1.5,
@@ -186,7 +174,7 @@ const TEMPLATES = {
   },
   "Tech-Enabled Services": {
     description: "Strong on technology, developing other areas",
-    icon: "💻",
+    icon: "ð»",
     ratings: {
       fin_revenue: 2.5, fin_gm: 2.5, fin_ebitda: 2, fin_cash: 2, fin_quality: 2, fin_rate: 2,
       ppl_talent: 2, ppl_exp: 2.5, ppl_recruit: 2.5, ppl_churn: 2, ppl_wf: 2,
@@ -202,9 +190,9 @@ const TEMPLATES = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // STATE MANAGEMENT
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const STORAGE_KEY = "gdmf_app_state";
 
 const loadState = () => {
@@ -220,9 +208,9 @@ const saveState = (state) => {
 
 const genId = () => Math.random().toString(36).substr(2, 9);
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // DEMO DATA - Sample firms and assessments for demonstration
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const generateDemoData = () => {
   // Helper to create ratings with timestamps
   const createRating = (level, comment = "") => ({
@@ -239,7 +227,7 @@ const generateDemoData = () => {
     fin_ebitda: createRating(2.5, "EBITDA at 22%, improving trend"),
     fin_cash: createRating(3, "Excellent cash conversion, 35 day debtors"),
     fin_quality: createRating(2.5, "35% recurring revenue from retainers"),
-    fin_rate: createRating(3, "Average day rate £1,800"),
+    fin_rate: createRating(3, "Average day rate Â£1,800"),
     // People
     ppl_talent: createRating(3, "Full competency framework implemented"),
     ppl_exp: createRating(2.5, "Glassdoor 4.2, eNPS 45"),
@@ -250,7 +238,7 @@ const generateDemoData = () => {
     srv_prop: createRating(2.5, "Clear differentiation in digital transformation"),
     srv_innov: createRating(2, "4% R&D investment"),
     srv_ip: createRating(3, "Proprietary methodology and tools"),
-    srv_size: createRating(3, "Average deal size £320k"),
+    srv_size: createRating(3, "Average deal size Â£320k"),
     srv_price: createRating(2.5, "Value-based pricing model"),
     // Vision & Strategy
     vis_market: createRating(3, "AI consulting - hot sector"),
@@ -266,7 +254,7 @@ const generateDemoData = () => {
     // Clients & Relationships
     cli_conc: createRating(2.5, "Top 3 clients at 28%"),
     cli_long: createRating(3, "Average tenure 4.2 years"),
-    cli_size: createRating(3, "42% from £250k+ clients"),
+    cli_size: createRating(3, "42% from Â£250k+ clients"),
     cli_part: createRating(2.5, "Microsoft and Salesforce partnerships"),
     // Leadership & Governance
     led_team: createRating(3, "Ex-Big 4 leadership with M&A experience"),
@@ -285,7 +273,7 @@ const generateDemoData = () => {
     del_util: createRating(3, "82% billable utilisation"),
     del_qa: createRating(2.5, "QA gates on all projects"),
     // Market Profile
-    mkt_size: createRating(3, "Large addressable market £2bn+"),
+    mkt_size: createRating(3, "Large addressable market Â£2bn+"),
     mkt_mktg: createRating(2.5, "12% of revenue marketing-influenced"),
     mkt_award: createRating(3, "MCA winner 2024, shortlisted 2025"),
     mkt_thought: createRating(3, "6 whitepapers, regular speaking slots"),
@@ -299,7 +287,7 @@ const generateDemoData = () => {
     fin_ebitda: createRating(2, "EBITDA 15%"),
     fin_cash: createRating(1.5, "Cash conversion needs work, 52 day debtors"),
     fin_quality: createRating(1.5, "15% recurring revenue"),
-    fin_rate: createRating(2, "Day rate £1,150"),
+    fin_rate: createRating(2, "Day rate Â£1,150"),
     ppl_talent: createRating(2, "Competency framework exists, inconsistent"),
     ppl_exp: createRating(2, "Glassdoor 3.8"),
     ppl_recruit: createRating(1.5, "4 applicants per role"),
@@ -308,7 +296,7 @@ const generateDemoData = () => {
     srv_prop: createRating(2, "Good capability, weak messaging"),
     srv_innov: createRating(1.5, "Ad-hoc R&D"),
     srv_ip: createRating(2, "Some reusable accelerators"),
-    srv_size: createRating(2, "Average deal £85k"),
+    srv_size: createRating(2, "Average deal Â£85k"),
     srv_price: createRating(1.5, "Cost-plus pricing"),
     vis_market: createRating(2, "Cloud migration - warm sector"),
     vis_comp: createRating(2, "Moderate differentiation"),
@@ -350,7 +338,7 @@ const generateDemoData = () => {
     fin_ebitda: createRating(1, "EBITDA 8%"),
     fin_cash: createRating(1, "Working capital challenges"),
     fin_quality: createRating(1, "Project-based revenue"),
-    fin_rate: createRating(1.5, "Day rate £850"),
+    fin_rate: createRating(1.5, "Day rate Â£850"),
     ppl_talent: createRating(1.5, "Basic training"),
     ppl_exp: createRating(1, "Glassdoor 3.2"),
     ppl_recruit: createRating(1, "Difficulty attracting talent"),
@@ -359,7 +347,7 @@ const generateDemoData = () => {
     srv_prop: createRating(1.5, "Generalist positioning"),
     srv_innov: createRating(1, "No formal R&D"),
     srv_ip: createRating(1, "No proprietary IP"),
-    srv_size: createRating(1.5, "£40k average deal"),
+    srv_size: createRating(1.5, "Â£40k average deal"),
     srv_price: createRating(1, "Heavy discounting"),
     vis_market: createRating(1.5, "Project management - cold sector"),
     vis_comp: createRating(1, "Highly commoditised"),
@@ -419,9 +407,9 @@ const getInitialState = () => {
 };
 
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // SCORING ENGINE
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const calcScores = (ratings) => {
   const themeScores = {};
   let totalScore = 0;
@@ -470,9 +458,9 @@ const calcScores = (ratings) => {
   };
 };
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // COLOUR HELPERS
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const levelColor = (level) => {
   if (!level) return { bg: "#F8F9FA", text: "#6C757D", border: "#DEE2E6" };
   if (level <= 1.5) return { bg: "#FDEDEC", text: "#922B21", border: "#E6B0AA" };
@@ -490,9 +478,9 @@ const levelLabel = (level) => {
   return `Level ${level}`;
 };
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // ANIMATED COMPONENTS
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 // Animated counting number
 function AnimatedNumber({ value, suffix = "", prefix = "", duration = 500 }) {
@@ -598,7 +586,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
         onClick={() => setIsExpanded(!isExpanded)}
         className="absolute -left-3 top-4 w-6 h-6 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-xs hover:bg-blue-700 transition-colors z-10"
       >
-        {isExpanded ? '›' : '‹'}
+        {isExpanded ? 'âº' : 'â¹'}
       </button>
 
       {isExpanded ? (
@@ -607,7 +595,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
           <div className={`px-4 py-3 ${isAllComplete ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-600 to-indigo-600'} text-white`}>
             <div className="flex items-center justify-between">
               <span className="font-bold text-sm">Live Progress</span>
-              {isAllComplete && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">✓ Complete!</span>}
+              {isAllComplete && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">â Complete!</span>}
             </div>
           </div>
 
@@ -702,9 +690,9 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // COMPONENTS
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function ScoreGauge({ score, max, label }) {
   const pct = max > 0 ? (score / max) * 100 : 0;
@@ -925,9 +913,9 @@ function StrengthsWeaknesses({ ratings }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // EXPORT FUNCTIONS
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const exportToCSV = (assessment, firmName, ratings) => {
   FRAMEWORK.themes.forEach(t => {
     t.metrics.forEach(m => {
@@ -1012,8 +1000,8 @@ const exportToPDF = (assessment, firmName, scores) => {
   printWindow.print();
 };
 
-// ═══════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function ExportPanel({ assessment, firmName, scores }) {
   return (
@@ -1040,43 +1028,35 @@ function ExportPanel({ assessment, firmName, scores }) {
 }
 
 
-function BenchmarkComparison({ scores, sector }) {
-  const [selectedSector, setSelectedSector] = useState(sector || Object.keys(BENCHMARKS)[0]);
-  const benchmark = BENCHMARKS[selectedSector];
+function BenchmarkComparison({ scores }) {
+  const benchmark = BENCHMARKS["Professional Services"];
 
   const comparisonData = FRAMEWORK.themes.map(t => ({
-    name: t.name.length > 12 ? t.name.substring(0, 11) + "..." : t.name,
-    firm: scores.themeScores[t.id]?.pct || 0,
+    name: t.name.length > 12 ? t.name.substring(0, 11) + '…' : t.name,
+    firm: scores?.themeScores?.[t.id]?.pct || 0,
     benchmark: benchmark[t.id] || 50,
-    color: t.color,
+    color: t.color
   }));
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-bold text-gray-700 flex items-center gap-2">
-          <BarChart3 size={14} /> Industry Benchmark Comparison
+          <BarChart3 size={14} /> Professional Services Benchmark
         </h3>
-        <select
-          value={selectedSector}
-          onChange={e => setSelectedSector(e.target.value)}
-          className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
-        >
-          {Object.keys(BENCHMARKS).map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
       </div>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={comparisonData} layout="vertical" margin={{ left: 10, right: 20 }}>
           <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
           <YAxis dataKey="name" type="category" width={90} tick={{ fontSize: 10 }} />
-          <Tooltip formatter={(v, name) => [`${v}%`, name === "firm" ? "Your Firm" : "Industry Avg"]} />
+          <Tooltip formatter={(v, name) => [v, name === 'firm' ? 'Your Firm' : 'Prof. Services Avg']} />
           <Bar dataKey="firm" name="Your Firm" fill="#1B4F72" radius={[0, 4, 4, 0]} />
-          <Bar dataKey="benchmark" name="Industry Avg" fill="#94A3B8" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="Prof. Services Avg" fill="#94A3B8" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-gray-100">
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#1B4F72" }} /><span className="text-xs text-gray-500">Your Firm</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#94A3B8" }} /><span className="text-xs text-gray-500">{selectedSector} Average</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1B4F72'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#94A3B8'}} /><span className="text-xs text-gray-500">Professional Services Average</span></div>
       </div>
     </div>
   );
@@ -1108,15 +1088,15 @@ function TemplateSelector({ onSelect, onClose }) {
         ))}
       </div>
       <button onClick={onClose} className="mt-3 text-xs text-gray-500 hover:text-gray-700">
-        Or start with blank assessment →
+        Or start with blank assessment â
       </button>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // VIEWS
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, assessments }) {
   const [showCreate, setShowCreate] = useState(false);
@@ -1357,7 +1337,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack }) {
 
       {/* Benchmark Comparison */}
       <div className="mb-4">
-        <BenchmarkComparison scores={scores} sector={firmSector} />
+        <BenchmarkComparison scores={scores} />
       </div>
 
       <div className="mb-4">
@@ -1374,9 +1354,9 @@ function DashboardView({ assessment, firmName, firmSector, onBack }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // MAIN APP
-// ═══════════════════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 export default function App() {
   const [state, setState] = useState(() => {
     return getInitialState();
