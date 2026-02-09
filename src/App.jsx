@@ -1053,7 +1053,17 @@ function RadarOverview({ radarData }) {
       <ResponsiveContainer width="100%" height={320}>
         <RadarChart data={dataWithBenchmark} cx="50%" cy="50%" outerRadius="75%">
           <PolarGrid strokeDasharray="3 3" />
-          <PolarAngleAxis dataKey="theme" tick={{ fontSize: 9 }} />
+          <PolarAngleAxis dataKey="theme" tick={({ x, y, payload, textAnchor }) => {
+              const n = payload.value;
+              let lines;
+              if (n.length <= 14) { lines = [n]; }
+              else {
+                const a = n.indexOf("&");
+                if (a > 0) { lines = [n.substring(0, a + 1).trim(), n.substring(a + 2).trim()]; }
+                else { const s = n.lastIndexOf(" ", Math.ceil(n.length / 2)); lines = s > 0 ? [n.substring(0, s), n.substring(s + 1)] : [n]; }
+              }
+              return (<text x={x} y={y} textAnchor={textAnchor} fontSize={9} fill="#666">{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? -(lines.length - 1) * 5 : 11}>{l}</tspan>))}</text>);
+            }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
           <Radar name="Your Firm" dataKey="score" stroke="#1B4F72" fill="#1B4F72" fillOpacity={0.3} strokeWidth={2} />
           <Radar name="Prof. Services Avg" dataKey="benchmark" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
@@ -1078,7 +1088,7 @@ function BenchmarkComparison({ scores }) {
     // RAG: green if >5 above benchmark, red if >5 below, amber if within 5
     const firmFill = diff > 5 ? '#27AE60' : diff < -5 ? '#E74C3C' : '#F39C12';
     return {
-      name: t.name.length > 12 ? t.name.substring(0, 11) + '...' : t.name,
+      name: t.name,
       firm,
       benchmark: bench,
       firmFill,
@@ -1093,10 +1103,20 @@ function BenchmarkComparison({ scores }) {
           <BarChart3 size={14} /> Professional Services Benchmark
         </h3>
       </div>
-      <ResponsiveContainer width="100%" height={280}>
-        <BarChart data={comparisonData} layout="vertical" margin={{ left: 10, right: 20 }}>
+      <ResponsiveContainer width="100%" height={320}>
+        <BarChart data={comparisonData} layout="vertical" margin={{ left: 20, right: 20 }}>
           <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
-          <YAxis dataKey="name" type="category" width={90} tick={{ fontSize: 10 }} />
+          <YAxis dataKey="name" type="category" width={130} tick={({ x, y, payload }) => {
+                const n = payload.value;
+                let lines;
+                if (n.length <= 14) { lines = [n]; }
+                else {
+                  const a = n.indexOf("&");
+                  if (a > 0) { lines = [n.substring(0, a + 1).trim(), n.substring(a + 2).trim()]; }
+                  else { const s = n.lastIndexOf(" ", Math.ceil(n.length / 2)); lines = s > 0 ? [n.substring(0, s), n.substring(s + 1)] : [n]; }
+                }
+                return (<text x={x} y={y} textAnchor="end" fontSize={9} fill="#666" dy={lines.length > 1 ? -4 : 4}>{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? 0 : 11}>{l}</tspan>))}</text>);
+              }} />
           <Tooltip formatter={(v, name) => [v, name]} />
           <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]}>
             {comparisonData.map((entry, index) => (
@@ -1461,13 +1481,13 @@ function AssessmentView({ assessment, onRate, onComment, onBack }) {
 function DashboardView({ assessment, firmName, firmSector, onBack }) {
   const scores = calcScores(assessment.ratings);
   const radarData = FRAMEWORK.themes.map(t => ({
-    theme: t.name.length > 15 ? t.name.substring(0, 14) + "..." : t.name,
+    theme: t.name,
     fullName: t.name,
     score: scores.themeScores[t.id]?.pct || 0,
     fullMark: 100,
   }));
   const barData = FRAMEWORK.themes.map(t => ({
-    name: t.name.length > 12 ? t.name.substring(0, 11) + "..." : t.name,
+    name: t.name,
     score: scores.themeScores[t.id]?.score || 0,
     max: scores.themeScores[t.id]?.max || 0,
     pct: scores.themeScores[t.id]?.pct || 0,
