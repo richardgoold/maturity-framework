@@ -1922,8 +1922,8 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   );
 }
 
-fMaturity Heatmap
-unction AssessmentView({ assessment, onRate, onComment, onBack }) {
+// Maturity Heatmap
+function AssessmentView({ assessment, onRate, onComment, onBack }) {
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
   const theme = FRAMEWORK.themes.find(t => t.id === selectedTheme);
