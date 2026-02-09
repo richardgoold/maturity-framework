@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
+                  <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
 import { Building2, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, X, ArrowLeft, Trash2, Download, FileText, BarChart3, Copy } from "lucide-react";
 
 // ÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ
@@ -586,7 +587,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
         onClick={() => setIsExpanded(!isExpanded)}
         className="absolute -left-3 top-4 w-6 h-6 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-xs hover:bg-blue-700 transition-colors z-10"
       >
-        {isExpanded ? 'ÃÂÃÂ¢ÃÂÃÂÃÂÃÂº' : 'ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¹'}
+        {isExpanded ? '\u203A' : '\u2039'}
       </button>
 
       {isExpanded ? (
@@ -595,7 +596,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
           <div className={`px-4 py-3 ${isAllComplete ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-600 to-indigo-600'} text-white`}>
             <div className="flex items-center justify-between">
               <span className="font-bold text-sm">Live Progress</span>
-              {isAllComplete && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Complete!</span>}
+              {isAllComplete && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full"> Complete!</span>}
             </div>
           </div>
 
@@ -1325,7 +1326,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, assessm
   );
 }
 
-function FirmDetailView({ firm, assessments, onCreateAssessment, onSelectAssessment, onBack }) {
+function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onBack }) {
   const [showTemplates, setShowTemplates] = useState(false);
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -1520,6 +1521,15 @@ export default function App() {
   const deleteFirm = (id) => {
     setState(s => {
       const assessments = { ...s.assessments };
+
+  const deleteAssessment = (assessmentId) => {
+    if (!confirm('Delete this assessment? This cannot be undone.')) return;
+    setState(prev => {
+      const newAssessments = { ...prev.assessments };
+      delete newAssessments[assessmentId];
+      return { ...prev, assessments: newAssessments };
+    });
+  };
       Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
       return { firms: s.firms.filter(f => f.id !== id), assessments };
     });
@@ -1583,7 +1593,9 @@ export default function App() {
           {navItems.map(n => (
             <button key={n.id} disabled={n.disabled} onClick={() => {
               if (n.id === "dashboard" && selectedAssessmentId) { setDashboardAssessmentId(selectedAssessmentId); }
-              setView(n.id);
+              if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
+                if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
+                setView(n.id);
             }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-blue-50 text-blue-700" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:bg-gray-100"}`}>
               <n.icon size={14} /> {n.label}
             </button>
@@ -1613,7 +1625,7 @@ export default function App() {
           <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} />
         )}
         {view === "firmDetail" && selectedFirm && (
-          <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }} />
+          <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} />
         )}
         {view === "assess" && selectedAssessment && (
           <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }} />
