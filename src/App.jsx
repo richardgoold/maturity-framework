@@ -1354,12 +1354,6 @@ function DashboardView({ assessment, firmName, firmSector, onBack }) {
         <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
       </div>
 
-      
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
 
       {/* Benchmark Comparison */}
       <div className="mb-4">
