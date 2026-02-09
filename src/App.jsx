@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
-import { Building2, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, TrendingUp, Target, Award, MessageSquare, X, ArrowLeft, Trash2, Download, FileText, BarChart3, Copy, Sparkles } from "lucide-react";
+import { Building2, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, TrendingUp, Target, Award, MessageSquare, X, ArrowLeft, Trash2, Download, FileText, BarChart3, Copy } from "lucide-react";
 
 // ═══════════════════════════════════════════════════════════════
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
@@ -10,98 +10,98 @@ const FRAMEWORK = {
     {
       id: "financial", name: "Financial Performance", icon: "pound", totalWeight: 600, color: "#1B4F72",
       metrics: [
-        { id: "fin_revenue", name: "Revenue Growth & Profitability", question: "How consistently are you achieving year-over-year revenue growth and profitability?", weight: 100, earnout: "X", foundational: "Revenue growth <5% per year, low or inconsistent profitability, reliance on a few large projects", evolving: "Revenue growth 5-10% per year, moderate profitability, some diversification of revenue streams", optimised: "Revenue growth >10% per year, strong profitability with predictable, diversified revenue streams and high-margin services" },
-        { id: "fin_gm", name: "Gross Margin", question: "What is your current gross margin?", weight: 100, earnout: "X", foundational: "Gross margin <40%, cost overruns are frequent, and pricing is reactive rather than strategic", evolving: "Gross margin 40-50%, some cost control measures in place, but efficiency improvements still needed", optimised: "Gross margin >50%, strong cost control, pricing strategy optimised for profitability and scalability" },
-        { id: "fin_ebitda", name: "EBITDA %", question: "What is your EBITDA margin?", weight: 100, earnout: "X", foundational: "EBITDA margin <10%, low cash generation, high cost-to-revenue ratio", evolving: "EBITDA margin 10-20%, improving operational efficiency, but some volatility in profitability", optimised: "EBITDA margin >20%, strong financial discipline, consistent year-over-year growth" },
-        { id: "fin_cash", name: "Cash Flow", question: "How consistent and positive is your free cash flow?", weight: 100, earnout: "X", foundational: "Free cash flow is negative or low, debtor days >60, frequent working capital constraints", evolving: "Free cash flow is positive but inconsistent, debtor days 45-60, some cash reserves maintained", optimised: "Free cash flow is consistently strong, debtor days <45, 80%+ cash flow conversion from EBITDA" },
-        { id: "fin_quality", name: "Quality of Revenue", question: "How high-quality and recurring is your revenue base?", weight: 100, earnout: "X", foundational: "Recurring/repeat revenue <10%, heavy reliance on new business development, volatile income streams", evolving: "Recurring/repeat revenue 10-30%, some multi-year contracts, but still significant project-based work", optimised: "Recurring/repeat revenue >30%, long-term client contracts, high revenue predictability" },
-        { id: "fin_rate", name: "Blended Rate Card", question: "What is your average day rate and implementation of this?", weight: 100, earnout: "X", foundational: "Average daily rate <\u00A31,000, frequent discounting, weak commercial discipline", evolving: "Average daily rate \u00A31,000-\u00A31,500, some rate consistency, but discounting still occurs", optimised: "Average daily rate >\u00A31,500, strong commercial discipline, pricing reflects market leadership and value" },
+        { id: "fin_revenue", name: "Revenue Growth & Profitability", question: "How consistently are you achieving year-over-year revenue growth and profitability?", weight: 100, foundational: "Revenue growth <5% per year, low or inconsistent profitability, reliance on a few large projects", evolving: "Revenue growth 5-10% per year, moderate profitability, some diversification of revenue streams", optimised: "Revenue growth >10% per year, strong profitability with predictable, diversified revenue streams and high-margin services" },
+        { id: "fin_gm", name: "Gross Margin", question: "What is your current gross margin?", weight: 100, foundational: "Gross margin <40%, cost overruns are frequent, and pricing is reactive rather than strategic", evolving: "Gross margin 40-50%, some cost control measures in place, but efficiency improvements still needed", optimised: "Gross margin >50%, strong cost control, pricing strategy optimised for profitability and scalability" },
+        { id: "fin_ebitda", name: "EBITDA %", question: "What is your EBITDA margin?", weight: 100, foundational: "EBITDA margin <10%, low cash generation, high cost-to-revenue ratio", evolving: "EBITDA margin 10-20%, improving operational efficiency, but some volatility in profitability", optimised: "EBITDA margin >20%, strong financial discipline, consistent year-over-year growth" },
+        { id: "fin_cash", name: "Cash Flow", question: "How consistent and positive is your free cash flow?", weight: 100, foundational: "Free cash flow is negative or low, debtor days >60, frequent working capital constraints", evolving: "Free cash flow is positive but inconsistent, debtor days 45-60, some cash reserves maintained", optimised: "Free cash flow is consistently strong, debtor days <45, 80%+ cash flow conversion from EBITDA" },
+        { id: "fin_quality", name: "Quality of Revenue", question: "How high-quality and recurring is your revenue base?", weight: 100, foundational: "Recurring/repeat revenue <10%, heavy reliance on new business development, volatile income streams", evolving: "Recurring/repeat revenue 10-30%, some multi-year contracts, but still significant project-based work", optimised: "Recurring/repeat revenue >30%, long-term client contracts, high revenue predictability" },
+        { id: "fin_rate", name: "Blended Rate Card", question: "What is your average day rate and implementation of this?", weight: 100, foundational: "Average daily rate <\u00A31,000, frequent discounting, weak commercial discipline", evolving: "Average daily rate \u00A31,000-\u00A31,500, some rate consistency, but discounting still occurs", optimised: "Average daily rate >\u00A31,500, strong commercial discipline, pricing reflects market leadership and value" },
       ]
     },
     {
       id: "people", name: "People", icon: "users", totalWeight: 425, color: "#6C3483",
       metrics: [
-        { id: "ppl_talent", name: "Talent & Competence Management", question: "How comprehensive and structured is your talent and competency management framework?", weight: 100, earnout: "X", foundational: "One or none of: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", evolving: "2-3 of these: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", optimised: "All of these: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions" },
-        { id: "ppl_exp", name: "Employee Experience", question: "What is your internal employee satisfaction or GlassDoor rating?", weight: 100, earnout: "X", foundational: "Internal NPS below 40 (or not measured) and Glassdoor rating below 3.5", evolving: "Internal NPS rating below 40 (or not measured) OR Glassdoor rating below 4", optimised: "Internal NPS rating 40+ AND Glassdoor rating above 4" },
-        { id: "ppl_recruit", name: "Recruitment", question: "How effectively structured and targeted is your recruitment process?", weight: 100, earnout: "X", foundational: "Low (0-3) qualified applicants per job. Vague or unarticulated Employee Value Proposition", evolving: "Medium (3-7) qualified applicants per job. Vague or unarticulated Employee Value Proposition", optimised: "High (7+) qualified applicants per job. Clear Employee Value Proposition" },
-        { id: "ppl_churn", name: "Churn & Attrition", question: "What is your annual attrition rate, and how effective are your retention strategies?", weight: 100, earnout: "X", foundational: "Attrition >25% annually", evolving: "Attrition between 15-25%", optimised: "Attrition <15%, strong retention strategies" },
-        { id: "ppl_wf", name: "Workforce Composition", question: "How reliant are you on delivery teams composed of contractors versus permanent employees?", weight: 25, earnout: "X", foundational: ">50% of delivery team are contractors, low organisational knowledge retention", evolving: "30-50% of delivery team are contractors, some investment in permanent teams", optimised: "<30% of delivery team are contractors, strong internal capability and knowledge retention" },
+        { id: "ppl_talent", name: "Talent & Competence Management", question: "How comprehensive and structured is your talent and competency management framework?", weight: 100, foundational: "One or none of: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", evolving: "2-3 of these: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", optimised: "All of these: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions" },
+        { id: "ppl_exp", name: "Employee Experience", question: "What is your internal employee satisfaction or GlassDoor rating?", weight: 100, foundational: "Internal NPS below 40 (or not measured) and Glassdoor rating below 3.5", evolving: "Internal NPS rating below 40 (or not measured) OR Glassdoor rating below 4", optimised: "Internal NPS rating 40+ AND Glassdoor rating above 4" },
+        { id: "ppl_recruit", name: "Recruitment", question: "How effectively structured and targeted is your recruitment process?", weight: 100, foundational: "Low (0-3) qualified applicants per job. Vague or unarticulated Employee Value Proposition", evolving: "Medium (3-7) qualified applicants per job. Vague or unarticulated Employee Value Proposition", optimised: "High (7+) qualified applicants per job. Clear Employee Value Proposition" },
+        { id: "ppl_churn", name: "Churn & Attrition", question: "What is your annual attrition rate, and how effective are your retention strategies?", weight: 100, foundational: "Attrition >25% annually", evolving: "Attrition between 15-25%", optimised: "Attrition <15%, strong retention strategies" },
+        { id: "ppl_wf", name: "Workforce Composition", question: "How reliant are you on delivery teams composed of contractors versus permanent employees?", weight: 25, foundational: ">50% of delivery team are contractors, low organisational knowledge retention", evolving: "30-50% of delivery team are contractors, some investment in permanent teams", optimised: "<30% of delivery team are contractors, strong internal capability and knowledge retention" },
       ]
     },
     {
       id: "services", name: "Services & Pricing", icon: "tag", totalWeight: 300, color: "#1A5276",
       metrics: [
-        { id: "srv_prop", name: "Market Proposition", question: "How clearly is your market proposition defined and differentiated from competitors?", weight: 100, earnout: "X", foundational: "Vague market positioning, low differentiation from competitors, low focus on specific client pain points", evolving: "Some differentiation but client pain points or benefits are vague", optimised: "Clearly defined, differentiated value proposition(s) focus on clear client needs and benefits" },
-        { id: "srv_innov", name: "Service Innovation", question: "What percentage of your revenue is put towards service development / creation?", weight: 25, earnout: "X", foundational: "No structured investment (<2% of revenue)", evolving: "3-5% of revenue reinvested in service development", optimised: ">5% of revenue reinvested in service innovation" },
-        { id: "srv_ip", name: "Service IP", question: "To what extent is your delivery supported by proprietary or IP-based content?", weight: 100, earnout: "X", foundational: "<10% of delivery supported by proprietary IP", evolving: "10%-30% of delivery incorporates proprietary IP", optimised: ">30% of delivery is productised or IP-based" },
-        { id: "srv_size", name: "Project Size", question: "What is your average project size?", weight: 50, earnout: "X", foundational: "Average contract size less than \u00A350k", evolving: "Average project size \u00A350k-\u00A3250k", optimised: "Average project size \u00A3250k+" },
-        { id: "srv_price", name: "Pricing Strategy", question: "What percentage of your work is charged as value-based pricing or fixed price?", weight: 25, earnout: "X", foundational: "Ad-hoc pricing; low understanding of price elasticity", evolving: "Some structured pricing models but inconsistent", optimised: "Data-driven pricing strategy, strong market positioning" },
+        { id: "srv_prop", name: "Market Proposition", question: "How clearly is your market proposition defined and differentiated from competitors?", weight: 100, foundational: "Vague market positioning, low differentiation from competitors, low focus on specific client pain points", evolving: "Some differentiation but client pain points or benefits are vague", optimised: "Clearly defined, differentiated value proposition(s) focus on clear client needs and benefits" },
+        { id: "srv_innov", name: "Service Innovation", question: "What percentage of your revenue is put towards service development / creation?", weight: 25, foundational: "No structured investment (<2% of revenue)", evolving: "3-5% of revenue reinvested in service development", optimised: ">5% of revenue reinvested in service innovation" },
+        { id: "srv_ip", name: "Service IP", question: "To what extent is your delivery supported by proprietary or IP-based content?", weight: 100, foundational: "<10% of delivery supported by proprietary IP", evolving: "10%-30% of delivery incorporates proprietary IP", optimised: ">30% of delivery is productised or IP-based" },
+        { id: "srv_size", name: "Project Size", question: "What is your average project size?", weight: 50, foundational: "Average contract size less than \u00A350k", evolving: "Average project size \u00A350k-\u00A3250k", optimised: "Average project size \u00A3250k+" },
+        { id: "srv_price", name: "Pricing Strategy", question: "What percentage of your work is charged as value-based pricing or fixed price?", weight: 25, foundational: "Ad-hoc pricing; low understanding of price elasticity", evolving: "Some structured pricing models but inconsistent", optimised: "Data-driven pricing strategy, strong market positioning" },
       ]
     },
     {
       id: "vision", name: "Vision & Strategy", icon: "compass", totalWeight: 300, color: "#117A65",
       metrics: [
-        { id: "vis_market", name: "Market/Niche Focus", question: "What is the current growth rate of your market/niche?", weight: 100, earnout: "X", foundational: "Low growth / cold sector (e.g. Project Management)", evolving: "Medium growth / warm sector (e.g. Environmental)", optimised: "High growth / hot sector (e.g. AI Consulting or Finance)" },
-        { id: "vis_comp", name: "Competitors & Barriers to Entry", question: "How intense is the competition or how high are barriers to entry in your market?", weight: 75, earnout: "X", foundational: "High competition with 10+ direct competitors offering similar services and low barriers to entry", evolving: "Moderate competition with 5-10 competitors, some differentiation through IP or niche specialisation", optimised: "Low competition with <5 competitors in the same niche, strong barriers to entry through proprietary IP or brand authority" },
-        { id: "vis_align", name: "Strategic Alignment", question: "To what extent is ESG integrated into your business strategy?", weight: 50, earnout: "X", foundational: "Strategy is misaligned across teams", evolving: "Some alignment, but execution inconsistencies", optimised: "Strategy is well-defined and fully aligned" },
-        { id: "vis_plan", name: "Business Planning", question: "How structured and regularly updated is your business planning process?", weight: 75, earnout: "X", foundational: "No formal business plan or planning occurs reactively, with no structured forecasting", evolving: "Business planning conducted annually, with some structured financial and strategic forecasting", optimised: "Business planning is a quarterly rolling process, with 3-5 year strategic plans and real-time performance tracking" },
-        { id: "vis_esg", name: "ESG", question: "How strong is your forward visibility of revenue, margin and utilisation?", weight: 0, earnout: "", foundational: "No formal ESG strategy, no tracking of environmental or social impact", evolving: "Basic ESG policy in place, some initiatives but no structured reporting", optimised: "Fully embedded ESG strategy with measurable KPIs and transparent annual reporting" },
+        { id: "vis_market", name: "Market/Niche Focus", question: "What is the current growth rate of your market/niche?", weight: 100, foundational: "Low growth / cold sector (e.g. Project Management)", evolving: "Medium growth / warm sector (e.g. Environmental)", optimised: "High growth / hot sector (e.g. AI Consulting or Finance)" },
+        { id: "vis_comp", name: "Competitors & Barriers to Entry", question: "How intense is the competition or how high are barriers to entry in your market?", weight: 75, foundational: "High competition with 10+ direct competitors offering similar services and low barriers to entry", evolving: "Moderate competition with 5-10 competitors, some differentiation through IP or niche specialisation", optimised: "Low competition with <5 competitors in the same niche, strong barriers to entry through proprietary IP or brand authority" },
+        { id: "vis_align", name: "Strategic Alignment", question: "To what extent is ESG integrated into your business strategy?", weight: 50, foundational: "Strategy is misaligned across teams", evolving: "Some alignment, but execution inconsistencies", optimised: "Strategy is well-defined and fully aligned" },
+        { id: "vis_plan", name: "Business Planning", question: "How structured and regularly updated is your business planning process?", weight: 75, foundational: "No formal business plan or planning occurs reactively, with no structured forecasting", evolving: "Business planning conducted annually, with some structured financial and strategic forecasting", optimised: "Business planning is a quarterly rolling process, with 3-5 year strategic plans and real-time performance tracking" },
+        { id: "vis_esg", name: "ESG", question: "How strong is your forward visibility of revenue, margin and utilisation?", weight: 0, foundational: "No formal ESG strategy, no tracking of environmental or social impact", evolving: "Basic ESG policy in place, some initiatives but no structured reporting", optimised: "Fully embedded ESG strategy with measurable KPIs and transparent annual reporting" },
       ]
     },
     {
       id: "sales", name: "Sales & Pipeline", icon: "trending-up", totalWeight: 275, color: "#B7950B",
       metrics: [
-        { id: "sal_pipe", name: "Pipeline Visibility", question: "How much of the next 12 months' revenue do you currently have booked?", weight: 75, earnout: "X", foundational: "<40% of next 12 months' revenue booked", evolving: "40-70% of next 12 months' revenue booked", optimised: ">70% of next 12 months' revenue booked" },
-        { id: "sal_conv", name: "Conversion Ratios", question: "What is your typical proposal-to-project conversion ratio?", weight: 50, earnout: "X", foundational: "<25% proposal conversion rate", evolving: "25%-50% proposal conversion rate", optimised: ">50% proposal conversion rate" },
-        { id: "sal_mgmt", name: "Sales Management", question: "How structured and effective is your sales management system?", weight: 75, earnout: "X", foundational: "Weak sales management: weak reporting or data. CRM not well integrated", evolving: "Improved sales management. CRM used, but not consistently by all", optimised: "Strong sales management by top-ranked senior. Weekly meetings driven by CRM-related data" },
-        { id: "sal_skills", name: "Sales Skills & Processes", question: "How well-defined and effective are your sales mentoring and training systems?", weight: 75, earnout: "50", foundational: "No structured sales training/processes", evolving: "Some structured sales processes, but inconsistently applied", optimised: "Highly structured, repeatable sales process" },
+        { id: "sal_pipe", name: "Pipeline Visibility", question: "How much of the next 12 months' revenue do you currently have booked?", weight: 75, foundational: "<40% of next 12 months' revenue booked", evolving: "40-70% of next 12 months' revenue booked", optimised: ">70% of next 12 months' revenue booked" },
+        { id: "sal_conv", name: "Conversion Ratios", question: "What is your typical proposal-to-project conversion ratio?", weight: 50, foundational: "<25% proposal conversion rate", evolving: "25%-50% proposal conversion rate", optimised: ">50% proposal conversion rate" },
+        { id: "sal_mgmt", name: "Sales Management", question: "How structured and effective is your sales management system?", weight: 75, foundational: "Weak sales management: weak reporting or data. CRM not well integrated", evolving: "Improved sales management. CRM used, but not consistently by all", optimised: "Strong sales management by top-ranked senior. Weekly meetings driven by CRM-related data" },
+        { id: "sal_skills", name: "Sales Skills & Processes", question: "How well-defined and effective are your sales mentoring and training systems?", weight: 75, foundational: "No structured sales training/processes", evolving: "Some structured sales processes, but inconsistently applied", optimised: "Highly structured, repeatable sales process" },
       ]
     },
     {
       id: "clients", name: "Clients & Relationships", icon: "handshake", totalWeight: 250, color: "#922B21",
       metrics: [
-        { id: "cli_conc", name: "Client Concentration & Risk", question: "How concentrated is your revenue among your top three clients?", weight: 100, earnout: "X", foundational: "Top 3 clients contribute >50% of total revenue, high dependency on a few key relationships", evolving: "Top 3 clients contribute 30-50% of total revenue, moderate diversification", optimised: "Top 3 clients contribute <30% of total revenue, well-diversified client base" },
-        { id: "cli_long", name: "Client Longevity", question: "What is your average client tenure?", weight: 100, earnout: "X", foundational: "Average client tenure <6 months, transactional relationships, low retention", evolving: "Average client tenure 6-24 months, some long-term relationships", optimised: "Average client tenure >2 years, high retention rate, strong account management" },
-        { id: "cli_size", name: "Client Size", question: "What is the typical size of your client contracts?", weight: 25, earnout: "X", foundational: "Majority of clients are small contracts (<\u00A350k annual spend)", evolving: "Mix of small and mid-sized clients, with 20%+ of revenue from mid-tier (\u00A350k-\u00A3250k)", optimised: "30%+ of revenue from large clients (\u00A3250k+ per year), strategic account penetration" },
-        { id: "cli_part", name: "Partnerships & Alliances", question: "How structured and beneficial are your strategic partnerships and alliances?", weight: 25, earnout: "X", foundational: "No formal partnerships, occasional ad hoc collaborations", evolving: "1-3 strategic partnerships, contributing <10% of revenue", optimised: "3+ strong partnerships, contributing >15% of revenue, integrated into go-to-market" },
+        { id: "cli_conc", name: "Client Concentration & Risk", question: "How concentrated is your revenue among your top three clients?", weight: 100, foundational: "Top 3 clients contribute >50% of total revenue, high dependency on a few key relationships", evolving: "Top 3 clients contribute 30-50% of total revenue, moderate diversification", optimised: "Top 3 clients contribute <30% of total revenue, well-diversified client base" },
+        { id: "cli_long", name: "Client Longevity", question: "What is your average client tenure?", weight: 100, foundational: "Average client tenure <6 months, transactional relationships, low retention", evolving: "Average client tenure 6-24 months, some long-term relationships", optimised: "Average client tenure >2 years, high retention rate, strong account management" },
+        { id: "cli_size", name: "Client Size", question: "What is the typical size of your client contracts?", weight: 25, foundational: "Majority of clients are small contracts (<\u00A350k annual spend)", evolving: "Mix of small and mid-sized clients, with 20%+ of revenue from mid-tier (\u00A350k-\u00A3250k)", optimised: "30%+ of revenue from large clients (\u00A3250k+ per year), strategic account penetration" },
+        { id: "cli_part", name: "Partnerships & Alliances", question: "How structured and beneficial are your strategic partnerships and alliances?", weight: 25, foundational: "No formal partnerships, occasional ad hoc collaborations", evolving: "1-3 strategic partnerships, contributing <10% of revenue", optimised: "3+ strong partnerships, contributing >15% of revenue, integrated into go-to-market" },
       ]
     },
     {
       id: "leadership", name: "Leadership & Governance", icon: "shield", totalWeight: 250, color: "#4A235A",
       metrics: [
-        { id: "led_team", name: "Senior Leadership Team", question: "How experienced and strategically skilled is your senior leadership team?", weight: 100, earnout: "100", foundational: "Weak leadership team", evolving: "Improving leadership team", optimised: "Very experienced leadership team with experience of M&A" },
-        { id: "led_deleg", name: "Delegation & Succession", question: "How clearly defined are your delegation and succession planning processes?", weight: 100, earnout: "100", foundational: "Founders drive most key decisions", evolving: "Some delegation, but founder dependence remains", optimised: "CEO and leadership team operate independently" },
-        { id: "led_gov", name: "Governance & Controls", question: "How robust are your governance and control mechanisms?", weight: 50, earnout: "25", foundational: "One or none of: Strong advisory board; Strong governance for decision-making; Strong strategic reporting", evolving: "Two of these: Strong advisory board; Strong governance; Strong strategic reporting", optimised: "All three: Strong advisory board; Strong governance for decision-making; Strong strategic reporting" },
+        { id: "led_team", name: "Senior Leadership Team", question: "How experienced and strategically skilled is your senior leadership team?", weight: 100, foundational: "Weak leadership team", evolving: "Improving leadership team", optimised: "Very experienced leadership team with experience of M&A" },
+        { id: "led_deleg", name: "Delegation & Succession", question: "How clearly defined are your delegation and succession planning processes?", weight: 100, foundational: "Founders drive most key decisions", evolving: "Some delegation, but founder dependence remains", optimised: "CEO and leadership team operate independently" },
+        { id: "led_gov", name: "Governance & Controls", question: "How robust are your governance and control mechanisms?", weight: 50, foundational: "One or none of: Strong advisory board; Strong governance for decision-making; Strong strategic reporting", evolving: "Two of these: Strong advisory board; Strong governance; Strong strategic reporting", optimised: "All three: Strong advisory board; Strong governance for decision-making; Strong strategic reporting" },
       ]
     },
     {
       id: "cost", name: "Cost Optimisation", icon: "calculator", totalWeight: 250, color: "#1E8449",
       metrics: [
-        { id: "cos_deliv", name: "Delivery Model", question: "How efficient and optimised is your current delivery model?", weight: 25, earnout: "X", foundational: "Delivery is fully onshore, cost inefficiencies", evolving: "Some offshore delivery, but limited efficiency gains", optimised: "Optimised delivery mix with offshore efficiencies" },
-        { id: "cos_tech", name: "Technology Maturity", question: "What is the maturity level of your technology infrastructure (CRM, PSA, HCM)?", weight: 75, earnout: "X", foundational: "Limited use of CRM, PSA, or automation", evolving: "Basic adoption of CRM, PSA, and some automation", optimised: "Fully integrated digital ecosystem (CRM, PSA, AI)" },
-        { id: "cos_scale", name: "Scaling Infrastructure", question: "What is your average utilisation rate for consultants?", weight: 75, earnout: "X", foundational: "<20% of core business processes automated or AI-supported", evolving: "20-50% of core business processes automated, with partial AI-driven analytics", optimised: ">50% of processes automated, with AI and RPA fully embedded in operations" },
-        { id: "cos_data", name: "Data Maturity", question: "How mature is your approach to data management and analytics?", weight: 75, earnout: "X", foundational: "Data fragmented, manual reporting", evolving: "Some structured reporting, data inconsistencies", optimised: "Automated, real-time data-driven reporting" },
-        { id: "cos_lever", name: "Leverage", question: "What is your use of AI and Automation?", weight: 0, earnout: "", foundational: "Leverage ratio >3.5x EBITDA, high debt burden", evolving: "Leverage ratio 2.0-3.5x EBITDA, manageable debt", optimised: "Leverage ratio <2.0x EBITDA, strong financial flexibility" },
-        { id: "cos_know", name: "Knowledge", weight: 0, earnout: "", foundational: "<20% of knowledge is codified, minimal documentation", evolving: "20-50% of knowledge is documented, some use of knowledge management tools", optimised: ">50% of knowledge is structured and documented, KM systems fully integrated" },
-        { id: "cos_resrc", name: "Resourcing", weight: 0, earnout: "", foundational: "Utilisation <60%, poor visibility on resource allocation", evolving: "Utilisation 60-75%, some workforce planning but reactive deployment", optimised: "Utilisation >75%, proactive resource planning and demand forecasting" },
+        { id: "cos_deliv", name: "Delivery Model", question: "How efficient and optimised is your current delivery model?", weight: 25, foundational: "Delivery is fully onshore, cost inefficiencies", evolving: "Some offshore delivery, but limited efficiency gains", optimised: "Optimised delivery mix with offshore efficiencies" },
+        { id: "cos_tech", name: "Technology Maturity", question: "What is the maturity level of your technology infrastructure (CRM, PSA, HCM)?", weight: 75, foundational: "Limited use of CRM, PSA, or automation", evolving: "Basic adoption of CRM, PSA, and some automation", optimised: "Fully integrated digital ecosystem (CRM, PSA, AI)" },
+        { id: "cos_scale", name: "Scaling Infrastructure", question: "What is your average utilisation rate for consultants?", weight: 75, foundational: "<20% of core business processes automated or AI-supported", evolving: "20-50% of core business processes automated, with partial AI-driven analytics", optimised: ">50% of processes automated, with AI and RPA fully embedded in operations" },
+        { id: "cos_data", name: "Data Maturity", question: "How mature is your approach to data management and analytics?", weight: 75, foundational: "Data fragmented, manual reporting", evolving: "Some structured reporting, data inconsistencies", optimised: "Automated, real-time data-driven reporting" },
+        { id: "cos_lever", name: "Leverage", question: "What is your use of AI and Automation?", weight: 0, foundational: "Leverage ratio >3.5x EBITDA, high debt burden", evolving: "Leverage ratio 2.0-3.5x EBITDA, manageable debt", optimised: "Leverage ratio <2.0x EBITDA, strong financial flexibility" },
+        { id: "cos_know", name: "Knowledge", weight: 0, foundational: "<20% of knowledge is codified, minimal documentation", evolving: "20-50% of knowledge is documented, some use of knowledge management tools", optimised: ">50% of knowledge is structured and documented, KM systems fully integrated" },
+        { id: "cos_resrc", name: "Resourcing", weight: 0, foundational: "Utilisation <60%, poor visibility on resource allocation", evolving: "Utilisation 60-75%, some workforce planning but reactive deployment", optimised: "Utilisation >75%, proactive resource planning and demand forecasting" },
       ]
     },
     {
       id: "delivery", name: "Delivery", icon: "check-square", totalWeight: 175, color: "#2E86C1",
       metrics: [
-        { id: "del_sat", name: "Client Satisfaction", question: "How structured and effective is your client satisfaction measurement (NPS)?", weight: 75, earnout: "X", foundational: "No structured feedback mechanisms (NPS <20)", evolving: "Periodic feedback collection, NPS 20-50", optimised: "Advanced feedback mechanisms, NPS >50" },
-        { id: "del_util", name: "Utilisation", question: "What percentage of your staff are billable?", weight: 50, earnout: "X", foundational: "Utilisation <60%", evolving: "Utilisation 60-75%", optimised: "Utilisation >75%" },
-        { id: "del_qa", name: "Quality Assurance", question: "How robust are your quality assurance standards?", weight: 50, earnout: "X", foundational: "No formal QA standards", evolving: "Some QA standards in place, inconsistent adherence", optimised: "Robust QA framework throughout project delivery, consistently applied" },
+        { id: "del_sat", name: "Client Satisfaction", question: "How structured and effective is your client satisfaction measurement (NPS)?", weight: 75, foundational: "No structured feedback mechanisms (NPS <20)", evolving: "Periodic feedback collection, NPS 20-50", optimised: "Advanced feedback mechanisms, NPS >50" },
+        { id: "del_util", name: "Utilisation", question: "What percentage of your staff are billable?", weight: 50, foundational: "Utilisation <60%", evolving: "Utilisation 60-75%", optimised: "Utilisation >75%" },
+        { id: "del_qa", name: "Quality Assurance", question: "How robust are your quality assurance standards?", weight: 50, foundational: "No formal QA standards", evolving: "Some QA standards in place, inconsistent adherence", optimised: "Robust QA framework throughout project delivery, consistently applied" },
       ]
     },
     {
       id: "market", name: "Market Profile", icon: "globe", totalWeight: 175, color: "#CA6F1E",
       metrics: [
-        { id: "mkt_size", name: "Market Size & Growth Potential", question: "How clearly defined and executed is your branding strategy?", weight: 25, earnout: "X", foundational: "Small maximum market (less than $500m)", evolving: "Medium maximum market ($500m-1bn)", optimised: "Large maximum market (>$1bn)" },
-        { id: "mkt_mktg", name: "Marketing Influence on Revenue", question: "What percentage of your revenue is directly influenced by marketing activities?", weight: 50, earnout: "X", foundational: "<5% of revenue influenced by marketing", evolving: "5-15% of revenue influenced by marketing", optimised: "15%+ of revenue driven by marketing" },
-        { id: "mkt_award", name: "Awards & Recognition", question: "How many national or industry awards have you won in the past three years?", weight: 50, earnout: "X", foundational: "No national or industry awards won in the past three years", evolving: "1-2 national or industry awards won in the past three years", optimised: "3+ national or industry awards, with external validation from major industry bodies" },
-        { id: "mkt_thought", name: "Thought Leadership", question: "How active and recognised is your thought leadership?", weight: 50, earnout: "X", foundational: "No thought leadership content published in past 6 months", evolving: "2-3 pieces of thought leadership content published monthly", optimised: "Recognised industry thought leader, 4+ high-impact pieces monthly with significant recognition" },
-        { id: "mkt_brand", name: "Branding", question: "What is your brand awareness and market recognition level?", weight: 0, earnout: "", foundational: "No defined brand strategy, weak recognition outside existing clients", evolving: "Some brand recognition, 1-2 external PR initiatives annually", optimised: "Recognised industry brand with strong external presence driving inbound opportunities" },
+        { id: "mkt_size", name: "Market Size & Growth Potential", question: "How clearly defined and executed is your branding strategy?", weight: 25, foundational: "Small maximum market (less than $500m)", evolving: "Medium maximum market ($500m-1bn)", optimised: "Large maximum market (>$1bn)" },
+        { id: "mkt_mktg", name: "Marketing Influence on Revenue", question: "What percentage of your revenue is directly influenced by marketing activities?", weight: 50, foundational: "<5% of revenue influenced by marketing", evolving: "5-15% of revenue influenced by marketing", optimised: "15%+ of revenue driven by marketing" },
+        { id: "mkt_award", name: "Awards & Recognition", question: "How many national or industry awards have you won in the past three years?", weight: 50, foundational: "No national or industry awards won in the past three years", evolving: "1-2 national or industry awards won in the past three years", optimised: "3+ national or industry awards, with external validation from major industry bodies" },
+        { id: "mkt_thought", name: "Thought Leadership", question: "How active and recognised is your thought leadership?", weight: 50, foundational: "No thought leadership content published in past 6 months", evolving: "2-3 pieces of thought leadership content published monthly", optimised: "Recognised industry thought leader, 4+ high-impact pieces monthly with significant recognition" },
+        { id: "mkt_brand", name: "Branding", question: "What is your brand awareness and market recognition level?", weight: 0, foundational: "No defined brand strategy, weak recognition outside existing clients", evolving: "Some brand recognition, 1-2 external PR initiatives annually", optimised: "Recognised industry brand with strong external presence driving inbound opportunities" },
       ]
     },
   ]
@@ -420,7 +420,7 @@ const getInitialState = () => {
 
 
 // ═══════════════════════════════════════════════════════════════
-// SCORING ENGINE (with Earnout Tracking)
+// SCORING ENGINE
 // ═══════════════════════════════════════════════════════════════
 const calcScores = (ratings) => {
   const themeScores = {};
@@ -429,40 +429,24 @@ const calcScores = (ratings) => {
   let ratedCount = 0;
   let totalMetrics = 0;
 
-  // Earnout tracking
-  let earnoutScore = 0;
-  let earnoutMax = 0;
-  const earnoutByTheme = {};
-
   FRAMEWORK.themes.forEach(theme => {
     let themeScore = 0;
     let themeMax = 0;
     let themeRated = 0;
-    let themeEarnoutScore = 0;
-    let themeEarnoutMax = 0;
 
     theme.metrics.forEach(m => {
       totalMetrics++;
       const r = ratings[m.id];
-      const earnoutValue = m.earnout && m.earnout !== "X" && !isNaN(parseInt(m.earnout)) ? parseInt(m.earnout) : 0;
 
       if (r && r.level) {
         themeScore += r.level * m.weight;
         ratedCount++;
         themeRated++;
 
-        // Earnout calculation - only for metrics with numeric earnout values
-        if (earnoutValue > 0) {
-          // Scale: level 3 = 100% of earnout, level 2 = 66%, level 1 = 33%
-          const earnoutPct = r.level / 3;
-          themeEarnoutScore += earnoutValue * earnoutPct;
         }
       }
 
       themeMax += 3 * m.weight;
-      if (earnoutValue > 0) {
-        themeEarnoutMax += earnoutValue;
-      }
     });
 
     themeScores[theme.id] = {
@@ -473,9 +457,6 @@ const calcScores = (ratings) => {
       pct: themeMax > 0 ? Math.round((themeScore / themeMax) * 100) : 0
     };
 
-    earnoutByTheme[theme.id] = { score: Math.round(themeEarnoutScore), max: themeEarnoutMax };
-    earnoutScore += themeEarnoutScore;
-    earnoutMax += themeEarnoutMax;
 
     totalScore += themeScore;
     totalMaxPossible += themeMax;
@@ -487,15 +468,8 @@ const calcScores = (ratings) => {
     totalMaxPossible,
     pct: totalMaxPossible > 0 ? Math.round((totalScore / totalMaxPossible) * 100) : 0,
     ratedCount,
-    totalMetrics,
-    earnout: {
-      score: Math.round(earnoutScore),
-      max: earnoutMax,
-      pct: earnoutMax > 0 ? Math.round((earnoutScore / earnoutMax) * 100) : 0,
-      byTheme: earnoutByTheme
-    }
+    totalMetrics
   };
-};
 
 // ═══════════════════════════════════════════════════════════════
 // COLOUR HELPERS
@@ -660,19 +634,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
               </div>
             </div>
 
-            {/* Earnout if applicable */}
-            {scores.earnout.max > 0 && (
-              <div className="mt-3 p-2 bg-purple-50 rounded-lg">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-purple-600 flex items-center gap-1">
-                    <Sparkles size={10} /> Earnout
-                  </span>
-                  <span className="text-sm font-bold text-purple-700">
-                    £<AnimatedNumber value={scores.earnout.score} />k
-                  </span>
-                </div>
-              </div>
-            )}
+            
           </div>
 
           {/* Quick Jump to Incomplete */}
@@ -790,11 +752,7 @@ function MetricCard({ metric, rating, onRate, onComment }) {
                           {metric.question && <p className="text-xs text-blue-600 italic mt-1 mb-1">{metric.question}</p>}
           {metric.weight > 0 && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium transition-transform hover:scale-105">{metric.weight} pts</span>}
           {metric.weight === 0 && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Supplementary</span>}
-          {metric.earnout && metric.earnout !== "X" && !isNaN(parseInt(metric.earnout)) && (
-            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1 transition-transform hover:scale-105">
-              <Sparkles size={10} /> £{metric.earnout}k earnout
-            </span>
-          )}
+          
         </div>
         <div className="flex items-center gap-2">
           {currentLevel && (
@@ -972,7 +930,6 @@ function StrengthsWeaknesses({ ratings }) {
 // EXPORT FUNCTIONS
 // ═══════════════════════════════════════════════════════════════
 const exportToCSV = (assessment, firmName, ratings) => {
-  const rows = [["Theme", "Metric", "Weight", "Earnout", "Level", "Label", "Comment"]];
   FRAMEWORK.themes.forEach(t => {
     t.metrics.forEach(m => {
       const r = ratings[m.id];
@@ -980,7 +937,6 @@ const exportToCSV = (assessment, firmName, ratings) => {
         t.name,
         m.name,
         m.weight,
-        m.earnout === "X" ? "" : m.earnout,
         r?.level || "",
         levelLabel(r?.level),
         (r?.comment || "").replace(/"/g, '""')
@@ -1004,12 +960,10 @@ const exportToPDF = (assessment, firmName, scores) => {
 
   const themeRows = FRAMEWORK.themes.map(t => {
     const s = scores.themeScores[t.id];
-    const earnout = scores.earnout.byTheme[t.id];
     return `<tr>
       <td style="padding:8px;border:1px solid #ddd;">${t.name}</td>
       <td style="padding:8px;border:1px solid #ddd;text-align:center;">${s?.pct || 0}%</td>
       <td style="padding:8px;border:1px solid #ddd;text-align:center;">${s?.rated || 0}/${s?.total || 0}</td>
-      <td style="padding:8px;border:1px solid #ddd;text-align:center;">${earnout?.max > 0 ? `£${earnout.score}k / £${earnout.max}k` : "-"}</td>
     </tr>`;
   }).join("");
 
@@ -1025,8 +979,6 @@ const exportToPDF = (assessment, firmName, scores) => {
     .score-card { display: inline-block; padding: 20px 40px; background: #f8f9fa; border-radius: 12px; text-align: center; margin-right: 20px; }
     .score-value { font-size: 48px; font-weight: bold; color: ${scores.pct >= 66 ? "#1E8449" : scores.pct >= 33 ? "#B7950B" : "#922B21"}; }
     .score-label { color: #666; font-size: 14px; }
-    .earnout-card { display: inline-block; padding: 20px 40px; background: #f3e8ff; border-radius: 12px; text-align: center; }
-    .earnout-value { font-size: 36px; font-weight: bold; color: #7c3aed; }
     table { width: 100%; border-collapse: collapse; margin: 20px 0; }
     th { background: #1B4F72; color: white; padding: 10px; text-align: left; }
     @media print { body { padding: 20px; } }
@@ -1042,17 +994,11 @@ const exportToPDF = (assessment, firmName, scores) => {
       <div class="score-label">Overall Maturity Score</div>
       <div style="font-size:12px;color:#888;margin-top:5px;">${Math.round(scores.totalScore)} / ${scores.totalMaxPossible} points</div>
     </div>
-    ${scores.earnout.max > 0 ? `
-    <div class="earnout-card">
-      <div class="earnout-value">£${scores.earnout.score}k</div>
-      <div class="score-label">Projected Earnout</div>
-      <div style="font-size:12px;color:#888;margin-top:5px;">${scores.earnout.pct}% of £${scores.earnout.max}k max</div>
-    </div>` : ""}
+    </div>
   </div>
 
   <h2>Theme Breakdown</h2>
   <table>
-    <thead><tr><th>Theme</th><th>Score</th><th>Metrics Rated</th><th>Earnout Contribution</th></tr></thead>
     <tbody>${themeRows}</tbody>
   </table>
 
@@ -1068,7 +1014,6 @@ const exportToPDF = (assessment, firmName, scores) => {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// NEW COMPONENTS - Export, Benchmarks, Earnout, Templates
 // ═══════════════════════════════════════════════════════════════
 
 function ExportPanel({ assessment, firmName, scores }) {
@@ -1095,40 +1040,6 @@ function ExportPanel({ assessment, firmName, scores }) {
   );
 }
 
-function EarnoutSummary({ scores }) {
-  if (scores.earnout.max === 0) return null;
-
-  const pct = scores.earnout.pct;
-  const color = pct >= 66 ? "#7c3aed" : pct >= 33 ? "#a855f7" : "#c084fc";
-
-  return (
-    <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-4">
-      <h3 className="text-sm font-bold text-purple-800 mb-3 flex items-center gap-2">
-        <Sparkles size={14} /> Earnout Projection
-      </h3>
-      <div className="flex items-center gap-6">
-        <div className="text-center">
-          <div className="text-3xl font-bold" style={{ color }}>£{scores.earnout.score}k</div>
-          <div className="text-xs text-purple-600">of £{scores.earnout.max}k potential</div>
-        </div>
-        <div className="flex-1">
-          <div className="bg-purple-200 rounded-full h-3 mb-2">
-            <div className="h-3 rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: color }} />
-          </div>
-          <div className="text-xs text-purple-600">{pct}% earnout achievement based on current ratings</div>
-        </div>
-      </div>
-      <div className="mt-3 pt-3 border-t border-purple-100 grid grid-cols-3 gap-2">
-        {FRAMEWORK.themes.filter(t => scores.earnout.byTheme[t.id]?.max > 0).map(t => (
-          <div key={t.id} className="text-xs">
-            <span className="text-purple-600">{t.name.split(" ")[0]}:</span>
-            <span className="font-medium text-purple-800 ml-1">£{scores.earnout.byTheme[t.id].score}k</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function BenchmarkComparison({ scores, sector }) {
   const [selectedSector, setSelectedSector] = useState(sector || Object.keys(BENCHMARKS)[0]);
@@ -1444,34 +1355,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack }) {
         <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
       </div>
 
-      {/* Earnout Summary - Only shows if there are earnout metrics */}
-      {scores.earnout.max > 0 && (
-        <div className="mb-4">
-          <EarnoutSummary scores={scores} />
-        </div>
-      )}
-
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-bold text-gray-700 mb-2">Maturity Profile</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <RadarChart data={radarData}>
-              <PolarGrid stroke="#E5E7EB" />
-              <PolarAngleAxis dataKey="theme" tick={{ fontSize: 10, fill: "#6B7280" }} />
-              <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 9 }} />
-              <Radar name="Score" dataKey="score" stroke="#1B4F72" fill="#1B4F72" fillOpacity={0.2} strokeWidth={2} />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-bold text-gray-700 mb-2">Theme Scores</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barData} layout="vertical" margin={{ left: 10, right: 20 }}>
-              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
-              <YAxis dataKey="name" type="category" width={90} tick={{ fontSize: 10 }} />
-              <Tooltip formatter={(v) => `${v}%`} />
-              <Bar dataKey="pct" radius={[0, 4, 4, 0]}>
-                {barData.map((d, i) => <Cell key={i} fill={d.color} />)}
+      
               </Bar>
             </BarChart>
           </ResponsiveContainer>
