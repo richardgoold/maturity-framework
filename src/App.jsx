@@ -114,8 +114,8 @@ const TOTAL_WEIGHTED_POINTS = FRAMEWORK.themes.reduce((sum, t) => sum + t.totalW
 // ÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ
 const BENCHMARKS = {
   "Professional Services": {
-    financial: 58, people: 55, services: 58, vision: 56, sales: 49,
-    clients: 58, leadership: 58, cost: 51, delivery: 61, market: 51
+    financial: 70, people: 68, services: 66, vision: 64, sales: 65,
+    clients: 68, leadership: 67, cost: 65, delivery: 70, market: 65
   }
 };
 
@@ -1051,7 +1051,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
           </div>
         </td>
         <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right; color: #666; font-size: 14px;">
-          PSF Avg: ${benchmarkPct}%
+          M&A-Ready: ${benchmarkPct}%
         </td>
       </tr>
     `;
@@ -1117,7 +1117,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
   }).join('');
 
   // Get benchmark sector display name
-  const benchmarkSectorDisplay = sectorKey === 'Professional Services' ? 'PSF' : 'Peer';
+  const benchmarkSectorDisplay = sectorKey === 'Professional Services' ? 'M&A-Ready' : 'Peer';
 
   // Build the complete HTML
   const html = `
@@ -1561,13 +1561,13 @@ function RadarOverview({ radarData }) {
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
           <Radar name="Your Firm" dataKey="score" stroke="#1B4F72" fill="#1B4F72" fillOpacity={0.3} strokeWidth={2} />
-          <Radar name="PSF Avg" dataKey="benchmark" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
+          <Radar name="M&A-Ready" dataKey="benchmark" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
           <Tooltip formatter={(v, name) => [v + '%', name]} />
         </RadarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-1">
         <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1B4F72'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#94A3B8'}} /><span className="text-xs text-gray-500">PSF Avg</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#94A3B8'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
   );
@@ -1595,7 +1595,7 @@ function BenchmarkComparison({ scores }) {
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-bold text-gray-700 flex items-center gap-2">
-          <BarChart3 size={14} /> PSF Benchmark
+          <BarChart3 size={14} /> M&A-Ready Benchmark
         </h3>
       </div>
       <ResponsiveContainer width="100%" height={320}>
@@ -1618,14 +1618,14 @@ function BenchmarkComparison({ scores }) {
               <Cell key={index} fill={entry.firmFill} />
             ))}
           </Bar>
-          <Bar dataKey="benchmark" name="PSF Avg" fill="#94A3B8" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="M&A-Ready" fill="#94A3B8" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#27AE60'}} /><span className="text-xs text-gray-500">Above Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#F39C12'}} /><span className="text-xs text-gray-500">Near Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#E74C3C'}} /><span className="text-xs text-gray-500">Below Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#94A3B8'}} /><span className="text-xs text-gray-500">PSF Avg</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#94A3B8'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
   );
@@ -1735,7 +1735,7 @@ function LandingPage({ onGetStarted }) {
       <div className="grid grid-cols-3 gap-4 mb-10">
         {[
           { icon: ClipboardCheck, title: "1. Assess", desc: "Rate 47 metrics across 10 growth themes using a 3-level maturity scale" },
-          { icon: BarChart3, title: "2. Benchmark", desc: "Compare performance against PSF industry averages" },
+          { icon: BarChart3, title: "2. Benchmark", desc: "Compare performance against M&A-ready PSF benchmarks" },
           { icon: TrendingUp, title: "3. Identify", desc: "Pinpoint strengths, improvement areas, and strategic priorities" }
         ].map((step, i) => (
           <div key={i} className="bg-white rounded-lg border border-gray-200 p-5 text-center">
