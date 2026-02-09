@@ -1068,13 +1068,13 @@ function RadarOverview({ radarData }) {
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
           <Radar name="Your Firm" dataKey="score" stroke="#1B4F72" fill="#1B4F72" fillOpacity={0.3} strokeWidth={2} />
-          <Radar name="Prof. Services Avg" dataKey="benchmark" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
+          <Radar name="PSF Avg" dataKey="benchmark" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
           <Tooltip formatter={(v, name) => [v + '%', name]} />
         </RadarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-1">
         <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1B4F72'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#94A3B8'}} /><span className="text-xs text-gray-500">Prof. Services Avg</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#94A3B8'}} /><span className="text-xs text-gray-500">PSF Avg</span></div>
       </div>
     </div>
   );
@@ -1102,7 +1102,7 @@ function BenchmarkComparison({ scores }) {
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-bold text-gray-700 flex items-center gap-2">
-          <BarChart3 size={14} /> Professional Services Benchmark
+          <BarChart3 size={14} /> PSF Benchmark
         </h3>
       </div>
       <ResponsiveContainer width="100%" height={320}>
@@ -1125,14 +1125,14 @@ function BenchmarkComparison({ scores }) {
               <Cell key={index} fill={entry.firmFill} />
             ))}
           </Bar>
-          <Bar dataKey="benchmark" name="Prof. Services Avg" fill="#94A3B8" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="PSF Avg" fill="#94A3B8" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#27AE60'}} /><span className="text-xs text-gray-500">Above Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#F39C12'}} /><span className="text-xs text-gray-500">Near Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#E74C3C'}} /><span className="text-xs text-gray-500">Below Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#94A3B8'}} /><span className="text-xs text-gray-500">Prof. Services Avg</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#94A3B8'}} /><span className="text-xs text-gray-500">PSF Avg</span></div>
       </div>
     </div>
   );
@@ -1242,7 +1242,7 @@ function LandingPage({ onGetStarted }) {
       <div className="grid grid-cols-3 gap-4 mb-10">
         {[
           { icon: ClipboardCheck, title: "1. Assess", desc: "Rate 47 metrics across 10 growth themes using a 3-level maturity scale" },
-          { icon: BarChart3, title: "2. Benchmark", desc: "Compare performance against Professional Services industry averages" },
+          { icon: BarChart3, title: "2. Benchmark", desc: "Compare performance against PSF industry averages" },
           { icon: TrendingUp, title: "3. Identify", desc: "Pinpoint strengths, improvement areas, and strategic priorities" }
         ].map((step, i) => (
           <div key={i} className="bg-white rounded-lg border border-gray-200 p-5 text-center">
