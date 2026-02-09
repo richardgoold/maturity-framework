@@ -900,19 +900,21 @@ function StrengthsWeaknesses({ ratings }) {
     <div className="grid grid-cols-2 gap-4">
       <div className="bg-white rounded-lg border border-green-200 p-4">
         <h3 className="text-sm font-bold text-green-700 mb-2 flex items-center gap-1"><Award size={14} /> Top Strengths</h3>
+        <p className="text-xs text-green-600 opacity-70 mb-1 -mt-1">Ranked by weighted contribution (score × importance)</p>
         {strengths.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see strengths</p> : strengths.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-green-50 last:border-0">
             <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1">({m.theme})</span></div>
-            <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">{m.level}</span>
+            <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
       </div>
       <div className="bg-white rounded-lg border border-red-200 p-4">
         <h3 className="text-sm font-bold text-red-700 mb-2 flex items-center gap-1"><AlertCircle size={14} /> Key Improvement Areas</h3>
+        <p className="text-xs text-red-600 opacity-70 mb-1 -mt-1">Ranked by improvement potential — highest impact first</p>
         {weaknesses.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see areas for improvement</p> : weaknesses.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-red-50 last:border-0">
             <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1">({m.theme})</span></div>
-            <span className="text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">{m.level}</span>
+            <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
       </div>
