@@ -383,14 +383,14 @@ const generateDemoData = () => {
 
   return {
     firms: [
-      { id: "demo_apex", name: "Apex Consulting Partners", sector: "Consulting", createdAt: "2025-01-15T10:00:00Z" },
-      { id: "demo_techbridge", name: "TechBridge Solutions", sector: "Technology Services", createdAt: "2025-02-01T14:30:00Z" },
-      { id: "demo_phoenix", name: "Phoenix Advisory Group", sector: "Consulting", createdAt: "2025-02-05T09:00:00Z" }
+      { id: "demo_apex", name: "Apex Consulting Partners", sector: "Consulting", createdAt: "2026-01-15T10:00:00Z" },
+      { id: "demo_techbridge", name: "TechBridge Solutions", sector: "Technology Services", createdAt: "2026-02-01T14:30:00Z" },
+      { id: "demo_phoenix", name: "Phoenix Advisory Group", sector: "Consulting", createdAt: "2026-02-05T09:00:00Z" }
     ],
     assessments: {
-      "demo_apex_a1": { id: "demo_apex_a1", firmId: "demo_apex", createdAt: "2025-01-20T11:00:00Z", ratings: apexRatings },
-      "demo_techbridge_a1": { id: "demo_techbridge_a1", firmId: "demo_techbridge", createdAt: "2025-02-03T16:00:00Z", ratings: techbridgeRatings },
-      "demo_phoenix_a1": { id: "demo_phoenix_a1", firmId: "demo_phoenix", createdAt: "2025-02-06T10:30:00Z", ratings: phoenixRatings }
+      "demo_apex_a1": { id: "demo_apex_a1", firmId: "demo_apex", createdAt: "2026-01-20T11:00:00Z", ratings: apexRatings },
+      "demo_techbridge_a1": { id: "demo_techbridge_a1", firmId: "demo_techbridge", createdAt: "2026-02-03T16:00:00Z", ratings: techbridgeRatings },
+      "demo_phoenix_a1": { id: "demo_phoenix_a1", firmId: "demo_phoenix", createdAt: "2026-02-06T10:30:00Z", ratings: phoenixRatings }
     }
   };
 };
@@ -1561,13 +1561,13 @@ function RadarOverview({ radarData }) {
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
           <Radar name="Your Firm" dataKey="score" stroke="#1B4F72" fill="#1B4F72" fillOpacity={0.3} strokeWidth={2} />
-          <Radar name="M&A-Ready" dataKey="benchmark" stroke="#94A3B8" fill="#94A3B8" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
+          <Radar name="M&A-Ready" dataKey="benchmark" stroke="#D97706" fill="#D97706" fillOpacity={0.05} strokeWidth={2} strokeDasharray="4 4" />
           <Tooltip formatter={(v, name) => [v + '%', name]} />
         </RadarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-1">
         <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1B4F72'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#94A3B8'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#D97706'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
   );
@@ -1597,6 +1597,7 @@ function BenchmarkComparison({ scores }) {
         <h3 className="text-sm font-bold text-gray-700 flex items-center gap-2">
           <BarChart3 size={14} /> M&A-Ready Benchmark
         </h3>
+        <p style={{ fontSize: "11px", color: "#64748b", margin: "4px 0 8px 0", lineHeight: "1.4" }}>Top-quartile PSF performance levels associated with premium M&A valuations. Synthesised from 20+ industry sources including Hinge Research, Deltek, SPI Research &amp; Mercer.</p>
       </div>
       <ResponsiveContainer width="100%" height={320}>
         <BarChart data={comparisonData} layout="vertical" margin={{ left: 20, right: 20 }}>
@@ -1618,14 +1619,14 @@ function BenchmarkComparison({ scores }) {
               <Cell key={index} fill={entry.firmFill} />
             ))}
           </Bar>
-          <Bar dataKey="benchmark" name="M&A-Ready" fill="#94A3B8" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="M&A-Ready" fill="#D97706" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#27AE60'}} /><span className="text-xs text-gray-500">Above Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#F39C12'}} /><span className="text-xs text-gray-500">Near Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#E74C3C'}} /><span className="text-xs text-gray-500">Below Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#94A3B8'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#D97706'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
   );
