@@ -2314,7 +2314,7 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
 
   const items = [];
   FRAMEWORK.themes.forEach(theme => {
-    const themeScore = scores.themes.find(t => t.id === theme.id);
+    const themeScore = scores.themeScores[theme.id];
     const benchmark = bm[theme.id] || 65;
     theme.metrics.forEach(metric => {
       const r = assessment.ratings ? Object.entries(assessment.ratings).find(([k]) => k === metric.id) : null;
@@ -2375,7 +2375,7 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
 
 function ScenarioPanel({ assessment, benchmarkProfile }) {
   const currentScores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
-  const [sliders, setSliders] = useState(() => Object.fromEntries(currentScores.themes.map(t => [t.id, t.score])));
+  const [sliders, setSliders] = useState(() => Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct])));
 
   const projectedTotal = Object.values(sliders).reduce((s, v) => s + v, 0);
   const projectedReadiness = Math.round(projectedTotal / FRAMEWORK.themes.length);
@@ -2391,7 +2391,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
       </div>
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {FRAMEWORK.themes.map(theme => {
-          const current = currentScores.themes.find(t => t.id === theme.id)?.score || 0;
+          const current = currentScores.themeScores[theme.id]?.pct?.score || 0;
           return (
             <div key={theme.id} className="p-3 bg-gray-50 rounded-lg">
               <div className="flex justify-between items-center mb-1">
@@ -2404,7 +2404,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
           );
         })}
       </div>
-      <button onClick={() => setSliders(Object.fromEntries(currentScores.themes.map(t => [t.id, t.score])))} className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
+      <button onClick={() => setSliders(Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct])))} className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
     </div>
   );
 }
@@ -2418,12 +2418,12 @@ function PeerComparisonView({ firms, onBack }) {
     if (!firm?.assessments?.length) return null;
     const a = firm.assessments[firm.assessments.length - 1];
     const s = calcScores(a.ratings);
-    return { name: firm.name, scores: s, themes: Object.fromEntries(s.themes.map(t => [t.name, t.score])) };
+    return { name: firm.name, scores: s, themes: Object.fromEntries(Object.entries(s.themeScores).map(([id, ts]) => [id, ts.pct])) };
   }).filter(Boolean);
 
   const chartData = FRAMEWORK.themes.map(theme => {
     const entry = { theme: theme.name.length > 12 ? theme.name.substring(0,12) + "..." : theme.name };
-    data.forEach(d => { entry[d.name] = d.themes[theme.name] || 0; });
+    data.forEach(d => { entry[d.name] = d.themes[theme.id] || 0; });
     return entry;
   });
 
