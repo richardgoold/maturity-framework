@@ -643,7 +643,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
                   <AnimatedNumber value={scores.pct} suffix="%" />
                 </div>
                 <div className="text-xs text-gray-500">Maturity Score</div>
-                <div className="text-xs text-gray-400 mt-0.5">
+                <div className="text-xs text-[#4e5b73] mt-0.5">
                   {scores.ratedCount}/{scores.totalMetrics} metrics rated
                 </div>
               </div>
@@ -663,11 +663,11 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
                     <button
                       key={t.id}
                       onClick={() => onJumpToTheme(t.id)}
-                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-blue-50 transition-colors group"
+                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-amber-900/10 transition-colors group"
                     >
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
-                        <span className="text-xs text-gray-600 group-hover:text-blue-600 truncate">{t.name}</span>
+                        <span className="text-xs text-gray-600 group-hover:text-[#f2a71b] truncate">{t.name}</span>
                       </div>
                       <span className="text-xs text-gray-400">{s?.rated}/{s?.total}</span>
                     </button>
@@ -770,15 +770,15 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
       <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <h4 className="font-semibold text-gray-800 text-sm">{metric.name}</h4>
-                          {metric.question && <p className="text-xs text-blue-600 italic mt-1 mb-1">{metric.question}</p>}
+                          {metric.question && <p className="text-xs text-[#f2a71b] italic mt-1 mb-1">{metric.question}</p>}
           {metric.guidance && (
             <div className="mt-1 mb-2">
-              <button onClick={() => setShowGuidance(!showGuidance)} className="text-xs text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-1">
+              <button onClick={() => setShowGuidance(!showGuidance)} className="text-xs text-[#f2a71b] hover:text-blue-800 font-medium inline-flex items-center gap-1">
                 <HelpCircle size={12} />
                 {showGuidance ? "Hide guidance" : "Scoring guidance"}
               </button>
               {showGuidance && (
-                <div className="mt-2 bg-blue-50 border-l-4 border-blue-400 p-3 text-xs text-blue-900 rounded-r leading-relaxed">
+                <div className="mt-2 bg-amber-900/10 border-l-4 border-blue-400 p-3 text-xs text-blue-900 rounded-r leading-relaxed">
                   {metric.guidance}
                 </div>
               )}
@@ -884,12 +884,12 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
               <div key={idx} className="flex items-start justify-between p-2 bg-gray-50 rounded text-sm">
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-gray-800">{item.label}</p>
-                  {item.type==="link" ? <a href={item.content} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">{item.content}</a> : <p className="text-gray-600 whitespace-pre-wrap">{item.content}</p>}
+                  {item.type==="link" ? <a href={item.content} target="_blank" rel="noopener noreferrer" className="text-[#f2a71b] hover:underline break-all">{item.content}</a> : <p className="text-gray-600 whitespace-pre-wrap">{item.content}</p>}
                 </div>
                 <button onClick={() => onEvidence((evidence||[]).filter((_,i)=>i!==idx))} className="text-red-500 hover:text-red-700 text-xs ml-2">Remove</button>
               </div>
             ))}
-            <div className="p-3 bg-blue-50 rounded space-y-2">
+            <div className="p-3 bg-amber-900/10 rounded space-y-2">
               <div className="flex gap-2">
                 <select value={evidenceType} onChange={e=>setEvidenceType(e.target.value)} className="px-2 py-1 border border-gray-300 rounded text-sm">
                   <option value="link">Link</option><option value="note">Note</option>
@@ -916,7 +916,7 @@ function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
         const s = scores?.themeScores?.[theme.id];
         const active = selectedTheme === theme.id;
         return (
-          <button key={theme.id} onClick={() => onSelect(theme.id)} className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all flex items-center gap-2 ${active ? "bg-blue-50 border-l-4 border-l-blue-600" : "hover:bg-gray-50 border-l-4 border-l-transparent"}`}>
+          <button key={theme.id} onClick={() => onSelect(theme.id)} className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all flex items-center gap-2 ${active ? "bg-amber-900/10 border-l-4 border-l-blue-600" : "hover:bg-gray-50 border-l-4 border-l-transparent"}`}>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className={`text-xs font-semibold truncate ${active ? "text-blue-700" : "text-gray-700"}`}>{theme.name}</span>
@@ -2038,7 +2038,7 @@ function TemplateSelector({ onSelect, onClose }) {
           <button
             key={name}
             onClick={() => onSelect(template.ratings)}
-            className="text-left p-3 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all group"
+            className="text-left p-3 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-amber-900/10 transition-all group"
           >
             <div className="flex items-center gap-2 mb-1">
               <span className="text-lg">{template.icon}</span>
@@ -2085,7 +2085,7 @@ function Breadcrumbs({ view, firmName, onNavigate }) {
         <span key={i} className="flex items-center gap-1.5">
           {i > 0 && <ChevronRight size={10} />}
           {i < crumbs.length - 1 ? (
-            <button onClick={() => onNavigate(c.view)} className="hover:text-blue-600 transition-colors">{c.label}</button>
+            <button onClick={() => onNavigate(c.view)} className="hover:text-[#f2a71b] transition-colors">{c.label}</button>
           ) : (
             <span className="text-gray-600 font-medium">{c.label}</span>
           )}
@@ -2135,67 +2135,149 @@ function OnboardingOverlay({ onComplete }) {
 }
 
 function LandingPage({ onGetStarted }) {
-  const themeIcons = {
-    "pound": "\u00A3", "users": "\u{1F465}", "tag": "\u{1F3F7}", "compass": "\u{1F9ED}",
-    "trending-up": "\u{1F4C8}", "handshake": "\u{1F91D}", "shield": "\u{1F6E1}",
-    "calculator": "\u{1F5A9}", "check-square": "\u2611", "globe": "\u{1F310}"
-  };
+  const [hoveredTheme, setHoveredTheme] = useState(null);
+  const themeSegments = FRAMEWORK.map((theme, i) => {
+    const segColors = {
+      financial: "#4e5b73", people: "#6ba7a1", services: "#a4c8e1",
+      vision: "#f2a71b", sales: "#d5b79c", clients: "#f4a896",
+      leadership: "#a79d94", cost: "#e8c840", delivery: "#c5c5c5", market: "#7a8fa8"
+    };
+    const lightSegs = ["services","sales","clients","cost","delivery"];
+    const n = FRAMEWORK.length;
+    const gap = 0.025;
+    const cx = 260, cy = 260, outerR = 235, innerR = 152;
+    const startA = (i / n) * 2 * Math.PI - Math.PI / 2 + gap / 2;
+    const endA = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2 - gap / 2;
+    const midA = (startA + endA) / 2;
+    const labelR = (outerR + innerR) / 2;
+    const d = [
+      "M", cx + outerR * Math.cos(startA), cy + outerR * Math.sin(startA),
+      "A", outerR, outerR, 0, 0, 1, cx + outerR * Math.cos(endA), cy + outerR * Math.sin(endA),
+      "L", cx + innerR * Math.cos(endA), cy + innerR * Math.sin(endA),
+      "A", innerR, innerR, 0, 0, 0, cx + innerR * Math.cos(startA), cy + innerR * Math.sin(startA),
+      "Z"
+    ].join(" ");
+    const lx = cx + labelR * Math.cos(midA);
+    const ly = cx + labelR * Math.sin(midA);
+    const labelColor = lightSegs.includes(theme.id) ? "#1f1f1f" : "#ffffff";
+    const nameParts = theme.name.includes(" & ")
+      ? [theme.name.split(" & ")[0] + " &", theme.name.split(" & ")[1]]
+      : theme.name.split(" ").length > 1
+        ? [theme.name.split(" ").slice(0, Math.ceil(theme.name.split(" ").length/2)).join(" "), theme.name.split(" ").slice(Math.ceil(theme.name.split(" ").length/2)).join(" ")]
+        : [theme.name];
+    return { ...theme, d, lx, ly, labelColor, nameParts, color: segColors[theme.id] || "#4e5b73", isHovered: hoveredTheme === theme.id };
+  });
+  const steps = [
+    { num: 1, title: "Assess", desc: "Rate 47 metrics across 10 growth themes using a 3-level maturity scale" },
+    { num: 2, title: "Benchmark", desc: "Compare against M&A-ready PSF benchmarks from 20+ industry sources" },
+    { num: 3, title: "Identify", desc: "Pinpoint strengths, gaps, and strategic priorities ranked by impact" },
+    { num: 4, title: "Act", desc: "Follow improvement roadmaps and scenario models to grow firm value" }
+  ];
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      {/* Hero Section */}
-      <div className="text-center py-12 mb-8">
-        <div className="w-16 h-16 rounded-2xl bg-blue-900 flex items-center justify-center mx-auto mb-6">
-          <Target size={32} className="text-white" />
+    <div className="min-h-screen" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+      {/* HERO */}
+      <div className="flex flex-col items-center justify-center px-6 pt-10 pb-12" style={{ background: "linear-gradient(170deg, #1f1f1f 0%, #2a2a2a 55%, #333 100%)", minHeight: "calc(100vh - 64px)" }}>
+        <div className="text-center max-w-xl mb-8" style={{ position: "relative", zIndex: 2 }}>
+          <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-5 uppercase tracking-wider" style={{ background: "rgba(242,167,27,0.15)", border: "1px solid rgba(242,167,27,0.3)", color: "#f2a71b" }}>
+            M&A Due Diligence Platform
+          </div>
+          <h1 className="text-4xl font-extrabold text-white mb-3 uppercase tracking-tight leading-tight" style={{ letterSpacing: "-0.03em" }}>
+            Assess. Benchmark.<br /><span style={{ color: "#f2a71b" }}>Grow Value.</span>
+          </h1>
+          <p className="text-base leading-relaxed" style={{ color: "#c5c5c5", maxWidth: 480, margin: "0 auto" }}>
+            A structured framework that evaluates professional services firms across 10 growth themes and 47 metrics — benchmarked against M&A-ready standards.
+          </p>
         </div>
-        <h1 className="text-4xl font-bold text-gray-800 mb-3">Growth Drivers Maturity Framework</h1>
-        <p className="text-lg text-gray-500 mb-2">Assess. Benchmark. Grow.</p>
-        <p className="text-sm text-gray-400 max-w-2xl mx-auto mb-8">
-          A structured M&A due diligence assessment platform that evaluates professional services firms
-          across 10 growth themes and 47 metrics, benchmarked against industry standards.
-        </p>
-        <button
-          onClick={onGetStarted}
-          className="bg-blue-600 text-white px-8 py-3 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
-        >
-          Get Started
-        </button>
-      </div>
-
-      {/* How It Works */}
-      <div className="grid grid-cols-3 gap-4 mb-10">
-        {[
-          { icon: ClipboardCheck, title: "1. Assess", desc: "Rate 47 metrics across 10 growth themes using a 3-level maturity scale" },
-          { icon: BarChart3, title: "2. Benchmark", desc: "Compare performance against M&A-ready PSF benchmarks" },
-          { icon: TrendingUp, title: "3. Identify", desc: "Pinpoint strengths, improvement areas, and strategic priorities" }
-        ].map((step, i) => (
-          <div key={i} className="bg-white rounded-lg border border-gray-200 p-5 text-center">
-            <step.icon size={24} className="text-blue-600 mx-auto mb-3" />
-            <h3 className="text-sm font-bold text-gray-700 mb-1">{step.title}</h3>
-            <p className="text-xs text-gray-500">{step.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Growth Themes Grid */}
-      <h2 className="text-lg font-bold text-gray-700 mb-4 text-center">10 Growth Themes</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
-        {FRAMEWORK.themes.map(t => (
-          <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-3 text-center hover:shadow-md transition-shadow">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-2" style={{backgroundColor: t.color + '15'}}>
-              <div className="text-sm" style={{color: t.color}}>
-                {t.metrics.length}
-              </div>
+        {/* FRAMEWORK WHEEL */}
+        <div style={{ width: 440, height: 440, position: "relative", zIndex: 2 }} className="mb-6">
+          <svg viewBox="0 0 520 520" style={{ width: "100%", height: "100%" }}>
+            <defs>
+              <filter id="wheelGlow"><feGaussianBlur stdDeviation="2" result="cb"/><feMerge><feMergeNode in="cb"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            {themeSegments.map(seg => (
+              <g key={seg.id} style={{ cursor: "pointer" }} onMouseEnter={() => setHoveredTheme(seg.id)} onMouseLeave={() => setHoveredTheme(null)}>
+                <path d={seg.d} fill={seg.color} stroke="#1f1f1f" strokeWidth="2" style={{ opacity: seg.isHovered ? 1 : 0.9, filter: seg.isHovered ? "brightness(1.15)" : "none", transition: "all 0.3s" }} />
+                {seg.nameParts.map((part, pi) => (
+                  <text key={pi} x={seg.lx} y={seg.ly + (pi - (seg.nameParts.length - 1) / 2) * 13} textAnchor="middle" dominantBaseline="central" fill={seg.labelColor} style={{ fontSize: 10, fontWeight: 600, fontFamily: "'Montserrat', sans-serif", pointerEvents: "none" }}>{part}</text>
+                ))}
+              </g>
+            ))}
+            {/* EBITDA ring */}
+            <circle cx="260" cy="260" r="133.5" fill="none" stroke="rgba(242,167,27,0.18)" strokeWidth="37" />
+            <text x="260" y="126" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.75)" style={{ fontSize: 11, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>EBITDA</text>
+            <text x="260" y="394" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.75)" style={{ fontSize: 11, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>EBITDA</text>
+            {/* MULTIPLE ring */}
+            <circle cx="260" cy="260" r="92.5" fill="none" stroke="rgba(242,167,27,0.08)" strokeWidth="41" />
+            <text x="352" y="260" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.55)" style={{ fontSize: 9, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>MULTIPLE</text>
+            <text x="168" y="260" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.55)" style={{ fontSize: 9, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>MULTIPLE</text>
+            {/* Center */}
+            <circle cx="260" cy="260" r="48" fill="#1f1f1f" stroke="#f2a71b" strokeWidth="2.5" filter="url(#wheelGlow)" />
+            <text x="260" y="260" textAnchor="middle" dominantBaseline="central" fill="#f2a71b" style={{ fontSize: 20, fontWeight: 800, fontFamily: "'Montserrat', sans-serif", letterSpacing: 3 }}>VALUE</text>
+          </svg>
+        </div>
+        {/* Hover tooltip */}
+        {hoveredTheme && (() => {
+          const t = FRAMEWORK.find(f => f.id === hoveredTheme);
+          return t ? (
+            <div className="text-center mb-2" style={{ color: "#f2a71b", fontWeight: 600, fontSize: 14 }}>
+              {t.name} — {t.metrics.length} metrics
             </div>
-            <p className="text-xs font-medium text-gray-700 leading-tight">{t.name}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{t.metrics.length} metrics</p>
+          ) : null;
+        })()}
+
+        {/* CTA */}
+        <div className="flex gap-3" style={{ position: "relative", zIndex: 2 }}>
+          <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "#f2a71b", color: "#1f1f1f", border: "none", boxShadow: "0 4px 16px rgba(242,167,27,0.3)", letterSpacing: "0.02em", fontFamily: "'Montserrat', sans-serif" }}>
+            Start Assessment
+          </button>
+          <button onClick={onGetStarted} className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", fontFamily: "'Montserrat', sans-serif" }}>
+            View Demo Firms
+          </button>
+        </div>
+      </div>
+
+      {/* HOW IT WORKS */}
+      <div className="py-16 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-1 uppercase" style={{ color: "#1f1f1f", letterSpacing: "-0.02em" }}>How It Works</h2>
+          <p className="text-center text-sm mb-10" style={{ color: "#4e5b73" }}>Four steps from assessment to actionable insight</p>
+          <div className="grid grid-cols-4 gap-5">
+            {steps.map((s, i) => (
+              <div key={i} className="text-center p-5 rounded-xl relative" style={{ background: "#f9f9f9", border: "1px solid #e5e5e5" }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: "#f2a71b", color: "#1f1f1f", fontWeight: 800, fontSize: 16, fontFamily: "'Montserrat', sans-serif" }}>{s.num}</div>
+                <h3 className="text-sm font-bold mb-1 uppercase" style={{ color: "#1f1f1f", fontFamily: "'Montserrat', sans-serif", letterSpacing: "0.02em" }}>{s.title}</h3>
+                <p className="text-xs leading-relaxed" style={{ color: "#4e5b73" }}>{s.desc}</p>
+                {i < 3 && <span className="absolute -right-3.5 top-1/2 -translate-y-1/2 text-gray-300">&#8594;</span>}
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+      </div>
+      {/* 10 THEMES GRID */}
+      <div className="py-16 px-6" style={{ background: "#1f1f1f" }}>
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-1 uppercase text-white" style={{ letterSpacing: "-0.02em" }}>10 Growth Themes</h2>
+          <p className="text-center text-sm mb-10" style={{ color: "#4e5b73" }}>The drivers of EBITDA and Multiple that determine firm value</p>
+          <div className="grid grid-cols-5 gap-3">
+            {FRAMEWORK.map(theme => (
+              <div key={theme.id} className="rounded-lg p-4 text-center cursor-pointer" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", transition: "all 0.3s" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(242,167,27,0.12)"; e.currentTarget.style.borderColor = "rgba(242,167,27,0.3)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; }}>
+                <div className="text-xl mb-1">{theme.icon}</div>
+                <div className="text-xs font-semibold mb-0.5" style={{ color: "#e5e5e5", fontFamily: "'Montserrat', sans-serif" }}>{theme.name}</div>
+                <div className="text-xs" style={{ color: "#4e5b73" }}>{theme.metrics.length} metrics</div>
+                <div className="mt-2 h-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <div className="h-full rounded-full" style={{ background: "#f2a71b", width: (theme.metrics.length / 7 * 100) + "%" }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
 function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments }) {
   const [showCreate, setShowCreate] = useState(false);
   const [name, setName] = useState("");
@@ -2263,7 +2345,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                         <div className="text-xs text-gray-400">{latestScores.ratedCount}/{latestScores.totalMetrics} rated</div>
                       </div>
                     )}
-                    {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-blue-600 p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
+                    {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
                     <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
                       <Trash2 size={14} />
                     </button>
@@ -2334,13 +2416,13 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                       <div className="text-lg font-bold" style={{ color: scores.pct >= 66 ? "#1E8449" : scores.pct >= 33 ? "#B7950B" : "#922B21" }}>{scores.pct}%</div>
                       <div className="text-xs text-gray-400">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
-                  <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-blue-600 transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
+                  <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
                   <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
                     <ChevronRight size={16} className="text-gray-300" />
                   </div>
                 </div>
                 <div className="mt-2 bg-gray-100 rounded-full h-1.5">
-                  <div className="h-1.5 rounded-full bg-blue-500 transition-all" style={{ width: `${(scores.ratedCount / scores.totalMetrics) * 100}%` }} />
+                  <div className="h-1.5 rounded-full bg-amber-900/100 transition-all" style={{ width: `${(scores.ratedCount / scores.totalMetrics) * 100}%` }} />
                 </div>
               </div>
             );
@@ -2381,7 +2463,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             </div>
             <div className="text-right">
               <div className="text-xs text-gray-400">Overall</div>
-              <div className="text-sm font-bold text-blue-600">
+              <div className="text-sm font-bold text-[#f2a71b]">
                 <AnimatedNumber value={scores.pct} suffix="%" /> ({scores.ratedCount}/{scores.totalMetrics})
               </div>
             </div>
@@ -2411,7 +2493,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
 function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
   const getColor = () => {
     if (readinessLevel === "M&A Ready") return { text: "text-green-700", bg: "bg-green-50", border: "border-green-300", ring: "stroke-green-500" };
-    if (readinessLevel === "Nearly Ready") return { text: "text-blue-700", bg: "bg-blue-50", border: "border-blue-300", ring: "stroke-blue-500" };
+    if (readinessLevel === "Nearly Ready") return { text: "text-blue-700", bg: "bg-amber-900/10", border: "border-blue-300", ring: "stroke-blue-500" };
     if (readinessLevel === "In Progress") return { text: "text-amber-700", bg: "bg-amber-50", border: "border-amber-300", ring: "stroke-amber-500" };
     return { text: "text-orange-700", bg: "bg-orange-50", border: "border-orange-300", ring: "stroke-orange-500" };
   };
@@ -2500,7 +2582,7 @@ function TrendAnalysisPanel({ firmAssessments }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <div className="flex items-center gap-2 mb-1">
-        <TrendUp size={18} className="text-blue-600" />
+        <TrendUp size={18} className="text-[#f2a71b]" />
         <h3 className="text-lg font-semibold text-slate-900">Maturity Trend</h3>
       </div>
       <p className="text-xs text-gray-500 mb-5">Overall maturity progression across {sorted.length} assessments</p>
@@ -2579,9 +2661,9 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
                 <span className="text-lg font-bold" style={{color: borderColor}}>{item.pct}%</span>
               </div>
               <div className="mb-2"><div className="flex justify-between text-xs text-gray-500 mb-1"><span>Current</span><span>Target: {item.benchmark}%</span></div>
-                <div className="w-full bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-blue-500" style={{width: Math.min(100, item.pct / item.benchmark * 100) + "%"}}/></div></div>
+                <div className="w-full bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-amber-900/100" style={{width: Math.min(100, item.pct / item.benchmark * 100) + "%"}}/></div></div>
               <p className="text-sm text-gray-600 mb-2">Gap: <strong>{item.gap}%</strong></p>
-              {item.action && <p className="text-sm bg-blue-50 p-3 rounded text-gray-800">{item.action}</p>}
+              {item.action && <p className="text-sm bg-amber-900/10 p-3 rounded text-gray-800">{item.action}</p>}
             </div>
           ))}
         </div>
@@ -2591,12 +2673,12 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-      <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Target size={20} className="text-blue-600"/> Improvement Roadmap</h3>
+      <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Target size={20} className="text-[#f2a71b]"/> Improvement Roadmap</h3>
       {items.length === 0 ? <p className="text-green-700 bg-green-50 p-4 rounded-lg text-center font-medium">All metrics meet or exceed benchmarks!</p> : (
         <div className="space-y-3">
           {critical.length > 0 && <Group id="critical" title="Critical Priority" bgColor="bg-red-50" textColor="text-red-800" borderColor="#DC2626" groupItems={critical}/>}
           {important.length > 0 && <Group id="important" title="Important" bgColor="bg-amber-50" textColor="text-amber-800" borderColor="#D97706" groupItems={important}/>}
-          {niceToHave.length > 0 && <Group id="nice" title="Nice-to-Have" bgColor="bg-blue-50" textColor="text-blue-800" borderColor="#2563EB" groupItems={niceToHave}/>}
+          {niceToHave.length > 0 && <Group id="nice" title="Nice-to-Have" bgColor="bg-amber-900/10" textColor="text-blue-800" borderColor="#2563EB" groupItems={niceToHave}/>}
         </div>
       )}
     </div>
@@ -2614,8 +2696,8 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-      <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-blue-600"/> Scenario Modelling</h3>
-      <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg mb-4">
+      <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-[#f2a71b]"/> Scenario Modelling</h3>
+      <div className="flex items-center justify-between p-4 bg-amber-900/10 rounded-lg mb-4">
         <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-blue-700">{currentScores.readinessScore}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
         <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-blue-700">{projectedReadiness}%</p></div>
@@ -2677,7 +2759,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
             <p className="text-sm text-gray-500 mb-5">How your firm measures against different industry standards. The highlighted card shows your currently selected benchmark.</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {benchCards.map(bc => (
-                <div key={bc.name} className={`text-center p-4 rounded-xl border-2 transition-all ${bc.name === benchmarkProfile ? "border-blue-500 bg-blue-50 shadow-md" : "border-gray-200 hover:border-gray-300"}`}>
+                <div key={bc.name} className={`text-center p-4 rounded-xl border-2 transition-all ${bc.name === benchmarkProfile ? "border-blue-500 bg-amber-900/10 shadow-md" : "border-gray-200 hover:border-gray-300"}`}>
                   <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
                   <div className="text-3xl font-bold" style={{color: bc.readiness >= 80 ? "#059669" : bc.readiness >= 60 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 80 ? "bg-green-100 text-green-700" : bc.readiness >= 60 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
@@ -2723,7 +2805,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
         <div className="space-y-6">
           {firmAssess.length < 2 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
-              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-blue-500" size={28} /></div>
+              <div className="w-16 h-16 bg-amber-900/10 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-blue-500" size={28} /></div>
               <h3 className="font-semibold text-lg mb-2 text-gray-900">One Assessment Available</h3>
               <p className="text-gray-500 mb-4 max-w-md mx-auto">Create additional assessments to compare results across different assessors or track progress over time.</p>
               <div className="flex gap-6 justify-center text-sm text-gray-400">
@@ -2856,7 +2938,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}{SECTOR_BENCHMARK_MAP[firmSector] === k ? " (auto-detected)" : ""}</option>)}
         </select>
       </div>
-      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100">Insights</button>
+      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-blue-700 bg-amber-900/10 border border-blue-200 rounded-lg hover:bg-blue-100">Insights</button>
       </div>
       <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
 
@@ -3008,17 +3090,29 @@ export default function App() {
       return { ...prev, firms };
     });
   };
+  
+  // Load Google Fonts for brand typography
+  useEffect(() => {
+    if (!document.getElementById("brand-fonts")) {
+      const link = document.createElement("link");
+      link.id = "brand-fonts";
+      link.rel = "stylesheet";
+      link.href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Arimo:ital,wght@0,400;0,500;0,600;1,400&display=swap";
+      document.head.appendChild(link);
+    }
+  }, []);
+
   return (
-    <div className="h-screen flex flex-col bg-gray-50" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
+    <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-2.5 flex items-center justify-between flex-shrink-0">
+      <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0" style={{ background: "#1f1f1f", borderBottom: "2px solid #f2a71b" }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-900 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#f2a71b" }}">
             <Target size={18} className="text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-bold text-gray-800 leading-tight cursor-pointer hover:text-blue-700 transition-colors" onClick={() => { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
+            <h1 className="text-sm font-bold text-white leading-tight cursor-pointer hover:text-[#f2a71b] transition-colors" onClick={() => { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
             <p className="text-xs text-gray-400">M&A Due Diligence Assessment Platform</p>
           </div>
         </div>
@@ -3029,7 +3123,7 @@ export default function App() {
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 setView(n.id);
-            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-blue-50 text-blue-700" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:bg-gray-100"}`}>
+            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-blue-700" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
               <n.icon size={14} /> {n.label}
             </button>
           ))}
