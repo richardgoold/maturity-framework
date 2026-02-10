@@ -547,7 +547,7 @@ function CompletionPulse({ children, isComplete }) {
 }
 
 // Progress ring with animation
-function AnimatedProgressRing({ progress, size = 80, strokeWidth = 6, color = "#1B4F72" }) {
+function AnimatedProgressRing({ progress, size = 80, strokeWidth = 6, color = "#f2a71b" }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
@@ -631,7 +631,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
           <div className="p-4 border-b border-gray-100">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <AnimatedProgressRing progress={completionPct} color={isAllComplete ? "#10B981" : "#1B4F72"} />
+                <AnimatedProgressRing progress={completionPct} color={isAllComplete ? "#10B981" : "#f2a71b"} />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-lg font-bold text-gray-800">
                     <AnimatedNumber value={completionPct} suffix="%" />
@@ -704,7 +704,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
         /* Collapsed State */
         <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-2">
           <div className="relative w-8 h-8 mx-auto">
-            <AnimatedProgressRing progress={completionPct} size={32} strokeWidth={3} color={isAllComplete ? "#10B981" : "#1B4F72"} />
+            <AnimatedProgressRing progress={completionPct} size={32} strokeWidth={3} color={isAllComplete ? "#10B981" : "#f2a71b"} />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-xs font-bold text-gray-700">{completionPct}</span>
             </div>
@@ -1201,7 +1201,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
     return `
       <div style="margin-bottom: 24px; page-break-inside: avoid;">
-        <h4 style="margin: 0 0 12px 0; color: #1B4F72; font-size: 14px; font-weight: 600;">
+        <h4 style="margin: 0 0 12px 0; color: #1f1f1f; font-size: 14px; font-weight: 600;">
           ${theme.name}
         </h4>
         <div style="display: flex; flex-wrap: wrap;">
@@ -1256,7 +1256,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
         }
 
         .header {
-          border-bottom: 3px solid #1B4F72;
+          border-bottom: 3px solid #1f1f1f;
           padding-bottom: 24px;
           margin-bottom: 32px;
           display: flex;
@@ -1266,7 +1266,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
         .header-left h1 {
           font-size: 28px;
-          color: #1B4F72;
+          color: #1f1f1f;
           margin-bottom: 8px;
           font-weight: 700;
         }
@@ -1320,8 +1320,8 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
         .section h2 {
           font-size: 18px;
-          color: #1B4F72;
-          border-bottom: 2px solid #1B4F72;
+          color: #1f1f1f;
+          border-bottom: 2px solid #1f1f1f;
           padding-bottom: 8px;
           margin-bottom: 16px;
           font-weight: 700;
@@ -1329,7 +1329,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
         .section h3 {
           font-size: 14px;
-          color: #1B4F72;
+          color: #1f1f1f;
           margin-bottom: 12px;
           font-weight: 600;
           margin-top: 16px;
@@ -1377,7 +1377,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
           padding: 12px;
           text-align: left;
           font-weight: 600;
-          color: #1B4F72;
+          color: #1f1f1f;
           font-size: 13px;
           border-bottom: 2px solid #ddd;
         }
@@ -1408,7 +1408,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
           padding: 10px;
           text-align: left;
           font-weight: 600;
-          color: #1B4F72;
+          color: #1f1f1f;
           font-size: 12px;
           border-bottom: 2px solid #ddd;
         }
@@ -1431,7 +1431,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
         .heatmap-item h4 {
           margin: 0 0 12px 0;
-          color: #1B4F72;
+          color: #1f1f1f;
           font-size: 14px;
           font-weight: 600;
         }
@@ -1625,31 +1625,31 @@ const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
   }).join("");
   const strengthsHtml = topStrengths.length ? topStrengths.map((m, i) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155;font-size:12px">${i + 1}. ${m.name}</td><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#64748b;font-size:11px">${m.theme}</td></tr>`).join("") : "<tr><td colspan=2 style=\"text-align:center;color:#94a3b8;padding:8px;font-size:12px\">No strong ratings yet</td></tr>";
   const gapsHtml = topGapsMetric.length ? topGapsMetric.map((m, i) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155;font-size:12px">${i + 1}. ${m.name}</td><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#64748b;font-size:11px">${m.theme}</td></tr>`).join("") : "<tr><td colspan=2 style=\"text-align:center;color:#94a3b8;padding:8px;font-size:12px\">No critical gaps identified</td></tr>";
-  const levelColor = readinessLevel === "M&A Ready" ? "#059669" : readinessLevel === "Nearly Ready" ? "#2563eb" : readinessLevel === "In Progress" ? "#d97706" : "#ea580c";
+  const levelColor = readinessLevel === "M&A Ready" ? "#059669" : readinessLevel === "Nearly Ready" ? "#f2a71b" : readinessLevel === "In Progress" ? "#d97706" : "#ea580c";
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${firmName} - M&A Readiness Summary</title>
   <style>@page{size:A4;margin:0.6in}*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;color:#334155;background:#fff}</style></head><body>
-  <div style="text-align:center;border-bottom:3px solid #1B4F72;padding-bottom:16px;margin-bottom:24px">
-    <h1 style="font-size:22px;color:#1B4F72;margin-bottom:4px">M&A Readiness Executive Summary</h1>
+  <div style="text-align:center;border-bottom:3px solid #1f1f1f;padding-bottom:16px;margin-bottom:24px">
+    <h1 style="font-size:22px;color:#1f1f1f;margin-bottom:4px">M&A Readiness Executive Summary</h1>
     <p style="color:#64748b;font-size:12px">${firmName} | ${firmSector || "Professional Services"} | ${date}</p>
   </div>
-  <div style="background:linear-gradient(135deg,#f0f9ff,#eff6ff);border:2px solid #1B4F72;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px">
+  <div style="background:linear-gradient(135deg,#fffcd1,#fffcd1);border:2px solid #1f1f1f;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px">
     <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px">M&A Readiness Score</div>
     <div style="font-size:56px;font-weight:800;color:${levelColor};margin:8px 0">${readinessScore}%</div>
     <div style="font-size:16px;font-weight:600;color:${levelColor}">${readinessLevel}</div>
     <div style="font-size:11px;color:#94a3b8;margin-top:6px">Overall Maturity: ${overallPct}%</div>
   </div>
   <div style="margin-bottom:24px">
-    <h2 style="font-size:14px;color:#1B4F72;border-bottom:2px solid #1B4F72;padding-bottom:4px;margin-bottom:12px">Theme Maturity Overview</h2>
+    <h2 style="font-size:14px;color:#1f1f1f;border-bottom:2px solid #1f1f1f;padding-bottom:4px;margin-bottom:12px">Theme Maturity Overview</h2>
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">${themeGridHtml}</div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
     <div>
       <h2 style="font-size:14px;color:#059669;border-bottom:2px solid #059669;padding-bottom:4px;margin-bottom:8px">Top Strengths</h2>
-      <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1B4F72;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1B4F72;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${strengthsHtml}</tbody></table>
+      <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${strengthsHtml}</tbody></table>
     </div>
     <div>
       <h2 style="font-size:14px;color:#dc2626;border-bottom:2px solid #dc2626;padding-bottom:4px;margin-bottom:8px">Priority Gaps</h2>
-      <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1B4F72;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1B4F72;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${gapsHtml}</tbody></table>
+      <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${gapsHtml}</tbody></table>
     </div>
   </div>
   <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e2e8f0;text-align:center;font-size:9px;color:#94a3b8">
@@ -1703,11 +1703,11 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
   let html = `<!DOCTYPE html><html><head><title>Detailed Assessment Report - ${firmName}</title>
   <style>
     @page { size: A4; margin: 20mm; }
-    body { font-family: "Segoe UI", system-ui, sans-serif; color: #1e293b; line-height: 1.5; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", system-ui, sans-serif; color: #1f1f1f; line-height: 1.5; margin: 0; padding: 0; }
     .page { page-break-after: always; padding: 40px; min-height: 900px; }
     .page:last-child { page-break-after: auto; }
-    h1 { color: #1e3a5f; font-size: 28px; margin: 0 0 8px; }
-    h2 { color: #1e3a5f; font-size: 22px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin: 24px 0 16px; }
+    h1 { color: #1f1f1f; font-size: 28px; margin: 0 0 8px; }
+    h2 { color: #1f1f1f; font-size: 22px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin: 24px 0 16px; }
     h3 { color: #334155; font-size: 16px; margin: 16px 0 8px; }
     table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
     th { background: #f1f5f9; text-align: left; padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: 600; }
@@ -1716,13 +1716,13 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
     .bar { height: 16px; border-radius: 4px; display: inline-block; vertical-align: middle; }
     .priority-critical { color: #dc2626; font-weight: 600; }
     .priority-important { color: #d97706; font-weight: 600; }
-    .priority-nice { color: #2563eb; }
+    .priority-nice { color: #f2a71b; }
     .footer { text-align: center; color: #94a3b8; font-size: 11px; margin-top: 24px; }
   </style></head><body>`;
 
   // Page 1: Cover
   html += `<div class="page" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-    <div style="margin-bottom:40px;"><div style="width:80px;height:80px;background:#1e3a5f;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;"><span style="color:white;font-size:36px;">&#9678;</span></div>
+    <div style="margin-bottom:40px;"><div style="width:80px;height:80px;background:#1f1f1f;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;"><span style="color:white;font-size:36px;">&#9678;</span></div>
     <h1 style="font-size:36px;margin-bottom:4px;">Growth Drivers Maturity Framework</h1>
     <p style="color:#64748b;font-size:16px;">M&amp;A Due Diligence Assessment Report</p></div>
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:40px;max-width:500px;width:100%;">
@@ -1730,7 +1730,7 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
     <p style="color:#64748b;margin:4px 0;">Sector: ${firmSector || "Professional Services"}</p>
     <p style="color:#64748b;margin:4px 0 24px;">Assessment Date: ${dateStr}</p>
     <div style="display:flex;gap:24px;justify-content:center;">
-    <div><div style="font-size:48px;font-weight:700;color:#1e3a5f;">${pct}%</div><div style="color:#64748b;">Overall Maturity</div></div>
+    <div><div style="font-size:48px;font-weight:700;color:#1f1f1f;">${pct}%</div><div style="color:#64748b;">Overall Maturity</div></div>
     <div><div style="font-size:48px;font-weight:700;color:${levelColor};">${readiness}%</div><div style="color:#64748b;">M&amp;A Readiness</div></div>
     </div><div style="margin-top:16px;"><span class="score-badge" style="background:${levelColor}22;color:${levelColor};">${readinessLevel}</span></div>
     </div>
@@ -1742,7 +1742,7 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
     <h1>Executive Summary</h1>
     <p style="color:#64748b;">${firmName} | ${dateStr} | Benchmark: ${benchmarkProfile}</p>
     <div style="display:flex;gap:24px;margin:20px 0;">
-    <div style="flex:1;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:#16a34a;font-weight:600;">OVERALL MATURITY</div><div style="font-size:36px;font-weight:700;color:#1e3a5f;">${pct}%</div><div style="color:#64748b;">${scores.ratedCount}/${scores.totalMetrics} metrics rated</div></div>
+    <div style="flex:1;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:#16a34a;font-weight:600;">OVERALL MATURITY</div><div style="font-size:36px;font-weight:700;color:#1f1f1f;">${pct}%</div><div style="color:#64748b;">${scores.ratedCount}/${scores.totalMetrics} metrics rated</div></div>
     <div style="flex:1;background:${levelColor}11;border:1px solid ${levelColor}44;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:${levelColor};font-weight:600;">M&amp;A READINESS</div><div style="font-size:36px;font-weight:700;color:${levelColor};">${readiness}%</div><div style="color:#64748b;">${readinessLevel}</div></div>
     </div>
 
@@ -1842,7 +1842,7 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
       </tbody></table>`;
     }
     if (nice.length > 0) {
-      html += `<h2 style="color:#2563eb;border-color:#bfdbfe;">Nice to Have (Gap 1-4%)</h2>
+      html += `<h2 style="color:#f2a71b;border-color:#bfdbfe;">Nice to Have (Gap 1-4%)</h2>
       <table><thead><tr><th>Theme</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
       ${nice.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-nice">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
       </tbody></table>`;
@@ -1951,13 +1951,13 @@ function RadarOverview({ radarData , benchmarkProfile }) {
               return (<text x={x} y={y} textAnchor={textAnchor} fontSize={9} fill="#666">{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? -(lines.length - 1) * 5 : 11}>{l}</tspan>))}</text>);
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
-          <Radar name="Your Firm" dataKey="score" stroke="#1B4F72" fill="#1B4F72" fillOpacity={0.3} strokeWidth={2} />
+          <Radar name="Your Firm" dataKey="score" stroke="#f2a71b" fill="#f2a71b" fillOpacity={0.3} strokeWidth={2} />
           <Radar name="M&A-Ready" dataKey="benchmark" stroke="#D97706" fill="#D97706" fillOpacity={0.05} strokeWidth={2} strokeDasharray="4 4" />
           <Tooltip formatter={(v, name) => [v + '%', name]} />
         </RadarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-1">
-        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1B4F72'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#f2a71b'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
         <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#D97706'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
@@ -2331,7 +2331,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
               <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: "#1B4F72" }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: "#4e5b73" }}>
                       {firm.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
@@ -2543,7 +2543,7 @@ function GapAnalysisPanel({ themeGaps }) {
             </div>
             <div className="relative h-5 bg-gray-100 rounded-full overflow-hidden">
               <div className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
-                style={{ width: `${Math.min(Math.max(g.current, 0), 100)}%`, backgroundColor: g.color || "#1B4F72" }} />
+                style={{ width: `${Math.min(Math.max(g.current, 0), 100)}%`, backgroundColor: g.color || "#4e5b73" }} />
               <div className="absolute top-0 bottom-0 w-0.5 bg-amber-500"
                 style={{ left: `${Math.min(g.target, 100)}%` }}>
                 <div className="absolute -top-5 -translate-x-1/2 text-[9px] font-bold text-amber-600 whitespace-nowrap">{idx === 0 ? `Target ${g.target}%` : ""}</div>
@@ -2593,9 +2593,9 @@ function TrendAnalysisPanel({ firmAssessments }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
             <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#94a3b8" />
             <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} stroke="#94a3b8" />
-            <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "none", borderRadius: 8, color: "#fff", fontSize: 12 }} />
+            <Tooltip contentStyle={{ backgroundColor: "#1f1f1f", border: "none", borderRadius: 8, color: "#fff", fontSize: 12 }} />
             <ReferenceLine y={65} stroke="#D97706" strokeDasharray="6 4" label={{ value: "M&A-Ready", position: "insideTopRight", fill: "#D97706", fontSize: 10 }} />
-            <Line type="monotone" dataKey="overall" stroke="#1B4F72" strokeWidth={3} dot={{ fill: "#1B4F72", r: 5 }} activeDot={{ r: 7 }} name="Overall %" />
+            <Line type="monotone" dataKey="overall" stroke="#f2a71b" strokeWidth={3} dot={{ fill: "#f2a71b", r: 5 }} activeDot={{ r: 7 }} name="Overall %" />
             <Line type="monotone" dataKey="readiness" stroke="#0d9488" strokeWidth={2} strokeDasharray="5 3" dot={{ fill: "#0d9488", r: 4 }} name="Readiness %" />
           </LineChart>
         </ResponsiveContainer>
@@ -2825,7 +2825,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                     <YAxis domain={[0,100]}/>
                     <Tooltip/>
                     <Legend/>
-                    {assessData.map((ad, i) => <Bar key={ad.id} dataKey={ad.date} fill={["#1B4F72","#E67E22","#27AE60","#8E44AD"][i % 4]} />)}
+                    {assessData.map((ad, i) => <Bar key={ad.id} dataKey={ad.date} fill={["#f2a71b","#E67E22","#27AE60","#8E44AD"][i % 4]} />)}
                   </BarChart>
                 </ResponsiveContainer>
               </div>
