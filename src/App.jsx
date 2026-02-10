@@ -2360,19 +2360,19 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}{SECTOR_BENCHMARK_MAP[firmSector] === k ? " (auto-detected)" : ""}</option>)}
         </select>
       </div>
-        <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
+      </div>
+      <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
 
-        {/* M&A Readiness Score Banner */}
-        <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
+      {/* M&A Readiness Score Banner */}
+      <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
 
-        {/* Gap Analysis */}
-        <GapAnalysisPanel themeGaps={scores.themeGaps} />
+      {/* Gap Analysis */}
+      <GapAnalysisPanel themeGaps={scores.themeGaps} />
 
-        {/* Trend Analysis */}
-        <TrendAnalysisPanel firmAssessments={firmAssessments} />
+      {/* Trend Analysis */}
+      <TrendAnalysisPanel firmAssessments={firmAssessments} />
       {/* Score Change History */}
       <ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} />
-      </div>
       {/* Theme Score Summary Strip */}
       <div className="grid grid-cols-5 gap-2 mb-4">
         {FRAMEWORK.themes.map(t => {
