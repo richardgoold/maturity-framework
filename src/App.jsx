@@ -2173,31 +2173,64 @@ function LandingPage({ onGetStarted }) {
           </p>
         </div>
         {/* FRAMEWORK WHEEL */}
-        <div style={{ width: 440, height: 440, position: "relative", zIndex: 2 }} className="mb-6">
-          <svg viewBox="0 0 520 520" style={{ width: "100%", height: "100%" }}>
-            <defs>
-              <filter id="wheelGlow"><feGaussianBlur stdDeviation="2" result="cb"/><feMerge><feMergeNode in="cb"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            {themeSegments.map(seg => (
-              <g key={seg.id} style={{ cursor: "pointer" }} onMouseEnter={() => setHoveredTheme(seg.id)} onMouseLeave={() => setHoveredTheme(null)}>
-                <path d={seg.d} fill={seg.color} stroke="#1f1f1f" strokeWidth="2" style={{ opacity: seg.isHovered ? 1 : 0.9, filter: seg.isHovered ? "brightness(1.15)" : "none", transition: "all 0.3s" }} />
-                {seg.nameParts.map((part, pi) => (
-                  <text key={pi} x={seg.lx} y={seg.ly + (pi - (seg.nameParts.length - 1) / 2) * 13} textAnchor="middle" dominantBaseline="central" fill={seg.labelColor} style={{ fontSize: 10, fontWeight: 600, fontFamily: "'Montserrat', sans-serif", pointerEvents: "none" }}>{part}</text>
-                ))}
-              </g>
-            ))}
-            {/* EBITDA ring */}
-            <circle cx="260" cy="260" r="133.5" fill="none" stroke="rgba(242,167,27,0.18)" strokeWidth="37" />
-            <text x="260" y="126" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.75)" style={{ fontSize: 11, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>EBITDA</text>
-            <text x="260" y="394" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.75)" style={{ fontSize: 11, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>EBITDA</text>
-            {/* MULTIPLE ring */}
-            <circle cx="260" cy="260" r="92.5" fill="none" stroke="rgba(242,167,27,0.08)" strokeWidth="41" />
-            <text x="352" y="260" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.55)" style={{ fontSize: 9, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>MULTIPLE</text>
-            <text x="168" y="260" textAnchor="middle" dominantBaseline="central" fill="rgba(242,167,27,0.55)" style={{ fontSize: 9, fontWeight: 700, fontFamily: "'Montserrat', sans-serif", letterSpacing: 2 }}>MULTIPLE</text>
-            {/* Center */}
-            <circle cx="260" cy="260" r="48" fill="#1f1f1f" stroke="#f2a71b" strokeWidth="2.5" filter="url(#wheelGlow)" />
-            <text x="260" y="260" textAnchor="middle" dominantBaseline="central" fill="#f2a71b" style={{ fontSize: 20, fontWeight: 800, fontFamily: "'Montserrat', sans-serif", letterSpacing: 3 }}>VALUE</text>
-          </svg>
+                <div className="w-full max-w-3xl mx-auto px-4">
+          <div className="text-center mb-6">
+            <div className="inline-block px-8 py-3 border-2 border-amber-400 rounded-lg">
+              <div className="text-amber-400 text-sm tracking-widest mb-1">FIRM</div>
+              <div className="text-white text-3xl font-black tracking-wider">VALUE</div>
+            </div>
+          </div>
+          <div className="flex justify-center mb-4">
+            <div className="w-px h-8 bg-amber-400/50"></div>
+          </div>
+          <div className="flex justify-center gap-16 mb-4">
+            <div className="text-center">
+              <div className="px-6 py-2 border border-gray-600 rounded text-amber-400 font-bold text-sm tracking-widest">EBITDA</div>
+            </div>
+            <div className="text-center">
+              <div className="px-6 py-2 border border-gray-600 rounded text-amber-400 font-bold text-sm tracking-widest">MULTIPLE</div>
+            </div>
+          </div>
+          <div className="flex justify-center mb-6">
+            <div className="w-64 h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
+          </div>
+          <div className="text-center mb-6">
+            <div className="text-gray-500 text-xs tracking-widest uppercase">Driven by 10 Growth Themes</div>
+          </div>
+          <div className="grid grid-cols-5 gap-3 mb-3">
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Financial<br/>Performance</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">People</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Services &<br/>Pricing</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Vision &<br/>Strategy</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Sales &<br/>Pipeline</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-5 gap-3">
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Clients &<br/>Relationships</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Leadership &<br/>Governance</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Cost<br/>Optimisation</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Delivery</div>
+            </div>
+            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
+              <div className="text-white text-xs font-semibold leading-tight">Market<br/>Profile</div>
+            </div>
+          </div>
         </div>
         {/* Hover tooltip */}
         {hoveredTheme && (() => {
@@ -2238,21 +2271,23 @@ function LandingPage({ onGetStarted }) {
         </div>
       </div>
       {/* 10 THEMES GRID */}
-      <div className="py-16 px-6" style={{ background: "#1f1f1f" }}>
+      <div className="py-16 px-6" style={{background: "#1a1a1a"}}>
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-1 uppercase text-white" style={{ letterSpacing: "-0.02em" }}>10 Growth Themes</h2>
-          <p className="text-center text-sm mb-10" style={{ color: "#4e5b73" }}>The drivers of EBITDA and Multiple that determine firm value</p>
-          <div className="grid grid-cols-5 gap-3">
-            {FRAMEWORK.themes.map(theme => (
-              <div key={theme.id} className="rounded-lg p-4 text-center cursor-pointer" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", transition: "all 0.3s" }}
-                onMouseEnter={e => { e.currentTarget.style.background = "rgba(242,167,27,0.12)"; e.currentTarget.style.borderColor = "rgba(242,167,27,0.3)"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; }}>
-                {(() => { const IconComp = ICON_MAP[theme.icon]; return IconComp ? <IconComp size={28} /> : null; })()}
-                <div className="text-xs font-semibold mb-0.5" style={{ color: "#e5e5e5", fontFamily: "'Montserrat', sans-serif" }}>{theme.name}</div>
-                <div className="text-xs" style={{ color: "#4e5b73" }}>{theme.metrics.length} metrics</div>
-                <div className="mt-2 h-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <div className="h-full rounded-full" style={{ background: "#f2a71b", width: (theme.metrics.length / 7 * 100) + "%" }} />
+          <h2 className="text-3xl font-black text-center text-white mb-2 tracking-wide">10 GROWTH THEMES</h2>
+          <p className="text-center text-gray-400 mb-10 text-sm">The drivers of EBITDA and Multiple that determine firm value</p>
+          <div className="grid grid-cols-5 gap-4">
+            {FRAMEWORK.themes.map((theme) => (
+              <div key={theme.id} className="text-center p-4 rounded-lg border border-gray-700/40 bg-gray-800/20">
+                <div className="flex justify-center mb-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: "rgba(242,167,27,0.15)"}}>
+                    {React.createElement((() => {
+                      const icons = {financial: Building2, people: BarChart, services: LayoutDashboard, vision: ChevronUp, sales: ChevronRight, clients: ClipboardCheck, leadership: CheckCircle, cost: Plus, delivery: ChevronDown, market: BarChart};
+                      return icons[theme.id.split("_")[0]] || BarChart;
+                    })(), {size: 18, className: "text-amber-400"})}
+                  </div>
                 </div>
+                <div className="text-white text-xs font-bold tracking-wider uppercase leading-tight mb-2" style={{minHeight: "32px", display: "flex", alignItems: "center", justifyContent: "center"}}>{theme.name}</div>
+                <div className="text-gray-500 text-xs">{theme.metrics.length} metrics</div>
               </div>
             ))}
           </div>
