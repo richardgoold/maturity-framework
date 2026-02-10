@@ -3108,7 +3108,7 @@ export default function App() {
       {/* Header */}
       <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0" style={{ background: "#1f1f1f", borderBottom: "2px solid #f2a71b" }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#f2a71b" }}">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#f2a71b" }}>
             <Target size={18} className="text-white" />
           </div>
           <div>
