@@ -1098,7 +1098,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
     else if (pct >= 33) scoreColor = '#B7950B'; // amber
 
     return `
-      <div style="
+      <div style="display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; 
         background: white;
         border: 1px solid #ddd;
         border-radius: 8px;
