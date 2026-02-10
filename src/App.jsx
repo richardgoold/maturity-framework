@@ -2727,8 +2727,8 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
               <h3 className="font-semibold text-lg mb-2 text-gray-900">One Assessment Available</h3>
               <p className="text-gray-500 mb-4 max-w-md mx-auto">Create additional assessments to compare results across different assessors or track progress over time.</p>
               <div className="flex gap-6 justify-center text-sm text-gray-400">
-                <div className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Multiple assessors</div>
-                <div className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Year-on-year tracking</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-400"/> Multiple assessors</div>
+                <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-400"/> Year-on-year tracking</div>
               </div>
             </div>
           ) : (
