@@ -2640,77 +2640,133 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   );
 }
 
-function PeerComparisonView({ firms, assessments, onBack }) {
-  const [selected, setSelected] = useState([]);
-  const toggle = id => setSelected(s => s.includes(id) ? s.filter(x=>x!==id) : s.length < 4 ? [...s, id] : s);
-
-  const data = selected.map(fid => {
-    const firm = firms.find(f => f.id === fid);
-    const firmAssess = Object.values(assessments).filter(a => a.firmId === firm.id);
-    if (!firmAssess.length) return null;
-    const a = firmAssess[firmAssess.length - 1];
-    const s = calcScores(a.ratings);
-    return { name: firm.name, scores: s, themes: Object.fromEntries(Object.entries(s.themeScores).map(([id, ts]) => [id, ts.pct])) };
-  }).filter(Boolean);
-
-  const chartData = FRAMEWORK.themes.map(theme => {
-    const entry = { theme: theme.name.length > 12 ? theme.name.substring(0,12) + "..." : theme.name };
-    data.forEach(d => { entry[d.name] = d.themes[theme.id] || 0; });
-    return entry;
-  });
-
-  const colors = ["#1B4F72", "#D97706", "#059669", "#DC2626"];
+function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack }) {
+  const [tab, setTab] = useState("benchmark");
+  const firmAssess = Object.values(assessments).filter(a => a.firmId === firmId).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  const assessData = firmAssess.map(a => ({
+    id: a.id,
+    date: new Date(a.createdAt).toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"}),
+    scores: calcScores(a.ratings, BENCHMARK_PROFILES[benchmarkProfile]),
+    ratings: a.ratings
+  }));
+  const latest = assessData[assessData.length - 1];
+  const profileNames = Object.keys(BENCHMARK_PROFILES);
+  const benchCards = latest ? profileNames.map(name => {
+    const s = calcScores(latest.ratings, BENCHMARK_PROFILES[name]);
+    return { name, readiness: s.readinessScore, level: s.readinessLevel, pct: s.pct };
+  }) : [];
+  const actTab = "px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white shadow-sm";
+  const offTab = "px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200";
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold">Peer Comparison</h2>
-        <button onClick={onBack} className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300">Back to Dashboard</button>
+      <div className="flex justify-between items-start">
+        <h2 className="text-2xl font-bold text-gray-900">{firmName} — Insights</h2>
+        <button onClick={onBack} className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 font-medium">Back to Dashboard</button>
       </div>
-      <div className="bg-white p-4 rounded-lg border border-gray-200">
-        <p className="text-sm font-medium text-gray-700 mb-3">Select firms to compare (max 4):</p>
-        <div className="flex flex-wrap gap-2">
-          {firms.map(f => (
-            <label key={f.id} className={"flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-sm " + (selected.includes(f.id) ? "bg-blue-50 border-blue-300 text-blue-800" : "border-gray-200 hover:bg-gray-50")}>
-              <input type="checkbox" checked={selected.includes(f.id)} onChange={() => toggle(f.id)} className="w-3.5 h-3.5"/>
-              {f.name}
-            </label>
-          ))}
-        </div>
+
+      <div className="flex gap-2">
+        <button onClick={() => setTab("benchmark")} className={tab === "benchmark" ? actTab : offTab}>Benchmark Position</button>
+        <button onClick={() => setTab("comparison")} className={tab === "comparison" ? actTab : offTab}>Assessment Comparison</button>
       </div>
-      {data.length >= 2 && (
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
-          <h3 className="font-semibold mb-4">Theme Scores Comparison</h3>
-          <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={chartData} margin={{top:5,right:20,bottom:5,left:0}}>
-              <CartesianGrid strokeDasharray="3 3"/>
-              <XAxis dataKey="theme" tick={{fontSize:11}} interval={0} angle={-20} textAnchor="end" height={60}/>
-              <YAxis domain={[0,100]}/>
-              <Tooltip/>
-              <Legend/>
-              {data.map((d,i) => <Bar key={d.name} dataKey={d.name} fill={colors[i]}/>)}
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-      {data.length >= 2 && (
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
-          <h3 className="font-semibold mb-4">Readiness Summary</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {data.map((d,i) => (
-              <div key={d.name} className="p-4 rounded-lg border-2 text-center" style={{borderColor: colors[i]}}>
-                <p className="text-sm font-medium text-gray-700">{d.name}</p>
-                <p className="text-3xl font-bold mt-1" style={{color: colors[i]}}>{d.scores.readinessScore}%</p>
-                <p className="text-xs text-gray-500 mt-1">{d.scores.overall}%  maturity</p>
-              </div>
-            ))}
+
+      {tab === "benchmark" && latest && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 className="font-semibold text-lg mb-2">Readiness Across Benchmark Profiles</h3>
+            <p className="text-sm text-gray-500 mb-5">How your firm measures against different industry standards. The highlighted card shows your currently selected benchmark.</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {benchCards.map(bc => (
+                <div key={bc.name} className={`text-center p-4 rounded-xl border-2 transition-all ${bc.name === benchmarkProfile ? "border-blue-500 bg-blue-50 shadow-md" : "border-gray-200 hover:border-gray-300"}`}>
+                  <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
+                  <div className="text-3xl font-bold" style={{color: bc.readiness >= 80 ? "#059669" : bc.readiness >= 60 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
+                  <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 80 ? "bg-green-100 text-green-700" : bc.readiness >= 60 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 className="font-semibold text-lg mb-4">Theme-Level Benchmark Gaps</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b-2 border-gray-200">
+                    <th className="text-left py-2.5 px-3 font-semibold text-gray-700">Theme</th>
+                    <th className="text-center py-2.5 px-3 font-semibold text-blue-700">Score</th>
+                    {profileNames.map(n => <th key={n} className="text-center py-2.5 px-2 font-medium text-gray-500 text-xs whitespace-nowrap">{n.length > 14 ? n.substring(0,12) + ".." : n}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {FRAMEWORK.themes.map((theme, idx) => {
+                    const myScore = latest.scores.themeScores[theme.id]?.pct || 0;
+                    return (
+                      <tr key={theme.id} className={`border-b ${idx % 2 === 0 ? "bg-gray-50" : ""}`}>
+                        <td className="py-2 px-3 font-medium text-gray-800">{theme.name}</td>
+                        <td className="text-center py-2 px-3 font-bold text-blue-700">{myScore}%</td>
+                        {profileNames.map(n => {
+                          const bench = BENCHMARK_PROFILES[n][theme.id] || 65;
+                          const gap = myScore - bench;
+                          return <td key={n} className="text-center py-2 px-2"><span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${gap >= 0 ? "text-green-700 bg-green-50" : gap >= -5 ? "text-yellow-700 bg-yellow-50" : "text-red-700 bg-red-50"}`}>{gap >= 0 ? "+" : ""}{gap}</span></td>;
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <p className="text-xs text-gray-400 mt-3">Gap = your score minus the benchmark target. <span className="text-green-600 font-medium">Green</span> = meets/exceeds, <span className="text-yellow-600 font-medium">Amber</span> = within 5%, <span className="text-red-600 font-medium">Red</span> = below benchmark.</p>
           </div>
         </div>
       )}
-      {data.length < 2 && selected.length > 0 && <p className="text-center text-gray-500 py-8">Select at least 2 firms to compare.</p>}
+
+      {tab === "comparison" && (
+        <div className="space-y-6">
+          {firmAssess.length < 2 ? (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-blue-500" size={28} /></div>
+              <h3 className="font-semibold text-lg mb-2 text-gray-900">One Assessment Available</h3>
+              <p className="text-gray-500 mb-4 max-w-md mx-auto">Create additional assessments to compare results across different assessors or track progress over time.</p>
+              <div className="flex gap-6 justify-center text-sm text-gray-400">
+                <div className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Multiple assessors</div>
+                <div className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Year-on-year tracking</div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 className="font-semibold text-lg mb-4">Theme Scores Across Assessments</h3>
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={FRAMEWORK.themes.map(theme => { const entry = { theme: theme.name }; assessData.forEach(ad => { entry[ad.date] = ad.scores.themeScores[theme.id]?.pct || 0; }); return entry; })}>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey="theme" angle={-45} textAnchor="end" height={100} tick={{fontSize:11}}/>
+                    <YAxis domain={[0,100]}/>
+                    <Tooltip/>
+                    <Legend/>
+                    {assessData.map((ad, i) => <Bar key={ad.id} dataKey={ad.date} fill={["#1B4F72","#E67E22","#27AE60","#8E44AD"][i % 4]} />)}
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 className="font-semibold text-lg mb-4">Readiness Progression</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {assessData.map((ad, i) => (
+                    <div key={ad.id} className="text-center p-4 rounded-xl border-2 border-gray-200">
+                      <div className="text-xs text-gray-500 mb-1 font-medium">{ad.date}</div>
+                      <div className="text-3xl font-bold" style={{color: ad.scores.readinessScore >= 80 ? "#059669" : ad.scores.readinessScore >= 60 ? "#D97706" : "#DC2626"}}>{ad.scores.readinessScore}%</div>
+                      <div className="text-xs text-gray-400 mt-1">Overall: {ad.scores.pct}%</div>
+                      {i > 0 && (() => { const ch = ad.scores.readinessScore - assessData[i-1].scores.readinessScore; return <div className={`text-xs mt-1 font-medium ${ch >= 0 ? "text-green-600" : "text-red-600"}`}>{ch >= 0 ? "↑" : "↓"} {Math.abs(ch)}% from previous</div>; })()}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
+
 
 function ScoreChangePanel({ currentAssessment, previousAssessment }) {
   if (!previousAssessment) return (
@@ -2800,7 +2856,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}{SECTOR_BENCHMARK_MAP[firmSector] === k ? " (auto-detected)" : ""}</option>)}
         </select>
       </div>
-      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100">Compare Firms</button>
+      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100">Insights</button>
       </div>
       <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
 
@@ -3020,11 +3076,13 @@ export default function App() {
             />
             )}
         {view === "comparison" && (
-          <PeerComparisonView
+            <InsightsView
+              firmId={dashboardFirm?.id}
+              firmName={dashboardFirm?.name || "Firm"}
               assessments={state.assessments}
-            firms={state.firms}
-            onBack={() => setView("dashboard")}
-          />
+              benchmarkProfile={benchmarkProfile}
+              onBack={() => setView("dashboard")}
+            />
         )}
       </main>
     </div>
