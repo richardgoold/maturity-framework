@@ -2640,14 +2640,15 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   );
 }
 
-function PeerComparisonView({ firms, onBack }) {
+function PeerComparisonView({ firms, assessments, onBack }) {
   const [selected, setSelected] = useState([]);
   const toggle = id => setSelected(s => s.includes(id) ? s.filter(x=>x!==id) : s.length < 4 ? [...s, id] : s);
 
   const data = selected.map(fid => {
     const firm = firms.find(f => f.id === fid);
-    if (!firm?.assessments?.length) return null;
-    const a = firm.assessments[firm.assessments.length - 1];
+    const firmAssess = Object.values(assessments).filter(a => a.firmId === firm.id);
+    if (!firmAssess.length) return null;
+    const a = firmAssess[firmAssess.length - 1];
     const s = calcScores(a.ratings);
     return { name: firm.name, scores: s, themes: Object.fromEntries(Object.entries(s.themeScores).map(([id, ts]) => [id, ts.pct])) };
   }).filter(Boolean);
@@ -2923,7 +2924,7 @@ export default function App() {
       const newState = JSON.parse(JSON.stringify(prev));
       const firm = newState.firms.find(f => f.id === selectedFirmId);
       if (firm) {
-        const assess = firm.assessments.find(a => a.id === selectedAssessmentId);
+        const assess = newState.assessments[selectedAssessmentId];
         if (assess && assess.ratings[metricId]) {
           assess.ratings[metricId].confidence = level;
         }
@@ -2935,7 +2936,7 @@ export default function App() {
   // Get current firm assessments for trend analysis
   const currentFirmAssessments = useMemo(() => {
     const firm = state.firms.find(f => f.id === selectedFirmId);
-    return firm ? firm.assessments : [];
+    return firm ? Object.values(state.assessments).filter(a => a.firmId === firm.id) : [];
   }, [state.firms, selectedFirmId]);
 
 
@@ -3020,6 +3021,7 @@ export default function App() {
             )}
         {view === "comparison" && (
           <PeerComparisonView
+              assessments={state.assessments}
             firms={state.firms}
             onBack={() => setView("dashboard")}
           />
