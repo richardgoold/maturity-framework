@@ -742,10 +742,14 @@ function ScoreGauge({ score, max, label }) {
   );
 }
 
-function MetricCard({ metric, rating, onRate, onComment, onConfidence }) {
+function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence, onEvidence }) {
   const [showComment, setShowComment] = useState(false);
   const [showGuidance, setShowGuidance] = useState(false);
   const confidence = rating?.confidence || null;
+  const [showEvidence, setShowEvidence] = useState(false);
+  const [evidenceType, setEvidenceType] = useState("link");
+  const [evidenceLabel, setEvidenceLabel] = useState("");
+  const [evidenceContent, setEvidenceContent] = useState("");
   const [comment, setComment] = useState(rating?.comment || "");
   const [animatingLevel, setAnimatingLevel] = useState(null);
   const levels = [
@@ -867,6 +871,37 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence }) {
               ))}
             </div>
           </div>
+
+      {/* Evidence Section */}
+      <div className="mt-4 pt-3 border-t border-gray-100">
+        <button onClick={() => setShowEvidence(!showEvidence)} className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900">
+          {showEvidence ? <ChevronUp size={14}/> : <ChevronDown size={14}/>}
+          <span>Evidence ({(evidence||[]).length})</span>
+        </button>
+        {showEvidence && (
+          <div className="mt-3 space-y-2">
+            {(evidence||[]).map((item,idx) => (
+              <div key={idx} className="flex items-start justify-between p-2 bg-gray-50 rounded text-sm">
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-800">{item.label}</p>
+                  {item.type==="link" ? <a href={item.content} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">{item.content}</a> : <p className="text-gray-600 whitespace-pre-wrap">{item.content}</p>}
+                </div>
+                <button onClick={() => onEvidence((evidence||[]).filter((_,i)=>i!==idx))} className="text-red-500 hover:text-red-700 text-xs ml-2">Remove</button>
+              </div>
+            ))}
+            <div className="p-3 bg-blue-50 rounded space-y-2">
+              <div className="flex gap-2">
+                <select value={evidenceType} onChange={e=>setEvidenceType(e.target.value)} className="px-2 py-1 border border-gray-300 rounded text-sm">
+                  <option value="link">Link</option><option value="note">Note</option>
+                </select>
+                <input type="text" placeholder="Label" value={evidenceLabel} onChange={e=>setEvidenceLabel(e.target.value)} className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"/>
+              </div>
+              {evidenceType==="link" ? <input type="url" placeholder="https://..." value={evidenceContent} onChange={e=>setEvidenceContent(e.target.value)} className="w-full px-2 py-1 border border-gray-300 rounded text-sm"/> : <textarea placeholder="Add notes..." value={evidenceContent} onChange={e=>setEvidenceContent(e.target.value)} className="w-full px-2 py-1 border border-gray-300 rounded text-sm" rows="2"/>}
+              <button onClick={() => { if(evidenceLabel&&evidenceContent){onEvidence([...(evidence||[]),{type:evidenceType,label:evidenceLabel,content:evidenceContent}]);setEvidenceLabel("");setEvidenceContent("");}}} className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Add</button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -2086,7 +2121,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   );
 }
 
-function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence }) {
+function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence }) {
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
   const theme = FRAMEWORK.themes.find(t => t.id === selectedTheme);
@@ -2125,7 +2160,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence })
         <div className="p-4">
           {theme.metrics.map((m, i) => (
             <div key={m.id} className="animate-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
-              <MetricCard metric={m} rating={assessment.ratings[m.id]} onRate={onRate} onComment={onComment} onConfidence={onConfidence} />
+              <MetricCard metric={m} rating={assessment.ratings[m.id]} onRate={onRate} onComment={onComment} onConfidence={onConfidence} evidence={assessment.ratings[m.id]?.evidence || []} onEvidence={(ev) => onEvidence(m.id, ev)} />
             </div>
           ))}
         </div>
@@ -2272,6 +2307,179 @@ function TrendAnalysisPanel({ firmAssessments }) {
   );
 }
 
+function ImprovementRoadmap({ assessment, benchmarkProfile }) {
+  const bm = BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"];
+  const scores = calcScores(assessment.ratings, bm);
+  const [expandedGroup, setExpandedGroup] = useState("critical");
+
+  const items = [];
+  FRAMEWORK.themes.forEach(theme => {
+    const themeScore = scores.themes.find(t => t.id === theme.id);
+    const benchmark = bm[theme.id] || 65;
+    theme.metrics.forEach(metric => {
+      const r = assessment.ratings ? Object.entries(assessment.ratings).find(([k]) => k === metric.id) : null;
+      const val = r ? r[1]?.value : null;
+      if (val === null || val === undefined) return;
+      const pct = val * 100 / (metric.weight || 100);
+      const gap = benchmark - pct;
+      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), action: metric.improvementAction });
+    });
+  });
+  items.sort((a, b) => b.gap - a.gap);
+
+  const critical = items.filter(i => i.gap >= 10);
+  const important = items.filter(i => i.gap >= 5 && i.gap < 10);
+  const niceToHave = items.filter(i => i.gap >= 1 && i.gap < 5);
+
+  const Group = ({ id, title, bgColor, textColor, borderColor, groupItems }) => (
+    <div className="rounded-lg border overflow-hidden" style={{borderColor}}>
+      <button onClick={() => setExpandedGroup(expandedGroup === id ? null : id)} className={"w-full px-4 py-3 text-left font-semibold flex items-center justify-between " + bgColor + " " + textColor}>
+        <span>{title}</span>
+        <span className="flex items-center gap-2">
+          <span className="text-xs font-bold bg-white bg-opacity-30 px-2 py-0.5 rounded-full">{groupItems.length}</span>
+          {expandedGroup === id ? <ChevronUp size={18}/> : <ChevronDown size={18}/>}
+        </span>
+      </button>
+      {expandedGroup === id && groupItems.length > 0 && (
+        <div className="p-3 space-y-3 bg-gray-50">
+          {groupItems.map((item, idx) => (
+            <div key={idx} className="bg-white p-4 rounded-lg border border-gray-200">
+              <div className="flex justify-between items-start mb-2">
+                <div><p className="font-medium">{item.metric.name}</p><p className="text-xs text-gray-500">{item.theme}</p></div>
+                <span className="text-lg font-bold" style={{color: borderColor}}>{item.pct}%</span>
+              </div>
+              <div className="mb-2"><div className="flex justify-between text-xs text-gray-500 mb-1"><span>Current</span><span>Target: {item.benchmark}%</span></div>
+                <div className="w-full bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-blue-500" style={{width: Math.min(100, item.pct / item.benchmark * 100) + "%"}}/></div></div>
+              <p className="text-sm text-gray-600 mb-2">Gap: <strong>{item.gap}%</strong></p>
+              {item.action && <p className="text-sm bg-blue-50 p-3 rounded text-gray-800">{item.action}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Target size={20} className="text-blue-600"/> Improvement Roadmap</h3>
+      {items.length === 0 ? <p className="text-green-700 bg-green-50 p-4 rounded-lg text-center font-medium">All metrics meet or exceed benchmarks!</p> : (
+        <div className="space-y-3">
+          {critical.length > 0 && <Group id="critical" title="Critical Priority" bgColor="bg-red-50" textColor="text-red-800" borderColor="#DC2626" groupItems={critical}/>}
+          {important.length > 0 && <Group id="important" title="Important" bgColor="bg-amber-50" textColor="text-amber-800" borderColor="#D97706" groupItems={important}/>}
+          {niceToHave.length > 0 && <Group id="nice" title="Nice-to-Have" bgColor="bg-blue-50" textColor="text-blue-800" borderColor="#2563EB" groupItems={niceToHave}/>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ScenarioPanel({ assessment, benchmarkProfile }) {
+  const currentScores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
+  const [sliders, setSliders] = useState(() => Object.fromEntries(currentScores.themes.map(t => [t.id, t.score])));
+
+  const projectedTotal = Object.values(sliders).reduce((s, v) => s + v, 0);
+  const projectedReadiness = Math.round(projectedTotal / FRAMEWORK.themes.length);
+  const delta = projectedReadiness - currentScores.readiness;
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-blue-600"/> Scenario Modelling</h3>
+      <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg mb-4">
+        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-blue-700">{currentScores.readiness}%</p></div>
+        <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
+        <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-blue-700">{projectedReadiness}%</p></div>
+      </div>
+      <div className="space-y-3 max-h-96 overflow-y-auto">
+        {FRAMEWORK.themes.map(theme => {
+          const current = currentScores.themes.find(t => t.id === theme.id)?.score || 0;
+          return (
+            <div key={theme.id} className="p-3 bg-gray-50 rounded-lg">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm font-medium">{theme.name}</span>
+                <span className="text-sm font-bold" style={{color: sliders[theme.id] !== current ? "#2563EB" : "#6B7280"}}>{sliders[theme.id]}%</span>
+              </div>
+              <input type="range" min="0" max="100" value={sliders[theme.id]} onChange={e => setSliders(p => ({...p, [theme.id]: parseInt(e.target.value)}))} className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"/>
+              <div className="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span>Current: {current}%</span><span>100</span></div>
+            </div>
+          );
+        })}
+      </div>
+      <button onClick={() => setSliders(Object.fromEntries(currentScores.themes.map(t => [t.id, t.score])))} className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
+    </div>
+  );
+}
+
+function PeerComparisonView({ firms, onBack }) {
+  const [selected, setSelected] = useState([]);
+  const toggle = id => setSelected(s => s.includes(id) ? s.filter(x=>x!==id) : s.length < 4 ? [...s, id] : s);
+
+  const data = selected.map(fid => {
+    const firm = firms.find(f => f.id === fid);
+    if (!firm?.assessments?.length) return null;
+    const a = firm.assessments[firm.assessments.length - 1];
+    const s = calcScores(a.ratings);
+    return { name: firm.name, scores: s, themes: Object.fromEntries(s.themes.map(t => [t.name, t.score])) };
+  }).filter(Boolean);
+
+  const chartData = FRAMEWORK.themes.map(theme => {
+    const entry = { theme: theme.name.length > 12 ? theme.name.substring(0,12) + "..." : theme.name };
+    data.forEach(d => { entry[d.name] = d.themes[theme.name] || 0; });
+    return entry;
+  });
+
+  const colors = ["#1B4F72", "#D97706", "#059669", "#DC2626"];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold">Peer Comparison</h2>
+        <button onClick={onBack} className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300">Back to Dashboard</button>
+      </div>
+      <div className="bg-white p-4 rounded-lg border border-gray-200">
+        <p className="text-sm font-medium text-gray-700 mb-3">Select firms to compare (max 4):</p>
+        <div className="flex flex-wrap gap-2">
+          {firms.map(f => (
+            <label key={f.id} className={"flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-sm " + (selected.includes(f.id) ? "bg-blue-50 border-blue-300 text-blue-800" : "border-gray-200 hover:bg-gray-50")}>
+              <input type="checkbox" checked={selected.includes(f.id)} onChange={() => toggle(f.id)} className="w-3.5 h-3.5"/>
+              {f.name}
+            </label>
+          ))}
+        </div>
+      </div>
+      {data.length >= 2 && (
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
+          <h3 className="font-semibold mb-4">Theme Scores Comparison</h3>
+          <ResponsiveContainer width="100%" height={350}>
+            <BarChart data={chartData} margin={{top:5,right:20,bottom:5,left:0}}>
+              <CartesianGrid strokeDasharray="3 3"/>
+              <XAxis dataKey="theme" tick={{fontSize:11}} interval={0} angle={-20} textAnchor="end" height={60}/>
+              <YAxis domain={[0,100]}/>
+              <Tooltip/>
+              <Legend/>
+              {data.map((d,i) => <Bar key={d.name} dataKey={d.name} fill={colors[i]}/>)}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+      {data.length >= 2 && (
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
+          <h3 className="font-semibold mb-4">Readiness Summary</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {data.map((d,i) => (
+              <div key={d.name} className="p-4 rounded-lg border-2 text-center" style={{borderColor: colors[i]}}>
+                <p className="text-sm font-medium text-gray-700">{d.name}</p>
+                <p className="text-3xl font-bold mt-1" style={{color: colors[i]}}>{d.scores.readiness}%</p>
+                <p className="text-xs text-gray-500 mt-1">{d.scores.overall}%  maturity</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {data.length < 2 && selected.length > 0 && <p className="text-center text-gray-500 py-8">Select at least 2 firms to compare.</p>}
+    </div>
+  );
+}
+
 function ScoreChangePanel({ currentAssessment, previousAssessment }) {
   if (!previousAssessment) return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
@@ -2325,7 +2533,7 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
   );
 }
 
-function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange }) {
+function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare }) {
   const scores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const radarData = FRAMEWORK.themes.map(t => ({
     theme: t.name,
@@ -2360,6 +2568,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}{SECTOR_BENCHMARK_MAP[firmSector] === k ? " (auto-detected)" : ""}</option>)}
         </select>
       </div>
+      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100">Compare Firms</button>
       </div>
       <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
 
@@ -2373,6 +2582,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <TrendAnalysisPanel firmAssessments={firmAssessments} />
       {/* Score Change History */}
       <ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} />
+      <ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/>
+      <ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/>
       {/* Theme Score Summary Strip */}
       <div className="grid grid-cols-5 gap-2 mb-4">
         {FRAMEWORK.themes.map(t => {
@@ -2496,6 +2707,19 @@ export default function App() {
     return firm ? firm.assessments : [];
   }, [state.firms, selectedFirmId]);
 
+
+  const handleEvidence = (metricId, newEvidence) => {
+    setState(prev => {
+      const firms = prev.firms.map(f => {
+        if (f.id !== selectedFirmId) return f;
+        return { ...f, assessments: f.assessments.map(a => {
+          if (a.id !== selectedAssessmentId) return a;
+          return { ...a, ratings: { ...a.ratings, [metricId]: { ...(a.ratings[metricId] || {}), evidence: newEvidence } } };
+        })};
+      });
+      return { ...prev, firms };
+    });
+  };
   return (
     <div className="h-screen flex flex-col bg-gray-50" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
@@ -2549,7 +2773,7 @@ export default function App() {
           <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />
         )}
         {view === "assess" && selectedAssessment && (
-          <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} />
+          <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} onEvidence={handleEvidence} />
         )}
         {view === "dashboard" && (dashboardAssessment || selectedAssessment) && (
           <DashboardView
@@ -2560,8 +2784,15 @@ export default function App() {
           firmAssessments={currentFirmAssessments}
               benchmarkProfile={benchmarkProfile}
               onBenchmarkChange={setBenchmarkProfile}
+            onCompare={() => setView("comparison")}
             />
             )}
+        {view === "comparison" && (
+          <PeerComparisonView
+            firms={state.firms}
+            onBack={() => setView("dashboard")}
+          />
+        )}
       </main>
     </div>
   );
