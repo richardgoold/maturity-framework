@@ -2136,14 +2136,14 @@ function OnboardingOverlay({ onComplete }) {
 
 function LandingPage({ onGetStarted }) {
   const [hoveredTheme, setHoveredTheme] = useState(null);
-  const themeSegments = FRAMEWORK.map((theme, i) => {
+  const themeSegments = FRAMEWORK.themes.map((theme, i) => {
     const segColors = {
       financial: "#4e5b73", people: "#6ba7a1", services: "#a4c8e1",
       vision: "#f2a71b", sales: "#d5b79c", clients: "#f4a896",
       leadership: "#a79d94", cost: "#e8c840", delivery: "#c5c5c5", market: "#7a8fa8"
     };
     const lightSegs = ["services","sales","clients","cost","delivery"];
-    const n = FRAMEWORK.length;
+    const n = FRAMEWORK.themes.length;
     const gap = 0.025;
     const cx = 260, cy = 260, outerR = 235, innerR = 152;
     const startA = (i / n) * 2 * Math.PI - Math.PI / 2 + gap / 2;
@@ -2218,7 +2218,7 @@ function LandingPage({ onGetStarted }) {
         </div>
         {/* Hover tooltip */}
         {hoveredTheme && (() => {
-          const t = FRAMEWORK.find(f => f.id === hoveredTheme);
+          const t = FRAMEWORK.themes.find(f => f.id === hoveredTheme);
           return t ? (
             <div className="text-center mb-2" style={{ color: "#f2a71b", fontWeight: 600, fontSize: 14 }}>
               {t.name} — {t.metrics.length} metrics
@@ -2260,7 +2260,7 @@ function LandingPage({ onGetStarted }) {
           <h2 className="text-2xl font-bold text-center mb-1 uppercase text-white" style={{ letterSpacing: "-0.02em" }}>10 Growth Themes</h2>
           <p className="text-center text-sm mb-10" style={{ color: "#4e5b73" }}>The drivers of EBITDA and Multiple that determine firm value</p>
           <div className="grid grid-cols-5 gap-3">
-            {FRAMEWORK.map(theme => (
+            {FRAMEWORK.themes.map(theme => (
               <div key={theme.id} className="rounded-lg p-4 text-center cursor-pointer" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", transition: "all 0.3s" }}
                 onMouseEnter={e => { e.currentTarget.style.background = "rgba(242,167,27,0.12)"; e.currentTarget.style.borderColor = "rgba(242,167,27,0.3)"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; }}>
