@@ -612,7 +612,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
       {/* Toggle button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="absolute -left-3 top-4 w-6 h-6 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-xs hover:bg-blue-700 transition-colors z-10"
+        className="absolute -left-3 top-4 w-6 h-6 bg-[#f2a71b] text-white rounded-full shadow-lg flex items-center justify-center text-xs hover:bg-[#d9950f] transition-colors z-10"
       >
         {isExpanded ? '\u203A' : '\u2039'}
       </button>
@@ -620,7 +620,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
       {isExpanded ? (
         <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
           {/* Header */}
-          <div className={`px-4 py-3 ${isAllComplete ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-blue-600 to-indigo-600'} text-white`}>
+          <div className={`px-4 py-3 ${isAllComplete ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-[#f2a71b] to-indigo-600'} text-white`}>
             <div className="flex items-center justify-between">
               <span className="font-bold text-sm">Live Progress</span>
               {isAllComplete && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full"> Complete!</span>}
@@ -773,18 +773,18 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
                           {metric.question && <p className="text-xs text-[#f2a71b] italic mt-1 mb-1">{metric.question}</p>}
           {metric.guidance && (
             <div className="mt-1 mb-2">
-              <button onClick={() => setShowGuidance(!showGuidance)} className="text-xs text-[#f2a71b] hover:text-blue-800 font-medium inline-flex items-center gap-1">
+              <button onClick={() => setShowGuidance(!showGuidance)} className="text-xs text-[#f2a71b] hover:text-[#d9950f] font-medium inline-flex items-center gap-1">
                 <HelpCircle size={12} />
                 {showGuidance ? "Hide guidance" : "Scoring guidance"}
               </button>
               {showGuidance && (
-                <div className="mt-2 bg-amber-900/10 border-l-4 border-blue-400 p-3 text-xs text-blue-900 rounded-r leading-relaxed">
+                <div className="mt-2 bg-amber-900/10 border-l-4 border-[#f2a71b] p-3 text-xs text-[#1f1f1f] rounded-r leading-relaxed">
                   {metric.guidance}
                 </div>
               )}
             </div>
           )}
-          {metric.weight > 0 && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium transition-transform hover:scale-105">{metric.weight} pts</span>}
+          {metric.weight > 0 && <span className="text-xs bg-[#f2a71b]/10 text-[#f2a71b] px-2 py-0.5 rounded-full font-medium transition-transform hover:scale-105">{metric.weight} pts</span>}
           {metric.weight === 0 && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Supplementary</span>}
           
         </div>
@@ -794,7 +794,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
               <X size={14} />
             </button>
           )}
-          <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-all button-press ${comment ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
+          <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-all button-press ${comment ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
             <MessageSquare size={12} />
             {comment ? "Note" : "Add note"}
           </button>
@@ -840,7 +840,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
               key={v}
               onClick={() => handleRate(v)}
               className={`text-xs px-2 py-0.5 rounded-full transition-all duration-200 button-press ${currentLevel === v
-                ? "bg-blue-600 text-white font-bold scale-110 shadow-md"
+                ? "bg-[#f2a71b] text-white font-bold scale-110 shadow-md"
                 : "bg-gray-200 text-gray-600 hover:bg-gray-300 hover:scale-105"
                 }`}
             >
@@ -852,7 +852,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
 
       {showComment && (
         <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 animate-fade-in">
-          <textarea value={comment} onChange={e => { setComment(e.target.value); onComment(metric.id, e.target.value); }} placeholder="Add evidence notes, reasoning, or commentary..." className="w-full text-xs border border-gray-200 rounded p-2 h-16 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" />
+          <textarea value={comment} onChange={e => { setComment(e.target.value); onComment(metric.id, e.target.value); }} placeholder="Add evidence notes, reasoning, or commentary..." className="w-full text-xs border border-gray-200 rounded p-2 h-16 resize-none focus:outline-none focus:ring-2 focus:ring-[#f2a71b] transition-shadow" />
         </div>
       )}
           {/* Confidence Indicator */}
@@ -897,7 +897,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
                 <input type="text" placeholder="Label" value={evidenceLabel} onChange={e=>setEvidenceLabel(e.target.value)} className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"/>
               </div>
               {evidenceType==="link" ? <input type="url" placeholder="https://..." value={evidenceContent} onChange={e=>setEvidenceContent(e.target.value)} className="w-full px-2 py-1 border border-gray-300 rounded text-sm"/> : <textarea placeholder="Add notes..." value={evidenceContent} onChange={e=>setEvidenceContent(e.target.value)} className="w-full px-2 py-1 border border-gray-300 rounded text-sm" rows="2"/>}
-              <button onClick={() => { if(evidenceLabel&&evidenceContent){onEvidence([...(evidence||[]),{type:evidenceType,label:evidenceLabel,content:evidenceContent}]);setEvidenceLabel("");setEvidenceContent("");}}} className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Add</button>
+              <button onClick={() => { if(evidenceLabel&&evidenceContent){onEvidence([...(evidence||[]),{type:evidenceType,label:evidenceLabel,content:evidenceContent}]);setEvidenceLabel("");setEvidenceContent("");}}} className="px-3 py-1 bg-[#f2a71b] text-white text-sm rounded hover:bg-[#d9950f]">Add</button>
             </div>
           </div>
         )}
@@ -916,10 +916,10 @@ function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
         const s = scores?.themeScores?.[theme.id];
         const active = selectedTheme === theme.id;
         return (
-          <button key={theme.id} onClick={() => onSelect(theme.id)} className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all flex items-center gap-2 ${active ? "bg-amber-900/10 border-l-4 border-l-blue-600" : "hover:bg-gray-50 border-l-4 border-l-transparent"}`}>
+          <button key={theme.id} onClick={() => onSelect(theme.id)} className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all flex items-center gap-2 ${active ? "bg-amber-900/10 border-l-4 border-l-[#f2a71b]" : "hover:bg-gray-50 border-l-4 border-l-transparent"}`}>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className={`text-xs font-semibold truncate ${active ? "text-blue-700" : "text-gray-700"}`}>{theme.name}</span>
+                <span className={`text-xs font-semibold truncate ${active ? "text-[#f2a71b]" : "text-gray-700"}`}>{theme.name}</span>
               </div>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="flex-1 bg-gray-200 rounded-full h-1.5">
@@ -1899,7 +1899,7 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
           Executive Summary (1 Page)
         </button>
         <button onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-[#f2a71b] text-white rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors"
         >
           <FileText size={14} /> Export PDF Report
         </button>
@@ -2025,7 +2025,7 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
 
 function TemplateSelector({ onSelect, onClose }) {
   return (
-    <div className="bg-white rounded-lg border border-blue-200 p-4 mb-4 shadow-lg">
+    <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-4 mb-4 shadow-lg">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-bold text-gray-700 flex items-center gap-2">
           <Copy size={14} /> Start from Template
@@ -2038,11 +2038,11 @@ function TemplateSelector({ onSelect, onClose }) {
           <button
             key={name}
             onClick={() => onSelect(template.ratings)}
-            className="text-left p-3 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-amber-900/10 transition-all group"
+            className="text-left p-3 border border-gray-200 rounded-lg hover:border-[#f2a71b] hover:bg-amber-900/10 transition-all group"
           >
             <div className="flex items-center gap-2 mb-1">
               <span className="text-lg">{template.icon}</span>
-              <span className="text-sm font-semibold text-gray-700 group-hover:text-blue-700">{name}</span>
+              <span className="text-sm font-semibold text-gray-700 group-hover:text-[#f2a71b]">{name}</span>
             </div>
             <p className="text-xs text-gray-500">{template.description}</p>
           </button>
@@ -2115,7 +2115,7 @@ function OnboardingOverlay({ onComplete }) {
         <p className="text-sm text-gray-600 mb-8 leading-relaxed text-center">{s.desc}</p>
         <div className="flex items-center justify-center gap-1.5 mb-8">
           {steps.map((_, i) => (
-            <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === step ? "w-8 bg-blue-600" : "w-1.5 bg-gray-300"}`} />
+            <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === step ? "w-8 bg-[#f2a71b]" : "w-1.5 bg-gray-300"}`} />
           ))}
         </div>
         <div className="flex gap-3">
@@ -2124,7 +2124,7 @@ function OnboardingOverlay({ onComplete }) {
             Skip
           </button>
           <button onClick={() => { if (step < steps.length - 1) setStep(step + 1); else { localStorage.setItem("gdmf_onboarding_complete", "true"); onComplete(); } }}
-            className="flex-1 px-4 py-2.5 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium text-sm transition shadow-sm">
+            className="flex-1 px-4 py-2.5 bg-[#f2a71b] text-white hover:bg-[#d9950f] rounded-lg font-medium text-sm transition shadow-sm">
             {step === steps.length - 1 ? "Get Started" : "Next"}
           </button>
         </div>
@@ -2297,20 +2297,20 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <h1 className="text-2xl font-bold text-gray-800">Firms</h1>
           <p className="text-sm text-gray-500 mt-1">Select a firm to assess or create a new one</p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+        <button onClick={() => setShowCreate(true)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
           <Plus size={16} /> New Firm
         </button>
       </div>
 
       {showCreate && (
-        <div className="bg-white rounded-lg border border-blue-200 p-4 mb-4 shadow-sm">
+        <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-4 mb-4 shadow-sm">
           <h3 className="text-sm font-bold text-gray-700 mb-3">Create New Firm</h3>
           <div className="grid grid-cols-2 gap-3 mb-3">
-            <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" autoFocus />
-            <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" autoFocus />
+            <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" />
           </div>
           <div className="flex gap-2">
-            <button onClick={handleCreate} className="bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-700">Create</button>
+            <button onClick={handleCreate} className="bg-[#f2a71b] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-[#d9950f]">Create</button>
             <button onClick={() => setShowCreate(false)} className="text-gray-500 px-4 py-1.5 rounded text-sm hover:bg-gray-100">Cancel</button>
           </div>
         </div>
@@ -2328,7 +2328,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             const latest = firmAssessments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
             const latestScores = latest ? calcScores(latest.ratings) : null;
             return (
-              <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
+              <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: "#1B4F72" }}>
@@ -2383,7 +2383,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <button onClick={() => setShowTemplates(!showTemplates)} className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
             <Copy size={16} /> From Template
           </button>
-          <button onClick={() => onCreateAssessment(firm.id)} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
+          <button onClick={() => onCreateAssessment(firm.id)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f]">
             <Plus size={16} /> New Assessment
           </button>
         </div>
@@ -2406,7 +2406,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           {firmAssessments.map(a => {
             const scores = calcScores(a.ratings);
             return (
-              <div key={a.id} onClick={() => onSelectAssessment(a.id)} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer">
+              <div key={a.id} onClick={() => onSelectAssessment(a.id)} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-semibold text-gray-800">Assessment - {new Date(a.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</h3>
@@ -2494,7 +2494,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
 function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
   const getColor = () => {
     if (readinessLevel === "M&A Ready") return { text: "text-green-700", bg: "bg-green-50", border: "border-green-300", ring: "stroke-green-500" };
-    if (readinessLevel === "Nearly Ready") return { text: "text-blue-700", bg: "bg-amber-900/10", border: "border-blue-300", ring: "stroke-blue-500" };
+    if (readinessLevel === "Nearly Ready") return { text: "text-[#f2a71b]", bg: "bg-amber-900/10", border: "border-[#f2a71b]/40", ring: "stroke-[#f2a71b]" };
     if (readinessLevel === "In Progress") return { text: "text-amber-700", bg: "bg-amber-50", border: "border-amber-300", ring: "stroke-amber-500" };
     return { text: "text-orange-700", bg: "bg-orange-50", border: "border-orange-300", ring: "stroke-orange-500" };
   };
@@ -2679,7 +2679,7 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
         <div className="space-y-3">
           {critical.length > 0 && <Group id="critical" title="Critical Priority" bgColor="bg-red-50" textColor="text-red-800" borderColor="#DC2626" groupItems={critical}/>}
           {important.length > 0 && <Group id="important" title="Important" bgColor="bg-amber-50" textColor="text-amber-800" borderColor="#D97706" groupItems={important}/>}
-          {niceToHave.length > 0 && <Group id="nice" title="Nice-to-Have" bgColor="bg-amber-900/10" textColor="text-blue-800" borderColor="#2563EB" groupItems={niceToHave}/>}
+          {niceToHave.length > 0 && <Group id="nice" title="Nice-to-Have" bgColor="bg-amber-900/10" textColor="text-[#d9950f]" borderColor="#2563EB" groupItems={niceToHave}/>}
         </div>
       )}
     </div>
@@ -2699,9 +2699,9 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-[#f2a71b]"/> Scenario Modelling</h3>
       <div className="flex items-center justify-between p-4 bg-amber-900/10 rounded-lg mb-4">
-        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-blue-700">{currentScores.readinessScore}%</p></div>
+        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{currentScores.readinessScore}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
-        <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-blue-700">{projectedReadiness}%</p></div>
+        <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{projectedReadiness}%</p></div>
       </div>
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {FRAMEWORK.themes.map(theme => {
@@ -2738,7 +2738,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
     const s = calcScores(latest.ratings, BENCHMARK_PROFILES[name]);
     return { name, readiness: s.readinessScore, level: s.readinessLevel, pct: s.pct };
   }) : [];
-  const actTab = "px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white shadow-sm";
+  const actTab = "px-4 py-2 rounded-lg text-sm font-medium bg-[#f2a71b] text-white shadow-sm";
   const offTab = "px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200";
 
   return (
@@ -2760,7 +2760,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
             <p className="text-sm text-gray-500 mb-5">How your firm measures against different industry standards. The highlighted card shows your currently selected benchmark.</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {benchCards.map(bc => (
-                <div key={bc.name} className={`text-center p-4 rounded-xl border-2 transition-all ${bc.name === benchmarkProfile ? "border-blue-500 bg-amber-900/10 shadow-md" : "border-gray-200 hover:border-gray-300"}`}>
+                <div key={bc.name} className={`text-center p-4 rounded-xl border-2 transition-all ${bc.name === benchmarkProfile ? "border-[#f2a71b] bg-amber-900/10 shadow-md" : "border-gray-200 hover:border-gray-300"}`}>
                   <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
                   <div className="text-3xl font-bold" style={{color: bc.readiness >= 80 ? "#059669" : bc.readiness >= 60 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 80 ? "bg-green-100 text-green-700" : bc.readiness >= 60 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
@@ -2775,7 +2775,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                 <thead>
                   <tr className="border-b-2 border-gray-200">
                     <th className="text-left py-2.5 px-3 font-semibold text-gray-700">Theme</th>
-                    <th className="text-center py-2.5 px-3 font-semibold text-blue-700">Score</th>
+                    <th className="text-center py-2.5 px-3 font-semibold text-[#f2a71b]">Score</th>
                     {profileNames.map(n => <th key={n} className="text-center py-2.5 px-2 font-medium text-gray-500 text-xs whitespace-nowrap">{n.length > 14 ? n.substring(0,12) + ".." : n}</th>)}
                   </tr>
                 </thead>
@@ -2785,7 +2785,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                     return (
                       <tr key={theme.id} className={`border-b ${idx % 2 === 0 ? "bg-gray-50" : ""}`}>
                         <td className="py-2 px-3 font-medium text-gray-800">{theme.name}</td>
-                        <td className="text-center py-2 px-3 font-bold text-blue-700">{myScore}%</td>
+                        <td className="text-center py-2 px-3 font-bold text-[#f2a71b]">{myScore}%</td>
                         {profileNames.map(n => {
                           const bench = BENCHMARK_PROFILES[n][theme.id] || 65;
                           const gap = myScore - bench;
@@ -2806,7 +2806,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
         <div className="space-y-6">
           {firmAssess.length < 2 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
-              <div className="w-16 h-16 bg-amber-900/10 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-blue-500" size={28} /></div>
+              <div className="w-16 h-16 bg-amber-900/10 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-[#f2a71b]" size={28} /></div>
               <h3 className="font-semibold text-lg mb-2 text-gray-900">One Assessment Available</h3>
               <p className="text-gray-500 mb-4 max-w-md mx-auto">Create additional assessments to compare results across different assessors or track progress over time.</p>
               <div className="flex gap-6 justify-center text-sm text-gray-400">
@@ -2935,11 +2935,11 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       {/* Benchmark Profile Selector */}
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
         <label className="text-sm font-medium text-gray-600 whitespace-nowrap">Benchmark Profile:</label>
-        <select value={benchmarkProfile || "M&A-Ready (PSF)"} onChange={e => onBenchmarkChange(e.target.value)} className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <select value={benchmarkProfile || "M&A-Ready (PSF)"} onChange={e => onBenchmarkChange(e.target.value)} className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-[#f2a71b] focus:border-[#f2a71b]">
           {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}{SECTOR_BENCHMARK_MAP[firmSector] === k ? " (auto-detected)" : ""}</option>)}
         </select>
       </div>
-      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-blue-700 bg-amber-900/10 border border-blue-200 rounded-lg hover:bg-blue-100">Insights</button>
+      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
       </div>
       <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
 
@@ -3124,7 +3124,7 @@ export default function App() {
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 setView(n.id);
-            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-blue-700" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
+            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-[#f2a71b]" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
               <n.icon size={14} /> {n.label}
             </button>
           ))}
