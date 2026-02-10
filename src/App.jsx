@@ -1662,7 +1662,231 @@ const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
   setTimeout(() => w.print(), 500);
 };
 
-function ExportPanel({ assessment, firmName, firmSector, scores }) {
+
+function exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile) {
+  const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
+  const dateStr = new Date(assessment.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  const pct = scores.pct;
+  const readiness = scores.readinessScore;
+  const readinessLevel = scores.readinessLevel;
+
+  // Gather theme data
+  const themeData = FRAMEWORK.themes.map(theme => {
+    const ts = scores.themeScores[theme.id];
+    const bp = benchValues[theme.id] || 65;
+    const gap = ts ? ts.pct - bp : 0;
+    const metrics = theme.metrics.map(m => {
+      const r = assessment.ratings[m.id];
+      return { name: m.name, score: r ? r.score : 0, max: 3, comment: r ? r.comment || "" : "", confidence: r ? r.confidence || "" : "", evidence: r ? r.evidence || [] : [], weight: m.weight, action: m.improvementAction || "" };
+    });
+    return { id: theme.id, name: theme.name, color: theme.color, pct: ts ? ts.pct : 0, benchmark: bp, gap, metrics };
+  });
+
+  // Improvement items
+  const improvements = [];
+  themeData.forEach(td => {
+    td.metrics.forEach(m => {
+      const metricPct = Math.round((m.score / m.max) * 100);
+      const gapVal = td.benchmark - metricPct;
+      if (gapVal > 0) improvements.push({ theme: td.name, metric: m.name, pct: metricPct, target: td.benchmark, gap: gapVal, action: m.action });
+    });
+  });
+  improvements.sort((a, b) => b.gap - a.gap);
+
+  // Top strengths and weaknesses
+  const sortedThemes = [...themeData].sort((a, b) => b.gap - a.gap);
+  const strengths = sortedThemes.filter(t => t.gap >= 0).slice(0, 3);
+  const weaknesses = sortedThemes.filter(t => t.gap < 0).sort((a, b) => a.gap - b.gap).slice(0, 3);
+
+  // Build HTML report
+  const levelColor = readiness >= 80 ? "#16a34a" : readiness >= 60 ? "#d97706" : "#dc2626";
+  let html = `<!DOCTYPE html><html><head><title>Detailed Assessment Report - ${firmName}</title>
+  <style>
+    @page { size: A4; margin: 20mm; }
+    body { font-family: "Segoe UI", system-ui, sans-serif; color: #1e293b; line-height: 1.5; margin: 0; padding: 0; }
+    .page { page-break-after: always; padding: 40px; min-height: 900px; }
+    .page:last-child { page-break-after: auto; }
+    h1 { color: #1e3a5f; font-size: 28px; margin: 0 0 8px; }
+    h2 { color: #1e3a5f; font-size: 22px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin: 24px 0 16px; }
+    h3 { color: #334155; font-size: 16px; margin: 16px 0 8px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+    th { background: #f1f5f9; text-align: left; padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: 600; }
+    td { padding: 8px 12px; border: 1px solid #e2e8f0; vertical-align: top; }
+    .score-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-weight: 600; font-size: 13px; }
+    .bar { height: 16px; border-radius: 4px; display: inline-block; vertical-align: middle; }
+    .priority-critical { color: #dc2626; font-weight: 600; }
+    .priority-important { color: #d97706; font-weight: 600; }
+    .priority-nice { color: #2563eb; }
+    .footer { text-align: center; color: #94a3b8; font-size: 11px; margin-top: 24px; }
+  </style></head><body>`;
+
+  // Page 1: Cover
+  html += `<div class="page" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+    <div style="margin-bottom:40px;"><div style="width:80px;height:80px;background:#1e3a5f;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;"><span style="color:white;font-size:36px;">&#9678;</span></div>
+    <h1 style="font-size:36px;margin-bottom:4px;">Growth Drivers Maturity Framework</h1>
+    <p style="color:#64748b;font-size:16px;">M&amp;A Due Diligence Assessment Report</p></div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:40px;max-width:500px;width:100%;">
+    <h2 style="border:none;margin:0 0 16px;font-size:28px;">${firmName}</h2>
+    <p style="color:#64748b;margin:4px 0;">Sector: ${firmSector || "Professional Services"}</p>
+    <p style="color:#64748b;margin:4px 0 24px;">Assessment Date: ${dateStr}</p>
+    <div style="display:flex;gap:24px;justify-content:center;">
+    <div><div style="font-size:48px;font-weight:700;color:#1e3a5f;">${pct}%</div><div style="color:#64748b;">Overall Maturity</div></div>
+    <div><div style="font-size:48px;font-weight:700;color:${levelColor};">${readiness}%</div><div style="color:#64748b;">M&amp;A Readiness</div></div>
+    </div><div style="margin-top:16px;"><span class="score-badge" style="background:${levelColor}22;color:${levelColor};">${readinessLevel}</span></div>
+    </div>
+    <p style="color:#94a3b8;margin-top:40px;font-size:12px;">Benchmark Profile: ${benchmarkProfile}</p>
+  </div>`;
+
+  // Page 2: Executive Summary
+  html += `<div class="page">
+    <h1>Executive Summary</h1>
+    <p style="color:#64748b;">${firmName} | ${dateStr} | Benchmark: ${benchmarkProfile}</p>
+    <div style="display:flex;gap:24px;margin:20px 0;">
+    <div style="flex:1;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:#16a34a;font-weight:600;">OVERALL MATURITY</div><div style="font-size:36px;font-weight:700;color:#1e3a5f;">${pct}%</div><div style="color:#64748b;">${scores.ratedCount}/${scores.totalMetrics} metrics rated</div></div>
+    <div style="flex:1;background:${levelColor}11;border:1px solid ${levelColor}44;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:${levelColor};font-weight:600;">M&amp;A READINESS</div><div style="font-size:36px;font-weight:700;color:${levelColor};">${readiness}%</div><div style="color:#64748b;">${readinessLevel}</div></div>
+    </div>
+
+    <div style="display:flex;gap:24px;margin:20px 0;">
+    <div style="flex:1;"><h3 style="color:#16a34a;">Top Strengths</h3>
+    ${strengths.map(s => `<div style="padding:6px 0;border-bottom:1px solid #f1f5f9;"><strong>${s.name}</strong> <span style="color:#16a34a;font-weight:600;">${s.pct}%</span> <span style="color:#94a3b8;">(+${s.gap}% vs benchmark)</span></div>`).join("")}
+    </div>
+    <div style="flex:1;"><h3 style="color:#dc2626;">Key Gaps</h3>
+    ${weaknesses.length > 0 ? weaknesses.map(w => `<div style="padding:6px 0;border-bottom:1px solid #f1f5f9;"><strong>${w.name}</strong> <span style="color:#dc2626;font-weight:600;">${w.pct}%</span> <span style="color:#94a3b8;">(${w.gap}% vs benchmark)</span></div>`).join("") : "<div style=\"padding:6px 0;color:#16a34a;\">All themes meet or exceed benchmarks!</div>"}
+    </div></div>
+
+    <h2>Theme Overview</h2>
+    <table><thead><tr><th>Theme</th><th>Score</th><th>Benchmark</th><th>Gap</th><th>Status</th></tr></thead><tbody>
+    ${themeData.map(t => `<tr><td><strong>${t.name}</strong></td><td>${t.pct}%</td><td>${t.benchmark}%</td><td style="color:${t.gap >= 0 ? "#16a34a" : "#dc2626"};font-weight:600;">${t.gap >= 0 ? "+" : ""}${t.gap}%</td><td>${t.gap >= 0 ? "&#10003; Above" : "&#9888; Below"}</td></tr>`).join("")}
+    </tbody></table>
+    <div class="footer">Growth Drivers Maturity Framework - Confidential</div>
+  </div>`;
+
+  // Pages 3-4: Theme Detail
+  for (let pageIdx = 0; pageIdx < 2; pageIdx++) {
+    const pageThemes = themeData.slice(pageIdx * 5, (pageIdx + 1) * 5);
+    html += `<div class="page">
+    <h1>Theme Detail ${pageIdx === 0 ? "(1/2)" : "(2/2)"}</h1>
+    <p style="color:#64748b;">${firmName} | ${dateStr}</p>`;
+
+    pageThemes.forEach(td => {
+      html += `<div style="margin:16px 0 12px;border-left:4px solid ${td.color};padding-left:12px;">
+        <h3 style="margin:0;display:flex;justify-content:space-between;"><span>${td.name}</span><span style="color:${td.gap >= 0 ? "#16a34a" : "#dc2626"};font-size:14px;">${td.pct}% (${td.gap >= 0 ? "+" : ""}${td.gap}% vs ${td.benchmark}%)</span></h3>
+      </div>
+      <table><thead><tr><th style="width:35%;">Metric</th><th style="width:10%;">Score</th><th style="width:12%;">Confidence</th><th>Comments</th></tr></thead><tbody>
+      ${td.metrics.map(m => `<tr><td>${m.name}</td><td><span class="score-badge" style="background:${m.score === 3 ? "#dcfce7" : m.score === 2 ? "#fef3c7" : "#fee2e2"};color:${m.score === 3 ? "#16a34a" : m.score === 2 ? "#d97706" : "#dc2626"};">${m.score}/${m.max}</span></td><td>${m.confidence || "-"}</td><td style="font-size:12px;color:#475569;">${m.comment || "-"}</td></tr>`).join("")}
+      </tbody></table>`;
+
+      // Evidence if any
+      const withEvidence = td.metrics.filter(m => m.evidence && m.evidence.length > 0);
+      if (withEvidence.length > 0) {
+        html += `<div style="margin:4px 0 8px;font-size:12px;color:#64748b;"><strong>Evidence:</strong> `;
+        withEvidence.forEach(m => {
+          m.evidence.forEach(e => {
+            html += `<span style="margin-right:8px;">[${m.name}] ${e.label || e.content || ""}</span>`;
+          });
+        });
+        html += `</div>`;
+      }
+    });
+
+    html += `<div class="footer">Growth Drivers Maturity Framework - Confidential</div></div>`;
+  }
+
+  // Page 5: Benchmark Comparison
+  html += `<div class="page">
+    <h1>Benchmark Comparison</h1>
+    <p style="color:#64748b;">Comparing ${firmName} scores against all available benchmark profiles</p>
+    <table><thead><tr><th>Theme</th><th>${firmName}</th>
+    ${Object.keys(BENCHMARK_PROFILES).map(k => `<th>${k}</th>`).join("")}
+    </tr></thead><tbody>
+    ${themeData.map(td => `<tr><td><strong>${td.name}</strong></td><td style="font-weight:600;">${td.pct}%</td>
+    ${Object.entries(BENCHMARK_PROFILES).map(([k, profile]) => {
+      const bv = profile[td.id] || 0;
+      const diff = td.pct - bv;
+      return `<td style="color:${diff >= 0 ? "#16a34a" : "#dc2626"};">${bv}% <span style="font-size:11px;">(${diff >= 0 ? "+" : ""}${diff})</span></td>`;
+    }).join("")}</tr>`).join("")}
+    </tbody></table>
+
+    <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;">
+    <strong>Reading this table:</strong> Each cell shows the benchmark target and the difference from ${firmName}'s score. 
+    <span style="color:#16a34a;">Green</span> indicates the firm meets or exceeds the benchmark. 
+    <span style="color:#dc2626;">Red</span> indicates a gap to close.
+    </div>
+    <div class="footer">Growth Drivers Maturity Framework - Confidential</div>
+  </div>`;
+
+  // Page 6: Improvement Roadmap
+  html += `<div class="page">
+    <h1>Improvement Roadmap</h1>
+    <p style="color:#64748b;">Prioritised actions to close gaps against ${benchmarkProfile} benchmarks</p>`;
+
+  if (improvements.length === 0) {
+    html += `<div style="padding:24px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;margin:24px 0;">
+    <div style="font-size:18px;color:#16a34a;font-weight:600;">All metrics meet or exceed benchmarks!</div>
+    <p style="color:#64748b;">No improvement actions required against the selected benchmark profile.</p></div>`;
+  } else {
+    const critical = improvements.filter(i => i.gap >= 10);
+    const important = improvements.filter(i => i.gap >= 5 && i.gap < 10);
+    const nice = improvements.filter(i => i.gap > 0 && i.gap < 5);
+
+    if (critical.length > 0) {
+      html += `<h2 style="color:#dc2626;border-color:#fecaca;">Critical (Gap &ge; 10%)</h2>
+      <table><thead><tr><th>Theme</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
+      ${critical.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-critical">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
+      </tbody></table>`;
+    }
+    if (important.length > 0) {
+      html += `<h2 style="color:#d97706;border-color:#fde68a;">Important (Gap 5-9%)</h2>
+      <table><thead><tr><th>Theme</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
+      ${important.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-important">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
+      </tbody></table>`;
+    }
+    if (nice.length > 0) {
+      html += `<h2 style="color:#2563eb;border-color:#bfdbfe;">Nice to Have (Gap 1-4%)</h2>
+      <table><thead><tr><th>Theme</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
+      ${nice.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-nice">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
+      </tbody></table>`;
+    }
+  }
+  html += `<div class="footer">Growth Drivers Maturity Framework - Confidential</div></div>`;
+
+  // Page 7: Appendix - Full Metric Scores
+  html += `<div class="page">
+    <h1>Appendix: Full Metric Scores</h1>
+    <p style="color:#64748b;">Complete assessment data for ${firmName} - ${dateStr}</p>
+    <table><thead><tr><th>Theme</th><th>Metric</th><th>Score</th><th>Weight</th><th>Confidence</th></tr></thead><tbody>`;
+
+  themeData.forEach(td => {
+    td.metrics.forEach((m, idx) => {
+      html += `<tr${idx === 0 ? ` style="border-top:2px solid ${td.color};"` : ""}>
+        <td>${idx === 0 ? `<strong style="color:${td.color};">${td.name}</strong>` : ""}</td>
+        <td>${m.name}</td>
+        <td><span class="score-badge" style="background:${m.score === 3 ? "#dcfce7" : m.score === 2 ? "#fef3c7" : "#fee2e2"};color:${m.score === 3 ? "#16a34a" : m.score === 2 ? "#d97706" : "#dc2626"};">${m.score}/${m.max}</span></td>
+        <td>${m.weight}</td>
+        <td>${m.confidence || "-"}</td></tr>`;
+    });
+  });
+
+  html += `</tbody></table>
+    <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;">
+    <strong>Scoring:</strong> 1 = Foundational, 2 = Evolving, 3 = Optimised. Weight determines impact on theme score.
+    </div>
+    <div class="footer" style="margin-top:32px;">
+    <div>Growth Drivers Maturity Framework - Confidential</div>
+    <div style="margin-top:8px;">Generated on ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</div>
+    </div>
+  </div>`;
+
+  html += `</body></html>`;
+
+  // Open and print
+  const w = window.open("", "_blank");
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
+
+function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfile }) {
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
@@ -1684,6 +1908,12 @@ function ExportPanel({ assessment, firmName, firmSector, scores }) {
           className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
         >
           <Download size={14} /> Download CSV
+        </button>
+        <button
+          onClick={() => exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile)}
+          className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all shadow-sm font-medium text-sm col-span-full"
+        >
+          <FileText size={14} /> Detailed Assessment Report
         </button>
       </div>
     </div>
@@ -2377,8 +2607,9 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   const currentScores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const [sliders, setSliders] = useState(() => Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct])));
 
-  const projectedTotal = Object.values(sliders).reduce((s, v) => s + v, 0);
-  const projectedReadiness = Math.round(projectedTotal / FRAMEWORK.themes.length);
+    const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
+    const totalW = FRAMEWORK.themes.reduce((s, t) => s + t.totalWeight, 0);
+    const projectedReadiness = totalW > 0 ? Math.round(FRAMEWORK.themes.reduce((s, theme) => s + theme.totalWeight * Math.min((sliders[theme.id] || 0) / (benchValues[theme.id] || 65), 1.0) * 100, 0) / totalW) : 0;
   const delta = projectedReadiness - currentScores.readinessScore;
 
   return (
@@ -2391,7 +2622,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
       </div>
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {FRAMEWORK.themes.map(theme => {
-          const current = currentScores.themeScores[theme.id]?.pct?.score || 0;
+          const current = currentScores.themeScores[theme.id]?.pct || 0;
           return (
             <div key={theme.id} className="p-3 bg-gray-50 rounded-lg">
               <div className="flex justify-between items-center mb-1">
@@ -2604,7 +2835,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       <div className="mb-4"><StrengthsWeaknesses ratings={assessment.ratings} /></div>
       <div className="mb-4"><HeatmapGrid ratings={assessment.ratings} /></div>
-      <ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} />
+      <ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} />
     </div>
   );
 }
