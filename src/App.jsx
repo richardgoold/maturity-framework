@@ -1626,13 +1626,12 @@ function ExportPanel({ assessment, firmName, firmSector, scores }) {
         <Download size={14} /> Export Assessment
       </h3>
       <div className="flex gap-2">
-        <button
         <button onClick={() => exportExecutiveSummary(assessment, firmName, firmSector, scores)}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg font-medium text-sm transition shadow-sm">
           <FileText size={16} />
           Executive Summary (1 Page)
         </button>
-          onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
+        <button onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
         >
           <FileText size={14} /> Export PDF Report
