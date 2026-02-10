@@ -2162,93 +2162,60 @@ function LandingPage({ onGetStarted }) {
       {/* HERO */}
       <div className="flex flex-col items-center justify-center px-6 pt-10 pb-12" style={{ background: "linear-gradient(170deg, #1f1f1f 0%, #2a2a2a 55%, #333 100%)", minHeight: "calc(100vh - 64px)" }}>
         <div className="text-center max-w-xl mb-8" style={{ position: "relative", zIndex: 2 }}>
-          <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-5 uppercase tracking-wider" style={{ background: "rgba(242,167,27,0.15)", border: "1px solid rgba(242,167,27,0.3)", color: "#f2a71b" }}>
+          <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-5 uppercase tracking-wider" style={{ background: "#1f1f1f", border: "1px solid #f2a71b", color: "#f2a71b" }}>
             M&A Due Diligence Platform
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-3 uppercase tracking-tight leading-tight" style={{ letterSpacing: "-0.03em" }}>
-            Assess. Benchmark.<br /><span style={{ color: "#f2a71b" }}>Grow Value.</span>
+            Assess. Benchmark.<br /><span style={{ color: "#f2a71b" }}>Maximise Value.</span>
           </h1>
           <p className="text-base leading-relaxed" style={{ color: "#c5c5c5", maxWidth: 480, margin: "0 auto" }}>
             A structured framework that evaluates professional services firms across 10 growth themes and 47 metrics — benchmarked against M&A-ready standards.
           </p>
         </div>
-        {/* FRAMEWORK WHEEL */}
-                <div className="w-full max-w-3xl mx-auto px-4">
-          <div className="text-center mb-6">
-            <div className="inline-block px-8 py-3 border-2 border-amber-400 rounded-lg">
-              <div className="text-amber-400 text-sm tracking-widest mb-1">FIRM</div>
-              <div className="text-white text-3xl font-black tracking-wider">VALUE</div>
+        {/* VALUE EQUATION */}
+        <div className="w-full max-w-4xl mx-auto px-4 mb-8">
+          <div className="flex items-start justify-center gap-4">
+            <div className="flex-1 text-center max-w-[220px]">
+              <div className="px-6 py-3 border-2 border-amber-400 rounded-lg mb-3">
+                <div className="text-amber-400 font-black text-xl tracking-widest">EBITDA</div>
+              </div>
+              <div className="w-px h-4 bg-amber-400/40 mx-auto mb-2"></div>
+              <div className="space-y-1">
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">VISION & STRATEGY</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">FINANCIAL PERFORMANCE</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">CLIENTS & RELATIONSHIPS</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">SERVICES & PRICING</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">SALES & PIPELINE</div>
+              </div>
             </div>
-          </div>
-          <div className="flex justify-center mb-4">
-            <div className="w-px h-8 bg-amber-400/50"></div>
-          </div>
-          <div className="flex justify-center gap-16 mb-4">
-            <div className="text-center">
-              <div className="px-6 py-2 border border-gray-600 rounded text-amber-400 font-bold text-sm tracking-widest">EBITDA</div>
+            <div className="text-3xl font-black text-amber-400 pt-3">×</div>
+            <div className="flex-1 text-center max-w-[220px]">
+              <div className="px-6 py-3 border-2 border-amber-400 rounded-lg mb-3">
+                <div className="text-amber-400 font-black text-xl tracking-widest">MULTIPLE</div>
+              </div>
+              <div className="w-px h-4 bg-amber-400/40 mx-auto mb-2"></div>
+              <div className="space-y-1">
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">PEOPLE</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">LEADERSHIP & GOVERNANCE</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">COST OPTIMISATION</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">DELIVERY</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">MARKET PROFILE</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="px-6 py-2 border border-gray-600 rounded text-amber-400 font-bold text-sm tracking-widest">MULTIPLE</div>
-            </div>
-          </div>
-          <div className="flex justify-center mb-6">
-            <div className="w-64 h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent"></div>
-          </div>
-          <div className="text-center mb-6">
-            <div className="text-gray-500 text-xs tracking-widest uppercase">Driven by 10 Growth Themes</div>
-          </div>
-          <div className="grid grid-cols-5 gap-3 mb-3">
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Financial<br/>Performance</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">People</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Services &<br/>Pricing</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Vision &<br/>Strategy</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Sales &<br/>Pipeline</div>
-            </div>
-          </div>
-          <div className="grid grid-cols-5 gap-3 mb-8">
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Clients &<br/>Relationships</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Leadership &<br/>Governance</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Cost<br/>Optimisation</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Delivery</div>
-            </div>
-            <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
-              <div className="text-white text-xs font-semibold leading-tight">Market<br/>Profile</div>
+            <div className="text-3xl font-black text-amber-400 pt-3">=</div>
+            <div className="flex-1 text-center max-w-[220px]">
+              <div className="px-6 py-3 bg-amber-400 rounded-lg">
+                <div className="text-gray-900 font-black text-xl tracking-widest">FIRM VALUE</div>
+              </div>
             </div>
           </div>
         </div>
-        {/* Hover tooltip */}
-        {hoveredTheme && (() => {
-          const t = FRAMEWORK.themes.find(f => f.id === hoveredTheme);
-          return t ? (
-            <div className="text-center mb-2" style={{ color: "#f2a71b", fontWeight: 600, fontSize: 14 }}>
-              {t.name} — {t.metrics.length} metrics
-            </div>
-          ) : null;
-        })()}
-
-        {/* CTA */}
         <div className="flex gap-3" style={{ position: "relative", zIndex: 2 }}>
           <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "#f2a71b", color: "#1f1f1f", border: "none", boxShadow: "0 4px 16px rgba(242,167,27,0.3)", letterSpacing: "0.02em", fontFamily: "'Montserrat', sans-serif" }}>
-            Start Assessment
+            START ASSESSMENT
           </button>
           <button onClick={onGetStarted} className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", fontFamily: "'Montserrat', sans-serif" }}>
-            View Demo Firms
+            VIEW DEMO FIRMS
           </button>
         </div>
       </div>
@@ -2265,21 +2232,6 @@ function LandingPage({ onGetStarted }) {
                 <h3 className="text-sm font-bold mb-1 uppercase" style={{ color: "#1f1f1f", fontFamily: "'Montserrat', sans-serif", letterSpacing: "0.02em" }}>{s.title}</h3>
                 <p className="text-xs leading-relaxed" style={{ color: "#4e5b73" }}>{s.desc}</p>
                 {i < 3 && <span className="absolute -right-3.5 top-1/2 -translate-y-1/2 text-gray-300">&#8594;</span>}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* 10 THEMES GRID */}
-      <div className="py-16 px-6" style={{background: "#1a1a1a"}}>
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black text-center text-white mb-2 tracking-wide">10 GROWTH THEMES</h2>
-          <p className="text-center text-gray-400 mb-10 text-sm">The drivers of EBITDA and Multiple that determine firm value</p>
-          <div className="grid grid-cols-5 gap-4">
-            {FRAMEWORK.themes.map((theme) => (
-              <div key={theme.id} className="text-center p-4 rounded-lg border border-gray-700/40 bg-gray-800/20">
-                <div className="text-white text-xs font-bold tracking-wider uppercase leading-tight mb-2" style={{minHeight: "32px", display: "flex", alignItems: "center", justifyContent: "center"}}>{theme.name}</div>
-                <div className="text-gray-500 text-xs">{theme.metrics.length} metrics</div>
               </div>
             ))}
           </div>
