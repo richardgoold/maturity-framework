@@ -2379,13 +2379,13 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
 
   const projectedTotal = Object.values(sliders).reduce((s, v) => s + v, 0);
   const projectedReadiness = Math.round(projectedTotal / FRAMEWORK.themes.length);
-  const delta = projectedReadiness - currentScores.readiness;
+  const delta = projectedReadiness - currentScores.readinessScore;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-blue-600"/> Scenario Modelling</h3>
       <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg mb-4">
-        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-blue-700">{currentScores.readiness}%</p></div>
+        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-blue-700">{currentScores.readinessScore}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
         <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-blue-700">{projectedReadiness}%</p></div>
       </div>
@@ -2468,7 +2468,7 @@ function PeerComparisonView({ firms, onBack }) {
             {data.map((d,i) => (
               <div key={d.name} className="p-4 rounded-lg border-2 text-center" style={{borderColor: colors[i]}}>
                 <p className="text-sm font-medium text-gray-700">{d.name}</p>
-                <p className="text-3xl font-bold mt-1" style={{color: colors[i]}}>{d.scores.readiness}%</p>
+                <p className="text-3xl font-bold mt-1" style={{color: colors[i]}}>{d.scores.readinessScore}%</p>
                 <p className="text-xs text-gray-500 mt-1">{d.scores.overall}%  maturity</p>
               </div>
             ))}
