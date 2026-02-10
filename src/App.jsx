@@ -1142,14 +1142,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
             ">
               ${firmPct > 20 ? firmPct + '%' : ''}
             </div>
-            ${firmPct <= 20 ? `<div style="position: absolute; left: ${firmPct}%; top: 0; height: 100%; display: flex; align-items: center; color: #333; font-size: 12px; font-weight: 600;">${firmPct}%</div>` : ''}
-          </div>
-        </td>
-        <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right; color: #666; font-size: 14px;">
-          M&A-Ready: ${benchmarkPct}%
-        </td>
-      </tr>
-    `;
+            ${firmPct <= 20 ? `<div style="display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid #eee;"><div style="width:160px;font-size:13px;font-weight:500;padding-top:4px;">${theme.name}</div><div style="flex:1;position:relative;height:48px;"><div style="position:absolute;top:14px;left:0;right:0;height:8px;background:#e5e7eb;border-radius:4px;"></div><div style="position:absolute;top:14px;left:0;width:${firmPct}%;height:8px;background:${scoreColor};border-radius:4px;opacity:0.3;"></div><div style="position:absolute;left:${firmPct}%;top:3px;transform:translateX(-50%);text-align:center;"><div style="width:22px;height:22px;border-radius:50%;background:${scoreColor};border:3px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.25);margin:0 auto;"></div><div style="font-size:10px;font-weight:bold;color:#333;margin-top:1px;">${firmPct}%</div></div><div style="position:absolute;left:${benchmarkPct}%;top:8px;transform:translateX(-50%);"><div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #1f1f1f;"></div><div style="width:2px;height:14px;background:#1f1f1f;margin:0 auto;"></div></div></div></div>`;
   }).join('');
 
   // Build strengths and weaknesses section
@@ -1530,18 +1523,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
       <!-- Benchmark Comparison -->
       <div class="section no-break">
         <h2>${benchmarkSectorDisplay} Benchmark Comparison</h2>
-        <table class="benchmark-table">
-          <thead>
-            <tr>
-              <th>Theme</th>
-              <th style="width: 50%;">Score</th>
-              <th>Average</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${benchmarkRows}
-          </tbody>
-        </table>
+        <div><div style="display:flex;align-items:flex-start;padding-bottom:4px;border-bottom:2px solid #1f1f1f;margin-bottom:4px;"><div style="width:160px;font-size:10px;color:#666;font-weight:600;">Theme</div><div style="flex:1;display:flex;justify-content:space-between;font-size:10px;color:#999;"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div></div><div style="display:flex;align-items:center;gap:16px;padding:6px 0 2px 160px;font-size:10px;color:#666;"><span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f2a71b;border:2px solid white;box-shadow:0 1px 2px rgba(0,0,0,0.2);"></span> Your Score</span><span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #1f1f1f;"></span> ${benchmarkSectorDisplay}</span></div>${benchmarkRows}</div>
       </div>
 
       <!-- Strengths and Weaknesses -->
@@ -1901,21 +1883,21 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
         <button onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
           className="flex items-center gap-2 px-4 py-2 bg-[#f2a71b] text-white rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors"
         >
-          <FileText size={14} /> Export PDF Report
-        </button>
-        <button
-          onClick={() => exportToCSV(assessment, firmName, assessment.ratings)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
-        >
-          <Download size={14} /> Download CSV
+          <FileText size={16} /> Export PDF Report
         </button>
         <button
           onClick={() => exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile)}
           className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all shadow-sm font-medium text-sm col-span-full"
         >
-          <FileText size={14} /> Detailed Assessment Report
+          <FileText size={16} /> Detailed Assessment Report
         </button>
-      </div>
+      </div><button
+          onClick={() => exportToCSV(assessment, firmName, assessment.ratings)}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+        >
+          <Download size={16} /> Download CSV
+        </button>
+        
     </div>
   );
 }
