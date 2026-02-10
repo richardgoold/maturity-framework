@@ -2214,7 +2214,7 @@ function LandingPage({ onGetStarted }) {
               <div className="text-white text-xs font-semibold leading-tight">Sales &<br/>Pipeline</div>
             </div>
           </div>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-5 gap-3 mb-8">
             <div className="text-center py-3 px-1 border border-gray-700/50 rounded bg-gray-800/30">
               <div className="text-white text-xs font-semibold leading-tight">Clients &<br/>Relationships</div>
             </div>
@@ -2278,11 +2278,6 @@ function LandingPage({ onGetStarted }) {
           <div className="grid grid-cols-5 gap-4">
             {FRAMEWORK.themes.map((theme) => (
               <div key={theme.id} className="text-center p-4 rounded-lg border border-gray-700/40 bg-gray-800/20">
-                <div className="flex justify-center mb-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: "rgba(242,167,27,0.15)"}}>
-                    <BarChart size={18} className="text-amber-400" />
-                  </div>
-                </div>
                 <div className="text-white text-xs font-bold tracking-wider uppercase leading-tight mb-2" style={{minHeight: "32px", display: "flex", alignItems: "center", justifyContent: "center"}}>{theme.name}</div>
                 <div className="text-gray-500 text-xs">{theme.metrics.length} metrics</div>
               </div>
