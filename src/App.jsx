@@ -2280,10 +2280,7 @@ function LandingPage({ onGetStarted }) {
               <div key={theme.id} className="text-center p-4 rounded-lg border border-gray-700/40 bg-gray-800/20">
                 <div className="flex justify-center mb-3">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: "rgba(242,167,27,0.15)"}}>
-                    {React.createElement((() => {
-                      const icons = {financial: Building2, people: BarChart, services: LayoutDashboard, vision: ChevronUp, sales: ChevronRight, clients: ClipboardCheck, leadership: CheckCircle, cost: Plus, delivery: ChevronDown, market: BarChart};
-                      return icons[theme.id.split("_")[0]] || BarChart;
-                    })(), {size: 18, className: "text-amber-400"})}
+                    <BarChart size={18} className="text-amber-400" />
                   </div>
                 </div>
                 <div className="text-white text-xs font-bold tracking-wider uppercase leading-tight mb-2" style={{minHeight: "32px", display: "flex", alignItems: "center", justifyContent: "center"}}>{theme.name}</div>
