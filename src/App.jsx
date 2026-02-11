@@ -582,6 +582,22 @@ function AnimatedProgressRing({ progress, size = 80, strokeWidth = 6, color = "#
   );
 }
 
+
+function InfoTooltip({ text }) {
+  const [show, setShow] = useState(false);
+  return (
+    <span className="relative inline-flex ml-1"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+      <Info size={14} className="text-gray-400 hover:text-amber-500 cursor-help" />
+      {show && (
+        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2
+          text-xs text-white bg-gray-800 rounded-lg shadow-lg whitespace-normal
+          w-56 text-center z-50 pointer-events-none">{text}</span>
+      )}
+    </span>
+  );
+}
+
 // Live Assessment Summary Panel (floating sidebar)
 function ConfirmDialog({ title, message, confirmLabel = "Delete", cancelLabel = "Cancel", onConfirm, onCancel, variant = "danger" }) {
   const variantStyles = {
@@ -606,6 +622,21 @@ function ConfirmDialog({ title, message, confirmLabel = "Delete", cancelLabel = 
           <button onClick={onConfirm} className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${style.btn}`}>{confirmLabel}</button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function UndoToast({ message, seconds, onUndo, onExpire }) {
+  const [remaining, setRemaining] = useState(seconds);
+  useEffect(() => {
+    const t = setInterval(() => setRemaining(r => r - 1), 1000);
+    const timeout = setTimeout(onExpire, seconds * 1000);
+    return () => { clearInterval(t); clearTimeout(timeout); };
+  }, []);
+  return (
+    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gray-900 text-white px-4 py-3 rounded-lg shadow-xl animate-in">
+      <span className="text-sm">{message}</span>
+      <button onClick={onUndo} className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded">Undo ({remaining}s)</button>
     </div>
   );
 }
@@ -2278,7 +2309,7 @@ function LandingPage({ onGetStarted }) {
     </div>
   );
 }
-function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments }) {
+function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem }) {
   const [showCreate, setShowCreate] = useState(false);
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
@@ -2357,6 +2388,25 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           })}
         </div>
       )}
+      {recentlyDeleted.length > 0 && (
+        <details className="mt-6">
+          <summary className="flex items-center gap-2 cursor-pointer text-sm text-gray-500 hover:text-gray-700">
+            <Trash2 size={14} />
+            Recently Deleted ({recentlyDeleted.length})
+          </summary>
+          <div className="mt-2 space-y-2">
+            {recentlyDeleted.map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
+                <div>
+                  <span className="text-sm font-medium text-gray-700">{item.name}</span>
+                  <span className="text-xs text-gray-400 ml-2">{item.type} &middot; deleted {new Date(item.timestamp).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>
+                </div>
+                <button onClick={() => restoreItem(item)} className="text-sm text-amber-600 hover:text-amber-800 font-medium">Restore</button>
+              </div>
+            ))}
+          </div>
+        </details>
+      )}
     </div>
   );
 }
@@ -2396,17 +2446,17 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-4 mb-4 flex items-center gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
-              <div className="text-[10px] text-gray-400 uppercase">Score</div>
+              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score \u2014 the unweighted average across all rated metrics and themes" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
               <div className="text-2xl font-bold text-[#f2a71b]">{s.readinessScore}%</div>
-              <div className="text-[10px] text-gray-400 uppercase">M&A Ready</div>
+              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">M&A Ready<InfoTooltip text="Weighted readiness \u2014 each metric is weighted by its importance to M&A readiness based on the selected benchmark" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-700">{s.ratedCount}/{s.totalMetrics}</div>
-              <div className="text-[10px] text-gray-400 uppercase">Rated</div>
+              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Rated<InfoTooltip text="Number of metrics rated out of the total available" /></div>
             </div>
             <div className="flex-1 text-right text-xs text-gray-400">Latest: {new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</div>
           </div>
@@ -3324,41 +3374,77 @@ export default function App() {
   const [dashboardAssessmentId, setDashboardAssessmentId] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("gdmf_onboarding_complete"));
   const [confirmDialog, setConfirmDialog] = useState(null);
+  const [recentlyDeleted, setRecentlyDeleted] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('gdmf_deleted') || '[]'); } catch { return []; }
+  });
+  const [undoToast, setUndoToast] = useState(null);
 
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   useEffect(() => { saveState(state); }, [state]);
+  useEffect(() => { localStorage.setItem('gdmf_deleted', JSON.stringify(recentlyDeleted)); }, [recentlyDeleted]);
+  useEffect(() => { setRecentlyDeleted(rd => rd.filter(item => Date.now() - item.timestamp < 30 * 24 * 60 * 60 * 1000)); }, []);
 
   const createFirm = (firm) => setState(s => ({ ...s, firms: [...s.firms, firm] }));
   const deleteFirm = (id) => {
     const firm = state.firms.find(f => f.id === id);
+    const firmAssessmentsCopy = {};
+    Object.keys(state.assessments).forEach(k => { if (state.assessments[k].firmId === id) firmAssessmentsCopy[k] = state.assessments[k]; });
     setConfirmDialog({
       title: "Delete Firm",
-      message: `Are you sure you want to delete "${firm?.name || "this firm"}" and all its assessments? This action cannot be undone.`,
+      message: `Are you sure you want to delete "${firm?.name || "this firm"}" and all its assessments?`,
       onConfirm: () => {
+        const snapshot = { type: 'firm', id, name: firm?.name || 'Firm', data: { firm, assessments: firmAssessmentsCopy }, timestamp: Date.now() };
+        setRecentlyDeleted(rd => [snapshot, ...rd]);
         setState(s => {
           const assessments = { ...s.assessments };
           Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
           return { firms: s.firms.filter(f => f.id !== id), assessments };
         });
         setConfirmDialog(null);
+        setSelectedFirmId(null);
+        setView("firms");
+        setUndoToast({ message: `"${firm?.name || 'Firm'}" deleted`, onUndo: () => {
+          setState(s => ({ firms: [...s.firms, firm], assessments: { ...s.assessments, ...firmAssessmentsCopy } }));
+          setRecentlyDeleted(rd => rd.filter(item => !(item.type === 'firm' && item.id === id && item.timestamp === snapshot.timestamp)));
+          setUndoToast(null);
+        }, onExpire: () => setUndoToast(null) });
       },
       onCancel: () => setConfirmDialog(null),
     });
   };
   const deleteAssessment = (assessmentId) => {
+    const assessment = state.assessments[assessmentId];
+    const firm = state.firms.find(f => f.id === assessment?.firmId);
     setConfirmDialog({
       title: "Delete Assessment",
-      message: "Are you sure you want to delete this assessment? All ratings and evidence will be permanently removed. This action cannot be undone.",
+      message: "Are you sure you want to delete this assessment? All ratings and evidence will be removed.",
       onConfirm: () => {
+        const snapshot = { type: 'assessment', id: assessmentId, name: `Assessment for ${firm?.name || 'Unknown'}`, data: { assessment: { ...assessment, _key: assessmentId } }, timestamp: Date.now() };
+        setRecentlyDeleted(rd => [snapshot, ...rd]);
         setState(prev => {
           const newAssessments = { ...prev.assessments };
           delete newAssessments[assessmentId];
           return { ...prev, assessments: newAssessments };
         });
         setConfirmDialog(null);
+        setUndoToast({ message: "Assessment deleted", onUndo: () => {
+          setState(s => ({ ...s, assessments: { ...s.assessments, [assessmentId]: assessment } }));
+          setRecentlyDeleted(rd => rd.filter(item => !(item.type === 'assessment' && item.id === assessmentId && item.timestamp === snapshot.timestamp)));
+          setUndoToast(null);
+        }, onExpire: () => setUndoToast(null) });
       },
       onCancel: () => setConfirmDialog(null),
     });
+  };
+
+  const restoreItem = (item) => {
+    if (item.type === 'firm') {
+      setState(s => ({ firms: [...s.firms, item.data.firm], assessments: { ...s.assessments, ...item.data.assessments } }));
+    } else if (item.type === 'assessment') {
+      const a = item.data.assessment;
+      setState(s => ({ ...s, assessments: { ...s.assessments, [a._key]: a } }));
+    }
+    setRecentlyDeleted(rd => rd.filter(r => !(r.id === item.id && r.timestamp === item.timestamp)));
   };
 
   const exportData = () => {
@@ -3499,6 +3585,7 @@ export default function App() {
     <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {confirmDialog && <ConfirmDialog {...confirmDialog} />}
+      {undoToast && <UndoToast message={undoToast.message} seconds={8} onUndo={undoToast.onUndo} onExpire={undoToast.onExpire} />}
       {view === "firms" && (
         <div className="fixed bottom-4 right-4 z-40 flex gap-2">
           <button onClick={exportData} className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 text-sm text-gray-700 transition-colors" title="Export backup">
@@ -3553,7 +3640,7 @@ export default function App() {
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
       {view === "firms" && !selectedFirmId && (
-          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} />
+          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} />
         )}
         {view === "firmDetail" && selectedFirm && (
           <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />
