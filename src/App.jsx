@@ -612,7 +612,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
   const isAllComplete = scores.ratedCount === scores.totalMetrics;
 
   return (
-    <div className={`fixed right-4 top-20 z-50 transition-all duration-300 ${isExpanded ? 'w-72' : 'w-12'}`}>
+    <div className={`sticky top-0 h-fit flex-shrink-0 transition-all duration-300 ${isExpanded ? 'w-72' : 'w-12'}`}>
       {/* Toggle button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -805,7 +805,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-0">
+      <div className="divide-y divide-gray-100">
         {levels.map(l => {
           const selected = currentLevel === l.level;
           const isAnimating = animatingLevel === l.level;
@@ -813,20 +813,19 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
             <button
               key={l.level}
               onClick={() => handleRate(l.level)}
-              className={`relative text-left p-3 border-r last:border-r-0 border-gray-100 transition-all duration-200 hover:bg-opacity-50 ${isAnimating ? 'animate-scale-pop' : ''}`}
+              className={`relative w-full text-left px-4 py-2.5 transition-all duration-200 hover:bg-gray-50 ${isAnimating ? 'animate-scale-pop' : ''}`}
               style={{
                 backgroundColor: selected ? l.bg : "white",
-                borderBottom: selected ? `3px solid ${l.color}` : "3px solid transparent",
+                borderLeft: selected ? `4px solid ${l.color}` : "4px solid transparent",
               }}
             >
-              <div className="flex items-center gap-1.5 mb-1.5">
-                <div className={`transition-transform duration-200 ${selected ? 'scale-110' : ''}`}>
-                  {selected ? <CheckCircle2 size={14} style={{ color: l.color }} /> : <Circle size={14} className="text-gray-300 group-hover:text-gray-400" />}
+              <div className="flex items-center gap-2">
+                <div className={`transition-transform duration-200 flex-shrink-0 ${selected ? 'scale-110' : ''}`}>
+                  {selected ? <CheckCircle2 size={16} style={{ color: l.color }} /> : <Circle size={16} className="text-gray-300" />}
                 </div>
-                <span className="text-xs font-bold uppercase tracking-wide transition-colors" style={{ color: selected ? l.color : "#9CA3AF" }}>{l.label}</span>
+                <span className="text-xs font-bold uppercase tracking-wide flex-shrink-0 w-24" style={{ color: selected ? l.color : "#9CA3AF" }}>{l.label}</span>
+                <p className="text-xs leading-relaxed flex-1" style={{ color: selected ? l.color : "#6B7280" }}>{l.text}</p>
               </div>
-              <p className="text-xs leading-relaxed transition-colors" style={{ color: selected ? l.color : "#6B7280" }}>{l.text}</p>
-              {/* Selection indicator */}
               {selected && (
                 <div className="absolute top-1 right-1 w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: l.color }} />
               )}
@@ -859,22 +858,22 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
           <textarea value={comment} onChange={e => { setComment(e.target.value); onComment(metric.id, e.target.value); }} placeholder="Add evidence notes, reasoning, or commentary..." className="w-full text-xs border border-gray-200 rounded p-2 h-16 resize-none focus:outline-none focus:ring-2 focus:ring-[#f2a71b] transition-shadow" />
         </div>
       )}
-          {/* Confidence Indicator */}
-          <div className="mt-3 pt-3 border-t border-gray-100">
-            <label className="text-xs font-medium text-gray-500 block mb-1.5">Confidence</label>
-            <div className="flex gap-1.5">
-              {["low", "medium", "high"].map(lvl => (
-                <button key={lvl} onClick={() => onConfidence && onConfidence(metric.id, lvl)}
-                  className={`flex-1 py-1 px-2 text-xs font-medium rounded transition-colors ${
-                    confidence === lvl
-                    ? lvl === "high" ? "bg-green-600 text-white" : lvl === "medium" ? "bg-amber-500 text-white" : "bg-orange-500 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}>
-                  {lvl.charAt(0).toUpperCase() + lvl.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
+      {/* Confidence Indicator */}
+      <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100">
+        <label className="text-xs font-medium text-gray-500 block mb-1.5">Confidence</label>
+        <div className="flex gap-1.5">
+          {["low", "medium", "high"].map(lvl => (
+            <button key={lvl} onClick={() => onConfidence && onConfidence(metric.id, lvl)}
+              className={`flex-1 py-1.5 px-3 text-xs font-medium rounded transition-colors text-center ${
+                confidence === lvl
+                ? lvl === "high" ? "bg-green-600 text-white" : lvl === "medium" ? "bg-amber-500 text-white" : "bg-orange-500 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}>
+              {lvl.charAt(0).toUpperCase() + lvl.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Evidence Section */}
       <div className="mt-4 pt-3 border-t border-gray-100">
@@ -1009,7 +1008,7 @@ function StrengthsWeaknesses({ ratings }) {
       </div>
       <div className="bg-white rounded-lg border border-red-200 p-4">
         <h3 className="text-sm font-bold text-red-700 mb-2 flex items-center gap-1"><AlertCircle size={14} /> Key Improvement Areas</h3>
-        <p className="text-xs text-red-600 opacity-70 mb-1 -mt-1">Ranked by improvement potential â highest impact first</p>
+        <p className="text-xs text-red-600 opacity-70 mb-1 -mt-1">Ranked by improvement potential — highest impact first</p>
         {weaknesses.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see areas for improvement</p> : weaknesses.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-red-50 last:border-0">
             <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1">({m.theme})</span></div>
@@ -2063,6 +2062,16 @@ function Breadcrumbs({ view, firmName, onNavigate }) {
   if (view === "dashboard") {
     crumbs.push({ label: "Dashboard", view: "dashboard" });
   }
+  if (view === "insights") {
+    crumbs.push({ label: "Firms", view: "firms" });
+    crumbs.push({ label: firmName || "Firm", view: "firmDetail" });
+    crumbs.push({ label: "Assessment", view: "assess" });
+    crumbs.push({ label: "Dashboard", view: "dashboard" });
+    crumbs.push({ label: "Insights", view: "insights" });
+  }
+  if (view === "guidance") {
+    crumbs.push({ label: "Guidance", view: "guidance" });
+  }
 
   return (
     <div className="px-4 py-1.5 bg-gray-50 border-b border-gray-100 flex items-center gap-1.5 text-xs text-gray-400 flex-shrink-0">
@@ -2218,7 +2227,7 @@ function LandingPage({ onGetStarted }) {
           <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "#f2a71b", color: "#1f1f1f", border: "none", boxShadow: "0 4px 16px rgba(242,167,27,0.3)", letterSpacing: "0.02em", fontFamily: "'Montserrat', sans-serif" }}>
             START ASSESSMENT
           </button>
-          <button onClick={onGetStarted} className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", fontFamily: "'Montserrat', sans-serif" }}>
+          <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "transparent", border: "2px solid #f2a71b", color: "#f2a71b", fontFamily: "'Montserrat', sans-serif", letterSpacing: "0.02em" }}>
             VIEW DEMO FIRMS
           </button>
         </div>
@@ -2426,25 +2435,22 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
   return (
     <div className="flex h-full">
       <ThemeSidebar themes={FRAMEWORK.themes} selectedTheme={selectedTheme} onSelect={handleJumpToTheme} scores={scores} />
-      <div ref={scrollRef} className="flex-1 overflow-y-auto pr-80">
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto">
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={20} /></button>
-            <div>
-              <h2 className="text-lg font-bold text-gray-800">Assessment</h2>
-              <p className="text-xs text-gray-400">{FRAMEWORK.themes.length} themes · {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</p>
-            </div>
+            <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={18} /></button>
+            <h2 className="text-sm font-bold text-gray-800">Assessment</h2>
+            <span className="text-xs text-gray-400">{FRAMEWORK.themes.length} themes · {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</span>
           </div>
-          <div className="text-right">
-            <div className="text-xs text-gray-400">Overall</div>
-            <div className="text-sm font-bold text-[#f2a71b]">
-              <AnimatedNumber value={scores.pct} suffix="%" /> ({scores.ratedCount}/{scores.totalMetrics})
-            </div>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-gray-400">Overall</span>
+            <span className="text-sm font-bold text-[#f2a71b]"><AnimatedNumber value={scores.pct} suffix="%" /></span>
+            <span className="text-xs text-gray-400">({scores.ratedCount}/{scores.totalMetrics})</span>
           </div>
         </div>
         {FRAMEWORK.themes.map((theme) => (
           <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="border-b border-gray-100">
-            <div className="sticky top-[57px] z-[5] bg-gray-50 border-b border-gray-200 px-4 py-3">
+            <div className="sticky top-[41px] z-[5] bg-gray-50 border-b border-gray-200 px-4 py-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   {getThemeIcon(theme.icon, 18)}
@@ -2467,11 +2473,13 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
         ))}
       </div>
       {/* Live Assessment Panel */}
+      <div className="sticky top-0 self-start max-h-screen overflow-y-auto">
       <LiveAssessmentPanel
         scores={scores}
         ratings={assessment.ratings}
         onJumpToTheme={handleJumpToTheme}
       />
+      </div>
     </div>
   );
 }
@@ -2553,10 +2561,9 @@ function GapAnalysisPanel({ themeGaps }) {
 function TrendAnalysisPanel({ firmAssessments }) {
   if (!firmAssessments || firmAssessments.length < 2) {
     return (
-      <div className="bg-slate-50 border border-dashed border-slate-300 rounded-xl p-6 mb-8 text-center">
-        <TrendUp size={24} className="mx-auto text-slate-400 mb-2" />
-        <p className="text-sm text-slate-500 font-medium">Trend analysis requires at least 2 assessments.</p>
-        <p className="text-xs text-slate-400 mt-1">Complete another assessment to unlock historical tracking.</p>
+      <div className="bg-slate-50 border border-dashed border-slate-300 rounded-lg p-3 mb-4 text-center flex items-center justify-center gap-2">
+        <TrendUp size={16} className="text-slate-400" />
+        <p className="text-xs text-slate-400">Complete another assessment to unlock trend analysis and score change history.</p>
       </div>
     );
   }
@@ -2620,7 +2627,7 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
     const benchmark = bm[theme.id] || 65;
     theme.metrics.forEach(metric => {
       const r = assessment.ratings ? Object.entries(assessment.ratings).find(([k]) => k === metric.id) : null;
-      const val = r ? (typeof r[1] === "object" ? r[1]?.value : r[1]) : null;
+      const val = r ? (typeof r[1] === "object" ? r[1]?.level : r[1]) : null;
       if (val === null || val === undefined) return;
       const pct = Math.round((val / 3) * 100);
       const gap = benchmark - pct;
@@ -2678,11 +2685,12 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
 function ScenarioPanel({ assessment, benchmarkProfile }) {
   const currentScores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const [sliders, setSliders] = useState(() => Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct])));
+  const [hasInteracted, setHasInteracted] = useState(false);
 
     const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
     const totalW = FRAMEWORK.themes.reduce((s, t) => s + t.totalWeight, 0);
     const projectedReadiness = totalW > 0 ? Math.round(FRAMEWORK.themes.reduce((s, theme) => s + theme.totalWeight * Math.min((sliders[theme.id] || 0) / (benchValues[theme.id] || 65), 1.0) * 100, 0) / totalW) : 0;
-  const delta = projectedReadiness - currentScores.readinessScore;
+  const delta = hasInteracted ? projectedReadiness - currentScores.readinessScore : 0;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
@@ -2702,13 +2710,13 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
                 <span className="text-sm font-medium">{theme.name}</span>
                 <span className="text-sm font-bold" style={{color: sliders[theme.id] !== current ? "#2563EB" : "#6B7280"}}>{sliders[theme.id]}%</span>
               </div>
-              <input type="range" min="0" max="100" value={sliders[theme.id]} onChange={e => setSliders(p => ({...p, [theme.id]: parseInt(e.target.value)}))} className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"/>
+              <input type="range" min="0" max="100" value={sliders[theme.id]} onChange={e => { setHasInteracted(true); setSliders(p => ({...p, [theme.id]: parseInt(e.target.value)})); }} className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"/>
               <div className="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span>Current: {current}%</span><span>100</span></div>
             </div>
           );
         })}
       </div>
-      <button onClick={() => setSliders(Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct])))} className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
+      <button onClick={() => { setHasInteracted(false); setSliders(Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct]))); }} className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
     </div>
   );
 }
@@ -2754,6 +2762,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
                   <div className="text-3xl font-bold" style={{color: bc.readiness >= 90 ? "#059669" : bc.readiness >= 70 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 90 ? "bg-green-100 text-green-700" : bc.readiness >= 70 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
+                  <p className="text-xs text-gray-400 mt-2">{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
                 </div>
               ))}
             </div>
@@ -2766,7 +2775,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   <tr className="border-b-2 border-gray-200">
                     <th className="text-left py-2.5 px-3 font-semibold text-gray-700">Theme</th>
                     <th className="text-center py-2.5 px-3 font-semibold text-[#f2a71b]">Score</th>
-                    {profileNames.map(n => <th key={n} className="text-center py-2.5 px-2 font-medium text-gray-500 text-xs whitespace-nowrap">{n.length > 14 ? n.substring(0,12) + ".." : n}</th>)}
+                    {profileNames.map(n => <th key={n} className="text-center py-2.5 px-2 font-medium text-gray-500 text-xs" title={n}>{n.replace("M&A-Ready (PSF)", "M&A-Ready").replace("Top Decile (PSF)", "Top Dec.").replace("Industry Average", "Ind. Avg").replace("Consulting Benchmark", "Consult.").replace("Technology Scale-up", "Tech S/U").replace("Legal & Compliance", "Legal")}</th>)}
                   </tr>
                 </thead>
                 <tbody>
@@ -2842,19 +2851,14 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
 
 
 function ScoreChangePanel({ currentAssessment, previousAssessment }) {
-  if (!previousAssessment) return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">Score Change History</h3>
-      <p className="text-gray-500 text-sm">Requires 2+ assessments to show changes. Complete another assessment to unlock historical tracking.</p>
-    </div>
-  );
+  if (!previousAssessment) return null;
   const prevRatings = previousAssessment.ratings || {};
   const currRatings = currentAssessment.ratings || {};
   const changes = [];
   FRAMEWORK.themes.forEach(theme => {
     theme.metrics.forEach(metric => {
-      const prev = prevRatings[metric.id]?.value || 0;
-      const curr = currRatings[metric.id]?.value || 0;
+      const prev = prevRatings[metric.id]?.level || 0;
+      const curr = currRatings[metric.id]?.level || 0;
       if (prev > 0 || curr > 0) changes.push({ theme: theme.name, themeColor: theme.color, metric: metric.name, prev, curr, delta: curr - prev });
     });
   });
@@ -2931,10 +2935,16 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
       </div>
-      <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Overall Maturity" />
-
-      {/* M&A Readiness Score Banner */}
-      <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
+      {/* Unified Score Display */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6 flex items-center gap-8">
+        <div className="flex-shrink-0">
+          <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Raw Score" />
+        </div>
+        <div className="flex-1">
+          <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
+          <p className="text-xs text-gray-400 mt-2">Raw score ({Math.round((scores.totalScore / scores.totalMaxPossible) * 100)}%) is weighted against the {benchmarkProfile || "M&A-Ready (PSF)"} benchmark to calculate M&A Readiness ({scores.readinessScore}%).</p>
+        </div>
+      </div>
 
       {/* Gap Analysis */}
       <GapAnalysisPanel themeGaps={scores.themeGaps} />
@@ -3045,6 +3055,8 @@ export default function App() {
 
   const createFirm = (firm) => setState(s => ({ ...s, firms: [...s.firms, firm] }));
   const deleteFirm = (id) => {
+    const firm = state.firms.find(f => f.id === id);
+    if (!confirm(`Delete "${firm?.name || "this firm"}" and all its assessments? This cannot be undone.`)) return;
     setState(s => {
       const assessments = { ...s.assessments };
 
@@ -3172,7 +3184,7 @@ export default function App() {
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 setView(n.id);
-            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-[#f2a71b]" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
+            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-[#f2a71b] font-bold border-b-2 border-[#f2a71b]" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
               <n.icon size={14} /> {n.label}
             </button>
           ))}
