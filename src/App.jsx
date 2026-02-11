@@ -591,7 +591,7 @@ function InfoTooltip({ text }) {
       <Info size={14} className="text-gray-400 hover:text-amber-500 cursor-help" />
       {show && (
         <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2
-          text-xs text-white bg-gray-800 rounded-lg shadow-lg whitespace-normal
+          text-xs text-white bg-gray-800 rounded-lg shadow-lg whitespace-normal normal-case
           w-56 text-center z-50 pointer-events-none">{text}</span>
       )}
     </span>
@@ -2167,9 +2167,9 @@ function OnboardingOverlay({ onComplete }) {
   const [step, setStep] = useState(0);
   const steps = [
     { title: "Welcome to Growth Drivers", desc: "This tool evaluates your firm\u2019s M&A readiness across 10 key growth themes, each with detailed metrics based on industry best practice.", icon: "\ud83c\udfaf" },
-    { title: "10 Growth Themes", desc: "From Financial Performance and People to Market Profile \u2014 each theme groups related metrics that acquirers and investors evaluate during due diligence.", icon: "\ud83d\udcca" },
+    { title: "10 Growth Themes", desc: "From Financial Performance and People to Market Profile — each theme groups related metrics that acquirers and investors evaluate during due diligence.", icon: "\ud83d\udcca" },
     { title: "Simple 1\u20133 Scoring", desc: "Rate each metric: Level 1 (Foundational), Level 2 (Evolving), or Level 3 (Optimised). Use fine-tune adjustments for nuance. Add notes to explain your rationale.", icon: "\u2b50" },
-    { title: "M&A-Ready Benchmarks", desc: "Your scores are compared against M&A-Ready benchmarks \u2014 top-quartile performance levels that command premium valuations. Synthesised from 20+ industry sources.", icon: "\ud83d\udcc8" },
+    { title: "M&A-Ready Benchmarks", desc: "Your scores are compared against M&A-Ready benchmarks — top-quartile performance levels that command premium valuations. Synthesised from 20+ industry sources.", icon: "\ud83d\udcc8" },
     { title: "Actionable Insights", desc: "The dashboard shows your readiness score, gap analysis, trends over time, and an exportable executive summary for board presentations.", icon: "\ud83d\udca1" }
   ];
   const s = steps[step];
@@ -2446,12 +2446,12 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-4 mb-4 flex items-center gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
-              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score \u2014 the unweighted average across all rated metrics and themes" /></div>
+              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and themes" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
               <div className="text-2xl font-bold text-[#f2a71b]">{s.readinessScore}%</div>
-              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">M&A Ready<InfoTooltip text="Weighted readiness \u2014 each metric is weighted by its importance to M&A readiness based on the selected benchmark" /></div>
+              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">M&A Ready<InfoTooltip text="Weighted readiness — each metric is weighted by its importance to M&A readiness based on the selected benchmark" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
@@ -3273,7 +3273,7 @@ const GuidancePage = ({ onBack }) => {
     { title: "What is the Growth Drivers Maturity Framework?", content: "The Growth Drivers Maturity Framework is an M&A due diligence assessment platform designed for professional services firms (PSFs). It evaluates your firm across 10 growth themes and 47 metrics, benchmarked against M&A-ready industry standards. The framework helps you understand where your firm stands relative to what acquirers look for when pricing transactions." },
     { title: "How the Assessment Works", content: "Each of the 47 metrics is rated on a 3-point maturity scale: Level 1 (Foundational) means basic or informal processes are in place. Level 2 (Evolving) means structured processes exist with some consistency. Level 3 (Optimised) means best-in-class, systematic, and measurable practices are embedded. Your scores are aggregated by theme and compared against M&A-Ready benchmarks derived from 20+ industry sources including Hinge Research, Deltek, SPI Research, and Mercer." },
     { title: "Understanding the Dashboard", content: "The dashboard provides multiple views of your assessment: the M&A Readiness Score shows your overall readiness as a percentage inside a donut chart. The Radar Overview compares your theme scores against M&A-Ready benchmarks. The Readiness Gap Analysis ranks themes by their gap to benchmark. The Improvement Roadmap shows where focused effort will have the most impact. The Scenario Modelling tool lets you drag sliders to project how improvements would affect your overall score." },
-    { title: "Benchmark Profiles", content: "Benchmarks represent top-quartile PSF performance \u2014 the level that acquirers price for at M&A transaction events. The default M&A-Ready (PSF) benchmark averages 67% across all themes. You can compare against different benchmark profiles including Top Decile, Industry Average, and sector-specific standards via the Benchmark Profile selector on the dashboard." },
+    { title: "Benchmark Profiles", content: "Benchmarks represent top-quartile PSF performance — the level that acquirers price for at M&A transaction events. The default M&A-Ready (PSF) benchmark averages 67% across all themes. You can compare against different benchmark profiles including Top Decile, Industry Average, and sector-specific standards via the Benchmark Profile selector on the dashboard." },
     { title: "Using the Insights Tab", content: "The Insights tab (accessible from the dashboard) shows how your firm measures against all available benchmark profiles simultaneously. Green indicates M&A Ready (\u226590%), amber indicates Nearly Ready (\u226570%), and scores below 70% indicate areas needing focused improvement. Use Assessment Comparison to track progress over time once you have multiple assessments." },
     { title: "Exporting Your Results", content: "Three export options are available from the dashboard: Executive Summary (1 Page) provides a concise overview suitable for board presentations. Export PDF Report generates a comprehensive document with all charts and data. Detailed Assessment Report includes the full metric-level breakdown. You can also download raw data as CSV for further analysis." }
   ];
@@ -3330,7 +3330,7 @@ const GuidancePage = ({ onBack }) => {
             ].map(([step, desc], i) => (
               <div key={i} className="flex gap-3 items-start">
                 <div className="w-6 h-6 rounded-full bg-[#f2a71b] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i+1}</div>
-                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> {"\u2014"} {desc}</span></div>
+                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> {"—"} {desc}</span></div>
               </div>
             ))}
           </div>
