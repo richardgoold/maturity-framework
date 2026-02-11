@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell , LineChart, Line, CartesianGrid, Legend, ReferenceLine } from "recharts";
-import { Building2, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen } from "lucide-react";
+import { Building2, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload } from "lucide-react";
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
@@ -583,6 +583,33 @@ function AnimatedProgressRing({ progress, size = 80, strokeWidth = 6, color = "#
 }
 
 // Live Assessment Summary Panel (floating sidebar)
+function ConfirmDialog({ title, message, confirmLabel = "Delete", cancelLabel = "Cancel", onConfirm, onCancel, variant = "danger" }) {
+  const variantStyles = {
+    danger: { btn: "bg-red-600 hover:bg-red-700 text-white", icon: "text-red-500" },
+    warning: { btn: "bg-amber-500 hover:bg-amber-600 text-white", icon: "text-amber-500" },
+  };
+  const style = variantStyles[variant] || variantStyles.danger;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onCancel}>
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6 transform transition-all" onClick={e => e.stopPropagation()}>
+        <div className="flex items-start gap-4">
+          <div className={`flex-shrink-0 w-10 h-10 rounded-full bg-red-50 flex items-center justify-center ${style.icon}`}>
+            <AlertTriangle size={20} />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">{message}</p>
+          </div>
+        </div>
+        <div className="flex justify-end gap-3 mt-6">
+          <button onClick={onCancel} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">{cancelLabel}</button>
+          <button onClick={onConfirm} className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${style.btn}`}>{confirmLabel}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [recentRatings, setRecentRatings] = useState([]);
@@ -2948,6 +2975,7 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
 }
 
 function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare }) {
+  const [activeTab, setActiveTab] = useState("scores");
   const scores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const radarData = FRAMEWORK.themes.map(t => ({
     theme: t.name,
@@ -2987,7 +3015,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       {/* Section Navigation */}
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex gap-1 overflow-x-auto">
         {[["scores","Scores"],["gaps","Gap Analysis"],["roadmap","Roadmap"],["scenario","Scenario"],["charts","Charts"],["heatmap","Heatmap"],["export","Export"]].map(([id,label]) => (
-          <button key={id} onClick={() => document.getElementById("dash-"+id)?.scrollIntoView({ behavior: "smooth", block: "start" })} className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50 rounded-full whitespace-nowrap transition-colors">{label}</button>
+            <button key={id} onClick={() => setActiveTab(id)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"}`}>{label}</button>
         ))}
       </div>
       {/* Dashboard Guidance */}
@@ -3000,7 +3029,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         </div>
       </div>
       {/* Unified Score Display */}
- <div id="dash-scores" className="scroll-mt-16 mb-6">
+ <div id="dash-scores" style={{ display: activeTab === "scores" ? "block" : "none" }} className="scroll-mt-16 mb-6">
         {/* Executive Summary */}
         {(() => {
           const themeArr = FRAMEWORK.themes.map(t => ({name: t.name, pct: scores.themeScores[t.id]?.pct || 0, gap: (activeBenchmark[t.id] || 65) - (scores.themeScores[t.id]?.pct || 0)}));
@@ -3064,14 +3093,14 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
 
       {/* Gap Analysis */}
-      <div id="dash-gaps" className="scroll-mt-16"><GapAnalysisPanel themeGaps={scores.themeGaps} /></div>
+      <div id="dash-gaps" style={{ display: activeTab === "gaps" ? "block" : "none" }} className="scroll-mt-16"><GapAnalysisPanel themeGaps={scores.themeGaps} /></div>
 
       {/* Trend Analysis */}
-      <TrendAnalysisPanel firmAssessments={firmAssessments} />
+      <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><TrendAnalysisPanel firmAssessments={firmAssessments} /></div>
       {/* Score Change History */}
-      <ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} />
-      <div id="dash-roadmap" className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
-      <div id="dash-scenario" className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
+      <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} /></div>
+      <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
+      <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       {/* Theme Score Summary Strip */}
       <div className="grid grid-cols-5 gap-2 mb-4">
         {FRAMEWORK.themes.map(t => {
@@ -3086,13 +3115,13 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         })}
       </div>
       {/* Charts */}
-      <div id="dash-charts" className="grid grid-cols-2 gap-6 mb-4 scroll-mt-16">
+      <div id="dash-charts" style={{ display: activeTab === "charts" ? "grid" : "none" }} className="grid grid-cols-2 gap-6 mb-4 scroll-mt-16">
         <RadarOverview radarData={radarData} benchmarkProfile={benchmarkProfile} />
         <BenchmarkComparison scores={scores} benchmarkProfile={benchmarkProfile} />
       </div>
-      <div className="mb-4"><StrengthsWeaknesses ratings={assessment.ratings} /></div>
-      <div id="dash-heatmap" className="mb-4 scroll-mt-16"><HeatmapGrid ratings={assessment.ratings} /></div>
-      <div id="dash-export" className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
+      <div className="mb-4"><div style={{ display: activeTab === "charts" ? "block" : "none" }}><StrengthsWeaknesses ratings={assessment.ratings} /></div></div>
+      <div id="dash-heatmap" style={{ display: activeTab === "heatmap" ? "block" : "none" }} className="mb-4 scroll-mt-16"><HeatmapGrid ratings={assessment.ratings} /></div>
+      <div id="dash-export" style={{ display: activeTab === "export" ? "block" : "none" }} className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
     </div>
   );
 }
@@ -3206,6 +3235,7 @@ export default function App() {
   const [selectedAssessmentId, setSelectedAssessmentId] = useState(null);
   const [dashboardAssessmentId, setDashboardAssessmentId] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("gdmf_onboarding_complete"));
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   useEffect(() => { saveState(state); }, [state]);
@@ -3213,21 +3243,78 @@ export default function App() {
   const createFirm = (firm) => setState(s => ({ ...s, firms: [...s.firms, firm] }));
   const deleteFirm = (id) => {
     const firm = state.firms.find(f => f.id === id);
-    if (!confirm(`Delete "${firm?.name || "this firm"}" and all its assessments? This cannot be undone.`)) return;
-    setState(s => {
-      const assessments = { ...s.assessments };
-
-      Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
-      return { firms: s.firms.filter(f => f.id !== id), assessments };
+    setConfirmDialog({
+      title: "Delete Firm",
+      message: `Are you sure you want to delete "${firm?.name || "this firm"}" and all its assessments? This action cannot be undone.`,
+      onConfirm: () => {
+        setState(s => {
+          const assessments = { ...s.assessments };
+          Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
+          return { firms: s.firms.filter(f => f.id !== id), assessments };
+        });
+        setConfirmDialog(null);
+      },
+      onCancel: () => setConfirmDialog(null),
     });
   };
   const deleteAssessment = (assessmentId) => {
-    if (!confirm('Delete this assessment? This cannot be undone.')) return;
-    setState(prev => {
-      const newAssessments = { ...prev.assessments };
-      delete newAssessments[assessmentId];
-      return { ...prev, assessments: newAssessments };
+    setConfirmDialog({
+      title: "Delete Assessment",
+      message: "Are you sure you want to delete this assessment? All ratings and evidence will be permanently removed. This action cannot be undone.",
+      onConfirm: () => {
+        setState(prev => {
+          const newAssessments = { ...prev.assessments };
+          delete newAssessments[assessmentId];
+          return { ...prev, assessments: newAssessments };
+        });
+        setConfirmDialog(null);
+      },
+      onCancel: () => setConfirmDialog(null),
     });
+  };
+
+  const exportData = () => {
+    const data = { version: 1, exportedAt: new Date().toISOString(), state };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `gdmf-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importData = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          const importState = data.state || data;
+          if (!importState.firms || !importState.assessments) {
+            alert("Invalid backup file: missing firms or assessments data.");
+            return;
+          }
+          setConfirmDialog({
+            title: "Import Data",
+            message: `This will replace all current data with the backup from ${data.exportedAt ? new Date(data.exportedAt).toLocaleDateString("en-GB") : "unknown date"}. This includes ${importState.firms.length} firm(s) and ${Object.keys(importState.assessments).length} assessment(s). Continue?`,
+            confirmLabel: "Import",
+            variant: "warning",
+            onConfirm: () => { setState(importState); setConfirmDialog(null); },
+            onCancel: () => setConfirmDialog(null),
+          });
+        } catch (err) {
+          alert("Could not read backup file. Please ensure it is a valid GDMF backup JSON file.");
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
   };
 
   const createAssessment = (firmId, templateRatings = {}) => {
@@ -3323,6 +3410,17 @@ export default function App() {
   return (
     <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
+      {confirmDialog && <ConfirmDialog {...confirmDialog} />}
+      {view === "firms" && (
+        <div className="fixed bottom-4 right-4 z-40 flex gap-2">
+          <button onClick={exportData} className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 text-sm text-gray-700 transition-colors" title="Export backup">
+            <Download size={16} /> Backup
+          </button>
+          <button onClick={importData} className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 text-sm text-gray-700 transition-colors" title="Import backup">
+            <Upload size={16} /> Restore
+          </button>
+        </div>
+      )}
       {/* Header */}
       <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0" style={{ background: "#1f1f1f", borderBottom: "2px solid #f2a71b" }}>
         <div className="flex items-center gap-3">
