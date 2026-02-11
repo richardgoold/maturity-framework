@@ -831,7 +831,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
         )}
       </div>
 
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-gray-100" role="radiogroup" aria-label="Maturity level">
         {levels.map(l => {
           const selected = currentLevel === l.level;
           const isAnimating = animatingLevel === l.level;
@@ -839,6 +839,10 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
             <button
               key={l.level}
               onClick={() => handleRate(l.level)}
+              role="radio"
+              aria-checked={selected}
+              tabIndex={selected ? 0 : -1}
+              onKeyDown={(e) => handleRadioGroupKeyDown(e, [1, 2, 3], levels.findIndex(x => x.level === currentLevel), (val) => handleRate(val))}
               className={`relative w-full text-left px-4 py-2.5 transition-all duration-200 hover:bg-gray-50 ${isAnimating ? 'animate-scale-pop' : ''}`}
               style={{
                 backgroundColor: selected ? l.bg : "white",
@@ -862,12 +866,16 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
 
       {/* Half-level selector with animations */}
       {currentLevel && (
-        <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 flex items-center gap-2 animate-fade-in">
+        <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 flex items-center gap-2 animate-fade-in" role="radiogroup" aria-label="Fine-tune score">
           <span className="text-xs text-gray-500">Fine-tune:</span>
           {[1, 1.5, 2, 2.5, 3].map(v => (
             <button
               key={v}
               onClick={() => handleRate(v)}
+              role="radio"
+              aria-checked={currentLevel === v}
+              tabIndex={currentLevel === v ? 0 : -1}
+              onKeyDown={(e) => handleRadioGroupKeyDown(e, [1, 1.5, 2, 2.5, 3], [1, 1.5, 2, 2.5, 3].indexOf(currentLevel), (val) => handleRate(val))}
               className={`text-xs px-2 py-0.5 rounded-full transition-all duration-200 button-press ${currentLevel === v
                 ? "bg-[#f2a71b] text-white font-bold scale-110 shadow-md"
                 : "bg-gray-200 text-gray-600 hover:bg-gray-300 hover:scale-105"
@@ -887,9 +895,13 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
       {/* Confidence Indicator */}
       <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100">
         <label className="text-xs font-medium text-gray-500 block mb-1.5">Confidence</label>
-        <div className="flex gap-1.5">
+            <div className="flex gap-1.5" role="radiogroup" aria-label="Confidence level">
           {["low", "medium", "high"].map(lvl => (
             <button key={lvl} onClick={() => onConfidence && onConfidence(metric.id, lvl)}
+                  role="radio"
+                  aria-checked={confidence === lvl}
+                  tabIndex={confidence === lvl ? 0 : (!confidence && lvl === "low") ? 0 : -1}
+                  onKeyDown={(e) => handleRadioGroupKeyDown(e, ["low", "medium", "high"], ["low", "medium", "high"].indexOf(confidence || "low"), (val) => onConfidence && onConfidence(metric.id, val))}
               className={`flex-1 py-1.5 px-3 text-xs font-medium rounded transition-colors text-center ${
                 confidence === lvl
                 ? lvl === "high" ? "bg-green-600 text-white" : lvl === "medium" ? "bg-amber-500 text-white" : "bg-orange-500 text-white"
@@ -938,7 +950,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
 
 function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
   return (
-    <div className="w-52 min-w-52 bg-white border-r border-gray-200 overflow-y-auto">
+    <div className="hidden md:block w-52 min-w-52 bg-white border-r border-gray-200 overflow-y-auto">
       <div className="p-3 border-b border-gray-200 bg-gray-50">
         <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Growth Themes</h3>
       </div>
@@ -2279,7 +2291,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Firms</h1>
           <p className="text-sm text-gray-500 mt-1">Select a firm to assess or create a new one</p>
@@ -2490,7 +2502,21 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             <span className="text-xs text-gray-400">({scores.ratedCount}/{scores.totalMetrics})</span>
           </div>
         </div>
-        {/* Assessment Guidance */}
+        
+              {/* Mobile Theme Selector - visible when sidebar hidden */}
+              <div className="md:hidden px-4 pt-2">
+                <select
+                  value={selectedTheme}
+                  onChange={(e) => handleJumpToTheme(e.target.value)}
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-[#f2a71b] focus:border-[#f2a71b]"
+                >
+                  {FRAMEWORK.themes.map(t => {
+                    const s = scores.themeScores?.[t.id];
+                    return <option key={t.id} value={t.id}>{t.name} ({s?.rated || 0}/{s?.total || t.metrics.length})</option>;
+                  })}
+                </select>
+              </div>
+              {/* Assessment Guidance */}
         <div className="bg-amber-50/60 border border-amber-200/60 rounded-lg mx-4 mt-3 mb-1 p-4">
           <div className="flex gap-3">
             <Info size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
@@ -2527,7 +2553,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
         ))}
       </div>
       {/* Live Assessment Panel */}
-      <div className="sticky top-0 self-start max-h-screen overflow-y-auto">
+      <div className="hidden lg:block sticky top-0 self-start max-h-screen overflow-y-auto">
       <LiveAssessmentPanel
         scores={scores}
         ratings={assessment.ratings}
@@ -2766,40 +2792,52 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   const currentScores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const [sliders, setSliders] = useState(() => Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct])));
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-    const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
-    const totalW = FRAMEWORK.themes.reduce((s, t) => s + t.totalWeight, 0);
-    const projectedReadiness = totalW > 0 ? Math.round(FRAMEWORK.themes.reduce((s, theme) => s + theme.totalWeight * Math.min((sliders[theme.id] || 0) / (benchValues[theme.id] || 65), 1.0) * 100, 0) / totalW) : 0;
+  const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
+  const totalW = FRAMEWORK.themes.reduce((s, t) => s + t.totalWeight, 0);
+  const projectedReadiness = totalW > 0 ? Math.round(FRAMEWORK.themes.reduce((s, theme) => s + theme.totalWeight * Math.min((sliders[theme.id] || 0) / (benchValues[theme.id] || 65), 1.0) * 100, 0) / totalW) : 0;
   const delta = hasInteracted ? projectedReadiness - currentScores.readinessScore : 0;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-[#f2a71b]"/> Scenario Modelling</h3>
-            <p className="text-xs text-gray-500 mb-4">Drag the sliders to model how improving individual theme scores would impact your overall M&A Readiness. Changes are for modelling only and do not affect your saved assessment.</p>
+      <p className="text-xs text-gray-500 mb-4">Drag the sliders to model how improving individual theme scores would impact your overall M&A Readiness. Changes are for modelling only and do not affect your saved assessment.</p>
       <div className="flex items-center justify-between p-4 bg-amber-900/10 rounded-lg mb-4">
         <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{currentScores.readinessScore}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
         <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{projectedReadiness}%</p></div>
       </div>
-      <div className="space-y-3 max-h-96 overflow-y-auto">
-        {FRAMEWORK.themes.map(theme => {
-          const current = currentScores.themeScores[theme.id]?.pct || 0;
-          return (
-            <div key={theme.id} className="p-3 bg-gray-50 rounded-lg">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-sm font-medium">{theme.name}</span>
-                <span className="text-sm font-bold" style={{color: sliders[theme.id] !== current ? "#2563EB" : "#6B7280"}}>{sliders[theme.id]}%</span>
-              </div>
-              <input type="range" min="0" max="100" value={sliders[theme.id]} onChange={e => { setHasInteracted(true); setSliders(p => ({...p, [theme.id]: parseInt(e.target.value)})); }} className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"/>
-              <div className="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span>Current: {current}%</span><span>100</span></div>
-            </div>
-          );
-        })}
-      </div>
-      <button onClick={() => { setHasInteracted(false); setSliders(Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct]))); }} className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
+      <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors mb-3">
+        {isExpanded ? <ChevronUp size={16}/> : <ChevronDown size={16}/>}
+        {isExpanded ? "Hide sliders" : "Adjust themes"}
+      </button>
+      {isExpanded && (
+        <>
+          <div className="grid grid-cols-2 gap-2 max-h-80 overflow-y-auto">
+            {FRAMEWORK.themes.map(theme => {
+              const current = currentScores.themeScores[theme.id]?.pct || 0;
+              return (
+                <div key={theme.id} className="p-2 bg-gray-50 rounded-lg">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-medium truncate" style={{color: theme.color}}>{theme.name}</span>
+                    <span className="text-xs font-bold" style={{color: sliders[theme.id] !== current ? "#2563EB" : "#6B7280"}}>{sliders[theme.id]}%</span>
+                  </div>
+                  <input type="range" min="0" max="100" value={sliders[theme.id]} onChange={e => { setHasInteracted(true); setSliders(p => ({...p, [theme.id]: parseInt(e.target.value)})); }} className="w-full h-1.5 bg-gray-300 rounded-lg appearance-none cursor-pointer" style={{accentColor: theme.color}}/>
+                  <div className="text-xs text-gray-400 text-right mt-0.5">Current: {current}%</div>
+                </div>
+              );
+            })}
+          </div>
+          {hasInteracted && (
+            <button onClick={() => { setHasInteracted(false); setSliders(Object.fromEntries(Object.entries(currentScores.themeScores).map(([id, ts]) => [id, ts.pct]))); }} className="mt-3 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset to Current</button>
+          )}
+        </>
+      )}
     </div>
   );
 }
+
 
 function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack }) {
   const [tab, setTab] = useState("benchmark");
@@ -3044,17 +3082,63 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           return (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               {/* Top row: scores */}
-              <div className="p-6 flex items-center gap-8 border-b border-gray-100">
-                <div className="flex-shrink-0">
-                  <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Raw Score" />
-                </div>
-                <div className="flex-1">
-                  <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
-                  <p className="text-xs text-gray-400 mt-2">Raw score ({Math.round((scores.totalScore / scores.totalMaxPossible) * 100)}%) weighted against {benchmarkProfile || "M&A-Ready (PSF)"} benchmark = {scores.readinessScore}% M&A Readiness.</p>
-                </div>
+              <div className="p-6 border-b border-gray-100">
+                {(() => {
+                  const rawPct = scores.totalMaxPossible > 0 ? Math.round((scores.totalScore / scores.totalMaxPossible) * 100) : 0;
+                  const readyPct = scores.readinessScore;
+                  const level = scores.readinessLevel;
+                  const ringColor = level === "M&A Ready" ? "#16a34a" : level === "Nearly Ready" ? "#f2a71b" : level === "In Progress" ? "#d97706" : "#ea580c";
+                  const outerR = 66, outerStroke = 12, innerR = 48, innerStroke = 10;
+                  const outerCirc = 2 * Math.PI * outerR;
+                  const innerCirc = 2 * Math.PI * innerR;
+                  return (
+                    <div className="flex flex-col sm:flex-row items-center gap-6">
+                      {/* Concentric Rings */}
+                      <div className="relative flex-shrink-0">
+                        <svg width="180" height="180" className="-rotate-90">
+                          <circle cx="90" cy="90" r={outerR} fill="none" stroke="#e2e8f0" strokeWidth={outerStroke} />
+                          <circle cx="90" cy="90" r={outerR} fill="none" stroke={ringColor} strokeWidth={outerStroke}
+                            strokeDasharray={outerCirc} strokeDashoffset={outerCirc - (readyPct / 100) * outerCirc} strokeLinecap="round"
+                            style={{ transition: "stroke-dashoffset 1s ease" }} />
+                          <circle cx="90" cy="90" r={innerR} fill="none" stroke="#e2e8f0" strokeWidth={innerStroke} />
+                          <circle cx="90" cy="90" r={innerR} fill="none" stroke="#f2a71b" strokeWidth={innerStroke}
+                            strokeDasharray={innerCirc} strokeDashoffset={innerCirc - (rawPct / 100) * innerCirc} strokeLinecap="round"
+                            style={{ transition: "stroke-dashoffset 1s ease" }} />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <div className="text-3xl font-bold" style={{ color: ringColor }}>{readyPct}%</div>
+                          <div className="text-xs font-semibold text-gray-500">{level}</div>
+                        </div>
+                      </div>
+                      {/* Score Details */}
+                      <div className="flex-1 text-center sm:text-left">
+                        <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">M&A Readiness Score</div>
+                        <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start mb-3">
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 rounded-lg border border-amber-200">
+                            <div className="w-2.5 h-2.5 rounded-full bg-[#f2a71b]" />
+                            <span className="text-sm font-bold text-gray-700">{rawPct}%</span>
+                            <span className="text-xs text-gray-500">Raw Score</span>
+                          </div>
+                          <ArrowRight size={16} className="text-gray-400" />
+                          <div className="text-xs text-gray-500 px-2 py-1 bg-gray-50 rounded border border-gray-200">{benchmarkProfile || "M&A-Ready (PSF)"} weighting</div>
+                          <ArrowRight size={16} className="text-gray-400" />
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border" style={{ backgroundColor: ringColor + "10", borderColor: ringColor + "40" }}>
+                            <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ringColor }} />
+                            <span className="text-sm font-bold" style={{ color: ringColor }}>{readyPct}%</span>
+                            <span className="text-xs text-gray-500">Readiness</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-4 text-xs text-gray-400">
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#f2a71b] inline-block" /> Inner ring = Raw Score</span>
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: ringColor }} /> Outer ring = M&A Readiness</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
               {/* Bottom row: insights grid */}
-              <div className="grid grid-cols-4 divide-x divide-gray-100">
+              <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100">
                 <div className="p-4">
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Top Strengths</div>
                   {strengths.map((s,i) => (
@@ -3106,7 +3190,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       {/* Theme Score Summary Strip */}
-      <div className="grid grid-cols-5 gap-2 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-4">
         {FRAMEWORK.themes.map(t => {
           const ts = scores.themeScores[t.id];
           const pct = ts?.pct || 0;
@@ -3436,7 +3520,7 @@ export default function App() {
             <p className="text-xs text-gray-400">M&A Due Diligence Assessment Platform</p>
           </div>
         </div>
-        <nav className="flex items-center gap-1">
+        <nav className="flex flex-wrap items-center gap-1">
           {navItems.map(n => (
             <button key={n.id} disabled={n.disabled} onClick={() => {
               if (n.id === "dashboard") { if (selectedAssessmentId) setDashboardAssessmentId(selectedAssessmentId); }
@@ -3444,7 +3528,7 @@ export default function App() {
                 if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
                 setView(n.id);
             }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-[#f2a71b] font-bold border-b-2 border-[#f2a71b]" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
-              <n.icon size={14} /> {n.label}
+              <n.icon size={14} /> <span className="hidden sm:inline">{n.label}</span>
             </button>
           ))}
         </nav>
