@@ -3082,7 +3082,7 @@ const GuidancePage = ({ onBack }) => {
             ].map(([step, desc], i) => (
               <div key={i} className="flex gap-3 items-start">
                 <div className="w-6 h-6 rounded-full bg-[#f2a71b] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i+1}</div>
-                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> \u2014 {desc}</span></div>
+                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> {"\u2014"} {desc}</span></div>
               </div>
             ))}
           </div>
