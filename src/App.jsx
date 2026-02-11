@@ -491,9 +491,9 @@ const calcScores = (ratings, benchmarkObj) => {
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 const levelColor = (level) => {
   if (!level) return { bg: "#F8F9FA", text: "#6C757D", border: "#DEE2E6" };
-  if (level <= 1.5) return { bg: "#FDEDEC", text: "#922B21", border: "#E6B0AA" };
-  if (level <= 2.5) return { bg: "#FEF9E7", text: "#7D6608", border: "#F9E79F" };
-  return { bg: "#EAFAF1", text: "#1E8449", border: "#A9DFBF" };
+  if (level <= 1.5) return { bg: "#FFF3E0", text: "#922B21", border: "#E6B0AA" };
+  if (level <= 2.5) return { bg: "#E3F2FD", text: "#7D6608", border: "#F9E79F" };
+  return { bg: "#E0F7FA", text: "#1E8449", border: "#A9DFBF" };
 };
 
 const levelLabel = (level) => {
@@ -753,9 +753,9 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
   const [comment, setComment] = useState(rating?.comment || "");
   const [animatingLevel, setAnimatingLevel] = useState(null);
   const levels = [
-    { level: 1, label: "Foundational", text: metric.foundational, color: "#922B21", bg: "#FDEDEC", border: "#E6B0AA" },
-    { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#FEF9E7", border: "#F9E79F" },
-    { level: 3, label: "Optimised", text: metric.optimised, color: "#1E8449", bg: "#EAFAF1", border: "#A9DFBF" },
+    { level: 1, label: "Foundational", text: metric.foundational, color: "#922B21", bg: "#FFF3E0", border: "#E6B0AA" },
+    { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#E3F2FD", border: "#F9E79F" },
+    { level: 3, label: "Optimised", text: metric.optimised, color: "#1E8449", bg: "#E0F7FA", border: "#A9DFBF" },
   ];
   const currentLevel = rating?.level;
 
@@ -973,9 +973,9 @@ function HeatmapGrid({ ratings }) {
       </div>
       <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-gray-100 border border-gray-300" /><span className="text-xs text-gray-500">Not rated</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#FDEDEC" }} /><span className="text-xs text-gray-500">Foundational</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#FEF9E7" }} /><span className="text-xs text-gray-500">Evolving</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#EAFAF1" }} /><span className="text-xs text-gray-500">Optimised</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#FFF3E0" }} /><span className="text-xs text-gray-500">Foundational</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#E3F2FD" }} /><span className="text-xs text-gray-500">Evolving</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#E0F7FA" }} /><span className="text-xs text-gray-500">Optimised</span></div>
       </div>
     </div>
   );
@@ -1874,9 +1874,9 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
       <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
         <Download size={14} /> Export Assessment
       </h3>
-      <div className="flex gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <button onClick={() => exportExecutiveSummary(assessment, firmName, firmSector, scores)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg font-medium text-sm transition shadow-sm">
+          className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg font-medium text-sm transition shadow-sm">
           <FileText size={16} />
           Executive Summary (1 Page)
         </button>
@@ -1933,7 +1933,7 @@ function RadarOverview({ radarData , benchmarkProfile }) {
               return (<text x={x} y={y} textAnchor={textAnchor} fontSize={9} fill="#666">{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? -(lines.length - 1) * 5 : 11}>{l}</tspan>))}</text>);
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
-          <Radar name="Your Firm" dataKey="score" stroke="#f2a71b" fill="#f2a71b" fillOpacity={0.3} strokeWidth={2} />
+          <Radar name="Your Firm" dataKey="score" stroke="#f2a71b" fill="#f2a71b" fillOpacity={0.35} strokeWidth={3} />
           <Radar name="M&A-Ready" dataKey="benchmark" stroke="#D97706" fill="#D97706" fillOpacity={0.05} strokeWidth={2} strokeDasharray="4 4" />
           <Tooltip formatter={(v, name) => [v + '%', name]} />
         </RadarChart>
@@ -2014,7 +2014,7 @@ function TemplateSelector({ onSelect, onClose }) {
         </h3>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X size={14} /></button>
       </div>
-      <p className="text-xs text-gray-500 mb-3">Choose a template to pre-fill ratings based on typical firm profiles:</p>
+      <p className="text-sm text-gray-500 mb-3">Choose a template to pre-fill ratings based on typical firm profiles:</p>
       <div className="grid grid-cols-2 gap-2">
         {Object.entries(TEMPLATES).map(([name, template]) => (
           <button
@@ -2026,11 +2026,11 @@ function TemplateSelector({ onSelect, onClose }) {
               <span className="text-lg">{template.icon}</span>
               <span className="text-sm font-semibold text-gray-700 group-hover:text-[#f2a71b]">{name}</span>
             </div>
-            <p className="text-xs text-gray-500">{template.description}</p>
+            <p className="text-sm text-gray-500">{template.description}</p>
           </button>
         ))}
       </div>
-      <button onClick={onClose} className="mt-3 text-xs text-gray-500 hover:text-gray-700">
+      <button onClick={onClose} className="mt-3 text-sm text-gray-500 hover:text-gray-700">
         Or start with blank assessment ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
       </button>
     </div>
@@ -2464,22 +2464,24 @@ function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
   const offset = circumference - (readinessScore / 100) * circumference;
   return (
     <div className={`${c.bg} ${c.border} border-2 rounded-xl p-8 mb-8`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">M&A Readiness Score</div>
-          <div className={`text-5xl font-bold ${c.text} mb-1`}>{readinessScore}%</div>
-          <div className={`text-lg font-semibold ${c.text}`}>{readinessLevel}</div>
-          <p className="text-xs text-gray-500 mt-2 max-w-xs">Weighted composite of all theme scores measured against M&A-Ready benchmarks.</p>
-        </div>
-        <div className="hidden sm:block">
-          <svg width="130" height="130" className="-rotate-90">
-            <circle cx="65" cy="65" r="54" fill="none" stroke="#e2e8f0" strokeWidth="10" />
-            <circle cx="65" cy="65" r="54" fill="none" className={c.ring} strokeWidth="10"
-              strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
-              style={{ transition: "stroke-dashoffset 1s ease" }} />
-          </svg>
-        </div>
-      </div>
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="relative">
+              <svg width="160" height="160" className="-rotate-90">
+                <circle cx="80" cy="80" r="66" fill="none" stroke="#e2e8f0" strokeWidth="12" />
+                <circle cx="80" cy="80" r="66" fill="none" className={c.ring} strokeWidth="12"
+                  strokeDasharray={2 * Math.PI * 66} strokeDashoffset={2 * Math.PI * 66 - (readinessScore / 100) * 2 * Math.PI * 66} strokeLinecap="round"
+                  style={{ transition: "stroke-dashoffset 1s ease" }} />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className={`text-3xl font-bold ${c.text}`}>{readinessScore}%</div>
+                <div className={`text-xs font-semibold ${c.text}`}>{readinessLevel}</div>
+              </div>
+            </div>
+            <div className="text-center sm:text-left">
+              <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">M&A Readiness Score</div>
+              <p className="text-xs text-gray-500 max-w-xs">Weighted composite of all theme scores measured against M&A-Ready benchmarks.</p>
+            </div>
+          </div>
     </div>
   );
 }
@@ -2592,9 +2594,9 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
     const benchmark = bm[theme.id] || 65;
     theme.metrics.forEach(metric => {
       const r = assessment.ratings ? Object.entries(assessment.ratings).find(([k]) => k === metric.id) : null;
-      const val = r ? r[1]?.value : null;
+      const val = r ? (typeof r[1] === "object" ? r[1]?.value : r[1]) : null;
       if (val === null || val === undefined) return;
-      const pct = val * 100 / (metric.weight || 100);
+      const pct = Math.round((val / 3) * 100);
       const gap = benchmark - pct;
       if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), action: metric.improvementAction });
     });
@@ -2659,6 +2661,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-[#f2a71b]"/> Scenario Modelling</h3>
+            <p className="text-xs text-gray-500 mb-4">Drag the sliders to model how improving individual theme scores would impact your overall M&A Readiness. Changes are for modelling only and do not affect your saved assessment.</p>
       <div className="flex items-center justify-between p-4 bg-amber-900/10 rounded-lg mb-4">
         <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{currentScores.readinessScore}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
@@ -2723,8 +2726,8 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
               {benchCards.map(bc => (
                 <div key={bc.name} className={`text-center p-4 rounded-xl border-2 transition-all ${bc.name === benchmarkProfile ? "border-[#f2a71b] bg-amber-900/10 shadow-md" : "border-gray-200 hover:border-gray-300"}`}>
                   <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
-                  <div className="text-3xl font-bold" style={{color: bc.readiness >= 80 ? "#059669" : bc.readiness >= 60 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
-                  <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 80 ? "bg-green-100 text-green-700" : bc.readiness >= 60 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
+                  <div className="text-3xl font-bold" style={{color: bc.readiness >= 90 ? "#059669" : bc.readiness >= 70 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
+                  <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 90 ? "bg-green-100 text-green-700" : bc.readiness >= 70 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
                 </div>
               ))}
             </div>
@@ -3140,7 +3143,11 @@ export default function App() {
               onBack={() => setView("dashboard")}
             />
         )}
-      </main>
+            <footer className="mt-12 py-6 border-t border-gray-200 text-center">
+        <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Growth Drivers Maturity Framework. All rights reserved.</p>
+        <p className="text-xs text-gray-400 mt-1">Confidential &mdash; For authorised use only.</p>
+      </footer>
+</main>
     </div>
   );
 }
