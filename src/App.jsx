@@ -2432,7 +2432,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={20} /></button>
             <div>
               <h2 className="text-lg font-bold text-gray-800">Assessment</h2>
-              <p className="text-xs text-gray-400">{FRAMEWORK.themes.length} themes \u00b7 {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</p>
+              <p className="text-xs text-gray-400">{FRAMEWORK.themes.length} themes · {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</p>
             </div>
           </div>
           <div className="text-right">
@@ -3014,7 +3014,7 @@ const GuidancePage = ({ onBack }) => {
                 {getThemeIcon(t.icon, 16, "text-gray-500")}
                 <div>
                   <div className="text-sm font-semibold" style={{ color: t.color }}>{t.name}</div>
-                  <div className="text-xs text-gray-400">{t.metrics.length} metrics \u00b7 weight {t.totalWeight}</div>
+                  <div className="text-xs text-gray-400">{t.metrics.length} metrics · weight {t.totalWeight}</div>
                 </div>
               </div>
             ))}
