@@ -1,4 +1,4 @@
-# Growth Drivers Maturity Framework 
+# Growth Drivers Maturity Framework
 
 An M&A due diligence assessment platform for evaluating professional services firms across 10 maturity themes and 47 metrics.
 
