@@ -798,38 +798,37 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-4 overflow-hidden hover-lift transition-all duration-200">
-      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
-        <div className="flex items-center gap-3">
-          <h4 className="font-semibold text-gray-800 text-sm">{metric.name}</h4>
-                          {metric.question && <p className="text-xs text-[#f2a71b] italic mt-1 mb-1">{metric.question}</p>}
-          {metric.guidance && (
-            <div className="mt-1 mb-2">
-              <button onClick={() => setShowGuidance(!showGuidance)} className="text-xs text-[#f2a71b] hover:text-[#d9950f] font-medium inline-flex items-center gap-1">
+      <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 min-w-0">
+            <h4 className="font-semibold text-gray-800 text-sm truncate">{metric.name}</h4>
+            {metric.weight > 0 && <span className="text-xs bg-[#f2a71b]/10 text-[#f2a71b] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">{metric.weight} pts</span>}
+            {metric.weight === 0 && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full whitespace-nowrap">Supplementary</span>}
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0 ml-2">
+            {metric.guidance && (
+              <button onClick={() => setShowGuidance(!showGuidance)} className={`text-xs font-medium inline-flex items-center gap-1 px-2 py-1 rounded transition-all ${showGuidance ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "text-[#f2a71b] hover:text-[#d9950f] hover:bg-[#f2a71b]/5"}`}>
                 <HelpCircle size={12} />
-                {showGuidance ? "Hide guidance" : "Scoring guidance"}
+                {showGuidance ? "Hide" : "Guidance"}
               </button>
-              {showGuidance && (
-                <div className="mt-2 bg-amber-900/10 border-l-4 border-[#f2a71b] p-3 text-xs text-[#1f1f1f] rounded-r leading-relaxed">
-                  {metric.guidance}
-                </div>
-              )}
-            </div>
-          )}
-          {metric.weight > 0 && <span className="text-xs bg-[#f2a71b]/10 text-[#f2a71b] px-2 py-0.5 rounded-full font-medium transition-transform hover:scale-105">{metric.weight} pts</span>}
-          {metric.weight === 0 && <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Supplementary</span>}
-          
-        </div>
-        <div className="flex items-center gap-2">
-          {currentLevel && (
-            <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 hover:scale-110 transition-all px-1" title="Clear rating">
-              <X size={14} />
+            )}
+            {currentLevel && (
+              <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 hover:scale-110 transition-all px-1" title="Clear rating">
+                <X size={14} />
+              </button>
+            )}
+            <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-all button-press ${comment ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
+              <MessageSquare size={12} />
+              {comment ? "Note" : "Add note"}
             </button>
-          )}
-          <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-all button-press ${comment ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
-            <MessageSquare size={12} />
-            {comment ? "Note" : "Add note"}
-          </button>
+          </div>
         </div>
+        {metric.question && <p className="text-xs text-gray-500 mt-1.5 italic leading-relaxed">{metric.question}</p>}
+        {showGuidance && metric.guidance && (
+          <div className="mt-2 bg-amber-900/10 border-l-4 border-[#f2a71b] p-3 text-xs text-[#1f1f1f] rounded-r leading-relaxed">
+            {metric.guidance}
+          </div>
+        )}
       </div>
 
       <div className="divide-y divide-gray-100">
@@ -985,8 +984,9 @@ function HeatmapGrid({ ratings }) {
               <div className="w-9 h-9 rounded flex items-center justify-center text-sm font-bold cursor-default border" style={{ backgroundColor: lc.bg, color: lc.text, borderColor: lc.border }}>
                 {r?.level || "-"}
               </div>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10">
-                {m.name}: {levelLabel(r?.level)}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10 shadow-lg" style={{borderTop: `3px solid ${theme.color}`}}>
+                      <div className="font-semibold">{m.name}</div>
+                      <div className="text-gray-300 mt-0.5">{r?.level || 0}/3 · {levelLabel(r?.level)}</div>
               </div>
             </div>
           );
@@ -1016,7 +1016,7 @@ function StrengthsWeaknesses({ ratings }) {
   const scored = [];
   FRAMEWORK.themes.forEach(t => t.metrics.forEach(m => {
     const r = ratings[m.id];
-    if (r?.level && m.weight > 0) scored.push({ ...m, level: r.level, theme: t.name, weightedScore: r.level * m.weight });
+    if (r?.level && m.weight > 0) scored.push({ ...m, level: r.level, theme: t.name, themeColor: t.color, weightedScore: r.level * m.weight });
   }));
   scored.sort((a, b) => b.weightedScore - a.weightedScore);
   const strengths = scored.filter(m => m.level >= 2.5).slice(0, 5);
@@ -1029,7 +1029,7 @@ function StrengthsWeaknesses({ ratings }) {
         <p className="text-xs text-green-600 opacity-70 mb-1 -mt-1">Ranked by weighted contribution (score × importance)</p>
         {strengths.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see strengths</p> : strengths.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-green-50 last:border-0">
-            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1">({m.theme})</span></div>
+            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1" className="inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
             <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
@@ -1039,7 +1039,7 @@ function StrengthsWeaknesses({ ratings }) {
         <p className="text-xs text-red-600 opacity-70 mb-1 -mt-1">Ranked by improvement potential — highest impact first</p>
         {weaknesses.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see areas for improvement</p> : weaknesses.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-red-50 last:border-0">
-            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1">({m.theme})</span></div>
+            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1" className="inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
             <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
@@ -2022,17 +2022,15 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
           <Tooltip formatter={(v, name) => [v, name]} />
           <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]}>
             {comparisonData.map((entry, index) => (
-              <Cell key={index} fill={entry.firmFill} />
+              <Cell key={index} fill={entry.color} />
             ))}
           </Bar>
           <Bar dataKey="benchmark" name="M&A-Ready" fill="#1e3a5f" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
-      <div className="flex items-center gap-4 mt-2 pt-2 border-t border-gray-100">
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#27AE60'}} /><span className="text-xs text-gray-500">Above Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#F39C12'}} /><span className="text-xs text-gray-500">Near Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#E74C3C'}} /><span className="text-xs text-gray-500">Below Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1e3a5f'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
+      <div className="flex items-center justify-center gap-6 mt-2 pt-2 border-t border-gray-100">
+        <div className="flex items-center gap-1.5"><div className="flex gap-px">{comparisonData.slice(0,4).map((d,i) => <div key={i} className="w-1.5 h-3 rounded-sm" style={{backgroundColor:d.color}} />)}</div><span className="text-xs text-gray-500">Your Firm (theme colours)</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1e3a5f'}} /><span className="text-xs text-gray-500">M&A-Ready Benchmark</span></div>
       </div>
     </div>
   );
@@ -2687,14 +2685,20 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
       if (val === null || val === undefined) return;
       const pct = Math.round((val / 3) * 100);
       const gap = benchmark - pct;
-      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), level: val, action: metric.improvementAction, evolving: metric.evolving, optimised: metric.optimised });
+      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), level: val, action: metric.improvementAction, evolving: metric.evolving, optimised: metric.optimised, themeColor: theme.color });
     });
   });
-  items.sort((a, b) => b.gap - a.gap);
+    // Weighted priority: gap * metric weight for smarter prioritisation
+    items.forEach(i => { i.priority = Math.round(i.gap * (i.metric.weight || 1)); });
+    items.sort((a, b) => b.priority - a.priority);
 
-  const critical = items.filter(i => i.gap >= 10);
-  const important = items.filter(i => i.gap >= 5 && i.gap < 10);
-  const niceToHave = items.filter(i => i.gap >= 1 && i.gap < 5);
+    // Distribute into tiers proportionally so items spread meaningfully
+    const n = items.length;
+    const criticalCount = Math.max(1, Math.ceil(n * 0.3));
+    const importantCount = Math.max(0, Math.ceil(n * 0.4));
+    const critical = items.slice(0, criticalCount);
+    const important = items.slice(criticalCount, criticalCount + importantCount);
+    const niceToHave = items.slice(criticalCount + importantCount);
 
   const Group = ({ id, title, bgColor, textColor, borderColor, groupItems }) => (
     <div className="rounded-lg border overflow-hidden" style={{borderColor}}>
@@ -2710,12 +2714,12 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
           {groupItems.map((item, idx) => (
             <div key={idx} className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="flex justify-between items-start mb-2">
-                <div><p className="font-medium">{item.metric.name}</p><p className="text-xs text-gray-500">{item.theme}</p></div>
+                <div><p className="font-medium">{item.metric.name}</p><p className="text-xs text-gray-500 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{backgroundColor: item.themeColor}} />{item.theme} · wt ×{item.metric.weight}</p></div>
                 <span className="text-lg font-bold" style={{color: borderColor}}>{item.pct}%</span>
               </div>
               <div className="mb-2"><div className="flex justify-between text-xs text-gray-500 mb-1"><span>Current</span><span>Target: {item.benchmark}%</span></div>
                 <div className="w-full bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-amber-900/100" style={{width: Math.min(100, item.pct / item.benchmark * 100) + "%"}}/></div></div>
-              <p className="text-sm text-gray-600 mb-2">Gap: <strong>{item.gap}%</strong></p>
+              <p className="text-sm text-gray-600 mb-2">Gap: <strong>{item.gap}%</strong> <span className="text-xs text-gray-400 ml-1">Priority score: {item.priority}</span></p>
               {item.action && (
                 <div className="space-y-2">
                   <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Improvement Actions</div>
