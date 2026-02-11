@@ -883,6 +883,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
         </button>
         {showEvidence && (
           <div className="mt-3 space-y-2">
+            {(evidence||[]).length === 0 && <p className="text-xs text-gray-400 italic">Add links, notes, or documents to support your rating. Evidence strengthens assessment credibility during due diligence.</p>}
             {(evidence||[]).map((item,idx) => (
               <div key={idx} className="flex items-start justify-between p-2 bg-gray-50 rounded text-sm">
                 <div className="flex-1 min-w-0">
@@ -911,7 +912,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
 
 function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
   return (
-    <div className="w-64 min-w-64 bg-white border-r border-gray-200 overflow-y-auto">
+    <div className="w-52 min-w-52 bg-white border-r border-gray-200 overflow-y-auto">
       <div className="p-3 border-b border-gray-200 bg-gray-50">
         <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Growth Themes</h3>
       </div>
@@ -940,7 +941,7 @@ function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
 }
 
 function HeatmapGrid({ ratings }) {
-  const themes = FRAMEWORK.themes;
+  const themes = [...FRAMEWORK.themes].sort((a, b) => b.totalWeight - a.totalWeight);
   const half = Math.ceil(themes.length / 2);
   const leftThemes = themes.slice(0, half);
   const rightThemes = themes.slice(half);
@@ -954,7 +955,7 @@ function HeatmapGrid({ ratings }) {
           const lc = levelColor(r?.level);
           return (
             <div key={m.id} title={`${m.name}: ${levelLabel(r?.level)}`} className="relative group">
-              <div className="w-8 h-8 rounded flex items-center justify-center text-xs font-bold cursor-default border" style={{ backgroundColor: lc.bg, color: lc.text, borderColor: lc.border }}>
+              <div className="w-9 h-9 rounded flex items-center justify-center text-sm font-bold cursor-default border" style={{ backgroundColor: lc.bg, color: lc.text, borderColor: lc.border }}>
                 {r?.level || "-"}
               </div>
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10">
@@ -2062,12 +2063,12 @@ function Breadcrumbs({ view, firmName, onNavigate }) {
   if (view === "dashboard") {
     crumbs.push({ label: "Dashboard", view: "dashboard" });
   }
-  if (view === "insights") {
+  if (view === "comparison") {
     crumbs.push({ label: "Firms", view: "firms" });
     crumbs.push({ label: firmName || "Firm", view: "firmDetail" });
     crumbs.push({ label: "Assessment", view: "assess" });
     crumbs.push({ label: "Dashboard", view: "dashboard" });
-    crumbs.push({ label: "Insights", view: "insights" });
+    crumbs.push({ label: "Insights", view: "comparison" });
   }
   if (view === "guidance") {
     crumbs.push({ label: "Guidance", view: "guidance" });
@@ -2194,11 +2195,11 @@ function LandingPage({ onGetStarted }) {
               </div>
               <div className="w-px h-4 bg-amber-400/40 mx-auto mb-2"></div>
               <div className="space-y-1">
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">VISION & STRATEGY</div>
         <div className="text-[11px] text-gray-400 tracking-wider font-semibold">FINANCIAL PERFORMANCE</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">CLIENTS & RELATIONSHIPS</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">VISION & STRATEGY</div>
         <div className="text-[11px] text-gray-400 tracking-wider font-semibold">SERVICES & PRICING</div>
         <div className="text-[11px] text-gray-400 tracking-wider font-semibold">SALES & PIPELINE</div>
+        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">CLIENTS & RELATIONSHIPS</div>
               </div>
             </div>
             <div className="text-3xl font-black text-amber-400 pt-3">×</div>
@@ -2310,7 +2311,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800">{firm.name}</h3>
-                      <p className="text-xs text-gray-400">{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}</p>
+                      <p className="text-xs text-gray-400">{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -2363,6 +2364,31 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         </div>
       </div>
 
+      {/* Quick Summary */}
+      {firmAssessments.length > 0 && (() => {
+        const latest = firmAssessments[0];
+        const s = calcScores(latest.ratings, BENCHMARK_PROFILES["M&A-Ready (PSF)"]);
+        return (
+          <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-4 mb-4 flex items-center gap-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
+              <div className="text-[10px] text-gray-400 uppercase">Score</div>
+            </div>
+            <div className="h-8 w-px bg-gray-200"></div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-[#f2a71b]">{s.readinessScore}%</div>
+              <div className="text-[10px] text-gray-400 uppercase">M&A Ready</div>
+            </div>
+            <div className="h-8 w-px bg-gray-200"></div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-700">{s.ratedCount}/{s.totalMetrics}</div>
+              <div className="text-[10px] text-gray-400 uppercase">Rated</div>
+            </div>
+            <div className="flex-1 text-right text-xs text-gray-400">Latest: {new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</div>
+          </div>
+        );
+      })()}
+
       {showTemplates && (
         <TemplateSelector
           onSelect={handleCreateWithTemplate}
@@ -2412,17 +2438,21 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
   const scrollRef = useRef(null);
+  const isScrollingRef = useRef(false);
 
   const handleJumpToTheme = (themeId) => {
     setSelectedTheme(themeId);
+    isScrollingRef.current = true;
     const el = document.getElementById('theme-section-' + themeId);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => { isScrollingRef.current = false; }, 800);
   };
 
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
     const onScroll = () => {
+      if (isScrollingRef.current) return;
       const sections = container.querySelectorAll('[data-theme-id]');
       let activeId = FRAMEWORK.themes[0].id;
       sections.forEach(s => { if (s.getBoundingClientRect().top <= 200) activeId = s.dataset.themeId; });
@@ -2935,8 +2965,14 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
       </div>
+      {/* Section Navigation */}
+      <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex gap-1 overflow-x-auto">
+        {[["scores","Scores"],["gaps","Gap Analysis"],["roadmap","Roadmap"],["scenario","Scenario"],["charts","Charts"],["heatmap","Heatmap"],["export","Export"]].map(([id,label]) => (
+          <button key={id} onClick={() => document.getElementById("dash-"+id)?.scrollIntoView({ behavior: "smooth", block: "start" })} className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50 rounded-full whitespace-nowrap transition-colors">{label}</button>
+        ))}
+      </div>
       {/* Unified Score Display */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6 flex items-center gap-8">
+      <div id="dash-scores" className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6 flex items-center gap-8 scroll-mt-16">
         <div className="flex-shrink-0">
           <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Raw Score" />
         </div>
@@ -2947,14 +2983,14 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
 
       {/* Gap Analysis */}
-      <GapAnalysisPanel themeGaps={scores.themeGaps} />
+      <div id="dash-gaps" className="scroll-mt-16"><GapAnalysisPanel themeGaps={scores.themeGaps} /></div>
 
       {/* Trend Analysis */}
       <TrendAnalysisPanel firmAssessments={firmAssessments} />
       {/* Score Change History */}
       <ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} />
-      <ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/>
-      <ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/>
+      <div id="dash-roadmap" className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
+      <div id="dash-scenario" className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       {/* Theme Score Summary Strip */}
       <div className="grid grid-cols-5 gap-2 mb-4">
         {FRAMEWORK.themes.map(t => {
@@ -2969,13 +3005,13 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         })}
       </div>
       {/* Charts */}
-      <div className="grid grid-cols-2 gap-6 mb-4">
+      <div id="dash-charts" className="grid grid-cols-2 gap-6 mb-4 scroll-mt-16">
         <RadarOverview radarData={radarData} benchmarkProfile={benchmarkProfile} />
         <BenchmarkComparison scores={scores} benchmarkProfile={benchmarkProfile} />
       </div>
       <div className="mb-4"><StrengthsWeaknesses ratings={assessment.ratings} /></div>
-      <div className="mb-4"><HeatmapGrid ratings={assessment.ratings} /></div>
-      <ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} />
+      <div id="dash-heatmap" className="mb-4 scroll-mt-16"><HeatmapGrid ratings={assessment.ratings} /></div>
+      <div id="dash-export" className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
     </div>
   );
 }
@@ -3026,6 +3062,46 @@ const GuidancePage = ({ onBack }) => {
                   <div className="text-sm font-semibold" style={{ color: t.color }}>{t.name}</div>
                   <div className="text-xs text-gray-400">{t.metrics.length} metrics · weight {t.totalWeight}</div>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <CheckCircle2 size={18} className="text-[#f2a71b]" /> Quick Start Guide
+          </h2>
+          <div className="space-y-3">
+            {[
+              ["1. Create a Firm", "Navigate to the Firms tab and click '+ New Firm'. Enter the firm name and select its sector for automatic benchmark matching."],
+              ["2. Start Assessment", "Click the firm, then '+ New Assessment'. Work through each theme, rating metrics on the 3-point scale (Foundational / Evolving / Optimised)."],
+              ["3. Add Evidence", "For each rating, expand the Evidence section to attach supporting links or notes. This builds credibility for due diligence reviews."],
+              ["4. Set Confidence", "Rate your confidence (Low / Medium / High) for each metric. Low confidence flags areas needing further investigation."],
+              ["5. Review Dashboard", "Once rated, open the Dashboard to see your M&A Readiness Score, gap analysis, and improvement roadmap."],
+              ["6. Model Scenarios", "Use Scenario Modelling to see how improving specific themes would change your overall readiness score."]
+            ].map(([step, desc], i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="w-6 h-6 rounded-full bg-[#f2a71b] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i+1}</div>
+                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> \u2014 {desc}</span></div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <Award size={18} className="text-[#f2a71b]" /> Assessment Best Practices
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              ["Be Honest", "Rate where the firm actually is, not where it aspires to be. Accurate baselines drive meaningful roadmaps."],
+              ["Use Evidence", "Attach links to documents, reports, or data that support each rating. Evidence-backed assessments carry more weight."],
+              ["Involve Stakeholders", "Have department leads rate their own areas. Cross-referencing perspectives improves accuracy."],
+              ["Reassess Quarterly", "Track progress over time by creating new assessments. The Insights tab compares across assessments."]
+            ].map(([title, desc], i) => (
+              <div key={i} className="p-3 bg-gray-50 rounded-lg border border-gray-100">
+                <div className="text-sm font-semibold text-gray-800 mb-1">{title}</div>
+                <div className="text-xs text-gray-500 leading-relaxed">{desc}</div>
               </div>
             ))}
           </div>
