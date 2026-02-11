@@ -1878,34 +1878,36 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
       <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
         <Download size={14} /> Export Assessment
       </h3>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-4 gap-3">
         <button onClick={() => exportExecutiveSummary(assessment, firmName, firmSector, scores)}
-          className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg font-medium text-sm transition shadow-sm">
-          <FileText size={16} />
-          Executive Summary (1 Page)
+          className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+          <FileText size={20} />
+          <span className="text-xs text-center leading-tight">Executive Summary</span>
         </button>
         <button onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#f2a71b] text-white rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors"
-        >
-          <FileText size={16} /> Export PDF Report
+          className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+          <FileText size={20} />
+          <span className="text-xs text-center leading-tight">Export PDF Report</span>
         </button>
-        <button
-          onClick={() => exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile)}
-          className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all shadow-sm font-medium text-sm col-span-full"
-        >
-          <FileText size={16} /> Detailed Assessment Report
+        <button onClick={() => exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile)}
+          className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+          <FileText size={20} />
+          <span className="text-xs text-center leading-tight">Detailed Report</span>
         </button>
-      </div><button
-          onClick={() => exportToCSV(assessment, firmName, assessment.ratings)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
-        >
-          <Download size={16} /> Download CSV
+        <button onClick={() => {
+          const csv = generateCSV(assessment);
+          const blob = new Blob([csv], { type: "text/csv" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a"); a.href = url; a.download = (firmName || "assessment") + "-ratings.csv"; a.click();
+        }}
+          className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+          <Download size={20} />
+          <span className="text-xs text-center leading-tight">Download CSV</span>
         </button>
-        
+      </div>
     </div>
   );
 }
-
 
 function RadarOverview({ radarData , benchmarkProfile }) {
   const benchmark = BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"];
@@ -1938,13 +1940,13 @@ function RadarOverview({ radarData , benchmarkProfile }) {
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
           <Radar name="Your Firm" dataKey="score" stroke="#f2a71b" fill="#f2a71b" fillOpacity={0.35} strokeWidth={3} />
-          <Radar name="M&A-Ready" dataKey="benchmark" stroke="#D97706" fill="#D97706" fillOpacity={0.05} strokeWidth={2} strokeDasharray="4 4" />
+          <Radar name="M&A-Ready" dataKey="benchmark" stroke="#1e40af" fill="#1e40af" fillOpacity={0.08} strokeWidth={2} strokeDasharray="6 3" />
           <Tooltip formatter={(v, name) => [v + '%', name]} />
         </RadarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-1">
         <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#f2a71b'}} /><span className="text-xs text-gray-500">Your Firm</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#D97706'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-8 h-0 border-t-2 border-dashed" style={{borderColor:'#1e40af'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
   );
@@ -1996,14 +1998,14 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
               <Cell key={index} fill={entry.firmFill} />
             ))}
           </Bar>
-          <Bar dataKey="benchmark" name="M&A-Ready" fill="#D97706" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="M&A-Ready" fill="#1e3a5f" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center gap-4 mt-2 pt-2 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#27AE60'}} /><span className="text-xs text-gray-500">Above Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#F39C12'}} /><span className="text-xs text-gray-500">Near Benchmark</span></div>
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#E74C3C'}} /><span className="text-xs text-gray-500">Below Benchmark</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#D97706'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1e3a5f'}} /><span className="text-xs text-gray-500">M&A-Ready</span></div>
       </div>
     </div>
   );
@@ -2186,43 +2188,28 @@ function LandingPage({ onGetStarted }) {
             A structured framework that evaluates professional services firms across 10 growth themes and 47 metrics — benchmarked against M&A-ready standards.
           </p>
         </div>
-        {/* VALUE EQUATION */}
-        <div className="w-full max-w-4xl mx-auto px-4 mb-8">
-          <div className="flex items-start justify-center gap-4">
-            <div className="flex-1 text-center max-w-[220px]">
-              <div className="px-6 py-3 border-2 border-amber-400 rounded-lg mb-3">
-                <div className="text-amber-400 font-black text-xl tracking-widest">EBITDA</div>
-              </div>
-              <div className="w-px h-4 bg-amber-400/40 mx-auto mb-2"></div>
-              <div className="space-y-1">
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">FINANCIAL PERFORMANCE</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">VISION & STRATEGY</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">SERVICES & PRICING</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">SALES & PIPELINE</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">CLIENTS & RELATIONSHIPS</div>
-              </div>
-            </div>
-            <div className="text-3xl font-black text-amber-400 pt-3">×</div>
-            <div className="flex-1 text-center max-w-[220px]">
-              <div className="px-6 py-3 border-2 border-amber-400 rounded-lg mb-3">
-                <div className="text-amber-400 font-black text-xl tracking-widest">MULTIPLE</div>
-              </div>
-              <div className="w-px h-4 bg-amber-400/40 mx-auto mb-2"></div>
-              <div className="space-y-1">
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">PEOPLE</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">LEADERSHIP & GOVERNANCE</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">COST OPTIMISATION</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">DELIVERY</div>
-        <div className="text-[11px] text-gray-400 tracking-wider font-semibold">MARKET PROFILE</div>
-              </div>
-            </div>
-            <div className="text-3xl font-black text-amber-400 pt-3">=</div>
-            <div className="flex-1 text-center max-w-[220px]">
-              <div className="px-6 py-3 bg-amber-400 rounded-lg">
-                <div className="text-gray-900 font-black text-xl tracking-widest">FIRM VALUE</div>
-              </div>
-            </div>
+        {/* GROWTH THEMES */}
+        <div className="w-full max-w-5xl mx-auto px-4 mb-8">
+          <div className="grid grid-cols-5 gap-3 mb-6">
+            {FRAMEWORK.themes.map(theme => {
+              const Icon = ICON_MAP[theme.icon] || Globe;
+              return (
+                <div key={theme.id} className="group relative bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-amber-400/60 rounded-xl p-4 text-center transition-all duration-300 cursor-default"
+                  onMouseEnter={() => setHoveredTheme(theme.id)} onMouseLeave={() => setHoveredTheme(null)}>
+                  <Icon size={24} className="mx-auto mb-2 text-amber-400 group-hover:scale-110 transition-transform" />
+                  <div className="text-xs font-bold text-white tracking-wide leading-tight">{theme.name.toUpperCase()}</div>
+                </div>
+              );
+            })}
           </div>
+          <div className="flex items-center justify-center gap-3 text-gray-400">
+            <div className="px-4 py-1.5 border border-gray-500 rounded text-xs font-bold tracking-wider">EBITDA</div>
+            <span className="text-lg font-bold text-gray-500">×</span>
+            <div className="px-4 py-1.5 border border-gray-500 rounded text-xs font-bold tracking-wider">MULTIPLE</div>
+            <span className="text-lg font-bold text-gray-500">=</span>
+            <div className="px-4 py-1.5 bg-amber-400/20 border border-amber-400/40 rounded text-xs font-bold text-amber-400 tracking-wider">FIRM VALUE</div>
+          </div>
+          <p className="text-[11px] text-gray-500 text-center mt-2">5 themes drive EBITDA · 5 themes drive the Multiple · Together they determine Firm Value</p>
         </div>
         <div className="flex gap-3" style={{ position: "relative", zIndex: 2 }}>
           <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "#f2a71b", color: "#1f1f1f", border: "none", boxShadow: "0 4px 16px rgba(242,167,27,0.3)", letterSpacing: "0.02em", fontFamily: "'Montserrat', sans-serif" }}>
@@ -2478,6 +2465,18 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             <span className="text-xs text-gray-400">({scores.ratedCount}/{scores.totalMetrics})</span>
           </div>
         </div>
+        {/* Assessment Guidance */}
+        <div className="bg-amber-50/60 border border-amber-200/60 rounded-lg mx-4 mt-3 mb-1 p-4">
+          <div className="flex gap-3">
+            <Info size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-gray-600 space-y-1.5">
+              <p className="font-semibold text-gray-700">How to complete your assessment</p>
+              <p>For each metric, select the maturity level that best describes your firm today: <strong>Foundational</strong> (basic/informal), <strong>Evolving</strong> (structured but inconsistent), or <strong>Optimised</strong> (best-in-class). Use the fine-tune slider to adjust between levels.</p>
+              <p><strong>Confidence rating:</strong> After selecting a level, rate your confidence as Low, Medium, or High. Low confidence flags areas where you need more data or stakeholder input before finalising. This helps prioritise follow-up during due diligence.</p>
+              <p><strong>Evidence:</strong> Expand the Evidence section to attach supporting links or notes. Evidence-backed ratings carry more weight in M&A reviews.</p>
+            </div>
+          </div>
+        </div>
         {FRAMEWORK.themes.map((theme) => (
           <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="border-b border-gray-100">
             <div className="sticky top-[41px] z-[5] bg-gray-50 border-b border-gray-200 px-4 py-2">
@@ -2661,7 +2660,7 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
       if (val === null || val === undefined) return;
       const pct = Math.round((val / 3) * 100);
       const gap = benchmark - pct;
-      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), action: metric.improvementAction });
+      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), level: val, action: metric.improvementAction, evolving: metric.evolving, optimised: metric.optimised });
     });
   });
   items.sort((a, b) => b.gap - a.gap);
@@ -2690,7 +2689,27 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
               <div className="mb-2"><div className="flex justify-between text-xs text-gray-500 mb-1"><span>Current</span><span>Target: {item.benchmark}%</span></div>
                 <div className="w-full bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-amber-900/100" style={{width: Math.min(100, item.pct / item.benchmark * 100) + "%"}}/></div></div>
               <p className="text-sm text-gray-600 mb-2">Gap: <strong>{item.gap}%</strong></p>
-              {item.action && <p className="text-sm bg-amber-900/10 p-3 rounded text-gray-800">{item.action}</p>}
+              {item.action && (
+                <div className="space-y-2">
+                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Improvement Actions</div>
+                  <div className="flex items-start gap-2 bg-amber-50 p-2.5 rounded border-l-3 border-amber-400">
+                    <Target size={12} className="text-amber-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">{item.action}</p>
+                  </div>
+                  {item.level === 1 && item.evolving && (
+                    <div className="flex items-start gap-2 bg-blue-50 p-2.5 rounded border-l-3 border-blue-400">
+                      <TrendingUp size={12} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-gray-700"><span className="font-medium">Next level:</span> {item.evolving}</p>
+                    </div>
+                  )}
+                  {item.level <= 2 && item.optimised && (
+                    <div className="flex items-start gap-2 bg-green-50 p-2.5 rounded border-l-3 border-green-400">
+                      <Award size={12} className="text-green-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-gray-700"><span className="font-medium">Target state:</span> {item.optimised}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -2971,15 +2990,77 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           <button key={id} onClick={() => document.getElementById("dash-"+id)?.scrollIntoView({ behavior: "smooth", block: "start" })} className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50 rounded-full whitespace-nowrap transition-colors">{label}</button>
         ))}
       </div>
+      {/* Dashboard Guidance */}
+      <div className="bg-blue-50/60 border border-blue-200/50 rounded-lg p-3 mb-4">
+        <div className="flex gap-3">
+          <Info size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
+          <div className="text-xs text-gray-600">
+            <strong>How to use this dashboard:</strong> The executive summary shows your overall readiness. Use the <strong>Benchmark Profile</strong> selector above to compare against different industry standards. Scroll through sections using the navigation bar, or click <strong>Insights</strong> to compare across assessments. The Gap Analysis and Improvement Roadmap highlight where to focus for maximum impact on firm value.
+          </div>
+        </div>
+      </div>
       {/* Unified Score Display */}
-      <div id="dash-scores" className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6 flex items-center gap-8 scroll-mt-16">
-        <div className="flex-shrink-0">
-          <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Raw Score" />
-        </div>
-        <div className="flex-1">
-          <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
-          <p className="text-xs text-gray-400 mt-2">Raw score ({Math.round((scores.totalScore / scores.totalMaxPossible) * 100)}%) is weighted against the {benchmarkProfile || "M&A-Ready (PSF)"} benchmark to calculate M&A Readiness ({scores.readinessScore}%).</p>
-        </div>
+ <div id="dash-scores" className="scroll-mt-16 mb-6">
+        {/* Executive Summary */}
+        {(() => {
+          const themeArr = FRAMEWORK.themes.map(t => ({name: t.name, pct: scores.themeScores[t.id]?.pct || 0, gap: (activeBenchmark[t.id] || 65) - (scores.themeScores[t.id]?.pct || 0)}));
+          const strengths = [...themeArr].sort((a,b) => b.pct - a.pct).slice(0,3);
+          const gaps = [...themeArr].filter(t => t.gap > 0).sort((a,b) => b.gap - a.gap).slice(0,3);
+          const critCount = themeArr.filter(t => t.gap > 20).length;
+          const totalMetrics = FRAMEWORK.themes.reduce((s,t) => s + t.metrics.length, 0);
+          return (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              {/* Top row: scores */}
+              <div className="p-6 flex items-center gap-8 border-b border-gray-100">
+                <div className="flex-shrink-0">
+                  <ScoreGauge score={scores.totalScore} max={scores.totalMaxPossible} label="Raw Score" />
+                </div>
+                <div className="flex-1">
+                  <ReadinessScoreBanner readinessScore={scores.readinessScore} readinessLevel={scores.readinessLevel} />
+                  <p className="text-xs text-gray-400 mt-2">Raw score ({Math.round((scores.totalScore / scores.totalMaxPossible) * 100)}%) weighted against {benchmarkProfile || "M&A-Ready (PSF)"} benchmark = {scores.readinessScore}% M&A Readiness.</p>
+                </div>
+              </div>
+              {/* Bottom row: insights grid */}
+              <div className="grid grid-cols-4 divide-x divide-gray-100">
+                <div className="p-4">
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Top Strengths</div>
+                  {strengths.map((s,i) => (
+                    <div key={i} className="flex items-center gap-2 mb-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                      <span className="text-xs text-gray-700 truncate">{s.name}</span>
+                      <span className="text-xs font-bold text-green-600 ml-auto">{Math.round(s.pct)}%</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4">
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Largest Gaps</div>
+                  {gaps.map((g,i) => (
+                    <div key={i} className="flex items-center gap-2 mb-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                      <span className="text-xs text-gray-700 truncate">{g.name}</span>
+                      <span className="text-xs font-bold text-red-500 ml-auto">-{Math.round(g.gap)}%</span>
+                    </div>
+                  ))}
+                  {gaps.length === 0 && <p className="text-xs text-green-600 italic">All themes meet benchmark</p>}
+                </div>
+                <div className="p-4">
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Actions Needed</div>
+                  <div className="text-2xl font-bold text-gray-800">{critCount}</div>
+                  <div className="text-xs text-gray-500">critical priorities</div>
+                  <div className="text-xs text-gray-400 mt-1">{themeArr.filter(t => t.gap > 0).length} of {themeArr.length} themes below benchmark</div>
+                </div>
+                <div className="p-4">
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Completion</div>
+                  <div className="text-2xl font-bold text-gray-800">{scores.ratedCount}/{totalMetrics}</div>
+                  <div className="text-xs text-gray-500">metrics rated</div>
+                  <div className="w-full bg-gray-100 rounded-full h-1.5 mt-2">
+                    <div className="h-1.5 rounded-full bg-[#f2a71b]" style={{width: Math.round((scores.ratedCount/totalMetrics)*100) + "%"}} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Gap Analysis */}
