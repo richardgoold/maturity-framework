@@ -2289,7 +2289,7 @@ function LandingPage({ onGetStarted }) {
           <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "#f2a71b", color: "#1f1f1f", border: "none", boxShadow: "0 4px 16px rgba(242,167,27,0.3)", letterSpacing: "0.02em", fontFamily: "'Montserrat', sans-serif" }}>
             START ASSESSMENT
           </button>
-          <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "transparent", border: "2px solid #f2a71b", color: "#f2a71b", fontFamily: "'Montserrat', sans-serif", letterSpacing: "0.02em" }}>
+          <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "rgba(242, 167, 27, 0.08)", border: "2px solid #f2a71b", color: "#f2a71b", fontFamily: "'Montserrat', sans-serif", letterSpacing: "0.02em" }}>
             VIEW DEMO FIRMS
           </button>
         </div>
@@ -2358,8 +2358,12 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
 
       {firms.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
-          <Building2 size={48} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-gray-500">No firms yet. Create one to get started.</p>
+          <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">No firms yet</h3>
+          <p className="text-gray-500 mb-6">Create your first firm to begin an M&A readiness assessment.</p>
+          <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
+            <Plus size={16} /> Create Your First Firm
+          </button>
         </div>
       ) : (
         <>
@@ -2850,7 +2854,14 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Target size={20} className="text-[#f2a71b]"/> Improvement Roadmap</h3>
-      {items.length === 0 ? <p className="text-green-700 bg-green-50 p-4 rounded-lg text-center font-medium">All metrics meet or exceed benchmarks!</p> : (
+      {items.length === 0 ? (
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg p-8 text-center">
+            <CheckCircle2 size={48} className="mx-auto text-green-600 mb-3" />
+            <h3 className="text-xl font-bold text-green-800 mb-2">Excellent Progress!</h3>
+            <p className="text-green-700 mb-2">All metrics meet or exceed M&A-Ready benchmarks.</p>
+            <p className="text-sm text-green-600">Continue monitoring to maintain this strong position.</p>
+          </div>
+        ) : (
         <div className="space-y-3">
           {critical.length > 0 && <Group id="critical" title="Critical Priority" bgColor="bg-red-50" textColor="text-red-800" borderColor="#DC2626" groupItems={critical}/>}
           {important.length > 0 && <Group id="important" title="Important" bgColor="bg-amber-50" textColor="text-amber-800" borderColor="#D97706" groupItems={important}/>}
@@ -2964,7 +2975,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-2.5 px-3 font-semibold text-gray-700">Theme</th>
+                    <th className="text-left py-2.5 px-3 font-semibold text-gray-700 sticky left-0 z-10 bg-white">Theme</th>
                     <th className="text-center py-2.5 px-3 font-semibold text-[#f2a71b]">Score</th>
                     {profileNames.map(n => <th key={n} className="text-center py-2.5 px-2 font-medium text-gray-500 text-xs" title={n}>{n.replace("M&A-Ready (PSF)", "M&A-Ready").replace("Top Decile (PSF)", "Top Dec.").replace("Industry Average", "Ind. Avg").replace("Consulting Benchmark", "Consult.").replace("Technology Scale-up", "Tech S/U").replace("Legal & Compliance", "Legal")}</th>)}
                   </tr>
@@ -2974,7 +2985,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                     const myScore = latest.scores.themeScores[theme.id]?.pct || 0;
                     return (
                       <tr key={theme.id} className={`border-b ${idx % 2 === 0 ? "bg-gray-50" : ""}`}>
-                        <td className="py-2 px-3 font-medium text-gray-800">{theme.name}</td>
+                        <td className="py-2 px-3 font-medium text-gray-800 sticky left-0 z-10 bg-white">{theme.name}</td>
                         <td className="text-center py-2 px-3 font-bold text-[#f2a71b]">{myScore}%</td>
                         {profileNames.map(n => {
                           const bench = BENCHMARK_PROFILES[n][theme.id] || 65;
@@ -3658,7 +3669,8 @@ export default function App() {
           if (v === "landing") { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firms") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firmDetail") { setView("firmDetail"); setSelectedAssessmentId(null); }
-          else if (v === "assess") { setView("assess"); }
+          else if (v === "assess") { if (!selectedAssessmentId) { setView("firms"); } else { setView("assess"); } }
+          else if (v === "dashboard") { if (!selectedFirmId) { setView("firms"); } else { setView(v); } }
           else setView(v);
         }}
       />
