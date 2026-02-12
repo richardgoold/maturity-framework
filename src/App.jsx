@@ -805,7 +805,8 @@ function ScoreGauge({ score, max, label }) {
 }
 
 function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence, onEvidence }) {
-  const [showComment, setShowComment] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+    const [showComment, setShowComment] = useState(false);
   const [showGuidance, setShowGuidance] = useState(false);
   const confidence = rating?.confidence || null;
   const [showEvidence, setShowEvidence] = useState(false);
@@ -928,6 +929,13 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
           <textarea value={comment} onChange={e => { setComment(e.target.value); onComment(metric.id, e.target.value); }} placeholder="Add evidence notes, reasoning, or commentary..." className="w-full text-xs border border-gray-200 rounded p-2 h-16 resize-none focus:outline-none focus:ring-2 focus:ring-[#f2a71b] transition-shadow" />
         </div>
       )}
+      <div className="px-3 py-1.5 border-t border-gray-100 flex justify-center">
+        <button onClick={() => setShowDetail(!showDetail)} className="text-xs text-gray-400 hover:text-amber-600 transition-colors flex items-center gap-1">
+          {showDetail ? "Hide detail" : "Add detail (confidence & evidence)"}
+          <ChevronDown size={12} className={showDetail ? "rotate-180 transition-transform" : "transition-transform"} />
+        </button>
+      </div>
+      {showDetail && <div>
       {/* Confidence Indicator */}
       <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100">
         <label className="text-xs font-medium text-gray-500 block mb-1.5">Confidence</label>
@@ -980,6 +988,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
           </div>
         )}
       </div>
+      </div>}
     </div>
   );
 }
@@ -2069,7 +2078,7 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
                 return (<text x={x} y={y} textAnchor="end" fontSize={9} fill="#666" dy={lines.length > 1 ? -4 : 4}>{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? 0 : 11}>{l}</tspan>))}</text>);
               }} />
           <Tooltip formatter={(v, name) => [v, name]} />
-          <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]}>
+          <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]} label={({ x, y, width, height, value, index }) => { const d = comparisonData[index]; const gap = d.firm - d.benchmark; return <text x={x + width + 4} y={y + height / 2} fill={gap >= 0 ? "#1E8449" : "#DC2626"} fontSize={10} dominantBaseline="middle">{gap >= 0 ? "+" : ""}{gap}%</text>; }}>
             {comparisonData.map((entry, index) => (
               <Cell key={index} fill={entry.color} />
             ))}
@@ -2322,6 +2331,7 @@ function LandingPage({ onGetStarted }) {
 }
 function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem }) {
   const [showCreate, setShowCreate] = useState(false);
+    const [sortBy, setSortBy] = useState("date");
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
 
@@ -2374,8 +2384,16 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>33–65% Developing</span>
           <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;33% Early Stage</span>
         </div>
-        <div className="space-y-2">
-          {firms.map(firm => {
+        <div className="flex items-center justify-end mb-2">
+              <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-600 bg-white focus:outline-none focus:ring-1 focus:ring-amber-400">
+                <option value="date">Date added</option>
+                <option value="name">Name A\u2013Z</option>
+                <option value="sector">Sector</option>
+                <option value="recent">Recently updated</option>
+              </select>
+            </div>
+          <div className="space-y-2">
+          {[...firms].sort((a, b) => { if (sortBy === "name") return a.name.localeCompare(b.name); if (sortBy === "sector") return (a.sector || "").localeCompare(b.sector || ""); if (sortBy === "recent") { const aDate = Object.values(assessments).filter(x => x.firmId === a.id).map(x => x.date).sort().pop() || ""; const bDate = Object.values(assessments).filter(x => x.firmId === b.id).map(x => x.date).sort().pop() || ""; return bDate.localeCompare(aDate); } return 0; }).map(firm => {
             const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id);
             const latest = firmAssessments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
             const latestScores = latest ? calcScores(latest.ratings) : null;
@@ -2965,7 +2983,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
                   <div className="text-3xl font-bold" style={{color: bc.readiness >= 90 ? "#059669" : bc.readiness >= 70 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 90 ? "bg-green-100 text-green-700" : bc.readiness >= 70 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
-                  <p className="text-xs text-gray-400 mt-2">{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
+                  <p className="text-xs mt-2" style={{ color: bc.readiness >= 90 ? "#1E8449" : bc.readiness >= 70 ? "#B7950B" : "#DC2626" }}>{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
                 </div>
               ))}
             </div>
@@ -3693,8 +3711,8 @@ export default function App() {
       />
 
       {/* Content */}
-      <style>{`@media print { nav, footer, .no-print, button { display: none !important; } main { overflow: visible !important; } body { font-size: 12pt; } }`}</style>
-        <main className="flex-1 overflow-auto flex flex-col">
+      <style>{`@media print { nav, footer, .no-print, button { display: none !important; } main { overflow: visible !important; } body { font-size: 12pt; } } @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } .view-transition { animation: fadeSlideIn 0.3s ease-out; }`}</style>
+        <main key={view + (selectedFirmId || "") + (selectedAssessId || "")} className="flex-1 overflow-auto flex flex-col view-transition">
         {view === "landing" && (
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
