@@ -705,7 +705,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
                   <AnimatedNumber value={scores.pct} suffix="%" />
                 </div>
                 <div className="text-xs text-gray-500">Maturity Score</div>
-                <div className="text-xs text-[#4e5b73] mt-0.5">
+                <div className="text-xs mt-0.5" style={{ color: scores.ratedCount === scores.totalMetrics ? '#1E8449' : scores.ratedCount > 0 ? '#B7950B' : '#9ca3af' }}>
                   {scores.ratedCount}/{scores.totalMetrics} metrics rated
                 </div>
               </div>
@@ -1318,6 +1318,11 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
           .no-break {
             page-break-inside: avoid;
           }
+        }
+        @media print {
+          nav, footer, .no-print, button { display: none !important; }
+          main { overflow: visible !important; }
+          body { font-size: 12pt; }
         }
 
         body {
@@ -3010,6 +3015,11 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
               <div className="w-16 h-16 bg-amber-900/10 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-[#f2a71b]" size={28} /></div>
               <h3 className="font-semibold text-lg mb-2 text-gray-900">One Assessment Available</h3>
               <p className="text-gray-500 mb-4 max-w-md mx-auto">Create additional assessments to compare results across different assessors or track progress over time.</p>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Track quarterly progress</span>
+                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Compare assessors</span>
+                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Measure improvement</span>
+                </div>
               <div className="flex gap-6 justify-center text-sm text-gray-400">
                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-400"/> Multiple assessors</div>
                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-400"/> Year-on-year tracking</div>
@@ -3285,8 +3295,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           const ts = scores.themeScores[t.id];
           const pct = ts?.pct || 0;
           return (
-            <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-2 text-center">
-              <div className="text-xs font-medium text-gray-500 truncate">{t.name}</div>
+            <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-2 text-center border-t-2 hover:shadow-md transition-all" style={{ borderTopColor: t.color }}>
+              <div className="text-xs font-medium truncate" style={{ color: t.color }}>{t.name}</div>
               <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 80 ? "#16A34A" : pct >= 50 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%</div>
             </div>
           );
