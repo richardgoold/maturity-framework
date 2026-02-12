@@ -915,6 +915,11 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
               {v}
             </button>
           ))}
+          <div className="flex justify-between mt-1 px-1">
+            <span className="text-[10px] text-gray-400">Foundational</span>
+            <span className="text-[10px] text-gray-400">Evolving</span>
+            <span className="text-[10px] text-gray-400">Optimised</span>
+          </div>
         </div>
       )}
 
@@ -989,10 +994,10 @@ function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
         const s = scores?.themeScores?.[theme.id];
         const active = selectedTheme === theme.id;
         return (
-          <button key={theme.id} onClick={() => onSelect(theme.id)} className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all flex items-center gap-2 ${active ? "bg-amber-900/10 border-l-4 border-l-[#f2a71b]" : "hover:bg-gray-50 border-l-4 border-l-transparent"}`}>
+          <button key={theme.id} onClick={() => onSelect(theme.id)} className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all flex items-center gap-2 ${active ? "bg-amber-900/10 border-l-4 " : "hover:bg-gray-50 border-l-4 border-l-transparent"}`} style={active ? {borderLeftColor: theme.color} : {}}>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className={`text-xs font-semibold truncate ${active ? "text-[#f2a71b]" : "text-gray-700"}`}><span className="flex items-center gap-1">{getThemeIcon(theme.icon, 12)} {theme.name}</span></span>
+                <span className={`text-xs font-semibold truncate ${active ? "" : "text-gray-700"}`} style={active ? {color: theme.color} : {}}><span className="flex items-center gap-1">{getThemeIcon(theme.icon, 12)} {theme.name}</span></span>
               </div>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="flex-1 bg-gray-200 rounded-full h-1.5">
@@ -1951,7 +1956,7 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
       <div className="grid grid-cols-4 gap-3">
         <button onClick={() => exportExecutiveSummary(assessment, firmName, firmSector, scores)}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
-          <FileText size={20} />
+          <ClipboardCheck size={20} />
           <span className="text-xs text-center leading-tight">Executive Summary</span>
         </button>
         <button onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
@@ -1961,7 +1966,7 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
         </button>
         <button onClick={() => exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile)}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
-          <FileText size={20} />
+          <BookOpen size={20} />
           <span className="text-xs text-center leading-tight">Detailed Report</span>
         </button>
         <button onClick={() => {
@@ -2597,7 +2602,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
         </div>
     )}
         {FRAMEWORK.themes.map((theme) => (
-          <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="border-b border-gray-100">
+          <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="border-b border-gray-100 scroll-mt-16">
             <div className="sticky top-[41px] z-[5] bg-gray-50 border-b border-gray-200 px-4 py-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -3263,6 +3268,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       {/* Theme Score Summary Strip */}
+      <h4 className="text-sm font-medium text-gray-500 mb-2">Current Assessment Scores</h4>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-4">
         {FRAMEWORK.themes.map(t => {
           const ts = scores.themeScores[t.id];
