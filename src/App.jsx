@@ -745,7 +745,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
               <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Recent Activity</div>
               <div className="space-y-2">
                 {recentRatings.map((r, i) => (
-                  <div key={i} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
+                  <div key={i} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg animate-fade-in border-l-[3px]" style={{ animationDelay: `${i * 100}ms`, borderLeftColor: (FRAMEWORK.themes.find(t => t.id === r.themeId) || {}).color || '#9ca3af' }}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${r.level >= 2.5 ? 'bg-green-100 text-green-700' :
                       r.level >= 1.5 ? 'bg-yellow-100 text-yellow-700' :
                         'bg-red-100 text-red-700'
@@ -2300,10 +2300,10 @@ function LandingPage({ onGetStarted }) {
       </div>
 
       {/* HOW IT WORKS */}
-      <div id="how-it-works" className="py-16 px-6 bg-white">
+      <div id="how-it-works" className="py-16 px-6" style={{ background: "linear-gradient(to bottom, #23272b, #f9f9f9)" }}>
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-1 uppercase" style={{ color: "#1f1f1f", letterSpacing: "-0.02em" }}>How It Works</h2>
-          <p className="text-center text-sm mb-10" style={{ color: "#4e5b73" }}>Four steps from assessment to actionable insight</p>
+          <h2 className="text-2xl font-bold text-center mb-1 uppercase" style={{ color: "#ffffff", letterSpacing: "-0.02em" }}>How It Works</h2>
+          <p className="text-center text-sm mb-10" style={{ color: "#d1d5db" }}>Four steps from assessment to actionable insight</p>
           <div className="grid grid-cols-4 gap-5">
             {steps.map((s, i) => (
               <div key={i} className="text-center p-5 rounded-xl relative" style={{ background: "#f9f9f9", border: "1px solid #e5e5e5" }}>
@@ -2382,7 +2382,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
               <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: "#4e5b73" }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 33 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
                       {firm.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
@@ -2444,7 +2444,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <button onClick={onBack} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-4"><ArrowLeft size={14} /> Back to Firms</button>
+      
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
@@ -3247,7 +3247,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                       <span className="text-xs font-bold text-red-500 ml-auto">-{Math.round(g.gap)}%</span>
                     </div>
                   ))}
-                  {gaps.length === 0 && <p className="text-xs text-green-600 italic">All themes meet benchmark</p>}
+                  {gaps.length === 0 && <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg"><CheckCircle2 size={14} className="text-green-600 flex-shrink-0" /><span className="text-xs text-green-700 font-medium">All themes exceeding M&A benchmarks</span></div>}
                 </div>
                 <div className="p-4">
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Actions Needed</div>
