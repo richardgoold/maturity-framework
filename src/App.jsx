@@ -2262,10 +2262,11 @@ function LandingPage({ onGetStarted }) {
             {FRAMEWORK.themes.map(theme => {
               const Icon = ICON_MAP[theme.icon] || Globe;
               return (
-                <div key={theme.id} className="group relative bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-amber-400/60 rounded-xl p-4 text-center transition-all duration-300 cursor-default"
-                  onMouseEnter={() => setHoveredTheme(theme.id)} onMouseLeave={() => setHoveredTheme(null)}>
+                <div key={theme.id} className="group relative bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-amber-400/60 rounded-xl p-4 text-center transition-all duration-300 cursor-pointer"
+                  onMouseEnter={() => setHoveredTheme(theme.id)} onMouseLeave={() => setHoveredTheme(null)} onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}>
                   <Icon size={24} className="mx-auto mb-2 text-amber-400 group-hover:scale-110 transition-transform" />
                   <div className="text-xs font-bold text-white tracking-wide leading-tight">{theme.name.toUpperCase()}</div>
+              <div className="text-[10px] text-white/50 mt-1">{theme.metrics.length} metrics</div>
                 </div>
               );
             })}
@@ -2289,8 +2290,12 @@ function LandingPage({ onGetStarted }) {
         </div>
       </div>
 
+      <div className="flex justify-center mt-2 mb-4">
+        <ChevronDown size={28} className="text-white/40 animate-bounce cursor-pointer" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} />
+      </div>
+
       {/* HOW IT WORKS */}
-      <div className="py-16 px-6 bg-white">
+      <div id="how-it-works" className="py-16 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-1 uppercase" style={{ color: "#1f1f1f", letterSpacing: "-0.02em" }}>How It Works</h2>
           <p className="text-center text-sm mb-10" style={{ color: "#4e5b73" }}>Four steps from assessment to actionable insight</p>
@@ -2352,6 +2357,12 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <p className="text-gray-500">No firms yet. Create one to get started.</p>
         </div>
       ) : (
+        <div className="flex items-center gap-4 mb-3 px-1">
+          <span className="text-xs text-gray-400 font-medium">Score:</span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>≥66% On Track</span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>33–65% Developing</span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;33% Early Stage</span>
+        </div>
         <div className="space-y-2">
           {firms.map(firm => {
             const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id);
@@ -2508,11 +2519,12 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   );
 }
 
-function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence }) {
+function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence, onGuidance }) {
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
   const scrollRef = useRef(null);
   const isScrollingRef = useRef(false);
+  const [assessBannerDismissed, setAssessBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_assess_banner') === '1');
 
   const handleJumpToTheme = (themeId) => {
     setSelectedTheme(themeId);
@@ -2545,6 +2557,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={18} /></button>
             <h2 className="text-sm font-bold text-gray-800">Assessment</h2>
             <span className="text-xs text-gray-400">{FRAMEWORK.themes.length} themes · {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</span>
+              {onGuidance && <button onClick={onGuidance} className="text-xs text-gray-400 hover:text-amber-500 flex items-center gap-1 transition-colors ml-2"><HelpCircle size={13} /> Guidance</button>}
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-gray-400">Overall</span>
@@ -2567,7 +2580,9 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
                 </select>
               </div>
               {/* Assessment Guidance */}
-        <div className="bg-amber-50/60 border border-amber-200/60 rounded-lg mx-4 mt-3 mb-1 p-4">
+        {!assessBannerDismissed && (
+    <div className="bg-amber-50/60 border border-amber-200/60 rounded-lg mx-4 mt-3 mb-1 p-4 relative">
+            <button onClick={() => { setAssessBannerDismissed(true); localStorage.setItem('gdmf_dismiss_assess_banner', '1'); }} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-colors" aria-label="Dismiss"><X size={14} /></button>
           <div className="flex gap-3">
             <Info size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
             <div className="text-xs text-gray-600 space-y-1.5">
@@ -2578,6 +2593,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             </div>
           </div>
         </div>
+    )}
         {FRAMEWORK.themes.map((theme) => (
           <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="border-b border-gray-100">
             <div className="sticky top-[41px] z-[5] bg-gray-50 border-b border-gray-200 px-4 py-2">
@@ -3066,7 +3082,8 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
   );
 }
 
-function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare }) {
+function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare, onGuidance }) {
+  const [dashBannerDismissed, setDashBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_dash_banner') === '1');
   const [activeTab, setActiveTab] = useState("scores");
   const scores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const radarData = FRAMEWORK.themes.map(t => ({
@@ -3094,6 +3111,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         <div>
           <h1 className="text-2xl font-bold text-gray-800">{firmName} - Maturity Dashboard</h1>
           <p className="text-sm text-gray-500">Assessment from {new Date(assessment.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}{firmSector ? ` \u00B7 ${firmSector}` : ""}</p>
+          {onGuidance && <button onClick={onGuidance} className="text-xs text-gray-400 hover:text-amber-500 flex items-center gap-1 transition-colors mt-1"><HelpCircle size={13} /> Guidance</button>}
         </div>
       {/* Benchmark Profile Selector */}
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
@@ -3112,7 +3130,9 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         ))}
       </div>
       {/* Dashboard Guidance */}
-      <div className="bg-blue-50/60 border border-blue-200/50 rounded-lg p-3 mb-4">
+      {!dashBannerDismissed && (
+      <div className="bg-blue-50/60 border border-blue-200/50 rounded-lg p-3 mb-4 relative">
+          <button onClick={() => { setDashBannerDismissed(true); localStorage.setItem('gdmf_dismiss_dash_banner', '1'); }} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-colors" aria-label="Dismiss"><X size={14} /></button>
         <div className="flex gap-3">
           <Info size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
           <div className="text-xs text-gray-600">
@@ -3120,6 +3140,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           </div>
         </div>
       </div>
+      )}
       {/* Unified Score Display */}
  <div id="dash-scores" style={{ display: activeTab === "scores" ? "block" : "none" }} className="scroll-mt-16 mb-6">
         {/* Executive Summary */}
@@ -3646,7 +3667,7 @@ export default function App() {
           <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />
         )}
         {view === "assess" && selectedAssessment && (
-          <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} onEvidence={handleEvidence} />
+          <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} onEvidence={handleEvidence} onGuidance={() => setView("guidance")} />
         )}
         {view === "dashboard" && (dashboardAssessment || selectedAssessment) && (
           <DashboardView
@@ -3658,6 +3679,7 @@ export default function App() {
               benchmarkProfile={benchmarkProfile}
               onBenchmarkChange={setBenchmarkProfile}
             onCompare={() => setView("comparison")}
+            onGuidance={() => setView("guidance")}
             />
             )}
         {view === "comparison" && (
