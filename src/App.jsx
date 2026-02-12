@@ -1319,11 +1319,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
             page-break-inside: avoid;
           }
         }
-        @media print {
-          nav, footer, .no-print, button { display: none !important; }
-          main { overflow: visible !important; }
-          body { font-size: 12pt; }
-        }
+
 
         body {
           font-family: 'Inter', 'Arial', sans-serif;
@@ -3697,7 +3693,8 @@ export default function App() {
       />
 
       {/* Content */}
-      <main className="flex-1 overflow-auto flex flex-col">
+      <style>{`@media print { nav, footer, .no-print, button { display: none !important; } main { overflow: visible !important; } body { font-size: 12pt; } }`}</style>
+        <main className="flex-1 overflow-auto flex flex-col">
         {view === "landing" && (
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
