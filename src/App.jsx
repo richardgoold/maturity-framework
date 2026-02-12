@@ -2283,7 +2283,7 @@ function LandingPage({ onGetStarted }) {
             <span className="text-lg font-bold text-gray-500">=</span>
             <div className="px-4 py-1.5 bg-amber-400/20 border border-amber-400/40 rounded text-xs font-bold text-amber-400 tracking-wider">FIRM VALUE</div>
           </div>
-          <p className="text-[11px] text-gray-500 text-center mt-2">5 themes drive EBITDA · 5 themes drive the Multiple · Together they determine Firm Value</p>
+          <p className="text-[11px] text-gray-300 text-center mt-2">5 themes drive EBITDA · 5 themes drive the Multiple · Together they determine Firm Value</p>
         </div>
         <div className="flex gap-3" style={{ position: "relative", zIndex: 2 }}>
           <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold cursor-pointer" style={{ background: "#f2a71b", color: "#1f1f1f", border: "none", boxShadow: "0 4px 16px rgba(242,167,27,0.3)", letterSpacing: "0.02em", fontFamily: "'Montserrat', sans-serif" }}>
@@ -2401,7 +2401,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                     <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
                       <Trash2 size={14} />
                     </button>
-                    <ChevronRight size={16} className="text-gray-300" />
+                    <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
                   </div>
                 </div>
               </div>
@@ -2515,11 +2515,11 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                     </div>
                   <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
                   <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
-                    <ChevronRight size={16} className="text-gray-300" />
+                    <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
                   </div>
                 </div>
                 <div className="mt-2 bg-gray-100 rounded-full h-1.5">
-                  <div className="h-1.5 rounded-full bg-amber-900/100 transition-all" style={{ width: `${(scores.ratedCount / scores.totalMetrics) * 100}%` }} />
+                  <div className="h-1.5 rounded-full bg-amber-500 transition-all" style={{ width: `${(scores.ratedCount / scores.totalMetrics) * 100}%` }} />
                 </div>
               </div>
             );
@@ -3329,8 +3329,19 @@ const GuidancePage = ({ onBack }) => {
       </div>
 
       <div className="space-y-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm border-l-4 border-l-amber-400">
+          <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-3"><BookOpen size={16} className="text-[#f2a71b]" /> Contents</h3>
+          <div className="flex flex-wrap gap-2">
+            {sections.map((sec, idx) => (
+              <a key={idx} href={`#guidance-${idx}`} onClick={(e) => { e.preventDefault(); document.getElementById(`guidance-${idx}`).scrollIntoView({ behavior: 'smooth' }); }}
+                className="text-xs px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors cursor-pointer border border-amber-200">
+                {sec.title}
+              </a>
+            ))}
+          </div>
+        </div>
         {sections.map((s, i) => (
-          <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+          <div key={i} id={`guidance-${i}`} className="scroll-mt-4 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
             <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
               <Info size={18} className="text-[#f2a71b]" /> {s.title}
             </h2>
@@ -3676,7 +3687,7 @@ export default function App() {
       />
 
       {/* Content */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto flex flex-col">
         {view === "landing" && (
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
@@ -3714,7 +3725,7 @@ export default function App() {
         {view === "guidance" && (
           <GuidancePage onBack={() => setView("landing")} />
         )}
-            <footer className="mt-12 py-6 border-t border-gray-200 text-center">
+            <footer className="mt-auto py-6 border-t border-gray-200 text-center">
         <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Growth Drivers Maturity Framework. All rights reserved.</p>
         <p className="text-xs text-gray-400 mt-1">Confidential &mdash; For authorised use only.</p>
       </footer>
