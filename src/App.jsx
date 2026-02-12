@@ -3712,7 +3712,7 @@ export default function App() {
 
       {/* Content */}
       <style>{`@media print { nav, footer, .no-print, button { display: none !important; } main { overflow: visible !important; } body { font-size: 12pt; } } @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } .view-transition { animation: fadeSlideIn 0.3s ease-out; }`}</style>
-        <main key={view + (selectedFirmId || "") + (selectedAssessId || "")} className="flex-1 overflow-auto flex flex-col view-transition">
+        <main key={view + (selectedFirmId || "") + (selectedAssessmentId || "")} className="flex-1 overflow-auto flex flex-col view-transition">
         {view === "landing" && (
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
