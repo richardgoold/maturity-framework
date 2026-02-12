@@ -2357,6 +2357,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <p className="text-gray-500">No firms yet. Create one to get started.</p>
         </div>
       ) : (
+        <>
         <div className="flex items-center gap-4 mb-3 px-1">
           <span className="text-xs text-gray-400 font-medium">Score:</span>
           <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>≥66% On Track</span>
@@ -2398,6 +2399,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             );
           })}
         </div>
+        </>
       )}
       {recentlyDeleted.length > 0 && (
         <details className="mt-6">
