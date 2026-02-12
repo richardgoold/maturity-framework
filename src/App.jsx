@@ -897,7 +897,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
 
       {/* Half-level selector with animations */}
       {currentLevel && (
-        <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 flex items-center gap-2 animate-fade-in" role="radiogroup" aria-label="Fine-tune score">
+        <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 flex flex-wrap items-center gap-2 animate-fade-in" role="radiogroup" aria-label="Fine-tune score">
           <span className="text-xs text-gray-500">Fine-tune:</span>
           {[1, 1.5, 2, 2.5, 3].map(v => (
             <button
@@ -915,7 +915,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
               {v}
             </button>
           ))}
-          <div className="flex justify-between mt-1 px-1">
+          <div className="flex justify-between w-full mt-0.5" style={{paddingLeft:"70px"}}>
             <span className="text-[10px] text-gray-400">Foundational</span>
             <span className="text-[10px] text-gray-400">Evolving</span>
             <span className="text-[10px] text-gray-400">Optimised</span>
