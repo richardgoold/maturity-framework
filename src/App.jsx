@@ -3178,6 +3178,7 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
 function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare, onGuidance }) {
   const [dashBannerDismissed, setDashBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_dash_banner') === '1');
   const [activeTab, setActiveTab] = useState("scores");
+  const [leadInfo, setLeadInfo] = useState(() => JSON.parse(localStorage.getItem('gdmf_lead') || 'null'));
   const scores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const radarData = FRAMEWORK.themes.map(t => ({
     theme: t.name,
@@ -3535,7 +3536,6 @@ export default function App() {
     try { return JSON.parse(localStorage.getItem('gdmf_deleted') || '[]'); } catch { return []; }
   });
   const [undoToast, setUndoToast] = useState(null);
-  const [leadInfo, setLeadInfo] = useState(() => JSON.parse(localStorage.getItem('gdmf_lead') || 'null'));
 
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   useEffect(() => { saveState(state); }, [state]);
