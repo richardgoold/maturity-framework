@@ -2506,11 +2506,11 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
           <p className="text-sm text-gray-500">{firm.sector || "Professional Services"}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button onClick={() => setShowTemplates(!showTemplates)} className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
             <Copy size={16} /> From Template
           </button>
-          <button onClick={() => setOnboardingFirmId(firm.id)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f]">
+          <button onClick={() => setOnboardingFirmId(firm.id)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
             <Plus size={16} /> New Assessment
           </button>
         </div>
@@ -3201,12 +3201,13 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
   return (
     <div className="overflow-y-auto p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">{firmName} - Maturity Dashboard</h1>
           <p className="text-sm text-gray-500">Assessment from {new Date(assessment.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}{firmSector ? ` \u00B7 ${firmSector}` : ""}</p>
           {onGuidance && <button onClick={onGuidance} className="text-xs text-gray-400 hover:text-amber-500 flex items-center gap-1 transition-colors mt-1"><HelpCircle size={13} /> Guidance</button>}
         </div>
+      <div className="flex flex-wrap items-center gap-2">
       <div style={{display: "flex", justifyContent: "flex-end", marginTop: "-8px", marginBottom: "8px"}}>
         <button onClick={(e) => { navigator.clipboard.writeText("I just assessed my firm's M&A readiness using the Growth Drivers framework — try it: https://richardgoold.github.io/maturity-framework/"); const b = e.currentTarget; b.textContent = "✓ Copied!"; setTimeout(() => { b.textContent = "Share"; }, 2000); }} style={{background: "transparent", color: "#9ca3af", padding: "4px 12px", borderRadius: "6px", fontSize: "0.8rem", border: "1px solid #374151", cursor: "pointer"}}>Share</button>
       </div>
@@ -3218,6 +3219,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         </select>
       </div>
       <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
+      </div>
       </div>
       {/* Section Navigation */}
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
