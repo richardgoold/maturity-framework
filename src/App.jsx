@@ -1517,11 +1517,43 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
           </div>
         </div>
         {metric.question && <p className="text-xs text-gray-500 mt-1.5 italic leading-relaxed">{metric.question}</p>}
-        {showGuidance && metric.guidance && (
-          <div className="mt-2 bg-amber-900/10 border-l-4 border-[#f2a71b] p-3 text-xs text-[#1f1f1f] rounded-r leading-relaxed">
-            {metric.guidance}
-          </div>
-        )}
+        {showGuidance && metric.guidance && (() => {
+          const eg = ENHANCED_GUIDANCE.metrics[metric.id];
+          return (
+            <div className="mt-2 bg-amber-900/10 border-l-4 border-[#f2a71b] p-3 text-xs text-[#1f1f1f]">
+              <p className="mb-1 leading-relaxed">{metric.guidance}</p>
+              {metric.improvementAction && (
+                <p className="mt-1 text-[#f2a71b] font-medium">{metric.improvementAction}</p>
+              )}
+              {eg && (
+                <div className="space-y-1 mt-3 border-t border-[#f2a71b]/30 pt-2">
+                  <details className="group">
+                    <summary className="cursor-pointer font-semibold text-[#f2a71b] hover:text-[#d4910f] select-none py-0.5">Industry Benchmarks</summary>
+                    <p className="mt-1 pl-4 leading-relaxed opacity-80">{eg.benchmarks}</p>
+                  </details>
+                  <details className="group">
+                    <summary className="cursor-pointer font-semibold text-[#f2a71b] hover:text-[#d4910f] select-none py-0.5">Case Study</summary>
+                    <p className="mt-1 pl-4 leading-relaxed opacity-80">{eg.caseStudy}</p>
+                  </details>
+                  <details className="group">
+                    <summary className="cursor-pointer font-semibold text-[#f2a71b] hover:text-[#d4910f] select-none py-0.5">Scoring Guide</summary>
+                    <div className="mt-1 pl-4 leading-relaxed opacity-80 space-y-1">
+                      <p><span className="font-medium">Situation:</span> {eg.workedExample.situation}</p>
+                      <p><span className="font-medium">Rating:</span> <span className="font-semibold text-[#f2a71b]">{eg.workedExample.rating}</span></p>
+                      <p><span className="font-medium">Rationale:</span> {eg.workedExample.rationale}</p>
+                    </div>
+                  </details>
+                  <details className="group">
+                    <summary className="cursor-pointer font-semibold text-[#f2a71b] hover:text-[#d4910f] select-none py-0.5">Improvement Tips</summary>
+                    <ul className="mt-1 pl-8 leading-relaxed opacity-80 list-disc space-y-0.5">
+                      {eg.improvementTips.map((tip, tipIdx) => <li key={tipIdx}>{tip}</li>)}
+                    </ul>
+                  </details>
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       <div className="divide-y divide-gray-100" role="radiogroup" aria-label="Maturity level">
