@@ -2327,6 +2327,19 @@ function LandingPage({ onGetStarted }) {
         </div>
       </div>
 
+      {/* METHODOLOGY / SOCIAL PROOF */}
+      <div style={{background: "#23272b", padding: "48px 24px", textAlign: "center"}}>
+        <h2 style={{fontSize: "1.5rem", fontWeight: "bold", color: "#f5f5f5", marginBottom: "12px"}}>Built on Industry Research</h2>
+        <p style={{color: "#9ca3af", maxWidth: "600px", margin: "0 auto 24px", fontSize: "0.95rem"}}>
+          Our framework synthesises 20+ benchmarking studies and industry-standard methodologies to assess M&A readiness across five critical dimensions.
+        </p>
+        <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", maxWidth: "700px", margin: "0 auto"}}>
+          {["Hinge Research", "Deltek", "SPI Research", "Mercer", "IBIS", "Kennedy"].map(s => (
+            <span key={s} style={{background: "rgba(242,167,27,0.12)", color: "#f2a71b", padding: "6px 16px", borderRadius: "20px", fontSize: "0.85rem", fontWeight: "500", border: "1px solid rgba(242,167,27,0.25)"}}>{s}</span>
+          ))}
+        </div>
+      </div>
+
       <div style={{background: "linear-gradient(135deg, #1a1a2e 0%, #23272b 100%)", borderRadius: "16px", marginTop: "2rem"}} className="text-center py-12 px-6">
         <h2 className="text-2xl font-bold text-white mb-3">Ready to Assess Your Portfolio?</h2>
         <p className="text-base text-gray-300 mb-6 max-w-lg mx-auto">Start with our built-in demo data or create your own firm assessments</p>
@@ -2342,6 +2355,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
     const [sortBy, setSortBy] = useState("date");
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
+  const [onboardingFirmId, setOnboardingFirmId] = useState(null);
 
   const handleCreate = () => {
     if (!name.trim()) return;
@@ -2481,10 +2495,24 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <button onClick={() => setShowTemplates(!showTemplates)} className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
             <Copy size={16} /> From Template
           </button>
-          <button onClick={() => onCreateAssessment(firm.id)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f]">
+          <button onClick={() => setOnboardingFirmId(firm.id)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f]">
             <Plus size={16} /> New Assessment
           </button>
         </div>
+        {onboardingFirmId === firm.id && (
+          <div style={{marginTop: "16px", padding: "20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.2)", borderRadius: "12px"}}>
+            <h4 style={{fontSize: "1rem", fontWeight: "600", color: "#f5f5f5", marginBottom: "12px"}}>About This Assessment</h4>
+            <div style={{display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px", fontSize: "0.9rem", color: "#d1d5db"}}>
+              <div><span style={{color: "#f2a71b", fontWeight: "600"}}>Duration:</span> ~10–15 minutes</div>
+              <div><span style={{color: "#f2a71b", fontWeight: "600"}}>You'll get:</span> M&A Readiness Score, Gap Analysis & Improvement Roadmap</div>
+              <div><span style={{color: "#f2a71b", fontWeight: "600"}}>Tip:</span> Have your firm's financial and operational metrics to hand</div>
+            </div>
+            <div style={{display: "flex", gap: "8px"}}>
+              <button onClick={() => { onCreateAssessment(firm.id); setOnboardingFirmId(null); }} style={{background: "#f2a71b", color: "#1a1a2e", padding: "8px 20px", borderRadius: "8px", fontWeight: "600", fontSize: "0.9rem", border: "none", cursor: "pointer"}}>Start Assessment →</button>
+              <button onClick={() => setOnboardingFirmId(null)} style={{background: "transparent", color: "#9ca3af", padding: "8px 16px", borderRadius: "8px", fontSize: "0.9rem", border: "1px solid #4b5563", cursor: "pointer"}}>Cancel</button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Quick Summary */}
@@ -3163,6 +3191,9 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           <p className="text-sm text-gray-500">Assessment from {new Date(assessment.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}{firmSector ? ` \u00B7 ${firmSector}` : ""}</p>
           {onGuidance && <button onClick={onGuidance} className="text-xs text-gray-400 hover:text-amber-500 flex items-center gap-1 transition-colors mt-1"><HelpCircle size={13} /> Guidance</button>}
         </div>
+      <div style={{display: "flex", justifyContent: "flex-end", marginTop: "-8px", marginBottom: "8px"}}>
+        <button onClick={(e) => { navigator.clipboard.writeText("I just assessed my firm's M&A readiness using the Growth Drivers framework — try it: https://richardgoold.github.io/maturity-framework/"); const b = e.currentTarget; b.textContent = "✓ Copied!"; setTimeout(() => { b.textContent = "Share"; }, 2000); }} style={{background: "transparent", color: "#9ca3af", padding: "4px 12px", borderRadius: "6px", fontSize: "0.8rem", border: "1px solid #374151", cursor: "pointer"}}>Share</button>
+      </div>
       {/* Benchmark Profile Selector */}
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
         <label className="text-sm font-medium text-gray-600 whitespace-nowrap">Benchmark Profile:</label>
@@ -3299,6 +3330,13 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
             </div>
           );
         })()}
+        <div style={{marginTop: "24px", padding: "16px 20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.3)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px"}}>
+          <div>
+            <p style={{fontSize: "0.95rem", fontWeight: "600", color: "#f5f5f5", margin: "0"}}>Want expert guidance on improving these scores?</p>
+            <p style={{fontSize: "0.85rem", color: "#9ca3af", margin: "4px 0 0"}}>Get a tailored improvement roadmap from the framework's creator.</p>
+          </div>
+          <a href={`mailto:richard@richardgoold.com?subject=GDMF%20Assessment%20Results%20-%20${encodeURIComponent(firmName)}&body=I%20recently%20completed%20a%20Growth%20Drivers%20assessment%20and%20would%20like%20to%20discuss%20the%20results.`} style={{background: "#f2a71b", color: "#1a1a2e", padding: "8px 20px", borderRadius: "8px", fontWeight: "600", fontSize: "0.9rem", textDecoration: "none", whiteSpace: "nowrap", cursor: "pointer"}}>Discuss Your Results →</a>
+        </div>
       </div>
 
       {/* Gap Analysis */}
