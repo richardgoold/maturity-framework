@@ -2791,12 +2791,12 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
               <Cell key={index} fill={entry.color} />
             ))}
           </Bar>
-          <Bar dataKey="benchmark" name="M&A-Ready" fill="#a78bfa" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="M&A-Ready" fill="#c4b5a5" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-2 pt-2 border-t border-gray-100">
         <div className="flex items-center gap-1.5"><div className="flex gap-px">{comparisonData.slice(0,4).map((d,i) => <div key={i} className="w-1.5 h-3 rounded-sm" style={{backgroundColor:d.color}} />)}</div><span className="text-xs text-gray-500">Your Firm (theme colours)</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#a78bfa'}} /><span className="text-xs text-gray-500">M&A-Ready Benchmark</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#c4b5a5'}} /><span className="text-xs text-gray-500">M&A-Ready Benchmark</span></div>
       </div>
     </div>
   );
