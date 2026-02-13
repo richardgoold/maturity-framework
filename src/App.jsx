@@ -2264,16 +2264,16 @@ function LandingPage({ onGetStarted }) {
           <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-5 uppercase tracking-wider" style={{ background: "#1f1f1f", border: "1px solid #f2a71b", color: "#f2a71b" }}>
             M&A Due Diligence Platform
           </div>
-          <h1 className="text-4xl font-extrabold text-white mb-3 uppercase tracking-tight leading-tight" style={{ letterSpacing: "-0.03em" }}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 uppercase tracking-tight leading-tight" style={{ letterSpacing: "-0.03em" }}>
             Assess. Benchmark.<br /><span style={{ color: "#f2a71b" }}>Maximise Value.</span>
           </h1>
-          <p className="text-base leading-relaxed" style={{ color: "#c5c5c5", maxWidth: 480, margin: "0 auto" }}>
+          <p className="text-sm sm:text-base leading-relaxed" style={{ color: "#c5c5c5", maxWidth: 480, margin: "0 auto" }}>
             A structured framework that evaluates professional services firms across 10 growth themes and 47 metrics — benchmarked against M&A-ready standards.
           </p>
         </div>
         {/* GROWTH THEMES */}
         <div className="w-full max-w-5xl mx-auto px-4 mb-8">
-          <div className="grid grid-cols-5 gap-3 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-6">
             {FRAMEWORK.themes.map(theme => {
               const Icon = ICON_MAP[theme.icon] || Globe;
               return (
@@ -2311,10 +2311,10 @@ function LandingPage({ onGetStarted }) {
 
       {/* HOW IT WORKS */}
       <div id="how-it-works" className="py-16 px-6" style={{ background: "linear-gradient(to bottom, #23272b, #f9f9f9)" }}>
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-sm sm:max-w-2xl md:max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-1 uppercase" style={{ color: "#ffffff", letterSpacing: "-0.02em" }}>How It Works</h2>
           <p className="text-center text-sm mb-10" style={{ color: "#d1d5db" }}>Four steps from assessment to actionable insight</p>
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
             {steps.map((s, i) => (
               <div key={i} className="text-center p-5 rounded-xl relative" style={{ background: "#f9f9f9", border: "1px solid #e5e5e5" }}>
                 <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: "#f2a71b", color: "#1f1f1f", fontWeight: 800, fontSize: 16, fontFamily: "'Montserrat', sans-serif" }}>{s.num}</div>
@@ -3165,7 +3165,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
       </div>
       {/* Section Navigation */}
-      <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex gap-1 overflow-x-auto">
+      <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
         {[["scores","Scores"],["gaps","Gap Analysis"],["roadmap","Roadmap"],["scenario","Scenario"],["charts","Charts"],["heatmap","Heatmap"],["export","Export"]].map(([id,label]) => (
             <button key={id} onClick={() => setActiveTab(id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"}`}>{label}</button>
