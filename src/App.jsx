@@ -781,8 +781,6 @@ const ENHANCED_GUIDANCE = {
   }
 };
 
-  }
-};
 
 // Default benchmark for backward compatibility
 const BENCHMARKS = { "Professional Services": BENCHMARK_PROFILES["M&A-Ready (PSF)"] };
