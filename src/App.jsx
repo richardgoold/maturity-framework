@@ -4637,12 +4637,14 @@ export default function App() {
         )}
         {view === "connect" && (
           <div className="min-h-[80vh] flex items-center justify-center p-4">
-            <div className="max-w-2xl w-full">
+            <div className="max-w-3xl w-full">
               <div className="bg-gray-900 rounded-2xl p-8 sm:p-12 text-center shadow-xl border border-gray-800">
-                <div className="mb-6">
-            <img src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp" alt="Richard Goold" className="w-28 h-28 rounded-full object-cover border-4 border-amber-400 shadow-lg mb-4" />
-                  <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Let's Talk</h1>
-                  <p className="text-lg text-[#f2a71b] font-semibold tracking-wide">Build. Scale. Exit.</p>
+                <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-6 mb-8">
+                  <div className="sm:text-left">
+                    <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3">Let's Talk</h1>
+                    <p className="text-xl sm:text-2xl text-[#f2a71b] font-semibold tracking-wide">Build. Scale. Exit.</p>
+                  </div>
+                  <img src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp" alt="Richard Goold" className="w-36 h-36 sm:w-48 sm:h-48 rounded-full object-cover border-4 border-amber-400 shadow-lg flex-shrink-0" />
                 </div>
                 <div className="mb-8">
                   <p className="text-gray-300 text-base leading-relaxed mb-4">Helping founders, CEOs and boards navigate the hard parts — growth, culture, and capital events.</p>
