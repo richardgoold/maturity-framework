@@ -4130,26 +4130,53 @@ const GuidancePage = ({ onBack }) => {
         <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm border-l-4 border-l-amber-400">
           <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-3"><BookOpen size={16} className="text-[#f2a71b]" /> Contents</h3>
           <div className="flex flex-wrap gap-2">
+
+              <a href="#guidance-quickstart" onClick={e => { e.preventDefault(); document.getElementById("guidance-quickstart").scrollIntoView({behavior: "smooth"}) }}
+                className="text-xs px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors cursor-pointer border border-amber-200"
+              >Quick Start Guide</a>
             {sections.map((sec, idx) => (
               <a key={idx} href={`#guidance-${idx}`} onClick={(e) => { e.preventDefault(); document.getElementById(`guidance-${idx}`).scrollIntoView({ behavior: 'smooth' }); }}
                 className="text-xs px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors cursor-pointer border border-amber-200">
                 {sec.title}
               </a>
             ))}
+              <a href="#guidance-deepdives" onClick={e => { e.preventDefault(); document.getElementById("guidance-deepdives").scrollIntoView({behavior: "smooth"}) }}
+                className="text-xs px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors cursor-pointer border border-amber-200"
+              >Theme Deep Dives</a>
           </div>
         </div>
+        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm" id="guidance-quickstart">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <CheckCircle2 size={18} className="text-[#f2a71b]" /> Quick Start Guide
+          </h2>
+          <div className="space-y-3">
+            {[
+              ["1. Create a Firm", "Navigate to the Firms tab and click '+ New Firm'. Enter the firm name and select its sector for automatic benchmark matching."],
+              ["2. Start Assessment", "Click the firm, then '+ New Assessment'. Work through each theme, rating metrics on the 3-point scale (Foundational / Evolving / Optimised)."],
+              ["3. Add Evidence", "For each rating, expand the Evidence section to attach supporting links or notes. This builds credibility for due diligence reviews."],
+              ["4. Set Confidence", "Rate your confidence (Low / Medium / High) for each metric. Low confidence flags areas needing further investigation."],
+              ["5. Review Dashboard", "Once rated, open the Dashboard to see your M&A Readiness Score, gap analysis, and improvement roadmap."],
+              ["6. Model Scenarios", "Use Scenario Modelling to see how improving specific themes would change your overall readiness score."]
+            ].map(([step, desc], i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="w-6 h-6 rounded-full bg-[#f2a71b] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i+1}</div>
+                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> {"—"} {desc}</span></div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {sections.map((s, i) => (
           <div key={i} id={`guidance-${i}`} className="scroll-mt-4 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
             <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
               <Info size={18} className="text-[#f2a71b]" /> {s.title}
             </h2>
             <p className="text-sm text-gray-600 leading-relaxed">{s.content}</p>
-              {s.image && <img src={`${import.meta.env.BASE_URL}images/${s.image}`} alt={s.title} className="mt-4 rounded-lg border border-gray-200 shadow-sm w-full" />}
           </div>
         ))}
 
         {/* Theme Deep Dives */}
-        <div className="bg-white rounded-2xl shadow p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow p-6 mb-6" id="guidance-deepdives">
           <h2 className="text-xl font-bold text-[#1f1f1f] mb-2 flex items-center gap-2">
             <TrendingUp size={22} className="text-[#f2a71b]" />
             Theme Deep Dives
@@ -4219,44 +4246,6 @@ const GuidancePage = ({ onBack }) => {
                 </details>
               );
             })}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <Target size={18} className="text-[#f2a71b]" /> The 10 Growth Themes
-          </h2>
-          <div className="grid grid-cols-2 gap-3">
-            {FRAMEWORK.themes.map(t => (
-              <div key={t.id} className="flex items-center gap-2 p-3 rounded-lg bg-gray-50 border border-gray-100">
-                {getThemeIcon(t.icon, 16, "text-gray-500")}
-                <div>
-                  <div className="text-sm font-semibold" style={{ color: t.color }}>{t.name}</div>
-                  <div className="text-xs text-gray-400">{t.metrics.length} metrics · weight {t.totalWeight}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <CheckCircle2 size={18} className="text-[#f2a71b]" /> Quick Start Guide
-          </h2>
-          <div className="space-y-3">
-            {[
-              ["1. Create a Firm", "Navigate to the Firms tab and click '+ New Firm'. Enter the firm name and select its sector for automatic benchmark matching."],
-              ["2. Start Assessment", "Click the firm, then '+ New Assessment'. Work through each theme, rating metrics on the 3-point scale (Foundational / Evolving / Optimised)."],
-              ["3. Add Evidence", "For each rating, expand the Evidence section to attach supporting links or notes. This builds credibility for due diligence reviews."],
-              ["4. Set Confidence", "Rate your confidence (Low / Medium / High) for each metric. Low confidence flags areas needing further investigation."],
-              ["5. Review Dashboard", "Once rated, open the Dashboard to see your M&A Readiness Score, gap analysis, and improvement roadmap."],
-              ["6. Model Scenarios", "Use Scenario Modelling to see how improving specific themes would change your overall readiness score."]
-            ].map(([step, desc], i) => (
-              <div key={i} className="flex gap-3 items-start">
-                <div className="w-6 h-6 rounded-full bg-[#f2a71b] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i+1}</div>
-                <div><span className="text-sm font-semibold text-gray-800">{step.replace(/^\d+\.\s/, '')}</span><span className="text-sm text-gray-500"> {"—"} {desc}</span></div>
-              </div>
-            ))}
           </div>
         </div>
 
