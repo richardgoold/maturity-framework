@@ -4640,7 +4640,7 @@ export default function App() {
             <div className="max-w-2xl w-full">
               <div className="bg-gray-900 rounded-2xl p-8 sm:p-12 text-center shadow-xl border border-gray-800">
                 <div className="mb-6">
-                  <Handshake size={48} className="text-[#f2a71b] mx-auto mb-4" />
+            <img src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp" alt="Richard Goold" className="w-28 h-28 rounded-full object-cover border-4 border-amber-400 shadow-lg mb-4" />
                   <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Let's Talk</h1>
                   <p className="text-lg text-[#f2a71b] font-semibold tracking-wide">Build. Scale. Exit.</p>
                 </div>
