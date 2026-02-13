@@ -1055,7 +1055,7 @@ function HeatmapGrid({ ratings }) {
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <h3 className="text-sm font-bold text-gray-700 mb-3">Maturity Heatmap (All Metrics)</h3>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-0">
         <div className="space-y-3">{leftThemes.map(renderTheme)}</div>
         <div className="space-y-3">{rightThemes.map(renderTheme)}</div>
       </div>
@@ -1080,7 +1080,7 @@ function StrengthsWeaknesses({ ratings }) {
   const weaknesses = scored.filter(m => m.level <= 1.5).sort((a, b) => (b.weight * (3 - b.level)) - (a.weight * (3 - a.level))).slice(0, 5);
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="bg-white rounded-lg border border-green-200 p-4">
         <h3 className="text-sm font-bold text-green-700 mb-2 flex items-center gap-1"><Award size={14} /> Top Strengths</h3>
         <p className="text-xs text-green-600 opacity-70 mb-1 -mt-1">Ranked by weighted contribution (score × importance)</p>
@@ -2288,7 +2288,7 @@ function LandingPage({ onGetStarted }) {
         </div>
         {/* GROWTH THEMES */}
         <div className="w-full max-w-5xl mx-auto px-4 mb-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-6">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 mb-6">
             {FRAMEWORK.themes.map(theme => {
               const Icon = ICON_MAP[theme.icon] || Globe;
               return (
@@ -3308,7 +3308,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                 })()}
               </div>
               {/* Bottom row: insights grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100">
                 <div className="p-4">
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Top Strengths</div>
                   {strengths.map((s,i) => (
@@ -3398,7 +3398,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       </>}
       {/* Charts */}
-      <div id="dash-charts" style={{ display: activeTab === "charts" ? "grid" : "none" }} className="grid grid-cols-2 gap-6 mb-4 scroll-mt-16">
+      <div id="dash-charts" style={{ display: activeTab === "charts" ? "grid" : "none" }} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 scroll-mt-16">
         <RadarOverview radarData={radarData} benchmarkProfile={benchmarkProfile} />
         <BenchmarkComparison scores={scores} benchmarkProfile={benchmarkProfile} />
       </div>
