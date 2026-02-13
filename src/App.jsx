@@ -121,6 +121,669 @@ const BENCHMARK_PROFILES = {
   "Legal & Compliance": { financial: 65, people: 62, services: 64, vision: 58, sales: 55, clients: 72, leadership: 70, cost: 60, delivery: 68, market: 58 },
   "Financial Advisory": { financial: 75, people: 66, services: 65, vision: 62, sales: 68, clients: 70, leadership: 68, cost: 64, delivery: 66, market: 62 }
 };
+
+
+
+const ENHANCED_GUIDANCE = {
+  themes: {
+    financial: {
+      overview: "Financial performance is the single most scrutinised area in M&A due diligence. Acquirers evaluate revenue trajectory, margin stability, and cash conversion to assess earnings quality and growth sustainability. Firms demonstrating consistent, diversified revenue with strong EBITDA margins command premium valuations — often 8–12x EBITDA for top-quartile PSFs versus 4–6x for average performers.",
+      keyBenchmarks: [
+        { metric: "Revenue Growth", target: "10–15% YoY organic", source: "Hinge High Growth Study 2024" },
+        { metric: "Gross Margin", target: "55–70%", source: "SPI Research PSF Benchmark" },
+        { metric: "EBITDA Margin", target: "15–25%", source: "Deltek Clarity Report" },
+        { metric: "Revenue per FTE", target: "£100–180k", source: "MCA/Deltek composite" },
+        { metric: "Recurring Revenue", target: ">30% of total", source: "Hinge Research" }
+      ],
+      caseStudy: {
+        title: "Meridian Consulting: From Feast-or-Famine to Predictable Growth",
+        scenario: "A 120-person management consulting firm with £18M revenue, heavy reliance on three anchor clients (62% of revenue), and volatile annual growth ranging from -5% to +22%.",
+        foundational: "Meridian had no formal revenue forecasting, project pricing was ad-hoc, and margins fluctuated between 8–18% depending on utilisation. The founding partners controlled all major client relationships.",
+        evolution: "Over 18 months they implemented monthly financial reporting by service line, introduced value-based pricing on 40% of engagements, and diversified revenue with two new service offerings. EBITDA stabilised at 14–16%.",
+        optimised: "After three years, Meridian achieved 12% YoY growth, 22% EBITDA, and reduced top-client concentration to 28%. The predictable financial profile attracted acquisition interest at 9.2x EBITDA.",
+        outcome: "Acquired at a 35% premium to initial valuation expectations, driven primarily by the quality and predictability of the financial trajectory."
+      }
+    },
+    people: {
+      overview: "People are the core asset in any professional services firm — and often the most significant risk factor in M&A. Acquirers assess talent depth, retention stability, and cultural cohesion to determine whether the firm’s value walks out the door each evening. Firms with strong employer brands, low attrition, and distributed expertise command higher valuations and smoother post-merger integrations.",
+      keyBenchmarks: [
+        { metric: "Voluntary Turnover", target: "<12% annually", source: "Mercer Workforce Benchmark" },
+        { metric: "Employee Engagement", target: ">75% favourable", source: "Gallup/Mercer composite" },
+        { metric: "Revenue per Employee", target: "£100–150k", source: "SPI Research" },
+        { metric: "Time to Hire", target: "<45 days avg", source: "LinkedIn Talent Insights" },
+        { metric: "Training Investment", target: ">3% of revenue", source: "Deltek Clarity" }
+      ],
+      caseStudy: {
+        title: "Kinetic Partners: Building a Talent Engine That Survived Acquisition",
+        scenario: "An 85-person technology consulting firm experiencing 25% annual attrition, with knowledge concentrated in a small group of senior consultants who personally held all key client relationships.",
+        foundational: "Kinetic had no structured career paths, compensation was opaque, and exit interviews were not conducted. Three departures of senior staff in one quarter triggered the loss of two major accounts.",
+        evolution: "They introduced a competency framework with transparent career ladders, implemented quarterly pulse surveys, and created a mentorship programme pairing senior and junior consultants. Attrition dropped to 18% within a year.",
+        optimised: "After two years, voluntary turnover fell to 11%, Glassdoor ratings rose from 3.2 to 4.3, and the firm won a regional ‘Best Workplace’ award. Knowledge was systematically documented and client relationships distributed across teams.",
+        outcome: "The acquirer cited the stable, engaged workforce as a key factor in their 8.5x EBITDA offer — noting that typical PSF acquisitions at this size traded at 5–7x."
+      }
+    },
+    services: {
+      overview: "Service proposition clarity and pricing sophistication signal strategic maturity to acquirers. Firms that have moved beyond time-and-materials billing to value-based pricing, developed proprietary methodologies, and built scalable service lines demonstrate the kind of intellectual property and margin resilience that drives premium valuations.",
+      keyBenchmarks: [
+        { metric: "Value-Based Pricing", target: ">40% of engagements", source: "Hinge Research" },
+        { metric: "Service Line Gross Margin", target: "55–65% average", source: "SPI Research" },
+        { metric: "Avg Project Size", target: ">2x industry median", source: "Deltek Clarity" },
+        { metric: "IP-Driven Revenue", target: ">20% of total", source: "Hinge High Growth Study" },
+        { metric: "Repeat Business Rate", target: ">60%", source: "MCA Annual Report" }
+      ],
+      caseStudy: {
+        title: "Stratos Advisory: From Commodity Hourly Rates to Premium IP",
+        scenario: "A 60-person financial advisory firm billing almost exclusively on day rates, competing primarily on price, with no proprietary tools or frameworks differentiating their offering.",
+        foundational: "Stratos had undifferentiated service descriptions, no documented methodologies, and partners frequently discounted rates to win work. Average project size was £35k and margins were thin at 12%.",
+        evolution: "They codified their top consultants’ approaches into three branded methodologies, created diagnostic assessment tools, and trained the team on value-based scoping. Within a year, 30% of new engagements used fixed-fee value pricing.",
+        optimised: "Stratos became known for their proprietary diagnostic framework, which became a market differentiator. Average project size doubled to £72k, margins reached 24%, and they were able to selectively decline low-value work.",
+        outcome: "The IP portfolio was valued separately in the acquisition, adding an estimated 1.5x to the overall EBITDA multiple."
+      }
+    },
+    vision: {
+      overview: "A clear, articulated strategy signals to acquirers that the firm’s growth is intentional rather than accidental. Firms with documented strategic plans, defined market positioning, and measurable strategic KPIs demonstrate the kind of purposeful direction that reduces acquisition risk and supports post-deal integration planning.",
+      keyBenchmarks: [
+        { metric: "Strategic Plan", target: "3–5 year documented plan reviewed quarterly", source: "MCA Best Practice" },
+        { metric: "Market Focus", target: "Clear niche with >15% market share", source: "Hinge Research" },
+        { metric: "Strategic KPIs", target: "5–8 tracked metrics with quarterly review", source: "Deltek Clarity" },
+        { metric: "Innovation Investment", target: "3–5% of revenue", source: "SPI Research" },
+        { metric: "ESG Framework", target: "Published policy with measurable targets", source: "B Corp/UN SDG alignment" }
+      ],
+      caseStudy: {
+        title: "Horizon Group: From Opportunistic Growth to Strategic Clarity",
+        scenario: "A 95-person multi-discipline consultancy that had grown by accepting any project that came through the door, resulting in an unfocused service portfolio spanning six unrelated sectors.",
+        foundational: "Horizon had no written strategy, made market decisions reactively, and measured success solely by top-line revenue. Partners disagreed on the firm’s target market and ideal client profile.",
+        evolution: "A facilitated strategy offsite produced a 3-year plan focusing on two core sectors. They exited three unprofitable service areas and invested in thought leadership for their chosen niches. Revenue dipped 8% initially but margins improved by 6 points.",
+        optimised: "After three years, Horizon was recognised as a sector specialist with 18% market share in their primary niche. Their strategic clarity attracted premium clients and the focused positioning made them an attractive bolt-on acquisition target.",
+        outcome: "Acquired by a larger consultancy specifically seeking their niche expertise — the strategic clarity made integration planning straightforward and reduced buyer risk."
+      }
+    },
+    sales: {
+      overview: "Pipeline health and sales capability are leading indicators of future revenue — and acquirers scrutinise them intensely during due diligence. Firms with visible, well-managed pipelines, strong conversion ratios, and systematic sales processes demonstrate revenue predictability that directly impacts valuation multiples.",
+      keyBenchmarks: [
+        { metric: "Pipeline Coverage", target: "3–4x of revenue target", source: "SPI Research" },
+        { metric: "Win Rate", target: "35–50% (qualified opps)", source: "Hinge Research" },
+        { metric: "Sales Cycle Length", target: "<90 days average", source: "Deltek Clarity" },
+        { metric: "New vs Existing Revenue", target: "25–40% from new clients", source: "MCA Annual Report" },
+        { metric: "Proposal Success Rate", target: ">40%", source: "APMP Benchmark Study" }
+      ],
+      caseStudy: {
+        title: "Atlas Consulting: From Founder-Led Sales to a Scalable Engine",
+        scenario: "A 70-person strategy consulting firm where the two founding partners personally generated 80% of all new business, with no CRM, no pipeline reporting, and an ad-hoc approach to proposals.",
+        foundational: "Atlas had no visibility into upcoming revenue beyond 60 days. Sales forecasts were guesswork based on partner intuition. When one founder took extended leave, new business development effectively stopped.",
+        evolution: "They implemented a CRM with mandatory pipeline stages, introduced weekly pipeline reviews, and began training senior consultants in business development. Within a year, four non-partner staff were contributing to the pipeline.",
+        optimised: "Pipeline coverage reached 3.5x, win rates improved from 22% to 41%, and the sales cycle shortened from 120 to 75 days. Revenue became predictable with <10% variance from quarterly forecasts.",
+        outcome: "The acquirer’s due diligence highlighted the pipeline maturity as exceptional for a firm of this size, directly supporting the 8x EBITDA valuation."
+      }
+    },
+    clients: {
+      overview: "Client portfolio quality is a critical M&A risk factor. Acquirers analyse concentration risk, client longevity, contract structures, and relationship depth to assess revenue durability. A diversified, loyal client base with long-term relationships and embedded partnerships signals sustainable revenue streams that survive ownership transitions.",
+      keyBenchmarks: [
+        { metric: "Top Client Revenue", target: "<15% from any single client", source: "MCA Risk Framework" },
+        { metric: "Top 5 Client Revenue", target: "<40% combined", source: "Hinge Research" },
+        { metric: "Avg Client Tenure", target: ">3 years", source: "SPI Research" },
+        { metric: "Net Revenue Retention", target: ">110%", source: "SaaS/PSF composite benchmark" },
+        { metric: "NPS Score", target: ">50", source: "Bain & Company" }
+      ],
+      caseStudy: {
+        title: "Pinnacle Solutions: Reducing Concentration Risk Before Exit",
+        scenario: "A 55-person IT consulting firm where one government contract represented 45% of revenue and the top three clients accounted for 72% of total income.",
+        foundational: "Pinnacle had accepted the concentration risk as ‘just how government consulting works.’ No systematic client development programme existed, and relationship ownership sat entirely with two senior partners.",
+        evolution: "They launched a structured account growth programme targeting mid-tier clients, introduced quarterly business reviews with all clients billing >5% of revenue, and began cross-selling services to existing accounts. Within 18 months, top-client share dropped to 32%.",
+        optimised: "After three years, no single client exceeded 18% of revenue, top-5 concentration dropped to 48%, and average client tenure reached 4.2 years. Client relationships were distributed across multiple team members at each account.",
+        outcome: "The reduced concentration risk was explicitly cited by the acquirer as removing a key deal obstacle, enabling a clean transaction at 7.5x EBITDA."
+      }
+    },
+    leadership: {
+      overview: "Leadership depth and governance maturity are decisive factors in M&A. Acquirers need confidence that the firm can operate and grow without its founders. Strong governance structures, clear delegation of authority, and a capable second tier of leadership reduce key-person risk and signal an organisation that has matured beyond founder-dependence.",
+      keyBenchmarks: [
+        { metric: "Key Person Dependency", target: "<25% revenue tied to any individual", source: "MCA Risk Framework" },
+        { metric: "Leadership Depth", target: "Documented succession for all C-suite roles", source: "Mercer Governance Study" },
+        { metric: "Board Independence", target: "At least 1 independent NED", source: "IoD Best Practice" },
+        { metric: "Decision Authority", target: "Documented delegation matrix", source: "Deltek Clarity" },
+        { metric: "Risk Register", target: "Maintained and reviewed quarterly", source: "ISO 31000 alignment" }
+      ],
+      caseStudy: {
+        title: "Vertex Partners: Preparing Leadership for a Founder Exit",
+        scenario: "A 100-person professional services firm where the founder-CEO made virtually all strategic and operational decisions, with no formal governance structure and no identified successor.",
+        foundational: "Vertex had no board, no documented decision-making authority, and the founder personally approved all engagements over £50k. Two previous acquisition approaches had stalled due to key-person risk concerns.",
+        evolution: "They established an advisory board with two independent members, created a leadership team of four managing directors with defined P&L responsibility, and implemented a delegation matrix. The founder began a structured transition, reducing day-to-day involvement.",
+        optimised: "After two years, the firm operated independently of the founder for a full quarter during sabbatical. The leadership team delivered 15% revenue growth during this period, demonstrating genuine operational independence.",
+        outcome: "The third acquisition approach succeeded, with the acquirer specifically noting that the leadership maturity made Vertex ‘acquisition-ready’ — a term rarely applied to founder-led firms."
+      }
+    },
+    cost: {
+      overview: "Cost structure maturity reveals operational discipline and scalability potential. Acquirers evaluate technology investment, delivery model efficiency, and overhead ratios to assess how well the firm converts revenue into profit. Firms with lean, technology-enabled operations and scalable delivery models demonstrate the operating leverage that supports post-acquisition growth without proportional cost increases.",
+      keyBenchmarks: [
+        { metric: "Overhead Ratio", target: "<30% of revenue", source: "Deltek Clarity Report" },
+        { metric: "Technology Spend", target: "3–6% of revenue", source: "SPI Research" },
+        { metric: "Delivery Leverage Ratio", target: ">3:1 junior to senior on projects", source: "MCA Benchmark" },
+        { metric: "Utilisation Rate", target: "72–78% billable", source: "SPI Professional Services Maturity Model" },
+        { metric: "Profit per Employee", target: ">£20k annually", source: "Deltek/Hinge composite" }
+      ],
+      caseStudy: {
+        title: "Keystone Advisors: Operational Transformation Through Technology",
+        scenario: "A 130-person consulting firm running on spreadsheets for project management, time tracking, and financial reporting — with an overhead ratio of 42% and no standardised delivery methodology.",
+        foundational: "Keystone had no integrated systems, relied on manual processes for invoicing and resource planning, and each practice area operated with different tools and templates. Knowledge sharing was non-existent.",
+        evolution: "They invested in an integrated PSA platform, standardised project delivery templates across all practices, and implemented automated time tracking and invoicing. Overhead dropped to 34% within 18 months.",
+        optimised: "After three years, the overhead ratio reached 26%, utilisation improved from 62% to 74%, and the firm was delivering 15% more revenue per head. The technology platform enabled real-time margin visibility across all engagements.",
+        outcome: "The acquirer valued the operational maturity as creating immediate synergy potential — the technology platform and processes could be rolled out across their existing portfolio firms."
+      }
+    },
+    delivery: {
+      overview: "Delivery excellence is the operational proof of a firm’s promises. Acquirers evaluate client satisfaction metrics, utilisation efficiency, and quality assurance processes to assess whether the firm consistently delivers value. High-performing delivery organisations achieve strong project margins while maintaining client satisfaction — the combination that drives both retention and referral-based growth.",
+      keyBenchmarks: [
+        { metric: "Client Satisfaction", target: "NPS >50 or CSAT >4.2/5", source: "Bain/SPI composite" },
+        { metric: "Billable Utilisation", target: "72–78%", source: "SPI Professional Services Benchmark" },
+        { metric: "Project Margin", target: ">45% average", source: "Deltek Clarity" },
+        { metric: "On-Time Delivery", target: ">85% of projects", source: "PMI Practice Standard" },
+        { metric: "Rework Rate", target: "<5% of project hours", source: "SPI Research" }
+      ],
+      caseStudy: {
+        title: "Prism Consulting: Turning Delivery Excellence into a Growth Engine",
+        scenario: "A 75-person consulting firm with inconsistent project delivery quality, no systematic client feedback process, and utilisation hovering at 58% — well below industry benchmarks.",
+        foundational: "Prism had no quality assurance process, client feedback was collected ad-hoc (if at all), and utilisation was unmeasured at the individual level. Project profitability varied wildly from -10% to +60%.",
+        evolution: "They implemented post-project reviews, introduced real-time utilisation dashboards, and created a structured QA checkpoint process for all engagements over £25k. Utilisation rose to 68% and client satisfaction scores were baselined.",
+        optimised: "After two years, utilisation reached 74%, average project margins improved to 48%, and NPS hit 62. The structured delivery process became a selling point in pitches, with clients citing consistent quality as their primary reason for repeat engagement.",
+        outcome: "The delivery track record provided the acquirer with confidence in revenue sustainability — high satisfaction and repeat business reduced integration risk."
+      }
+    },
+    market: {
+      overview: "Market positioning and brand strength are increasingly important M&A factors. Acquirers value firms with strong brand recognition, thought leadership presence, and clear market positioning because these create sustainable competitive advantages that are difficult to replicate. A strong market profile also reduces client acquisition costs and supports premium pricing.",
+      keyBenchmarks: [
+        { metric: "Brand Awareness", target: ">40% aided awareness in target market", source: "Hinge Research" },
+        { metric: "Marketing ROI", target: ">5:1 pipeline to spend ratio", source: "Hinge High Growth Study" },
+        { metric: "Thought Leadership", target: ">12 published pieces annually", source: "Edelman Trust Barometer" },
+        { metric: "Inbound Lead %", target: ">30% of qualified pipeline", source: "HubSpot PSF Benchmark" },
+        { metric: "Awards/Recognition", target: "2+ industry awards annually", source: "MCA/industry bodies" }
+      ],
+      caseStudy: {
+        title: "Beacon Consulting: From Invisible to Industry Authority",
+        scenario: "A 50-person niche consulting firm with deep expertise but virtually no market visibility — 100% of new business came through personal networks and referrals, with no marketing function, website updates, or thought leadership.",
+        foundational: "Beacon had no marketing budget, an outdated website, and zero published thought leadership. The firm was unknown outside its immediate referral network, limiting growth to organic word-of-mouth.",
+        evolution: "They hired a marketing manager, launched a quarterly industry report, began speaking at three target conferences annually, and refreshed their digital presence. Within a year, inbound enquiries increased from near-zero to 15% of pipeline.",
+        optimised: "After three years, Beacon was recognised as the go-to specialist in their niche. Their annual industry report was downloaded 3,000+ times, inbound leads represented 35% of pipeline, and they had won two industry awards. Brand recognition in their target market reached 45%.",
+        outcome: "The market profile was identified by the acquirer as a strategic asset — the brand and thought leadership platform would be used to cross-sell the combined entity’s broader service offering."
+      }
+    }
+  },
+  metrics: {
+    fin_revenue: {
+      benchmarks: "Top-quartile PSFs achieve 10–15% YoY organic revenue growth consistently. Acquirers distinguish between organic growth (valued highly) and acquisition-driven growth (valued less). Revenue CAGR over 3–5 years is the primary metric, with consistency valued over occasional spikes. Firms growing >15% annually are typically classified as ‘high-growth’ and attract premium multiples.",
+      caseStudy: "A £25M management consultancy achieved 8% average growth over five years, but the pattern was volatile: +22%, -3%, +15%, -1%, +8%. An acquirer offered 5.5x EBITDA. A similarly-sized competitor with steady 11% annual growth (never below 8% or above 14%) received a 7.8x offer — the consistency premium was worth 2.3x EBITDA.",
+      workedExample: {
+        situation: "Your firm grew revenue 7% last year, up from 3% the year before. Growth is primarily organic but concentrated in one service line that grew 25% while others were flat.",
+        rating: "Evolving (Level 2)",
+        rationale: "Growth exists but is not broad-based or consistently above 10%. The concentration in one service line creates risk. To reach Optimised, the firm needs diversified growth across multiple service lines with a 3-year CAGR above 10%."
+      },
+      improvementTips: ["Analyse revenue by service line to identify which are growing and which are stagnant", "Set growth targets per service line rather than one firm-wide number", "Invest in business development for underperforming service lines", "Track and report monthly revenue run-rate to spot trends early"]
+    },
+    fin_gm: {
+      benchmarks: "M&A-ready PSFs typically maintain gross margins of 55–70%, depending on service mix. Pure advisory firms target the higher end (65–70%), while firms with a delivery/implementation component typically achieve 50–60%. Margins below 45% signal pricing issues, overstaffing on projects, or excessive use of subcontractors without adequate mark-up.",
+      caseStudy: "A technology consulting firm had an aggregate 48% gross margin but discovered through analysis that their advisory work ran at 72% while implementation projects delivered only 35%. By restructuring implementation pricing and improving resource planning, they lifted blended margin to 58% within 18 months — adding £1.2M to annual profit.",
+      workedExample: {
+        situation: "Your firm’s gross margin is 52%, consistent with prior years. You use subcontractors for approximately 30% of delivery, marking up their rates by 15%.",
+        rating: "Evolving (Level 2)",
+        rationale: "A 52% margin is functional but below the 55%+ target for M&A readiness. The 15% subcontractor markup is low — most mature firms achieve 25–40%. Improving subcontractor margins and reducing their proportion of delivery would lift the overall margin."
+      },
+      improvementTips: ["Analyse margin by service line, client, and project type to identify underperformers", "Review subcontractor markup — aim for 25–40% rather than cost-plus-15%", "Implement project-level margin tracking with alerts for projects below threshold", "Consider value-based pricing for high-margin advisory work"]
+    },
+    fin_ebitda: {
+      benchmarks: "EBITDA margin is the primary valuation metric in PSF M&A. Top-quartile firms achieve 15–25%, with the median around 12–15%. Margins above 20% are considered excellent and typically attract the highest multiples. Consistency matters more than peak performance — a steady 18% EBITDA is valued higher than fluctuating between 10% and 25%.",
+      caseStudy: "Two £15M consulting firms approached the same acquirer. Firm A had 22% EBITDA but it was a one-year spike from a large project; the prior three years averaged 11%. Firm B maintained a steady 17% EBITDA over four years. Firm B received a 15% higher valuation because the sustained margin demonstrated structural profitability rather than a windfall.",
+      workedExample: {
+        situation: "Your firm’s EBITDA margin is 13% this year, up from 10% last year and 8% the year before. The improvement is driven by better utilisation and a one-off reduction in office costs.",
+        rating: "Evolving (Level 2)",
+        rationale: "The trend is positive but 13% is still below the 15%+ target. The one-off cost saving inflates this year’s figure. To rate Optimised, the firm needs to demonstrate 15%+ EBITDA sustained over 2–3 years through structural improvements, not one-off savings."
+      },
+      improvementTips: ["Separate structural margin improvements from one-off gains in your reporting", "Target 1–2 percentage point annual improvement through pricing and efficiency gains", "Benchmark EBITDA against sector-specific data from Deltek Clarity or SPI Research", "Model the EBITDA impact of improving utilisation by just 2–3 percentage points"]
+    },
+    fin_cash: {
+      benchmarks: "Healthy PSFs convert 80–95% of EBITDA to operating cash flow. Cash conversion below 70% typically signals issues with debtor management, over-investment, or poor billing discipline. Acquirers closely examine working capital cycles — the best firms maintain debtor days below 45 and bill promptly upon milestone completion.",
+      caseStudy: "A consulting firm with £2M EBITDA was converting only 55% to cash (£1.1M) due to 90+ day debtor cycles and retrospective billing. After implementing milestone billing, automated reminders, and 30-day payment terms for new contracts, cash conversion improved to 88% (£1.76M) — an extra £660k annually without winning a single new client.",
+      workedExample: {
+        situation: "Your average debtor days are 72, you bill monthly in arrears, and approximately 15% of invoices are queried or disputed by clients.",
+        rating: "Foundational (Level 1)",
+        rationale: "72 debtor days is significantly above the 45-day target, and a 15% dispute rate indicates billing process issues. Combined with retrospective billing, cash conversion is likely below 70%. Moving to Evolving requires reducing debtor days below 60 and dispute rates below 8%."
+      },
+      improvementTips: ["Switch from retrospective to milestone-based or advance billing where contracts allow", "Implement automated payment reminders at 7, 14, and 28 days", "Review and resolve the root causes of invoice disputes", "Set a firm-wide target of <50 debtor days and track monthly"]
+    },
+    fin_quality: {
+      benchmarks: "Acquirers assess revenue quality through four lenses: recurring vs project-based (target >30% recurring), client diversification (no client >15%), contract visibility (>60% of next quarter’s revenue contracted), and organic vs acquisition-driven growth. High-quality revenue is predictable, diversified, and generated through systematic client relationships rather than one-off transactions.",
+      caseStudy: "A £20M firm had impressive top-line growth but poor revenue quality: 40% came from one client, 85% was project-based with no retainers, and revenue visibility beyond 60 days was minimal. A competing £16M firm with 35% recurring revenue, no client above 12%, and 75% next-quarter visibility received a higher absolute valuation despite smaller size.",
+      workedExample: {
+        situation: "Your firm has 15% recurring revenue (retainers), 70% repeat clients but on a project-by-project basis, and your largest client represents 22% of revenue.",
+        rating: "Evolving (Level 2)",
+        rationale: "Some positive signals (70% repeat clients) but structural weaknesses: recurring revenue is below 30%, top-client concentration exceeds 15%, and the repeat business is not contractually committed. To reach Optimised, convert repeat relationships into retainer agreements and diversify beyond the dominant client."
+      },
+      improvementTips: ["Identify top 10 repeat clients and propose retainer or framework agreements", "Set a strategic goal to reduce largest-client share by 5% annually", "Create a revenue quality dashboard tracking recurring %, concentration, and visibility", "Develop subscription or managed-service offerings to increase predictable revenue"]
+    },
+    fin_rate: {
+      benchmarks: "Blended rate cards in M&A-ready PSFs typically show annual increases of 3–5% and clear differentiation between seniority levels. The spread between junior and senior rates should be at least 2.5x. Firms that demonstrate pricing power (ability to raise rates without losing clients) are valued significantly higher. Rate realisation (actual vs list rate) should exceed 90%.",
+      caseStudy: "A firm with £200–£600/day rates across all levels found that their effective blended rate had not increased in three years despite inflation. By restructuring their rate card with clear seniority tiers, introducing value-pricing for IP-led engagements, and training partners on rate negotiation, average realised rates increased 18% over two years with no client losses.",
+      workedExample: {
+        situation: "Your rate card has not been updated in 2 years. Partners occasionally discount by 20–30% to win competitive bids. Rate realisation is approximately 82%.",
+        rating: "Foundational (Level 1)",
+        rationale: "A stale rate card, heavy discounting, and 82% realisation indicate weak pricing discipline. Acquirers will see this as margin upside potential but also a risk signal. To reach Evolving, update rates annually, cap discounting authority, and target >90% realisation."
+      },
+      improvementTips: ["Review and update rate cards annually with 3–5% increases", "Implement a discount approval process — require MD sign-off for >10% discounts", "Track rate realisation monthly and set a firm-wide target of >90%", "Introduce value-based pricing alternatives for advisory engagements"]
+    },
+    ppl_talent: {
+      benchmarks: "M&A-ready firms have structured competency frameworks covering 100% of roles, with documented career paths from entry to partner level. Training investment should exceed 3% of revenue (top firms invest 5%+). Skill gap analysis should be conducted annually, with >80% of identified gaps addressed through targeted development within 12 months.",
+      caseStudy: "A 90-person consultancy had no competency framework and promoted based on tenure rather than capability. After implementing a skills matrix, creating learning pathways, and tying promotion to demonstrated competence, they saw a 40% increase in internal promotion rates and a 25% reduction in mis-hires within two years.",
+      workedExample: {
+        situation: "Your firm has informal mentoring but no documented competency framework. Training is ad-hoc and budget-dependent. Promotions are decided by partners in an annual closed-door meeting.",
+        rating: "Foundational (Level 1)",
+        rationale: "The absence of a structured competency framework and transparent promotion criteria is a red flag for acquirers. It signals key-person dependency and makes talent assessment during due diligence difficult. To reach Evolving, document role competencies and create visible career pathways."
+      },
+      improvementTips: ["Create a competency matrix mapping skills to roles at each seniority level", "Establish a dedicated L&D budget of at least 3% of revenue", "Implement transparent promotion criteria linked to competency achievement", "Conduct annual skills gap analysis and create targeted development plans"]
+    },
+    ppl_exp: {
+      benchmarks: "Leading PSFs measure employee experience through regular pulse surveys (quarterly or more frequent) with participation rates above 80% and engagement scores above 75% favourable. Glassdoor ratings above 4.0 and eNPS above +20 are considered strong. The correlation between employee engagement and client satisfaction is well-documented — firms in the top quartile for engagement outperform on client retention by 18%.",
+      caseStudy: "A consulting firm with declining engagement scores (falling from 72% to 61% over two years) saw a corresponding drop in client NPS from 55 to 38. After investing in management training, flexible working, and a wellbeing programme, engagement recovered to 78% over 18 months — and client NPS rebounded to 52.",
+      workedExample: {
+        situation: "You run an annual engagement survey with 65% participation. Results show 68% favourable overall, but the question on career development scores only 45% favourable. You have no action plan from last year’s results.",
+        rating: "Evolving (Level 2)",
+        rationale: "Having a survey is positive, but 65% participation is below the 80% target, and the lack of follow-up action undermines credibility. The career development score is a specific risk flag. To reach Optimised, increase survey frequency to quarterly, drive participation above 80%, and visibly act on results."
+      },
+      improvementTips: ["Switch to quarterly pulse surveys with 5–8 focused questions", "Share results transparently and publish an action plan within 2 weeks", "Address the lowest-scoring area with a visible, resourced initiative", "Track the engagement-to-retention correlation to build the business case"]
+    },
+    ppl_recruit: {
+      benchmarks: "Top PSFs maintain time-to-hire below 45 days, offer acceptance rates above 85%, and first-year retention above 80%. Cost-per-hire should be tracked and benchmarked (typically £5–15k depending on seniority). Mature firms have a structured employer brand, active talent pipelines for critical roles, and use data-driven assessment methods with measured quality-of-hire metrics.",
+      caseStudy: "A technology consulting firm struggling with 60-day average time-to-hire and 65% offer acceptance was losing candidates to competitors. By building a talent community, streamlining their interview process from 5 stages to 3, and investing in employer branding on LinkedIn, they reduced time-to-hire to 38 days and increased acceptance to 88%.",
+      workedExample: {
+        situation: "Your firm relies primarily on recruitment agencies (80% of hires), has no employer brand strategy, and your interview process takes 4–6 weeks with 5 interview stages.",
+        rating: "Foundational (Level 1)",
+        rationale: "Heavy agency dependency is costly (typically 20–25% of salary) and signals weak employer brand. A 5-stage process is excessive and loses candidates. To reach Evolving, build direct sourcing capability, streamline to 3 stages, and develop an employer value proposition."
+      },
+      improvementTips: ["Set a target to reduce agency dependency to <50% of hires within 12 months", "Streamline the interview process to 3 stages maximum with a 3-week target", "Invest in employer branding — employee stories, Glassdoor management, LinkedIn presence", "Build a talent pipeline by maintaining relationships with strong candidates"]
+    },
+    ppl_churn: {
+      benchmarks: "Voluntary turnover in healthy PSFs should be below 12% annually, with involuntary (managed) turnover of 5–8%. Total turnover above 20% is a significant M&A risk flag. Regrettable attrition (losing people you wanted to keep) should be tracked separately and kept below 8%. The cost of replacing a consultant is typically 1–2x their annual salary when accounting for lost productivity, recruitment, and training.",
+      caseStudy: "A consulting firm with 28% annual turnover was spending over £800k annually on replacement recruitment. Exit interview analysis revealed that 60% of leavers cited lack of career progression as their primary reason. After implementing structured career paths and transparent promotion criteria, voluntary turnover dropped to 14% within 18 months, saving £450k in recruitment costs.",
+      workedExample: {
+        situation: "Your voluntary turnover is 16% and you don’t track regrettable vs non-regrettable attrition. Exit interviews are conducted for only about half of departures.",
+        rating: "Evolving (Level 2)",
+        rationale: "16% voluntary turnover exceeds the 12% target but is not critical. The lack of regrettable/non-regrettable distinction means you cannot prioritise retention efforts. Inconsistent exit interviews miss valuable data. To improve, systematise exit interviews and begin tracking attrition by type and cause."
+      },
+      improvementTips: ["Conduct exit interviews for 100% of voluntary leavers using a consistent framework", "Distinguish between regrettable and non-regrettable attrition in reporting", "Analyse turnover by tenure, level, and department to identify patterns", "Calculate the true cost of turnover to build the business case for retention investment"]
+    },
+    ppl_wf: {
+      benchmarks: "Mature PSFs maintain a balanced workforce pyramid with a leverage ratio of 3–4:1 (junior to senior). The proportion of staff on permanent contracts should exceed 70%, with contractor usage strategic rather than structural. Diversity metrics increasingly matter in M&A — firms with gender-balanced leadership teams (>30% female partners) outperform on innovation and client satisfaction metrics.",
+      caseStudy: "An engineering consultancy with a top-heavy structure (1.5:1 junior to senior ratio) was struggling with margin pressure because senior staff were doing work that juniors could handle. By restructuring the pyramid over two years — hiring 20 graduates and promoting mid-level staff into management — they improved the ratio to 2.8:1 and increased gross margin by 8 percentage points.",
+      workedExample: {
+        situation: "Your firm has a 2:1 junior to senior ratio, 25% contractors, and limited diversity data. The partnership is 15% female.",
+        rating: "Evolving (Level 2)",
+        rationale: "The leverage ratio is below the 3:1 target, meaning seniors are likely doing lower-value work. Contractor usage at 25% is at the upper end of acceptable. Limited diversity data signals that DE&I is not yet a strategic priority. To improve, develop a workforce plan that builds the pyramid base and sets measurable diversity targets."
+      },
+      improvementTips: ["Create a 3-year workforce plan targeting a 3:1 leverage ratio", "Develop a strategic contractor vs permanent framework — define which roles should be permanent", "Begin tracking diversity metrics across seniority levels and set improvement targets", "Model the margin impact of improving leverage ratios to build the business case"]
+    },
+    srv_prop: {
+      benchmarks: "M&A-ready firms have clearly articulated service propositions that can be explained in under 60 seconds and differentiated from competitors. The proposition should be validated through client feedback (>80% of clients able to articulate what makes the firm different). Market positioning should be documented and reviewed annually against competitive intelligence.",
+      caseStudy: "A generalist consultancy struggled to articulate their differentiation beyond ‘our people.’ After conducting a positioning study with 30 clients and 15 prospects, they discovered their real strength was in post-merger integration for mid-market firms. Repositioning around this niche increased average project value by 45% and win rates by 20 percentage points.",
+      workedExample: {
+        situation: "Your website describes your firm as offering ‘end-to-end consulting solutions across multiple industries.’ Partners describe the firm’s value proposition differently depending on who is asked.",
+        rating: "Foundational (Level 1)",
+        rationale: "A generic, undifferentiated proposition is a significant weakness. If partners cannot consistently articulate the value, clients and acquirers won’t understand it either. To reach Evolving, conduct competitive analysis, gather client feedback on perceived strengths, and craft a focused proposition."
+      },
+      improvementTips: ["Interview 10–15 key clients to understand why they chose you over alternatives", "Conduct competitive analysis of 5–10 direct competitors’ positioning", "Draft a proposition statement and test it with clients and prospects", "Ensure all partners can consistently articulate the proposition"]
+    },
+    srv_innov: {
+      benchmarks: "High-growth PSFs invest 3–5% of revenue in service innovation, launching at least one new service offering annually. Innovation should be systematic rather than ad-hoc, with a documented pipeline of service ideas, a testing/validation process, and metrics for new service uptake. Firms that derive >20% of revenue from services launched in the last 3 years demonstrate strong innovation capability.",
+      caseStudy: "A management consultancy that had not launched a new service in five years found that 80% of revenue came from offerings designed over a decade ago. After establishing a quarterly innovation review, allocating 4% of revenue to service R&D, and launching a data analytics practice, new services contributed 18% of revenue within two years and attracted a new segment of clients.",
+      workedExample: {
+        situation: "Your firm launched one new service area 18 months ago after a partner noticed a market trend. There is no formal innovation process and no budget allocated to service development.",
+        rating: "Evolving (Level 2)",
+        rationale: "The firm has demonstrated some innovation capability, but it was reactive rather than systematic. Without a formal process and budget, innovation depends on individual initiative. To reach Optimised, establish a structured innovation pipeline with dedicated investment and regular review cycles."
+      },
+      improvementTips: ["Allocate a specific innovation budget (start with 2–3% of revenue)", "Create a quarterly innovation review with a pipeline of service ideas", "Test new services with 2–3 pilot clients before full launch", "Track the percentage of revenue from services launched in the last 3 years"]
+    },
+    srv_ip: {
+      benchmarks: "Proprietary IP — methodologies, frameworks, tools, and diagnostic instruments — is a key M&A value driver. Acquirers value IP because it creates barriers to entry, enables scalable delivery, and reduces dependency on individual consultants. Target >3 documented proprietary methodologies, with IP contributing to >20% of revenue through licensed tools, productised services, or IP-enabled engagements.",
+      caseStudy: "A strategy consultancy had deep expertise but everything lived in partners’ heads. Over 18 months they codified their approach into a branded diagnostic tool, a delivery framework, and a benchmarking database. The IP portfolio was independently valued at £2.1M during the subsequent acquisition — adding approximately 1x to the EBITDA multiple.",
+      workedExample: {
+        situation: "Your firm has informal methodologies that vary by partner. One team has created a client-facing diagnostic tool, but it’s not branded or documented as firm IP.",
+        rating: "Evolving (Level 2)",
+        rationale: "There is emerging IP but it’s not systematically captured, branded, or protected. The diagnostic tool shows promise but needs formalisation. To reach Optimised, document and brand key methodologies, register any protectable IP, and build service offerings around proprietary tools."
+      },
+      improvementTips: ["Audit existing methodologies and frameworks across all teams", "Select 2–3 strongest approaches to codify, brand, and document formally", "Consider IP protection (copyright, trademark) for key branded methodologies", "Build service packages that incorporate proprietary tools as differentiators"]
+    },
+    srv_size: {
+      benchmarks: "Average project size is a key efficiency metric. Larger projects reduce the overhead of business development and onboarding per revenue pound. M&A-ready PSFs typically achieve average project sizes at least 2x their industry median. For consulting firms, this means average engagements of £75–150k+. The ratio of project size to cost-of-sale should be monitored — target >15:1.",
+      caseStudy: "A firm with an average project size of £28k was spending disproportionate effort on business development and project setup. By introducing diagnostic-to-engagement conversion pathways and multi-phase project structures, average project size grew to £65k within 18 months. Revenue per BD hour increased by 120%, and partners spent less time selling and more time delivering.",
+      workedExample: {
+        situation: "Your average project size is £40k. Roughly 30% of projects are under £15k (quick advisory jobs) and 10% are over £100k.",
+        rating: "Evolving (Level 2)",
+        rationale: "£40k is moderate but the long tail of small projects drags down efficiency. The 30% of sub-£15k work likely consumes disproportionate sales and admin effort. To improve, consider minimum project thresholds and design engagement models that naturally expand smaller entry points into larger programmes."
+      },
+      improvementTips: ["Set a minimum project threshold (e.g., £20k) and decline or refer smaller work", "Design ‘land and expand’ engagement models: diagnostic → pilot → full programme", "Track cost-of-sale per project and identify which project sizes are most profitable", "Bundle related small projects into programme-level agreements with clients"]
+    },
+    srv_price: {
+      benchmarks: "Pricing sophistication is a strong signal of commercial maturity. M&A-ready firms use value-based pricing on >40% of engagements, achieve >90% rate realisation, and review pricing strategy annually. The shift from time-and-materials to outcomes-based pricing typically improves margins by 15–25% on affected engagements while simultaneously improving client satisfaction.",
+      caseStudy: "A consulting firm billing 100% on day rates introduced value-based pricing for their diagnostic and strategy engagements. By pricing based on the value of the client outcome rather than consultant days, average margins on these engagements increased from 35% to 52%. Within two years, 45% of revenue used value-based pricing models.",
+      workedExample: {
+        situation: "Your firm bills 90% on time-and-materials, with a standard rate card. Occasionally partners offer fixed-fee quotes but without a structured approach to scoping or risk management.",
+        rating: "Foundational (Level 1)",
+        rationale: "Near-complete reliance on T&M billing limits margin potential and exposes the firm to utilisation risk. The ad-hoc fixed-fee quoting without structured scoping is actually riskier than pure T&M. To reach Evolving, develop a value-based pricing capability for advisory work with proper scoping methodology."
+      },
+      improvementTips: ["Identify 2–3 service offerings best suited for value-based pricing (typically advisory/diagnostic)", "Develop a scoping methodology that quantifies client value outcomes", "Train partners on value conversation techniques and pricing confidence", "Pilot value-based pricing on 5–10 engagements and measure margin impact"]
+    },
+    vis_market: {
+      benchmarks: "M&A-ready firms have a clearly defined target market with demonstrable market share. The ideal is a niche position with >15% share in a defined segment, supported by evidence of market understanding (published market analysis, client win data by segment, competitive positioning maps). Firms targeting a total addressable market 10–50x their current revenue have credible growth headroom.",
+      caseStudy: "A £12M generalist consultancy attempted to serve all industries and all geographies. After market analysis revealed that 65% of their most profitable work came from financial services clients in the South East, they repositioned as financial services specialists. Within two years, revenue grew to £18M with better margins, as the focused positioning attracted higher-quality clients.",
+      workedExample: {
+        situation: "Your firm serves ‘all industries’ but analysis shows 40% of revenue comes from healthcare and 25% from financial services. You have no published market analysis for either sector.",
+        rating: "Evolving (Level 2)",
+        rationale: "The data shows natural sector concentrations, but they haven’t been consciously developed. Without market analysis, the firm cannot articulate market size, share, or growth potential to acquirers. To reach Optimised, commit to 1–2 target sectors, develop market intelligence, and build sector-specific propositions."
+      },
+      improvementTips: ["Analyse revenue by sector over 3 years to identify natural strengths", "Commission or create market sizing for your top 2 sectors", "Develop sector-specific case studies, references, and propositions", "Set measurable market share targets and track progress annually"]
+    },
+    vis_comp: {
+      benchmarks: "Mature firms maintain documented competitive intelligence covering their top 5–10 competitors, updated at least annually. This should include pricing positioning, service overlap, win/loss analysis, and differentiation assessment. Barriers to entry (specialisation, IP, relationships, regulatory expertise) should be identified and deliberately strengthened.",
+      caseStudy: "A firm that had never formally analysed competitors discovered through a structured competitive review that three rivals had launched similar services at 20% lower price points. This intelligence enabled them to reposition their offering around quality outcomes data (which competitors lacked), protecting margins while maintaining win rates.",
+      workedExample: {
+        situation: "Partners have anecdotal knowledge of competitors but there is no documented competitive analysis. You lose 30% of competitive pitches but don’t systematically analyse why.",
+        rating: "Foundational (Level 1)",
+        rationale: "Without competitive intelligence, strategic decisions are based on intuition. A 30% competitive win rate is below the 35–50% benchmark, and without win/loss analysis you cannot improve it. To reach Evolving, implement structured win/loss reviews and create a competitive intelligence database."
+      },
+      improvementTips: ["Implement win/loss analysis for all competitive bids", "Create competitor profiles for your top 5–10 competitors", "Identify and document your barriers to entry and deliberately invest in strengthening them", "Review competitive positioning annually and adjust strategy accordingly"]
+    },
+    vis_align: {
+      benchmarks: "Strategic alignment means every team member understands the firm’s direction and their role in achieving it. Top firms score >80% on internal surveys asking ‘I understand the firm’s strategy’ and ‘I know how my work contributes to strategic goals.’ Strategic objectives should cascade from firm-wide goals to team and individual KPIs, reviewed quarterly.",
+      caseStudy: "A 70-person firm found that only 35% of staff could articulate the firm’s strategy. After quarterly all-hands strategy sessions, visual strategy maps in every office, and individual goal-setting aligned to strategic priorities, the understanding score rose to 82%. Partners noted that teams began self-organising around strategic objectives.",
+      workedExample: {
+        situation: "Your firm has a strategy document but it was last updated two years ago. Partners reference it occasionally. Most consultants would struggle to name the firm’s top three strategic priorities.",
+        rating: "Evolving (Level 2)",
+        rationale: "Having a strategy document is positive, but a two-year-old plan that isn’t actively communicated provides little strategic value. Strategy should be a living process, not a static document. To improve, refresh the plan, communicate it actively, and cascade objectives to team level."
+      },
+      improvementTips: ["Refresh the strategic plan annually with input from the leadership team", "Hold quarterly all-hands sessions to communicate strategic progress", "Create team-level objectives that visibly link to firm-wide strategic goals", "Measure strategic awareness through pulse surveys quarterly"]
+    },
+    vis_plan: {
+      benchmarks: "Best-practice PSFs operate with 3–5 year strategic plans, reviewed quarterly, with annual budgets and rolling forecasts. The plan should include market analysis, competitive positioning, financial targets, investment priorities, and measurable milestones. Board or leadership team review should occur quarterly with documented decisions and action tracking.",
+      caseStudy: "A firm operating without a formal plan beyond annual budgets found themselves making reactive decisions. After creating a 3-year plan with quarterly reviews, they made three significant strategic investments (a new practice area, an acquisition, and a technology platform) in a coordinated sequence rather than competing for the same resources simultaneously.",
+      workedExample: {
+        situation: "Your firm creates an annual budget but has no multi-year plan. Strategic decisions are made ad-hoc in monthly partner meetings without a structured framework.",
+        rating: "Foundational (Level 1)",
+        rationale: "An annual budget is not a strategic plan. Without a multi-year framework, the firm cannot make sequenced investments or demonstrate growth intentionality to acquirers. Due diligence teams specifically look for documented planning rigour. To reach Evolving, create a 3-year strategic plan with quarterly review cadence."
+      },
+      improvementTips: ["Facilitate a strategy offsite to create a 3-year plan with measurable goals", "Establish a quarterly strategy review rhythm with documented outcomes", "Separate strategic discussion from operational meetings", "Track strategic milestones alongside financial performance"]
+    },
+    vis_esg: {
+      benchmarks: "ESG is increasingly material in M&A. Acquirers expect at minimum a published ESG policy, measurable environmental targets, and evidence of social responsibility. Progressive firms have carbon reduction plans, diversity targets, and community engagement programmes. B Corp certification or UN SDG alignment demonstrate mature ESG integration. ESG due diligence is now standard in >60% of mid-market transactions.",
+      caseStudy: "A consulting firm that had dismissed ESG as ‘not relevant for services firms’ nearly lost an acquisition deal when the buyer’s ESG due diligence found no policy, no carbon measurement, and no diversity data. A 6-month scramble to create an ESG framework delayed the transaction. In contrast, a competitor with established ESG credentials completed their deal in half the time.",
+      workedExample: {
+        situation: "Your firm has an informal commitment to sustainability but no published policy. You measure carbon from office energy but not business travel. Diversity data is collected but not reported.",
+        rating: "Evolving (Level 2)",
+        rationale: "Some ESG activity exists but it’s neither systematic nor transparent. Acquirers will look for published commitments and measurable progress. To reach Optimised, publish an ESG policy, expand carbon measurement to include travel, set targets, and report annually."
+      },
+      improvementTips: ["Publish a formal ESG policy with measurable targets", "Measure full carbon footprint including business travel (Scope 1, 2, and key Scope 3)", "Set and publish diversity targets for leadership and the wider firm", "Consider B Corp assessment as a structured framework for ESG maturity"]
+    },
+    sal_pipe: {
+      benchmarks: "Pipeline coverage of 3–4x the revenue target is considered healthy for PSFs. Pipeline should be tracked in a CRM with defined stages, probability weightings, and conversion metrics. Visibility beyond 90 days should cover >60% of the next quarter’s target. Mature firms segment pipeline by new vs existing client, service line, and probability band.",
+      caseStudy: "A firm with no CRM was shocked to discover during acquisition due diligence that they had only 1.2x pipeline coverage and less than 40% visibility for the next quarter. The acquirer reduced their offer by 15% citing revenue unpredictability. A subsequent investment in pipeline management took 12 months but improved coverage to 3.5x and visibility to 72%.",
+      workedExample: {
+        situation: "You have a CRM but pipeline data is inconsistently maintained. Estimated pipeline coverage is approximately 2x based on the data that exists. Pipeline reviews happen monthly but attendance is sporadic.",
+        rating: "Evolving (Level 2)",
+        rationale: "Having a CRM is positive but inconsistent usage undermines its value. 2x coverage is below the 3x minimum. Sporadic pipeline reviews mean the data isn’t driving decisions. To improve, mandate CRM usage, implement weekly pipeline reviews, and set coverage targets by service line."
+      },
+      improvementTips: ["Mandate CRM updates as a non-negotiable for all BD-active staff", "Implement weekly 30-minute pipeline reviews with standardised agenda", "Define pipeline stages with clear entry/exit criteria and probability weightings", "Set pipeline coverage targets by quarter and service line"]
+    },
+    sal_conv: {
+      benchmarks: "Qualified opportunity win rates should be 35–50% for well-positioned PSFs. Track conversion at each pipeline stage to identify where opportunities are lost. Proposal-to-win ratios should exceed 40%. Importantly, measure ‘no decision’ outcomes separately from competitive losses — a high no-decision rate (>25%) indicates qualification issues rather than competitive weakness.",
+      caseStudy: "A firm with a 25% overall win rate implemented structured deal qualification using the BANT framework (Budget, Authority, Need, Timeline). By declining to pursue 30% of opportunities that failed qualification, their win rate on pursued opportunities jumped to 44% while reducing wasted BD effort. Net revenue from new business actually increased despite pursuing fewer opportunities.",
+      workedExample: {
+        situation: "Your win rate is approximately 30% but you don’t track pipeline stages or no-decision outcomes. The team pursues most opportunities that come in without formal qualification.",
+        rating: "Evolving (Level 2)",
+        rationale: "30% win rate is below the 35% minimum and the lack of stage tracking means you cannot diagnose where opportunities are lost. Without qualification, the team is likely wasting effort on low-probability pursuits. To improve, implement deal qualification criteria and stage-by-stage conversion tracking."
+      },
+      improvementTips: ["Implement a deal qualification framework (e.g., BANT or MEDDIC)", "Track conversion rates at each pipeline stage to identify the biggest drop-off points", "Distinguish between competitive losses and no-decision outcomes in your analysis", "Set a target to decline at least 20% of unqualified opportunities"]
+    },
+    sal_mgmt: {
+      benchmarks: "Mature sales management includes a named BD/sales leader (even if part-time), weekly pipeline reviews, monthly win/loss analysis, and quarterly sales strategy reviews. Key metrics should be dashboarded: pipeline coverage, conversion rates, average deal size, sales cycle length, and revenue by source (new/existing, inbound/outbound). CRM adoption should be >90% across BD-active staff.",
+      caseStudy: "A partner-led firm where each partner managed their own pipeline independently appointed a Head of Business Development. Within a year, pipeline data was centralised, cross-selling opportunities were identified (generating £1.5M in incremental revenue), and the firm could produce accurate quarterly revenue forecasts for the first time.",
+      workedExample: {
+        situation: "Business development is managed individually by partners. There is no centralised pipeline view, no BD meetings, and no cross-selling coordination between practice areas.",
+        rating: "Foundational (Level 1)",
+        rationale: "Fragmented, partner-led BD with no coordination is a common pattern in smaller PSFs but is a significant M&A concern. It signals founder-dependency in revenue generation and makes due diligence pipeline assessment very difficult. To reach Evolving, centralise pipeline visibility and implement regular BD meetings."
+      },
+      improvementTips: ["Appoint a BD leader or coordinator (can be part-time initially)", "Centralise all pipeline data into a single CRM view", "Implement fortnightly cross-practice BD meetings to identify cross-selling opportunities", "Create a BD dashboard with key metrics visible to the leadership team"]
+    },
+    sal_skills: {
+      benchmarks: "PSFs should have documented sales processes for different engagement types, with >70% of BD-active staff trained in consultative selling techniques. Proposal quality should be measured through win rate tracking and client feedback. Response time for RFPs should be under 48 hours for an initial acknowledgment and 2–3 weeks for a full proposal.",
+      caseStudy: "A technically excellent consultancy was losing bids because their proposals were dense, technical documents that failed to connect with client decision-makers. After training the team in storytelling-based proposal writing and consultative selling, their proposal win rate improved from 28% to 42% in six months — without changing their pricing.",
+      workedExample: {
+        situation: "Your firm has no formal sales training. Partners sell based on personal style and relationships. Proposals follow no standard template and vary widely in quality.",
+        rating: "Foundational (Level 1)",
+        rationale: "Without sales process or training, BD capability is entirely partner-dependent and inconsistent. Variable proposal quality directly impacts win rates. To reach Evolving, create proposal templates, implement basic sales training, and document a standard sales process."
+      },
+      improvementTips: ["Create proposal templates with consistent structure and branding", "Invest in consultative selling training for all BD-active staff", "Document a standard sales process from initial enquiry to contract signature", "Implement proposal reviews with feedback to continuously improve quality"]
+    },
+    cli_conc: {
+      benchmarks: "M&A advisors flag concentration risk when any single client exceeds 15-20% of revenue. Best-practice PSFs keep their top client below 10% and top-5 clients below 35%. Acquirers typically apply a revenue-at-risk discount of 1-2x EBITDA for every client representing more than 20% of billings (Source: Hinge Research, PCE Investment Banking).",
+      caseStudy: "A 60-person management consultancy derived 42% of revenue from one government department. When that contract was re-tendered and lost, the firm faced an immediate 40% revenue gap. Over 18 months they rebuilt by targeting three new sectors, eventually reducing top-client dependency to 14% and improving their valuation multiple by 1.5x.",
+      workedExample: {
+        situation: "Your largest client represents 28% of total revenue, and the top three clients account for 55% of billings.",
+        rating: "Foundational (Level 1)",
+        rationale: "Significant concentration risk exists with one client above 25% and top-three above 50%. Foundational because the firm is heavily exposed to individual client decisions, which depresses acquirer confidence and valuation multiples."
+      },
+      improvementTips: ["Set a strategic cap of 20% maximum revenue from any single client and actively pursue new logos to dilute concentration", "Build a client acquisition engine targeting 3-5 new mid-market clients per quarter in adjacent sectors", "Develop recurring revenue streams such as retainers or managed services that spread income across a broader client base", "Create an early-warning dashboard tracking concentration ratios monthly so leadership can intervene before thresholds are breached"]
+    },
+    cli_long: {
+      benchmarks: "Top-quartile professional services firms achieve gross client retention rates of 85-92% annually. Net revenue retention (including expansion) exceeds 105-115% in high-performing firms. Average client tenure of 4+ years signals strong relationship depth. Acquirers value predictable, recurring client relationships as they reduce post-acquisition revenue risk (Source: SPI Research, Service Performance Insight).",
+      caseStudy: "A technology consulting firm had client retention of 62% annually with average tenure of 1.8 years. They implemented quarterly business reviews, assigned dedicated client success managers, and introduced a tiered loyalty programme. Within two years, retention climbed to 88%, average tenure reached 3.4 years, and revenue predictability improved dramatically.",
+      workedExample: {
+        situation: "Your firm retains 78% of clients year-over-year, with average client tenure of 2.5 years. You have some long-standing relationships but also significant annual churn.",
+        rating: "Evolving (Level 2)",
+        rationale: "Retention is moderate but below the 85%+ benchmark for top-quartile firms. Some loyal clients exist, but the churn rate suggests relationships are project-based rather than deeply embedded, limiting recurring revenue predictability."
+      },
+      improvementTips: ["Implement structured quarterly business reviews with all key clients to deepen relationships and surface expansion opportunities", "Assign dedicated relationship managers to top-20 clients with formal account development plans", "Track net revenue retention separately from gross retention to measure expansion within existing accounts", "Develop multi-year framework agreements or retainer models that lock in longer engagement periods"]
+    },
+    cli_size: {
+      benchmarks: "High-performing PSFs target average annual client value of 150-300K for mid-market firms, with top-tier consultancies achieving 500K+. Revenue per client should be growing 5-10% annually through scope expansion. Firms with average client values below 50K often struggle with delivery economics and face margin pressure from high client management overhead (Source: Deltek Clarity, Hinge Research).",
+      caseStudy: "A digital agency had an average client value of 35K with over 200 active clients, creating unsustainable account management overhead. They repositioned toward mid-market enterprise clients, introduced minimum engagement thresholds of 75K, and developed strategic account plans for high-potential clients. Within two years, average client value reached 120K with fewer but more profitable relationships.",
+      workedExample: {
+        situation: "Your average annual client value is 85K, with a long tail of small engagements under 20K that consume disproportionate management time.",
+        rating: "Evolving (Level 2)",
+        rationale: "Average client value is moderate but the long tail of small engagements suggests an unfocused client strategy. The firm is evolving beyond taking any work that comes in, but has not yet established minimum engagement thresholds or strategic account targeting."
+      },
+      improvementTips: ["Establish minimum engagement thresholds and gradually sunset or refer clients below the threshold to partner firms", "Develop strategic account plans for top-20 clients with specific revenue growth targets and cross-sell opportunities", "Create tiered service packages that encourage clients to consolidate more work with your firm rather than splitting across vendors", "Track client lifetime value alongside annual value to identify which client profiles deliver the best long-term economics"]
+    },
+    cli_part: {
+      benchmarks: "Leading PSFs convert 15-25% of their client base into strategic partnerships characterised by multi-year commitments, joint planning, and embedded teams. These strategic accounts typically generate 3-5x the revenue of transactional clients. Firms with formal partner programmes report 20-30% higher net revenue retention than those without (Source: ITSMA, SPI Research).",
+      caseStudy: "An HR consulting firm treated all 150 clients identically with no formal partnership tiers. They introduced a Strategic Partner Programme for their top 15 clients, offering dedicated teams, quarterly strategy sessions, and priority access to new service offerings. Partner accounts grew revenue by 35% in the first year while non-partner accounts grew just 4%.",
+      workedExample: {
+        situation: "You have a handful of close client relationships but no formal partnership structure, tiered service model, or strategic account programme.",
+        rating: "Foundational (Level 1)",
+        rationale: "While some strong relationships exist organically, the absence of formal structures means partnership depth depends on individual consultants rather than institutional capabilities. This is foundational because strategic value creation with clients is ad hoc rather than systematic."
+      },
+      improvementTips: ["Design a formal client partnership programme with clear tiers, benefits, and qualification criteria for each level", "Assign executive sponsors to strategic accounts and conduct joint annual planning sessions with client leadership", "Create co-innovation opportunities such as joint research, pilot programmes, or shared IP development with top-tier partners", "Measure partnership health through a balanced scorecard covering revenue, satisfaction, strategic alignment, and relationship breadth"]
+    },
+    led_team: {
+      benchmarks: "Acquirers evaluate leadership teams on depth, complementarity, and retention risk. Best-practice PSFs have a leadership team of 4-7 members covering delivery, sales, finance, and people. Key person dependency where one leader holds more than 40% of client relationships or institutional knowledge is a major red flag. Leadership teams with 3+ years average tenure together signal stability (Source: PCE Investment Banking, Equiteq).",
+      caseStudy: "A founder-led strategy firm had all major client relationships, pricing decisions, and delivery oversight concentrated in the CEO. When exploring a sale, three potential acquirers walked away citing key-person risk. The firm spent 18 months deliberately distributing responsibilities, promoting two directors to Managing Partner roles, and transitioning client relationships. The eventual sale achieved a 30% higher multiple than the initial offers.",
+      workedExample: {
+        situation: "Your firm has a capable leadership team of five, but the founder still personally manages the top 8 client relationships and makes all major pricing decisions.",
+        rating: "Evolving (Level 2)",
+        rationale: "A leadership team exists and has relevant capabilities, but significant key-person dependency remains with the founder controlling critical client and commercial functions. The firm is evolving beyond pure founder-dependency but has not yet achieved the distributed leadership that acquirers seek."
+      },
+      improvementTips: ["Conduct a key-person dependency audit mapping which leaders hold critical relationships, knowledge, and decision authority", "Create a structured transition plan to distribute client relationships across at least three senior leaders over 12-18 months", "Establish a formal leadership development programme identifying and grooming the next generation of leaders from within", "Implement a leadership scorecard tracking delegation progress, succession readiness, and team decision-making independence"]
+    },
+    led_deleg: {
+      benchmarks: "High-performing PSFs delegate operational decisions to the lowest competent level, with founders and senior leaders spending 60-70% of time on strategic activities rather than operational firefighting. Decision-making authority should be formally documented with clear escalation paths. Firms with strong delegation cultures report 25-40% higher employee engagement scores (Source: Gallup, McKinsey Organisation Practice).",
+      caseStudy: "A 45-person engineering consultancy had every project decision escalated to one of two founding partners, creating bottlenecks and burning out senior leadership. They introduced a decision authority matrix defining which decisions could be made at project manager, director, and partner level. Within six months, partner workload dropped 35%, project delivery speed improved 20%, and two high-potential directors stepped up into genuine leadership roles.",
+      workedExample: {
+        situation: "Most operational and client decisions are made by partners. Project managers have limited authority and frequently escalate routine matters. There is no formal decision authority framework.",
+        rating: "Foundational (Level 1)",
+        rationale: "The firm operates with a command-and-control style where partners are bottlenecks for most decisions. This is foundational because it limits scalability, creates partner burnout, and signals to acquirers that the business cannot operate independently of its current senior leaders."
+      },
+      improvementTips: ["Create a formal decision authority matrix defining which decisions are made at each organisational level", "Start with low-risk delegation such as project-level budgeting and scheduling decisions, then progressively expand scope", "Invest in management training for mid-level leaders to build confidence and competence in autonomous decision-making", "Track delegation metrics including escalation frequency, decision turnaround time, and leader time allocation between strategic and operational work"]
+    },
+    led_gov: {
+      benchmarks: "M&A-ready PSFs have formal governance structures including advisory boards or non-executive directors, documented roles and responsibilities, regular board meetings with minutes, and clear succession plans. Firms with independent advisory board members achieve 15-25% higher valuations. Governance maturity is assessed on structure, documentation, independence, and strategic orientation (Source: Equiteq, IBBA).",
+      caseStudy: "A 90-person consulting firm had no formal governance beyond monthly partner meetings with no agenda or minutes. In preparation for a future exit, they established a quarterly advisory board with two independent non-executives, formalised partner meeting agendas and minutes, and created a governance charter. Two years later, the due diligence process was dramatically smoother and faster, and the acquirer cited governance maturity as a key confidence factor.",
+      workedExample: {
+        situation: "Your firm has informal partner meetings but no advisory board, no documented governance charter, and no independent outside perspective on strategic decisions.",
+        rating: "Foundational (Level 1)",
+        rationale: "Governance is informal and undocumented, with no independent oversight or structured decision-making processes. This is foundational because acquirers see poor governance as a risk indicator for post-acquisition integration challenges and hidden liabilities."
+      },
+      improvementTips: ["Establish a formal advisory board with at least one independent non-executive who brings M&A or industry expertise", "Document a governance charter defining meeting cadence, decision-making processes, voting rights, and escalation procedures", "Implement structured board reporting with standardised financial dashboards, KPI tracking, and strategic initiative updates", "Create a succession plan for all key leadership roles and review it annually with the advisory board"]
+    },
+    cos_deliv: {
+      benchmarks: "Top-quartile PSFs achieve delivery cost ratios of 55-65% of revenue, with direct project costs tightly managed. Delivery overhead (non-billable delivery support) should be below 8-12% of revenue. Project-level gross margins of 45-55% indicate healthy delivery economics. Firms with mature delivery cost management consistently outperform on EBITDA margins by 5-8 percentage points (Source: Deltek Clarity, SPI Research).",
+      caseStudy: "A management consulting firm had delivery costs at 72% of revenue due to over-staffing projects as a quality hedge. They implemented resource demand forecasting, right-sized project teams using historical delivery data, and introduced peer review rather than senior over-staffing for quality assurance. Delivery costs dropped to 61% of revenue within 12 months, adding 11 percentage points to gross margin.",
+      workedExample: {
+        situation: "Your delivery costs represent 68% of revenue, with projects frequently over-staffed and no systematic tracking of delivery efficiency by project type or client.",
+        rating: "Evolving (Level 2)",
+        rationale: "Delivery costs are above the top-quartile benchmark but not severely mismanaged. The firm is delivering profitably but has not yet optimised staffing models or implemented data-driven resource allocation, leaving significant margin on the table."
+      },
+      improvementTips: ["Implement project-level P&L tracking with real-time visibility into planned vs actual delivery costs for every engagement", "Develop staffing models based on historical delivery data to right-size teams by project type, complexity, and client", "Introduce delivery efficiency KPIs such as cost-per-deliverable and revenue-per-delivery-hour into project manager scorecards", "Create a delivery optimisation committee that reviews project economics monthly and shares best practices across teams"]
+    },
+    cos_tech: {
+      benchmarks: "Leading PSFs invest 4-7% of revenue in technology and automation, with top performers reaching 8-10%. Technology ROI should be measured through productivity gains and automation of repeatable tasks. Firms that invest strategically in technology report 15-25% higher revenue per employee. AI and automation adoption is increasingly a differentiator in due diligence (Source: Deltek Clarity, Hinge High Growth Study).",
+      caseStudy: "A compliance advisory firm spent just 1.5% of revenue on technology, relying on spreadsheets and email for project management and client reporting. They invested in an integrated PSA platform, automated report generation, and client portal technology. Technology spend rose to 6% of revenue, but revenue per consultant increased 22% and the firm eliminated two administrative roles through automation.",
+      workedExample: {
+        situation: "Your firm spends approximately 3% of revenue on technology, primarily on basic tools like Office 365 and a simple CRM. There is no automation of delivery processes or client reporting.",
+        rating: "Foundational (Level 1)",
+        rationale: "Technology investment is below the 4-7% benchmark and focused on basic productivity tools rather than strategic automation. This is foundational because the firm has not yet leveraged technology as a scalability enabler or competitive advantage in delivery efficiency."
+      },
+      improvementTips: ["Conduct a technology audit identifying the top 10 time-consuming manual processes that could be automated or streamlined", "Develop a 3-year technology roadmap with clear ROI targets for each investment tied to productivity and margin improvement", "Prioritise investments in PSA platforms, automated reporting, and AI-assisted delivery tools that directly improve consultant productivity", "Track technology ROI through before-and-after metrics on time savings, error reduction, and revenue per employee"]
+    },
+    cos_scale: {
+      benchmarks: "Scalable PSFs grow revenue 20-30% faster than headcount, indicating genuine leverage in their operating model. The revenue-to-headcount growth ratio should exceed 1.3x for evolving firms and 1.5x+ for optimised firms. Scalability indicators include reusable frameworks, productised services, and offshore or nearshore delivery capabilities. Acquirers pay premium multiples for firms demonstrating scalable economics (Source: Equiteq, Hinge Research).",
+      caseStudy: "A strategy consulting firm grew revenue and headcount in lockstep for five years at roughly 12% each. They developed reusable analytical frameworks, created a nearshore analytics team for data-intensive work, and introduced a productised benchmarking service. Over the next two years, revenue grew 25% while headcount grew only 15%, demonstrating the scalability that acquirers value.",
+      workedExample: {
+        situation: "Your revenue grew 15% last year while headcount grew 14%. Growth is almost entirely driven by adding more consultants rather than improving leverage or efficiency.",
+        rating: "Foundational (Level 1)",
+        rationale: "Revenue growth is closely tied to headcount growth with a ratio near 1.0x, indicating no operating leverage. This is foundational because the firm cannot scale profitably without proportional hiring, which limits growth potential and depresses valuation multiples."
+      },
+      improvementTips: ["Identify the top 5 repeatable delivery activities that could be templatised, productised, or partially automated", "Explore nearshore or offshore delivery models for data analysis, research, or documentation work to improve leverage ratios", "Develop at least one productised service offering that can be delivered with lower consultant-to-revenue ratios", "Track the revenue-to-headcount growth ratio quarterly and set explicit targets for improving operating leverage year over year"]
+    },
+    cos_data: {
+      benchmarks: "Leading PSFs use data analytics to drive both delivery excellence and operational efficiency. Top-quartile firms have real-time dashboards covering financial performance, utilisation, pipeline, and project health. Data-driven firms report 20-30% faster decision-making and 15-20% better project outcomes. Increasingly, acquirers assess data maturity as a proxy for management sophistication (Source: Deltek Clarity, McKinsey Digital).",
+      caseStudy: "An environmental consulting firm relied on monthly spreadsheet reports that were typically two weeks out of date. They implemented a business intelligence platform connecting their PSA, CRM, and finance systems. Real-time dashboards enabled weekly resource rebalancing, improved utilisation by 8 percentage points, and gave leadership confidence to make faster strategic decisions.",
+      workedExample: {
+        situation: "Your firm has basic financial reporting but no integrated dashboards. Data is siloed across spreadsheets, and management decisions rely heavily on intuition rather than real-time analytics.",
+        rating: "Foundational (Level 1)",
+        rationale: "Data capabilities are minimal with siloed information and no integrated analytics. This is foundational because management cannot make timely, evidence-based decisions, and the lack of data infrastructure would be a concern for acquirers assessing operational maturity."
+      },
+      improvementTips: ["Start with a single integrated dashboard covering the four critical metrics: revenue, utilisation, pipeline coverage, and project margin", "Connect core systems (PSA, CRM, finance) to eliminate data silos and enable real-time cross-functional reporting", "Train leadership to use data in weekly management meetings, replacing anecdotal updates with metric-driven discussions", "Develop predictive analytics for resource demand forecasting and project risk identification using historical delivery data"]
+    },
+    cos_lever: {
+      benchmarks: "Optimal leverage ratios (junior-to-senior staff) vary by service type: strategy consulting 3-4:1, implementation services 5-7:1, managed services 8-10:1. Higher leverage improves margins as junior staff bill at lower cost but still generate revenue. Top-quartile firms achieve 35-45% gross margins through effective leverage. Firms with flat pyramids and partner-heavy delivery models typically have compressed margins (Source: SPI Research, Kennedy Consulting).",
+      caseStudy: "A boutique advisory firm had a flat structure with 60% of delivery performed by partners and directors billing at premium rates but also carrying premium costs. They hired and trained a cohort of experienced managers and senior consultants, redesigned delivery models to push appropriate work down, and improved their leverage ratio from 1.5:1 to 3.5:1. Gross margins improved from 32% to 44% within 18 months.",
+      workedExample: {
+        situation: "Your firm has a leverage ratio of 2:1 with partners and directors performing significant amounts of work that could be handled by more junior staff.",
+        rating: "Evolving (Level 2)",
+        rationale: "Some leverage exists but is below optimal ratios for most service types. The firm is evolving beyond a purely partner-led delivery model but has not yet built the middle layer of experienced managers needed to push work down efficiently and improve margin economics."
+      },
+      improvementTips: ["Map every delivery activity to the lowest competent level that can perform it and identify work currently done by over-qualified staff", "Invest in hiring and developing a strong middle management layer that can lead delivery with partner oversight rather than partner hands-on involvement", "Create standardised delivery methodologies and playbooks that enable less experienced staff to deliver consistently high-quality work", "Set leverage ratio targets by service line and track progress quarterly, linking improvement to margin expansion goals"]
+    },
+    cos_know: {
+      benchmarks: "Effective knowledge management systems reduce project start-up time by 20-30% and improve proposal win rates by 15-20% through reuse of proven methodologies and case studies. Top PSFs have searchable repositories of past deliverables, methodologies, and lessons learned. Knowledge codification is a key scalability enabler and acquirer value driver (Source: APQC Knowledge Management Benchmarks, McKinsey).",
+      caseStudy: "A 70-person consulting firm found that consultants spent an average of 6 hours per project recreating frameworks and templates that already existed elsewhere in the firm. They implemented a structured knowledge repository with tagging, search, and a curator role. Project start-up time decreased by 25%, proposal quality improved significantly, and new joiners reached productive capacity 40% faster.",
+      workedExample: {
+        situation: "Knowledge exists in individual consultants heads and scattered across personal drives. There is no central repository, and significant rework occurs because teams cannot find or access prior work.",
+        rating: "Foundational (Level 1)",
+        rationale: "Knowledge is trapped in individuals rather than codified in institutional systems. This is foundational because the firm cannot leverage its accumulated expertise at scale, and knowledge loss through staff departure represents a significant risk that acquirers will flag during due diligence."
+      },
+      improvementTips: ["Start with a simple, searchable knowledge repository focused on the highest-value reusable assets: methodologies, templates, and case studies", "Assign a part-time knowledge curator role to maintain quality, tagging, and discoverability of repository content", "Build knowledge capture into project close-out processes so insights and deliverables are systematically archived", "Measure knowledge reuse rates and track time savings to build the business case for continued investment in knowledge management"]
+    },
+    cos_resrc: {
+      benchmarks: "Best-in-class PSFs have 4-6 week forward visibility on resource demand and achieve 85-90% resource plan accuracy. Bench time (unallocated billable staff) should be below 8-12% of available capacity. Effective resource planning reduces over-servicing by 10-15% and improves utilisation by 5-8 percentage points. Real-time resource management is increasingly table stakes for acquirer due diligence (Source: SPI Research, Deltek Clarity).",
+      caseStudy: "A technology advisory firm managed resource allocation through a weekly email from the operations director, leading to frequent mismatches, double-bookings, and bench time of 18%. They implemented a resource management platform with skills-based matching and demand forecasting. Bench time dropped to 9%, utilisation improved by 6 percentage points, and consultant satisfaction with project assignments increased measurably.",
+      workedExample: {
+        situation: "Resource allocation is managed informally by project managers competing for the same senior staff. There is no forward demand visibility and bench time runs at approximately 15%.",
+        rating: "Evolving (Level 2)",
+        rationale: "Some resource management exists but it is reactive and fragmented. The firm is evolving beyond pure chaos but has not yet achieved the systematic, data-driven resource planning with forward visibility that characterises optimised operations."
+      },
+      improvementTips: ["Implement a centralised resource management function or tool that provides visibility across all projects and available capacity", "Develop skills-based resource profiles so allocation decisions match consultant capabilities to project requirements", "Build 4-6 week forward demand forecasts using pipeline data to anticipate resource needs before they become urgent", "Track and report bench time, utilisation variance, and resource plan accuracy as key operational health metrics"]
+    },
+    del_sat: {
+      benchmarks: "Top-performing PSFs achieve client satisfaction scores (CSAT) of 8.5+/10 or NPS of 50+. Formal post-project feedback should be collected on 80%+ of engagements. Client satisfaction directly correlates with retention, referral rates, and willingness to pay premium fees. Firms with systematic satisfaction measurement report 20-30% higher client lifetime values (Source: SPI Research, Bain NPS Benchmarks).",
+      caseStudy: "A financial advisory firm had no formal client feedback mechanism beyond ad hoc conversations. They implemented post-engagement surveys, quarterly relationship health checks for key accounts, and a closed-loop process where every score below 7/10 triggered a partner follow-up call. NPS increased from an estimated 25 to a measured 62 within 18 months, and client referrals doubled.",
+      workedExample: {
+        situation: "You collect informal feedback on some projects but have no systematic satisfaction measurement. Anecdotally, clients seem happy, but you have no quantitative data to support this.",
+        rating: "Foundational (Level 1)",
+        rationale: "Without systematic measurement, satisfaction claims are unverifiable. This is foundational because acquirers require evidence-based client satisfaction data during due diligence, and the absence of formal feedback processes suggests the firm may be unaware of client concerns until they result in lost work."
+      },
+      improvementTips: ["Implement a simple post-engagement survey using NPS or CSAT methodology for every project above a minimum size threshold", "Create a closed-loop feedback process where scores below a threshold trigger immediate follow-up by a senior leader", "Track satisfaction trends over time by client, service line, and delivery team to identify patterns and improvement opportunities", "Share aggregated satisfaction data in client proposals and marketing materials to differentiate on proven delivery quality"]
+    },
+    del_util: {
+      benchmarks: "Target billable utilisation rates vary by role: partners 40-50%, directors 55-65%, managers 65-75%, consultants 75-85%. Firm-wide blended utilisation should target 68-75% for healthy economics. Over-utilisation above 85% leads to burnout and quality issues. Under-utilisation below 60% indicates poor demand management or pricing. Revenue per consultant should exceed 200-250K annually for mid-market firms (Source: SPI Research, Deltek Clarity).",
+      caseStudy: "A 50-person IT consulting firm had blended utilisation of 58% with significant variance between teams. They implemented weekly utilisation tracking by team and individual, introduced proactive bench management with internal projects and training, and aligned sales targets with delivery capacity. Blended utilisation improved to 72% within 9 months, adding approximately 800K to annual revenue without hiring.",
+      workedExample: {
+        situation: "Your firm-wide blended utilisation is 64%, with some consultants consistently above 80% while others sit at 45-50%. There is no role-specific utilisation targeting.",
+        rating: "Evolving (Level 2)",
+        rationale: "Overall utilisation is below optimal benchmarks, and high variance between individuals suggests resource allocation issues rather than a demand problem. The firm tracks utilisation but has not yet optimised allocation or set role-appropriate targets."
+      },
+      improvementTips: ["Set role-specific utilisation targets and track weekly, making variances visible to both individuals and resource managers", "Implement proactive bench management with structured internal projects, training, and business development activities for under-utilised staff", "Align sales pipeline management with delivery capacity to reduce feast-or-famine utilisation cycles", "Analyse utilisation patterns by client, project type, and team to identify structural causes of under-utilisation and address root issues"]
+    },
+    del_qa: {
+      benchmarks: "Mature PSFs have documented delivery methodologies covering 80%+ of their service offerings. Quality gates at key project milestones reduce rework by 25-35%. Peer review processes improve deliverable quality and spread knowledge across the firm. Methodology maturity is a key acquirer due diligence item as it indicates scalability and consistency of delivery (Source: CMMI Institute, SPI Research).",
+      caseStudy: "A regulatory consulting firm experienced inconsistent delivery quality depending on which partner led the engagement. They developed standardised delivery methodologies for their four core service lines, introduced quality gates at project initiation, mid-point, and delivery, and implemented peer review for all major deliverables. Rework rates dropped from 22% to 8%, and client satisfaction scores improved across all service lines.",
+      workedExample: {
+        situation: "Your firm has informal delivery approaches that vary by partner or team. There are no documented methodologies, quality gates, or peer review processes for project deliverables.",
+        rating: "Foundational (Level 1)",
+        rationale: "Delivery quality depends entirely on individual capability rather than institutional processes. This is foundational because inconsistent methodology makes quality unpredictable, inhibits scaling, and raises concerns for acquirers about post-acquisition delivery consistency."
+      },
+      improvementTips: ["Document delivery methodologies for your top 3 service offerings, starting with the most common engagement types", "Introduce quality gates at project initiation, key milestones, and final delivery with clear criteria for passing each gate", "Implement peer review for all client-facing deliverables above a minimum engagement size threshold", "Create delivery playbooks that capture best practices and enable consistent quality regardless of which team or partner leads the engagement"]
+    },
+    mkt_size: {
+      benchmarks: "Well-positioned PSFs can clearly articulate their total addressable market (TAM) and serviceable addressable market (SAM). Firms targeting a defined SAM of 500M-2B with clear market share goals are viewed favourably by acquirers. Market position should be defensible through specialisation, geographic presence, or unique capabilities. Niche leaders with 5-15% market share in defined segments command premium valuations (Source: Hinge Research, Equiteq).",
+      caseStudy: "A generalist business consulting firm struggled to articulate its market position to a potential acquirer. They conducted a market sizing exercise, identified three underserved vertical niches where they had existing expertise, and repositioned as specialists. Within two years they had grown market share to 8% in their primary niche and attracted acquisition interest at a significantly higher multiple than the original discussions.",
+      workedExample: {
+        situation: "Your firm serves a broad market with no clear niche or specialisation. You cannot quantify your addressable market or articulate a defensible market position to an acquirer.",
+        rating: "Foundational (Level 1)",
+        rationale: "Without a defined market position or quantified addressable market, the firm appears undifferentiated. This is foundational because acquirers need to understand the growth runway and competitive moat, and generalist positioning suggests limited pricing power and vulnerability to competition."
+      },
+      improvementTips: ["Conduct a market sizing exercise to quantify your TAM and SAM for each major service line or vertical", "Identify 2-3 niches where you have disproportionate expertise or track record and develop a focused positioning strategy", "Create a competitive landscape analysis mapping your position against key competitors on dimensions that matter to clients", "Develop a market share tracking methodology and set explicit growth targets within your defined addressable market"]
+    },
+    mkt_mktg: {
+      benchmarks: "High-growth PSFs invest 5-10% of revenue in marketing, with top-quartile firms achieving 40-60% of new leads through inbound channels. Marketing-generated pipeline should represent 25-35% of total pipeline. Firms with mature content marketing programmes generate 3x more leads per pound spent than those relying solely on outbound. Digital marketing maturity is increasingly assessed in due diligence (Source: Hinge High Growth Study, HubSpot Benchmarks).",
+      caseStudy: "A tax advisory firm relied entirely on partner networks and referrals for new business, investing less than 1% in marketing. When two key referral sources retired, new business dropped 35%. They hired a marketing director, invested in content marketing, SEO, and webinar programmes, and built a systematic lead generation engine. Within 18 months, inbound leads represented 45% of new pipeline and reduced dependency on any single referral source.",
+      workedExample: {
+        situation: "Your marketing consists of an outdated website and occasional LinkedIn posts. Less than 2% of revenue is invested in marketing, and almost all new business comes through personal networks.",
+        rating: "Foundational (Level 1)",
+        rationale: "Marketing is minimal and entirely dependent on personal relationships rather than institutional capabilities. This is foundational because the firm has no scalable lead generation engine, creating risk if key relationship holders depart."
+      },
+      improvementTips: ["Invest in a professional website refresh with clear positioning, case studies, and calls-to-action that convert visitors into leads", "Develop a content marketing calendar with regular thought leadership articles, insights, and research publications", "Build an email nurture programme for prospects and past clients that keeps the firm top-of-mind between active engagements", "Track marketing-generated pipeline and cost-per-lead to build the business case for sustained marketing investment"]
+    },
+    mkt_award: {
+      benchmarks: "Recognised PSFs report 15-25% higher win rates on competitive proposals compared to unrecognised peers. Industry awards, analyst rankings, and directory listings serve as independent third-party validation. Firms appearing in recognised rankings such as Financial Times, Chambers, or industry-specific league tables command measurably higher fee rates. A track record of awards over 3+ years signals sustained excellence rather than a one-off achievement (Source: Hinge Research, Acritas Brand Index).",
+      caseStudy: "A mid-market risk advisory firm had strong client satisfaction but zero industry recognition. They developed a systematic awards programme, submitting to 8-10 relevant awards annually and securing analyst briefings with key industry commentators. Over three years they won 6 awards and were listed in two industry rankings. Their proposal win rate increased from 28% to 41%, and they were able to increase fee rates by 12%.",
+      workedExample: {
+        situation: "Your firm has never submitted for industry awards and has no external rankings or recognition beyond client testimonials on your website.",
+        rating: "Foundational (Level 1)",
+        rationale: "No external validation or recognition exists. This is foundational because while the firm may deliver excellent work, the lack of independent third-party recognition limits credibility in competitive situations and reduces the brand premium that acquirers value."
+      },
+      improvementTips: ["Research and create a calendar of 8-10 relevant industry awards with submission deadlines and entry requirements", "Assign a team member to manage award submissions, ensuring they are well-written with compelling evidence and client endorsements", "Pursue analyst and journalist relationships through briefings, commentary, and thought leadership contributions to build profile", "Leverage every award win and recognition in proposals, website, social media, and client communications to maximise brand impact"]
+    },
+    mkt_thought: {
+      benchmarks: "High-growth PSFs publish thought leadership content 4-6 times per month across channels including white papers, blogs, webinars, and speaking engagements. Firms with visible thought leaders generate 60-70% more inbound leads than those without. Thought leadership topics should align with the firm capabilities and target client pain points. Acquirers value firms with recognised subject matter experts as they represent sustainable competitive advantage (Source: Hinge Visible Expert Research, Edelman Trust Barometer).",
+      caseStudy: "A cybersecurity consulting firm had deep expertise but minimal external visibility. They launched a monthly research report, a weekly blog series, and a quarterly webinar programme led by their three most senior technical experts. Within a year, they were being invited to speak at industry conferences, web traffic increased 180%, and inbound enquiries from their target market segment tripled.",
+      workedExample: {
+        situation: "Your firm has significant expertise in its domain but publishes content rarely, perhaps one or two blog posts per quarter. Your senior leaders do not speak at conferences or contribute to industry publications.",
+        rating: "Evolving (Level 2)",
+        rationale: "Some content exists but publication frequency and reach are well below benchmarks. The firm is evolving beyond complete obscurity but has not yet built the systematic thought leadership engine that positions it as a recognised authority in its space."
+      },
+      improvementTips: ["Develop a thought leadership calendar with at least weekly content publication covering topics aligned with target client challenges", "Identify 3-5 senior leaders to develop as visible experts through speaking engagements, articles, and media commentary", "Create a research programme producing original data and insights that journalists and conference organisers will seek out", "Repurpose content across channels so a single research piece becomes a white paper, blog series, webinar, and social media campaign"]
+    },
+    mkt_brand: {
+      benchmarks: "Strong PSF brands achieve 70-80% unaided awareness within their target market segments. Brand strength correlates with ability to charge premium fees, with recognised brands commanding 10-20% fee premiums. Brand consistency across all touchpoints including website, proposals, deliverables, and social media builds trust and professionalism. Acquirers pay 15-30% more for firms with strong, transferable brands (Source: Hinge Research, Brand Finance).",
+      caseStudy: "A supply chain consulting firm had inconsistent branding with different visual identities across offices, outdated website design, and no brand guidelines. They invested in a comprehensive rebrand including visual identity, messaging framework, website redesign, and brand guidelines for all touchpoints. Post-rebrand, they reported a 25% increase in proposal requests, 15% higher average engagement values, and significantly improved talent attraction.",
+      workedExample: {
+        situation: "Your brand is inconsistent across touchpoints with an outdated website, varying proposal formats, and no formal brand guidelines. Awareness within your target market is low.",
+        rating: "Foundational (Level 1)",
+        rationale: "Brand presence is weak and inconsistent, limiting the firm ability to command premium fees or attract top talent. This is foundational because a strong brand is a transferable asset that acquirers value, and the current state suggests limited investment in how the firm is perceived by the market."
+      },
+      improvementTips: ["Invest in professional brand development including visual identity, messaging framework, and comprehensive brand guidelines", "Ensure brand consistency across every client touchpoint from website to proposals to deliverables to email signatures", "Conduct a brand awareness survey within your target market to establish a baseline and track improvement over time", "Develop a brand activation plan that builds awareness through consistent thought leadership, events, and digital presence"]
+    }
+  }
+};
+
+  }
+};
+
 // Default benchmark for backward compatibility
 const BENCHMARKS = { "Professional Services": BENCHMARK_PROFILES["M&A-Ready (PSF)"] };
 // Map firm sectors to benchmark profile keys
