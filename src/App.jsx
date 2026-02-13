@@ -2355,7 +2355,6 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
     const [sortBy, setSortBy] = useState("date");
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
-  const [onboardingFirmId, setOnboardingFirmId] = useState(null);
 
   const handleCreate = () => {
     if (!name.trim()) return;
@@ -2476,6 +2475,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
 
 function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack }) {
   const [showTemplates, setShowTemplates] = useState(false);
+  const [onboardingFirmId, setOnboardingFirmId] = useState(null);
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const handleCreateWithTemplate = (templateRatings) => {
