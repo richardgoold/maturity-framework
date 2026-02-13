@@ -1151,10 +1151,10 @@ const calcScores = (ratings, benchmarkObj) => {
 // COLOUR HELPERS
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 const levelColor = (level) => {
-  if (!level) return { bg: "#F8F9FA", text: "#6C757D", border: "#DEE2E6" };
-  if (level <= 1.5) return { bg: "#FFF3E0", text: "#922B21", border: "#E6B0AA" };
-  if (level <= 2.5) return { bg: "#E3F2FD", text: "#7D6608", border: "#F9E79F" };
-  return { bg: "#E0F7FA", text: "#1E8449", border: "#A9DFBF" };
+  if (!level) return { bg: "#F0F0F0", text: "#6C757D", border: "#DEE2E6" };
+  if (level <= 1.5) return { bg: "#FFE0B2", text: "#922B21", border: "#E6B0AA" };
+  if (level <= 2.5) return { bg: "#BBDEFB", text: "#7D6608", border: "#F9E79F" };
+  return { bg: "#A5D6A7", text: "#1E8449", border: "#A9DFBF" };
 };
 
 const levelLabel = (level) => {
@@ -1477,9 +1477,9 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
   const [comment, setComment] = useState(rating?.comment || "");
   const [animatingLevel, setAnimatingLevel] = useState(null);
   const levels = [
-    { level: 1, label: "Foundational", text: metric.foundational, color: "#922B21", bg: "#FFF3E0", border: "#E6B0AA" },
-    { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#E3F2FD", border: "#F9E79F" },
-    { level: 3, label: "Optimised", text: metric.optimised, color: "#1E8449", bg: "#E0F7FA", border: "#A9DFBF" },
+    { level: 1, label: "Foundational", text: metric.foundational, color: "#922B21", bg: "#FFE0B2", border: "#E6B0AA" },
+    { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#BBDEFB", border: "#F9E79F" },
+    { level: 3, label: "Optimised", text: metric.optimised, color: "#1E8449", bg: "#A5D6A7", border: "#A9DFBF" },
   ];
   const currentLevel = rating?.level;
 
@@ -1754,9 +1754,9 @@ function HeatmapGrid({ ratings }) {
       </div>
       <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-gray-100 border border-gray-300" /><span className="text-xs text-gray-500">Not rated</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#FFF3E0" }} /><span className="text-xs text-gray-500">Foundational</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#E3F2FD" }} /><span className="text-xs text-gray-500">Evolving</span></div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#E0F7FA" }} /><span className="text-xs text-gray-500">Optimised</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#FFE0B2" }} /><span className="text-xs text-gray-500">Foundational</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#BBDEFB" }} /><span className="text-xs text-gray-500">Evolving</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded" style={{ backgroundColor: "#A5D6A7" }} /><span className="text-xs text-gray-500">Optimised</span></div>
       </div>
     </div>
   );
