@@ -3790,7 +3790,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                 <ResponsiveContainer width="100%" height={400}>
                   <BarChart data={FRAMEWORK.themes.map(theme => { const entry = { theme: theme.name }; assessData.forEach(ad => { entry[ad.date] = ad.scores.themeScores[theme.id]?.pct || 0; }); return entry; })}>
                     <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey="theme" height={120} interval={0} tick={({x, y, payload}) => { const v = payload.value; const lines = v.includes(" & ") ? v.split(" & ") : v.includes(" ") ? [v.substring(0, v.indexOf(" ")), v.substring(v.indexOf(" ") + 1)] : [v]; return (<g transform={`translate(${x},${y})`}><text textAnchor="middle" fill="#666" fontSize={10}>{lines.map((l, i) => <tspan key={i} x={0} dy={i === 0 ? 14 : 13}>{l}</tspan>)}</text></g>); }} />
+                    <XAxis dataKey="theme" height={120} interval={0} tick={({x, y, payload}) => { const v = payload.value; const lines = v.includes(" & ") ? [v.substring(0, v.indexOf(" & ")), "& " + v.substring(v.indexOf(" & ") + 3)] : v.includes(" ") ? [v.substring(0, v.indexOf(" ")), v.substring(v.indexOf(" ") + 1)] : [v]; return (<g transform={`translate(${x},${y})`}><text textAnchor="middle" fill="#666" fontSize={10}>{lines.map((l, i) => <tspan key={i} x={0} dy={i === 0 ? 14 : 13}>{l}</tspan>)}</text></g>); }} />
                     <YAxis domain={[0,100]}/>
                     <Tooltip/>
                     <Legend/>
