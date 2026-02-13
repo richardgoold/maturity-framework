@@ -390,8 +390,8 @@ const generateDemoData = () => {
 
   return {
     firms: [
-      { id: "demo_apex", name: "Apex Consulting Partners", sector: "Consulting", createdAt: "2026-01-15T10:00:00Z" },
       { id: "demo_techbridge", name: "TechBridge Solutions", sector: "Technology Services", createdAt: "2026-02-01T14:30:00Z" },
+      { id: "demo_apex", name: "Apex Consulting Partners", sector: "Consulting", createdAt: "2026-01-15T10:00:00Z" },
       { id: "demo_phoenix", name: "Phoenix Advisory Group", sector: "Consulting", createdAt: "2026-02-05T09:00:00Z" }
     ],
     assessments: {
@@ -2326,7 +2326,15 @@ function LandingPage({ onGetStarted }) {
           </div>
         </div>
       </div>
-    </div>
+
+      <div style={{background: "linear-gradient(135deg, #1a1a2e 0%, #23272b 100%)", borderRadius: "16px", marginTop: "2rem"}} className="text-center py-12 px-6">
+        <h2 className="text-2xl font-bold text-white mb-3">Ready to Assess Your Portfolio?</h2>
+        <p className="text-base text-gray-300 mb-6 max-w-lg mx-auto">Start with our built-in demo data or create your own firm assessments</p>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold bg-[#f2a71b] text-[#1a1a2e] hover:bg-[#d4911a] transition-colors cursor-pointer">Explore Demo Data</button>
+          <button onClick={onGetStarted} className="px-8 py-3 rounded-lg text-sm font-bold border-2 border-white/30 text-white hover:border-white/60 transition-colors cursor-pointer">Get Started →</button>
+        </div>
+      </div>    </div>
   );
 }
 function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem }) {
@@ -3027,12 +3035,12 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
           {firmAssess.length < 2 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
               <div className="w-16 h-16 bg-amber-900/10 rounded-full flex items-center justify-center mx-auto mb-4"><BarChart3 className="text-[#f2a71b]" size={28} /></div>
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">One Assessment Available</h3>
-              <p className="text-gray-500 mb-4 max-w-md mx-auto">Create additional assessments to compare results across different assessors or track progress over time.</p>
+              <h3 className="font-semibold text-lg mb-2 text-gray-900">Compare Assessments Over Time Available</h3>
+              <p className="text-gray-500 mb-4 max-w-md mx-auto">Periodic assessments reveal score trends across time and assessors, helping you track real impact.</p>
                 <div className="flex flex-wrap gap-3 justify-center">
-                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Track quarterly progress</span>
-                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Compare assessors</span>
-                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Measure improvement</span>
+                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Track Progress Over Time</span>
+                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Spot Score Trends</span>
+                  <span className="text-xs px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full border border-amber-200">Measure Real Impact</span>
                 </div>
               <div className="flex gap-6 justify-center text-sm text-gray-400">
                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-400"/> Multiple assessors</div>
@@ -3166,8 +3174,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       {/* Section Navigation */}
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
-        {[["scores","Scores"],["gaps","Gap Analysis"],["roadmap","Roadmap"],["scenario","Scenario"],["charts","Charts"],["heatmap","Heatmap"],["export","Export"]].map(([id,label]) => (
-            <button key={id} onClick={() => setActiveTab(id)}
+        {[["scores","Scores","Overall maturity scores by theme"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["export","Export","Export assessment data"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"]].map(([id,label,tip]) => (
+            <button title={tip} key={id} onClick={() => setActiveTab(id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"}`}>{label}</button>
         ))}
       </div>
@@ -3436,6 +3444,9 @@ const GuidancePage = ({ onBack }) => {
         <div className="bg-amber-50 rounded-lg border border-amber-200 p-6">
           <h2 className="text-lg font-bold text-amber-800 mb-2">Need Help?</h2>
           <p className="text-sm text-amber-700">Start by selecting a firm from the Firms tab, create a new assessment, and rate each metric honestly based on your current capabilities. The dashboard will automatically calculate your M&A Readiness Score and highlight areas for improvement.</p>
+        </div>
+        <div className="text-center pt-6 pb-2">
+          <button onClick={() => document.getElementById('guidance-0')?.scrollIntoView({behavior: 'smooth'})} className="text-sm text-amber-600 hover:text-amber-800 font-medium transition-colors cursor-pointer">↑ Back to Top</button>
         </div>
       </div>
     </div>
