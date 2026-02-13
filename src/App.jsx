@@ -4148,6 +4148,80 @@ const GuidancePage = ({ onBack }) => {
           </div>
         ))}
 
+        {/* Theme Deep Dives */}
+        <div className="bg-white rounded-2xl shadow p-6 mb-6">
+          <h2 className="text-xl font-bold text-[#1f1f1f] mb-2 flex items-center gap-2">
+            <TrendingUp size={22} className="text-[#f2a71b]" />
+            Theme Deep Dives
+          </h2>
+          <p className="text-sm text-gray-600 mb-4">Explore each growth theme in detail with industry benchmarks, real-world case studies, and maturity progression insights for professional services firms.</p>
+          <div className="space-y-3">
+            {FRAMEWORK.themes.map(theme => {
+              const eg = ENHANCED_GUIDANCE.themes[theme.id];
+              if (!eg) return null;
+              return (
+                <details key={theme.id} className="border border-gray-200 rounded-xl overflow-hidden">
+                  <summary className="cursor-pointer p-4 flex items-center gap-3 hover:bg-gray-50 select-none" style={{borderLeft: `4px solid ${theme.color}`}}>
+                    <span className="font-semibold text-[#1f1f1f]">{theme.name}</span>
+                    <span className="ml-auto text-xs text-gray-400 tabular-nums">{theme.metrics.length} metrics</span>
+                  </summary>
+                  <div className="px-4 pb-4 border-t border-gray-100">
+                    <div className="mt-3">
+                      <h4 className="font-semibold text-sm text-[#1f1f1f] mb-1">Why This Matters for M&A</h4>
+                      <p className="text-xs text-gray-600 leading-relaxed">{eg.overview}</p>
+                    </div>
+                    <div className="mt-3">
+                      <h4 className="font-semibold text-sm text-[#1f1f1f] mb-2">Key Benchmarks</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-xs">
+                          <thead>
+                            <tr className="border-b border-gray-200">
+                              <th className="text-left py-1 pr-3 font-medium text-gray-500">Metric</th>
+                              <th className="text-left py-1 pr-3 font-medium text-gray-500">Target</th>
+                              <th className="text-left py-1 font-medium text-gray-500">Source</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {eg.keyBenchmarks.map((b, i) => (
+                              <tr key={i} className="border-b border-gray-100">
+                                <td className="py-1.5 pr-3 text-[#1f1f1f]">{b.metric}</td>
+                                <td className="py-1.5 pr-3 font-medium text-[#f2a71b]">{b.target}</td>
+                                <td className="py-1.5 text-gray-400">{b.source}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <h4 className="font-semibold text-sm text-[#1f1f1f] mb-1">Case Study</h4>
+                      <div className="bg-gray-50 rounded-lg p-3 text-xs">
+                        <p className="font-medium text-[#1f1f1f] mb-1">{eg.caseStudy.title}</p>
+                        <p className="text-gray-600 mb-2">{eg.caseStudy.scenario}</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                          <div className="bg-white rounded p-2 border border-gray-200">
+                            <p className="font-medium text-red-600 text-[10px] uppercase tracking-wide mb-0.5">Foundational</p>
+                            <p className="text-gray-600 text-[11px] leading-relaxed">{eg.caseStudy.foundational}</p>
+                          </div>
+                          <div className="bg-white rounded p-2 border border-gray-200">
+                            <p className="font-medium text-amber-600 text-[10px] uppercase tracking-wide mb-0.5">Evolving</p>
+                            <p className="text-gray-600 text-[11px] leading-relaxed">{eg.caseStudy.evolution}</p>
+                          </div>
+                          <div className="bg-white rounded p-2 border border-gray-200">
+                            <p className="font-medium text-green-600 text-[10px] uppercase tracking-wide mb-0.5">Optimised</p>
+                            <p className="text-gray-600 text-[11px] leading-relaxed">{eg.caseStudy.optimised}</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-600 mt-2"><span className="font-medium text-[#1f1f1f]">Outcome:</span> {eg.caseStudy.outcome}</p>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
           <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
             <Target size={18} className="text-[#f2a71b]" /> The 10 Growth Themes
