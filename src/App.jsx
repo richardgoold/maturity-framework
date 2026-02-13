@@ -839,17 +839,17 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
           </div>
           <div className="flex items-center gap-1.5 shrink-0 ml-2">
             {metric.guidance && (
-              <button onClick={() => setShowGuidance(!showGuidance)} className={`text-xs font-medium inline-flex items-center gap-1 px-2 py-1 rounded transition-all ${showGuidance ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "text-[#f2a71b] hover:text-[#d9950f] hover:bg-[#f2a71b]/5"}`}>
+              <button onClick={() => setShowGuidance(!showGuidance)} className={`text-xs font-medium inline-flex items-center gap-1 px-3 py-2 rounded transition-all ${showGuidance ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "text-[#f2a71b] hover:text-[#d9950f] hover:bg-[#f2a71b]/5"}`}>
                 <HelpCircle size={12} />
                 {showGuidance ? "Hide" : "Guidance"}
               </button>
             )}
             {currentLevel && (
-              <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 hover:scale-110 transition-all px-1" title="Clear rating">
+              <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 hover:scale-110 transition-all p-3" title="Clear rating">
                 <X size={14} />
               </button>
             )}
-            <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-all button-press ${comment ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
+            <button onClick={() => setShowComment(!showComment)} className={`flex items-center gap-1 text-xs px-3 py-2 rounded transition-all button-press ${comment ? "bg-[#f2a71b]/10 text-[#f2a71b]" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
               <MessageSquare size={12} />
               {comment ? "Note" : "Add note"}
             </button>
@@ -908,7 +908,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
               aria-checked={currentLevel === v}
               tabIndex={currentLevel === v ? 0 : -1}
               onKeyDown={(e) => handleRadioGroupKeyDown(e, [1, 1.5, 2, 2.5, 3], [1, 1.5, 2, 2.5, 3].indexOf(currentLevel), (val) => handleRate(val))}
-              className={`text-xs px-2 py-0.5 rounded-full transition-all duration-200 button-press ${currentLevel === v
+              className={`text-xs px-3 py-1.5 rounded-full transition-all duration-200 button-press ${currentLevel === v
                 ? "bg-[#f2a71b] text-white font-bold scale-110 shadow-md"
                 : "bg-gray-200 text-gray-600 hover:bg-gray-300 hover:scale-105"
                 }`}
