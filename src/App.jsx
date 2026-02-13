@@ -6,8 +6,8 @@ import { Building2, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plu
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 const FRAMEWORK = {
   themes: [
-    {
-      id: "financial", name: "Financial Performance", icon: "pound", totalWeight: 600, color: "#1B4F72",
+    
+      id: "financial", name: "Financial Performance", icon: "pound", totalight: 600, color: "#1B4F72",
       metrics: [
         { id: "fin_revenue", name: "Revenue Growth & Profitability", question: "How consistently are you achieving year-over-year revenue growth and profitability?", weight: 100, foundational: "Revenue growth <5% per year, low or inconsistent profitability, reliance on a few large projects", evolving: "Revenue growth 5-10% per year, moderate profitability, some diversification of revenue streams", optimised: "Revenue growth >10% per year, strong profitability with predictable, diversified revenue streams and high-margin services", guidance: "Look for consistent YoY revenue growth of 10%+. Acquirers value predictable, compounding growth over one-off spikes. Consider organic vs acquisition-driven growth." , improvementAction: "Focus on recurring revenue models and multi-year contracts to demonstrate predictable growth trajectory" },
         { id: "fin_gm", name: "Gross Margin", question: "What is your current gross margin?", weight: 100, foundational: "Gross margin <40%, cost overruns are frequent, and pricing is reactive rather than strategic", evolving: "Gross margin 40-50%, some cost control measures in place, but efficiency improvements still needed", optimised: "Gross margin >50%, strong cost control, pricing strategy optimised for profitability and scalability", guidance: "Healthy PSFs target gross margins of 50-70%. Margins below 40% signal pricing pressure or delivery inefficiency. Track trends over 3+ years for stability." , improvementAction: "Review pricing strategy, reduce delivery cost leakage, and shift toward higher-margin service lines" },
@@ -2257,7 +2257,7 @@ function LandingPage({ onGetStarted }) {
   ];
 
   return (
-    <div className="min-h-screen" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+    <div className="" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       {/* HERO */}
       <div className="flex flex-col items-center justify-center px-6 pt-10 pb-12" style={{ background: "linear-gradient(170deg, #1f1f1f 0%, #2a2a2a 55%, #333 100%)", minHeight: "calc(100vh - 64px)" }}>
         <div className="text-center max-w-xl mb-8" style={{ position: "relative", zIndex: 2 }}>
@@ -3302,6 +3302,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} /></div>
       <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
       <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
+      {activeTab === "export" && <>
       {/* Theme Score Summary Strip */}
       <h4 className="text-sm font-medium text-gray-500 mb-2">Current Assessment Scores</h4>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-4">
@@ -3316,6 +3317,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           );
         })}
       </div>
+      </>}
       {/* Charts */}
       <div id="dash-charts" style={{ display: activeTab === "charts" ? "grid" : "none" }} className="grid grid-cols-2 gap-6 mb-4 scroll-mt-16">
         <RadarOverview radarData={radarData} benchmarkProfile={benchmarkProfile} />
