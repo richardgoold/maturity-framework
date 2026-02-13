@@ -7,8 +7,8 @@ An M&A due diligence assessment platform that evaluates professional services fi
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://richardgoold.github.io/maturity-framework/
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 2aaba7a - "Dashboard improvements: donut score, roadmap fix, export buttons, accessibility"
-- **Last updated:** 11 February 2026
+- **Latest commit:** 3916fd3 - "Tighter crop and recentre face in portrait circle"
+- **Last updated:** 13 February 2026
 
 ## Tech Stack
 
@@ -93,7 +93,9 @@ App (manages firms, assessments, navigation state)
     ScenarioModelling
     ExportPanel ({ assessment, firmName, firmSector, scores })
       calls exportToPDF(assessment, firmName, firmSector, scores)
-  InsightsView
+- **InsightsView** — Benchmark position and assessment comparison (green >= 90%, amber >= 70%)
+- **ConnectView ("Let's Talk")** — Contact/advisory section with side-by-side layout: left-aligned heading ("Let's Talk" + "Build. Scale. Exit.") with circular portrait photo on the right. Photo uses wrapper div with overflow-hidden, objectPosition '55% 28%', transform scale(1.65) for tight face crop. Image sourced from richardgoold.com/wp-content/uploads/2025/08/hero.webp. Three service cards (Growth, Culture, Capital Events), CTA buttons (mailto + richardgoold.com).
+- **GuidancePage** — Enhanced guidance tab with ENHANCED_GUIDANCE data (~107K chars). Covers all 47 metrics across 10 themes with: metric descriptions, key questions, maturity level definitions (Foundational/Evolving/Optimised), industry benchmarks with sources, practical improvement steps, and key considerations. Features search, theme filtering, and expandable metric cards.
 ```
 
 ## Dashboard Features
@@ -140,13 +142,13 @@ Confidential — For authorised use only.
 - Above benchmark: green
 - Near benchmark: orange
 - Below benchmark: red
-- M&A-Ready reference markers: amber #D97706
+  M&A-Ready reference markers: warm stone #c4b5a5 (benchmark bars), amber #D97706 (radar/labels)
 
 **Heatmap (colourblind-friendly palette):**
-- Foundational (Level 1): #FFF3E0 (amber/orange)
-- Evolving (Level 2): #E3F2FD (blue)
-- Optimised (Level 3): #E0F7FA (teal)
-- Not rated: grey
+- Not Rated: #F0F0F0 (light grey, bg L*94)
+- Foundational (Level 1): #FFE0B2 (warm amber, bg L*85)
+- Evolving (Level 2): #BBDEFB (soft blue, bg L*83)
+- Optimised (Level 3): #A5D6A7 (sage green, bg L*80)
 
 **Insights tab thresholds:**
 - Green (M&A Ready): score >= 90%
@@ -251,22 +253,50 @@ The exportToPDF function (~line 953) generates a professional print-ready HTML d
 ## Recent Commit History
 
 ```
-2aaba7a  Dashboard improvements: donut score, roadmap fix, export buttons, accessibility (Build #57)
-7b698e8  UX: redesign home page - equation diagram, badge contrast, uppercase (Build #56)
-         Full brand colour sweep, encoding bug fixed, PDF exports with branded colours
-         Duplicate 10 Growth Themes section removed, amber M&A badge
-         Uppercase CTA buttons, Maximise Value heading
-         Home page EBITDA x MULTIPLE = FIRM VALUE equation
+3916fd3  Tighter crop and recentre face in portrait circle (Build #119, 13 Feb 2026)
+1869081  Increase portrait zoom to 1.5x for tighter face crop
+5da802f  Zoom and centre portrait photo to fill circle proportionately
+d9ad494  Fine-tune portrait crop position and scale for better face centering
+bfc9434  Redesign Let's Talk: side-by-side layout with larger photo
+fd4a49c  Add portrait photo to Let's Talk section
+ca60c82  Preserve ampersand in two-line chart axis labels
+f47bddf  Fix assessment comparison chart: two-line labels, distinct bar colours
+6beed07  Improve heatmap colour contrast between maturity levels
+8585961  Update benchmark bar colour to warm stone (#c4b5a5)
+--- Previous session (11-12 Feb 2026) ---
+         7 mobile responsive improvements across 5 commits
+         ENHANCED_GUIDANCE data (107K chars, 47 metrics, 10 themes)
+         Guidance page restructuring
+         5 UI change requests (benchmark colour, industry sources, strengths formatting, donut chart, CTA tab)
+2aaba7a  Dashboard improvements: donut score, roadmap fix, export buttons, accessibility
+7b698e8  UX: redesign home page - equation diagram, badge contrast, uppercase
 6f8a372  Update CLAUDE.md with M&A-Ready benchmarks
 cc8c110  Improve radar chart contrast, add benchmark methodology, fix demo dates
 03d40ed  Update benchmarks to evidence-based M&A-Ready values
-d8d7c95  Update CLAUDE.md with current project context
-a94552e  Revert sync corruption, add firmSector prop to ExportPanel
-0806271  Improve PDF export with professional formatting and benchmarks
-3d46b95  Add direct dashboard navigation from Firms and Firm Detail views
-a96da0e  Replace Professional Services labels with PSF abbreviation
-9f79b9a  Show weight indicators in Strengths/Weaknesses sections
 ```
+
+### Session Changes (13 Feb 2026) — Commits 8585961 to 3916fd3
+
+**Benchmark bar colour:** Changed from violet #a78bfa to warm stone #c4b5a5 (two instances in App.jsx).
+
+**Heatmap colour contrast:** Increased background saturation from L*95-97 to L*80-85. Not Rated #F8F9FA to #F0F0F0, Foundational #FFF3E0 to #FFE0B2, Evolving #E3F2FD to #BBDEFB, Optimised #E0F7FA to #A5D6A7. Text and border colours unchanged. 10 replacements across 3 code locations (colour mapping function, legend x2).
+
+**Assessment comparison chart (Theme Scores Across Assessments):**
+- Bar colours changed from near-identical ambers ["#f2a71b", "#E67E22", ...] to distinct palette ["#2563EB", "#F59E0B", "#10B981", "#8B5CF6"] (blue, amber, emerald, violet)
+- XAxis: custom tick renderer splits theme names into two horizontal lines using SVG tspan elements
+- Ampersand preservation: labels split on " & " now show e.g. "Services" / "& Pricing" (not "Services Pricing")
+
+**Let's Talk section redesign:**
+- Layout: changed from centred single-column (photo on top) to flex row with text left, photo right
+- Heading: text-4xl sm:text-5xl (was text-3xl sm:text-4xl), left-aligned on desktop
+- Tagline: text-xl sm:text-2xl (was text-lg)
+- Container: max-w-3xl (was max-w-2xl)
+- Mobile: flex-col-reverse (photo above text on small screens)
+- Portrait photo: circular crop using wrapper div with overflow-hidden
+  - Size: w-40 h-40 sm:w-52 sm:h-52
+  - CSS: objectPosition '55% 28%', transform scale(1.65) for tight face centering
+  - Source: https://richardgoold.com/wp-content/uploads/2025/08/hero.webp (2360x1561 landscape)
+  - Border: border-4 border-amber-400 shadow-lg
 
 ## Build #57 Changes (2aaba7a — 11 Feb 2026)
 
@@ -300,7 +330,7 @@ All changes below were applied in a single commit after a session crash recovery
 ### Not Yet Implemented
 - **Theme icons throughout the app** — FRAMEWORK data has icon properties but they are not rendered in heatmap, gap analysis, or theme headers. Risk: touching multiple components.
 - **Continuous scrolling assess tab** — Assessment currently uses discrete theme-by-theme navigation. Continuous scrolling would require significant refactoring of the AssessmentView component.
-- **New guidance page** — A dedicated guidance/help page has not been created yet.
+- ~~New guidance page~~ **DONE** — GuidancePage component with ENHANCED_GUIDANCE data (107K chars, 47 metrics, 10 themes, search, filtering, expandable cards)
 - **Consistent theme colours** — Partially addressed by the colourblind palette change, but theme-specific accent colours are not applied throughout all views.
 
 ### Export Button Layout
