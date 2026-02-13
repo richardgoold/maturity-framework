@@ -4645,7 +4645,7 @@ export default function App() {
                     <p className="text-xl sm:text-2xl text-[#f2a71b] font-semibold tracking-wide">Build. Scale. Exit.</p>
                   </div>
                   <div className="w-40 h-40 sm:w-52 sm:h-52 rounded-full border-4 border-amber-400 shadow-lg flex-shrink-0 overflow-hidden">
-                    <img src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp" alt="Richard Goold" className="w-full h-full object-cover" style={{objectPosition: '52% 15%', transform: 'scale(1.35)'}} />
+                    <img src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp" alt="Richard Goold" className="w-full h-full object-cover" style={{objectPosition: '48% 22%', transform: 'scale(1.25)'}} />
                   </div>
                 </div>
                 <div className="mb-8">
