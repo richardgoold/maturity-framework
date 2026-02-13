@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell , LineChart, Line, CartesianGrid, Legend, ReferenceLine } from "recharts";
-import { Building2, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu } from "lucide-react";
+import { Building2, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink} from "lucide-react";
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
@@ -1779,7 +1779,7 @@ function StrengthsWeaknesses({ ratings }) {
         <p className="text-xs text-green-600 opacity-70 mb-1 -mt-1">Ranked by weighted contribution (score × importance)</p>
         {strengths.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see strengths</p> : strengths.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-green-50 last:border-0">
-            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1" className="inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
+            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1 inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
             <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
@@ -1789,7 +1789,7 @@ function StrengthsWeaknesses({ ratings }) {
         <p className="text-xs text-red-600 opacity-70 mb-1 -mt-1">Ranked by improvement potential — highest impact first</p>
         {weaknesses.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see areas for improvement</p> : weaknesses.map((m, i) => (
           <div key={i} className="flex items-center justify-between py-1.5 border-b border-red-50 last:border-0">
-            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1" className="inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
+            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1 inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
             <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
@@ -2791,12 +2791,12 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
               <Cell key={index} fill={entry.color} />
             ))}
           </Bar>
-          <Bar dataKey="benchmark" name="M&A-Ready" fill="#1e3a5f" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="benchmark" name="M&A-Ready" fill="#a78bfa" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-2 pt-2 border-t border-gray-100">
         <div className="flex items-center gap-1.5"><div className="flex gap-px">{comparisonData.slice(0,4).map((d,i) => <div key={i} className="w-1.5 h-3 rounded-sm" style={{backgroundColor:d.color}} />)}</div><span className="text-xs text-gray-500">Your Firm (theme colours)</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#1e3a5f'}} /><span className="text-xs text-gray-500">M&A-Ready Benchmark</span></div>
+        <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#a78bfa'}} /><span className="text-xs text-gray-500">M&A-Ready Benchmark</span></div>
       </div>
     </div>
   );
@@ -3409,9 +3409,9 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
 function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
   const getColor = () => {
     if (readinessLevel === "M&A Ready") return { text: "text-green-700", bg: "bg-green-50", border: "border-green-300", ring: "stroke-green-500" };
-    if (readinessLevel === "Nearly Ready") return { text: "text-[#f2a71b]", bg: "bg-amber-900/10", border: "border-[#f2a71b]/40", ring: "stroke-[#f2a71b]" };
+    if (readinessLevel === "Nearly Ready") return { text: "text-[#f2a71b]", bg: "bg-amber-900/10", border: "border-[#f2a71b]/40", ring: "stroke-[#3b82f6]" };
     if (readinessLevel === "In Progress") return { text: "text-amber-700", bg: "bg-amber-50", border: "border-amber-300", ring: "stroke-amber-500" };
-    return { text: "text-orange-700", bg: "bg-orange-50", border: "border-orange-300", ring: "stroke-orange-500" };
+    return { text: "text-orange-700", bg: "bg-orange-50", border: "border-orange-300", ring: "stroke-[#ef4444]" };
   };
   const c = getColor();
   const circumference = 2 * Math.PI * 54;
@@ -3420,10 +3420,10 @@ function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
     <div className={`${c.bg} ${c.border} border-2 rounded-xl p-8 mb-8`}>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <div className="relative">
-              <svg width="160" height="160" className="-rotate-90">
-                <circle cx="80" cy="80" r="66" fill="none" stroke="#e2e8f0" strokeWidth="12" />
-                <circle cx="80" cy="80" r="66" fill="none" className={c.ring} strokeWidth="12"
-                  strokeDasharray={2 * Math.PI * 66} strokeDashoffset={2 * Math.PI * 66 - (readinessScore / 100) * 2 * Math.PI * 66} strokeLinecap="round"
+              <svg width="200" height="200" className="-rotate-90">
+                <circle cx="100" cy="100" r="82" fill="none" stroke="#e2e8f0" strokeWidth="12" />
+                <circle cx="100" cy="100" r="82" fill="none" className={c.ring} strokeWidth="12"
+                  strokeDasharray={2 * Math.PI * 82} strokeDashoffset={2 * Math.PI * 82 - (readinessScore / 100) * 2 * Math.PI * 82} strokeLinecap="round"
                   style={{ transition: "stroke-dashoffset 1s ease" }} />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -3950,21 +3950,21 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                   const rawPct = scores.totalMaxPossible > 0 ? Math.round((scores.totalScore / scores.totalMaxPossible) * 100) : 0;
                   const readyPct = scores.readinessScore;
                   const level = scores.readinessLevel;
-                  const ringColor = level === "M&A Ready" ? "#16a34a" : level === "Nearly Ready" ? "#f2a71b" : level === "In Progress" ? "#d97706" : "#ea580c";
-                  const outerR = 66, outerStroke = 12, innerR = 48, innerStroke = 10;
+                  const ringColor = level === "M&A Ready" ? "#16a34a" : level === "Nearly Ready" ? "#3b82f6" : level === "In Progress" ? "#d97706" : "#ef4444";
+                  const outerR = 88, outerStroke = 14, innerR = 64, innerStroke = 12;
                   const outerCirc = 2 * Math.PI * outerR;
                   const innerCirc = 2 * Math.PI * innerR;
                   return (
                     <div className="flex flex-col sm:flex-row items-center gap-6">
                       {/* Concentric Rings */}
                       <div className="relative flex-shrink-0">
-                        <svg width="180" height="180" className="-rotate-90">
-                          <circle cx="90" cy="90" r={outerR} fill="none" stroke="#e2e8f0" strokeWidth={outerStroke} />
-                          <circle cx="90" cy="90" r={outerR} fill="none" stroke={ringColor} strokeWidth={outerStroke}
+                        <svg width="240" height="240" className="-rotate-90">
+                          <circle cx="120" cy="120" r={outerR} fill="none" stroke="#e2e8f0" strokeWidth={outerStroke} />
+                          <circle cx="120" cy="120" r={outerR} fill="none" stroke={ringColor} strokeWidth={outerStroke}
                             strokeDasharray={outerCirc} strokeDashoffset={outerCirc - (readyPct / 100) * outerCirc} strokeLinecap="round"
                             style={{ transition: "stroke-dashoffset 1s ease" }} />
-                          <circle cx="90" cy="90" r={innerR} fill="none" stroke="#e2e8f0" strokeWidth={innerStroke} />
-                          <circle cx="90" cy="90" r={innerR} fill="none" stroke="#f2a71b" strokeWidth={innerStroke}
+                          <circle cx="120" cy="120" r={innerR} fill="none" stroke="#e2e8f0" strokeWidth={innerStroke} />
+                          <circle cx="120" cy="120" r={innerR} fill="none" stroke="#8b5cf6" strokeWidth={innerStroke}
                             strokeDasharray={innerCirc} strokeDashoffset={innerCirc - (rawPct / 100) * innerCirc} strokeLinecap="round"
                             style={{ transition: "stroke-dashoffset 1s ease" }} />
                         </svg>
@@ -4041,13 +4041,6 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
             </div>
           );
         })()}
-        <div style={{marginTop: "24px", padding: "16px 20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.3)", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px"}}>
-          <div>
-            <p style={{fontSize: "0.95rem", fontWeight: "600", color: "#f5f5f5", margin: "0"}}>Want expert guidance on improving these scores?</p>
-            <p style={{fontSize: "0.85rem", color: "#9ca3af", margin: "4px 0 0"}}>Get a tailored improvement roadmap from the framework's creator.</p>
-          </div>
-          <a href={`mailto:richard@richardgoold.com?subject=GDMF%20Assessment%20Results%20-%20${encodeURIComponent(firmName)}&body=I%20recently%20completed%20a%20Growth%20Drivers%20assessment%20and%20would%20like%20to%20discuss%20the%20results.`} style={{background: "#f2a71b", color: "#1a1a2e", padding: "8px 20px", borderRadius: "8px", fontWeight: "600", fontSize: "0.9rem", textDecoration: "none", whiteSpace: "nowrap", cursor: "pointer"}}>Discuss Your Results →</a>
-        </div>
       </div>
 
       {/* Gap Analysis */}
@@ -4268,6 +4261,42 @@ const GuidancePage = ({ onBack }) => {
           </div>
         </div>
 
+        <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2"><BookOpen size={18} className="text-gray-600" /> Industry Sources & References</h2>
+          <p className="text-sm text-gray-600 mb-4">The benchmarks, scoring frameworks, and best practices in this tool draw on insights from leading industry sources including:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0.5">
+            {[
+              "EY – Global M&A Integration Handbook",
+              "McKinsey & Company – Creating Value Through M&A",
+              "Bain & Company – Global Private Equity Report",
+              "Deloitte – M&A Trends Report (Annual)",
+              "PwC – Global M&A Industry Trends",
+              "KPMG – M&A Integration & Carve-Out Insights",
+              "BCG – Value Creation in Private Equity",
+              "Harvard Business Review – M&A Research Series",
+              "MIT Sloan Management Review – Org. Design",
+              "Mercer – People Risks in M&A Transactions",
+              "Willis Towers Watson – M&A Retention Study",
+              "Aon – Human Capital M&A Research",
+              "Gartner – IT Due Diligence Framework",
+              "Forrester – Technology M&A Integration",
+              "SHRM – Culture & HR Due Diligence",
+              "The Conference Board – CEO Challenge Survey",
+              "Oliver Wyman – Strategic Due Diligence",
+              "Accenture – Growth-Driven M&A",
+              "S&P Global – Market Intelligence Data",
+              "Pitchbook – Private Equity & M&A Analytics",
+              "Dealogic – Global M&A Market Data",
+              "CFA Institute – M&A Valuation Best Practices"
+            ].map((s, i) => (
+              <div key={i} className="flex items-center gap-2 py-0.5">
+                <div className="w-1 h-1 rounded-full bg-gray-400 shrink-0" />
+                <span className="text-xs text-gray-600">{s}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 mt-4 italic">Benchmarks reflect synthesised industry data and may vary by sector, geography, and deal context.</p>
+        </div>
         <div className="bg-amber-50 rounded-lg border border-amber-200 p-6">
           <h2 className="text-lg font-bold text-amber-800 mb-2">Need Help?</h2>
           <p className="text-sm text-amber-700">Start by selecting a firm from the Firms tab, create a new assessment, and rate each metric honestly based on your current capabilities. The dashboard will automatically calculate your M&A Readiness Score and highlight areas for improvement.</p>
@@ -4449,6 +4478,7 @@ export default function App() {
     { id: "assess", label: "Assess", icon: ClipboardCheck, disabled: !selectedAssessmentId },
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId },
     { id: "guidance", label: "Guidance", icon: BookOpen },
+    { id: "connect", label: "Let's Talk", icon: Handshake },
   ];
 
 
@@ -4604,6 +4634,46 @@ export default function App() {
         )}
         {view === "guidance" && (
           <GuidancePage onBack={() => setView("landing")} />
+        )}
+        {view === "connect" && (
+          <div className="min-h-[80vh] flex items-center justify-center p-4">
+            <div className="max-w-2xl w-full">
+              <div className="bg-gray-900 rounded-2xl p-8 sm:p-12 text-center shadow-xl border border-gray-800">
+                <div className="mb-6">
+                  <Handshake size={48} className="text-[#f2a71b] mx-auto mb-4" />
+                  <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Let's Talk</h1>
+                  <p className="text-lg text-[#f2a71b] font-semibold tracking-wide">Build. Scale. Exit.</p>
+                </div>
+                <div className="mb-8">
+                  <p className="text-gray-300 text-base leading-relaxed mb-4">Helping founders, CEOs and boards navigate the hard parts — growth, culture, and capital events.</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">Whether you're preparing for a transaction, building your leadership team, or strengthening operational readiness — I work alongside management teams as a trusted advisor to drive real, measurable progress.</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                    <div className="text-[#f2a71b] font-bold text-lg mb-1">Growth</div>
+                    <div className="text-gray-400 text-xs">Revenue acceleration & market expansion</div>
+                  </div>
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                    <div className="text-[#f2a71b] font-bold text-lg mb-1">Culture</div>
+                    <div className="text-gray-400 text-xs">Leadership alignment & team development</div>
+                  </div>
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                    <div className="text-[#f2a71b] font-bold text-lg mb-1">Capital Events</div>
+                    <div className="text-gray-400 text-xs">M&A readiness & transaction support</div>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+                  <a href="mailto:richard@richardgoold.com" className="flex items-center gap-2 bg-[#f2a71b] text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-[#f2a71b]/90 transition-colors w-full sm:w-auto justify-center">
+                    <Mail size={18} /> Let's Connect
+                  </a>
+                  <a href="https://richardgoold.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border-2 border-[#f2a71b] text-[#f2a71b] font-bold px-6 py-3 rounded-lg hover:bg-[#f2a71b]/10 transition-colors w-full sm:w-auto justify-center">
+                    <Globe size={18} /> richardgoold.com <ExternalLink size={14} />
+                  </a>
+                </div>
+                <p className="text-gray-500 text-sm italic">Your next move starts here.</p>
+              </div>
+            </div>
+          </div>
         )}
             <footer className="mt-auto py-6 border-t border-gray-200 text-center">
         <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Growth Drivers Maturity Framework. All rights reserved.</p>
