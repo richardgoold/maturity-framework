@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { BarChart3, Eye, EyeOff } from 'lucide-react';
+import { BarChart3, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 const REVENUE_BANDS = [
   'Under £1m',
@@ -77,7 +77,7 @@ export default function SignupPage() {
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Create your free account</h1>
-          <p className="text-gray-500 text-sm mb-6">Start assessing your firm's M&A readiness today</p>
+          <p className="text-gray-500 text-sm mb-6">Start assessing and growing your firm's value today</p>
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">
@@ -198,6 +198,13 @@ export default function SignupPage() {
           Already have an account?{' '}
           <Link to="/login" className="text-amber-600 hover:text-amber-700 font-medium">Log in</Link>
         </p>
+        {/* Back to home */}
+        <div className="text-center mt-4">
+          <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Back to home
+          </Link>
+        </div>
       </div>
     </div>
   );
