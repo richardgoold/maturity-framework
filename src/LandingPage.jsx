@@ -112,94 +112,404 @@ function HeroSection() {
 
           {/* CTA */}
           <Link to="/signup" className="inline-flex items-center px-8 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition shadow-lg shadow-amber-200/50 gap-2">
-�Yۈ\��YB�\���ԚY��\�Ә[YOH��MHMH�ς��[�ς��]�����ʈ\���ܙY[���[���\
-��B�]��\�Ә[YOH�]LM�X^]�M^^X]]ȏ��]��\�Ә[YOH��[]]�H����ʈ�����\���[YH
-��B�]��\�Ә[YOH���Yܘ^KNL��[�Y^�Y��L�ݙ\����ZY[�����ʈ�����\��\�
-��B�]��\�Ә[YOH��^][\�X�[�\��\L�MKL���Yܘ^KN���]��\�Ә[YOH��^�\LK�H���]��\�Ә[YOH��L�L���[�YY�[��\�YM���]���]��\�Ә[YOH��L�L���[�YY�[��^Y[��M���]���]��\�Ә[YOH��L�L���[�YY�[��YܙY[�M���]����]���]��\�Ә[YOH��^LH^M���]��\�Ә[YOH���Yܘ^KM���[�Y[YL�KLH^Yܘ^KM^^ȏ��ܛ��[�˘\�\���\���]����]����]����ʈ�ܙY[���
-��B�[Yܘ�^��ԑQS���˚\��B�[H�ܛ��[��\���\�8�%�Y\��\�[��[��X\����\\�\�ۈ���\�Ә[YOH��Y�[��ۑ\��܏^�JHO�K�\��]��[K�\�^HH	ۛۙI�K�\��]�\�[�[[Y[��]Y\�T�[X�܊	˜X�Z�\��O˘�\��\���[[ݙJ	�Y[��N_B�ς��ʈ�[�X��X�Z�\�
-��B�]��\�Ә[YOH�X�Z�\�Y[�\�X�V�M��WH��YܘYY[�]�X�����KYܘ^KN�Yܘ^KNL�^][\�X�[�\��\�Y�KX�[�\����]��\�Ә[YOH�^X�[�\�^Yܘ^KM����\��\���\�Ә[YOH��LM�LM�^X]]�X�L�^X[X�\�M�ς��\�Ә[YOH�^[��۝[YY][H��\���\��]�Y]�����\�Ә[YOH�^\�H���Y\��\�	��[��X\����\\�\�ۏ����]����]����]����ʈX�ܘ]]�H���
-��B�]��\�Ә[YOH�X���]HZ[��]M��X[X�\�M�L��[�YL��\�L�^�LL���]����]����]����]�����X�[ۏ��
-NB���[��[ۈ�ܙY[����\�
-�ܘ�[�\[ۈJH�]\��
-�]��\�Ә[YOH�ܛ�\���]��\�Ә[YOH���Yܘ^KNL��[�Y^ݙ\����ZY[��Y��^�[�ٛܛH�[��][ۈܛ�\Zݙ\����[KV�K��Hܛ�\Zݙ\���Y��L�����ʈZ[�H�����\��\�
-��B�]��\�Ә[YOH��^][\�X�[�\��\LK�HL�KL���Yܘ^KN���]��\�Ә[YOH��L�L���[�YY�[��\�YM���]���]��\�Ә[YOH��L�L���[�YY�[��^Y[��M���]���]��\�Ә[YOH��L�L���[�YY�[��YܙY[�M���]����]���[Yܘ�^�ܘ�B�[^�[B��\�Ә[YOH��Y�[��ۑ\��܏^�JHO�K�\��]��[K�\�^HH	ۛۙI�K�\��]�\�[�[[Y[��]Y\�T�[X�܊	˜X�Z�\��O˘�\��\���[[ݙJ	�Y[��N_B�ς�]��\�Ә[YOH�X�Z�\�Y[�\�X�V���H��YܘYY[�]�X�����KYܘ^KN�Yܘ^KNL�^][\�X�[�\��\�Y�KX�[�\����]��\�Ә[YOH�^X�[�\�^Yܘ^KMLM����\��\���\�Ә[YOH��LLLL^X]]�X�L�^X[X�\�M͌�ς��\�Ә[YOH�^\�H���[O����]����]����]����\�Ә[YOH�]M^X�[�\�^Yܘ^KM�^\�HXY[��\�[^Y����\[۟O����]���
-NB���[��[ۈ�]�Y]���X�[ۊ
-H�]\��
-��X�[ۈ�\�Ә[YOH�KLM��N�KL���]�]H���]��\�Ә[YOH�X^]�M�^X]]�M�N�M�ΜN���]��\�Ә[YOH�^X�[�\�X�LL������\�Ә[YOH�^L��N�^M�۝X��^Yܘ^KNLX�M���]�\�][��[�H�YY�\��\��I�H�XY[�\������\�Ә[YOH�^[�^Yܘ^KM�X^]�L�^X]]ȏ�����H��X�\�Y\��\��Y[����\�X[\���\��8�%�YH[�\��\�H��Y�[�X�]Z\�\���^Y\˂�����]����]��\�Ә[YOH�ܚYܚYX���LHY�ܚYX���L��\N����ܙY[����\��ܘ�^��ԑQS���˙\���\�B�[H�\���\��]��ܙ\�[��XY[�\��۝]���\[ۏH��YH^X�H�\�H[�\��\�H�[��Y�Z[��I�K\�XYH�[��X\��Ȃ�ς��ܙY[����\��ܘ�^��ԑQS���˜��YX\B�[H��\[�[\�\�[�[\�ݙ[Y[���YX\���\[ۏH��]H�[ܚ]\�Y��YX\����HH�\�]X]\�[����ς��ܙY[����\��ܘ�^��ԑQS���˘\��\��Y[�B�[H�\��\��Y[��Y]��][Y\�[�Y]�X�Ȃ��\[ۏH�H��X�\�Y��[Y]�ܚ��ݙ\�[��L[Y\�[�
+            Sign Up Free
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
 
-�ܛ��Y]�X�Ȃ�ς��]����]�����X�[ۏ��
-NB���[��[ۈ��]�ܚ���X�[ۊ
-H�ۜ��\�H��[N�K]N�	��Yۈ\	�\�Έ	�ܙX]H[�\���YHX���[�[���X�ۙ��X�ێ�\�\��K���[N��]N�	�\��\���\�Έ	Ԙ]H[�\��\�HXܛ���Lܛ��[Y\�[�
+        {/* Hero screenshot mockup */}
+        <div className="mt-16 max-w-5xl mx-auto">
+          <div className="relative">
+            {/* Browser frame */}
+            <div className="bg-gray-900 rounded-xl shadow-2xl overflow-hidden">
+              {/* Browser bar */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-gray-800">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                </div>
+                <div className="flex-1 mx-4">
+                  <div className="bg-gray-700 rounded-md px-3 py-1 text-gray-400 text-xs">
+                    growthlens.app/dashboard
+                  </div>
+                </div>
+              </div>
+              {/* Screenshot */}
+              <img
+                src={SCREENSHOTS.hero}
+                alt="GrowthLens Dashboard — radar chart and benchmark comparison"
+                className="w-full"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.parentElement.querySelector('.placeholder')?.classList.remove('hidden');
+                }}
+              />
+              {/* Fallback placeholder */}
+              <div className="placeholder hidden aspect-[16/9] bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                <div className="text-center text-gray-400">
+                  <BarChart3 className="w-16 h-16 mx-auto mb-3 text-amber-400" />
+                  <p className="text-lg font-medium">Dashboard Preview</p>
+                  <p className="text-sm">Radar chart & benchmark comparison</p>
+                </div>
+              </div>
+            </div>
+            {/* Decorative glow */}
+            <div className="absolute -inset-4 bg-amber-400/10 rounded-2xl blur-2xl -z-10"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-�Y]�X���X�ێ�\��]K���[N��]N�	Й[��X\���\�Έ	��YH��[�H��\\�HY�Z[��I�K\�XYH�[�\��[�
-�[�\��H�[��X\����X�ێ��\��\��K���[N�
-]N�	�X�	�\�Έ	��]H�[ܚ]\�Y[\�ݙ[Y[���YX\�X^[Z\�H[�\��\�W	���[YI�X�ێ��[�[��\K�N��]\��
-��X�[ۈYH���Z]]�ܚ�Ȉ�\�Ә[YOH�KLM��N�KL���Yܘ^KML���]��\�Ә[YOH�X^]�M�^X]]�M�N�M�ΜN���]��\�Ә[YOH�^X�[�\�X�LM������\�Ә[YOH�^L��N�^M�۝X��^Yܘ^KNLX�M����]�ܚ�������\�Ә[YOH�^[�^Yܘ^KM�����\��\��[�\��[�[�X^[Z\�H[�\��\�I���[YO����]����]��\�Ә[YOH�ܚYܚYX���LH�N�ܚYX���L�ΙܚYX���M�\N�����\˛X\
+function ScreenshotCard({ src, alt, caption }) {
+  return (
+    <div className="group">
+      <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
+        {/* Mini browser bar */}
+        <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
+          <div className="w-2 h-2 rounded-full bg-red-400"></div>
+          <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+          <div className="w-2 h-2 rounded-full bg-green-400"></div>
+        </div>
+        <img
+          src={src}
+          alt={alt}
+          className="w-full"
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.parentElement.querySelector('.placeholder')?.classList.remove('hidden');
+          }}
+        />
+        <div className="placeholder hidden aspect-[4/3] bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+          <div className="text-center text-gray-500 px-4">
+            <BarChart3 className="w-10 h-10 mx-auto mb-2 text-amber-400/60" />
+            <p className="text-sm">{alt}</p>
+          </div>
+        </div>
+      </div>
+      <p className="mt-4 text-center text-gray-600 text-sm leading-relaxed">{caption}</p>
+    </div>
+  );
+}
 
-�\JHO�
-�]��^O^��\��[_H�\�Ә[YOH��[]]�H^X�[�\�����ʈ�ۛ�X�܈[�H
-��B��H�\˛[��HH	��
-�]��\�Ә[YOH�Y[�Θ����X���]H�LLY�V͌	WH�V�	WHL�H��X[X�\�L�����]��۔�Y��\�Ә[YOH�X���]H\�Y�L�]�L��MHMH^X[X�\�M�ς��]���
-_B��ʈ�\�[X�\�
-��B�]��\�Ә[YOH��L�L���X[X�\�ML�ܙ\�L��ܙ\�X[X�\�L���[�YL��^][\�X�[�\��\�Y�KX�[�\�^X]]�X�M����\�X�ۈ�\�Ә[YOH��NN^X[X�\�M��ς��]���]��\�Ә[YOH�[�[�KY�^][\�X�[�\��\�Y�KX�[�\��M�M���X[X�\�M^]�]H^\�H�۝X����[�YY�[X�Lȏ����\��[_B��]�����\�Ә[YOH�^[��۝X��^Yܘ^KNLX�L�����\�]_O�ς��\�Ә[YOH�^Yܘ^KM�^\�HXY[��\�[^Y����\�\��O����]���
-J_B��]����]�����X�[ۏ��
-NB���[��[ۈ�]И\�
-H�ۜ��]�H��[YN�	�L	�X�[�	�ܛ��[Y\��K���[YN�	�
-��X�[�	�Y]�X���K���[YN�	���X�[�	Й[��X\���ٚ[\��K���[YN�	̌
-��X�[�	�[�\��H��\��\��K�N��]\��
-�]��\�Ә[YOH���Yܘ^KNLKN���]��\�Ә[YOH�X^]�M�^X]]�M�N�M�ΜN���]��\�Ә[YOH�ܚYܚYX���L�Y�ܚYX���M�\M������]˛X\
+function PreviewsSection() {
+  return (
+    <section className="py-16 sm:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Everything you need to assess M&A readiness
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            From structured assessments to visual dashboards — see your firm through an acquirer's eyes.
+          </p>
+        </div>
 
-�]
-HO�
-�]��^O^��]�X�[H�\�Ә[YOH�^X�[�\�����\�Ә[YOH�^L��N�^M�۝X��^X[X�\�M����]��[Y_O����\�Ә[YOH�^\�H^Yܘ^KM]LH����]�X�[O����]���
-J_B��]����]����]���
-NB���[��[ۈ\�[[ۚX[��X�[ۊ
-H�ۜ�\�[[ۚX[�H][�N��\�\��\��Y[���\][H�[��Y���H[��X��]�\��\�I���XY[�\���܈^]�H�\[�[\�\�[ۙH�\��ܝ]8�%�HY�[�����HY��ۛ��^\�Y����[YN�	��\�ZZ]�[	��]N�	�X[�Y�[��\��\�X�����H�ۜ�[[��I���][�Έ
-K�K�][�N���H\�Yܛ��[����[��X\���\��[�\��Y�ܙH\��X�[���^Y\�ˈH��X�\�Y��[Y]�ܚ��]�H\��ۙ�Y[��H[�[Y\���[X[�H�]\�][\K����[YN�	Ҙ[Y\�ܛ�ۉ��]N�	��S�X[�Y�[Y[��ۜ�[[��I���][�Έ
-K�K�][�N���[�[KH��]�XZ��H[��XY�Hو�ٙ\��[ۘ[�\��X�\�I�K�H
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <ScreenshotCard
+            src={SCREENSHOTS.dashboard}
+            alt="Dashboard with scores and readiness donut"
+            caption="See exactly where your firm stands against M&A-ready benchmarks"
+          />
+          <ScreenshotCard
+            src={SCREENSHOTS.roadmap}
+            alt="Gap analysis and improvement roadmap"
+            caption="Get a prioritised roadmap to close the gaps that matter most"
+          />
+          <ScreenshotCard
+            src={SCREENSHOTS.assessment}
+            alt="Assessment view with themes and metrics"
+            caption="A structured framework covering 10 themes and 47 growth metrics"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
 
-�Y]�X���ݙ\�]�\�][��[�X�]Z\�\���[���]8�%��[��[�H��Y\����K����[YN�	�]�Y�[���]N�	ћ�[�\��[�[��X[Y�\�ܞH�\�I���][�Έ
-K�K�N��]\��
-��X�[ۈYH�\�[[ۚX[Ȉ�\�Ә[YOH�KLM��N�KL���]�]H���]��\�Ә[YOH�X^]�M�^X]]�M�N�M�ΜN���]��\�Ә[YOH�^X�[�\�X�LL������\�Ә[YOH�^L��N�^M�۝X��^Yܘ^KNLX�M����\�Y�H�\�HXY\������\�Ә[YOH�^[�^Yܘ^KM����YH�]�ٙ\��[ۘ[�\��X�\��\�H�ۙ\��\�H�^Z[������]����]��\�Ә[YOH�ܚYܚYX���LHY�ܚYX���L��\N����\�[[ۚX[˛X\
+function HowItWorksSection() {
+  const steps = [
+    { num: 1, title: 'Sign up', desc: 'Create your free account in 30 seconds', icon: Users },
+    { num: 2, title: 'Assess', desc: 'Rate your firm across 10 growth themes and 47 metrics', icon: Target },
+    { num: 3, title: 'Benchmark', desc: 'See how you compare against M&A-ready standards and 7 industry benchmarks', icon: BarChart3 },
+    { num: 4, title: 'Act', desc: 'Get a prioritised improvement roadmap to maximise your firm\'s value', icon: TrendingUp },
+  ];
 
-JHO�
-�]��^O^�_H�\�Ә[YOH���Yܘ^KML��[�YL�N�ܙ\��ܙ\�Yܘ^KLL����ʈ�\��
-��B�]��\�Ә[YOH��^�\LHX�M����\��^K����J�[�����][��JK�X\
+  return (
+    <section id="how-it-works" className="py-16 sm:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">How it works</h2>
+          <p className="text-lg text-gray-600">Four steps to understand and maximise your firm's value</p>
+        </div>
 
-��HO�
-��\��^O^ڟH�\�Ә[YOH��MM�[X[X�\�M^X[X�\�M�ς�
-J_B��]����\�Ә[YOH�^Yܘ^KM�XY[��\�[^YX�M�][Xȏ����][�_H����]����\�Ә[YOH��۝\�[ZX��^Yܘ^KNL�����[Y_O����\�Ә[YOH�^\�H^Yܘ^KML����]_O����]����]���
-J_B��]����]�����X�[ۏ��
-NB���[��[ۈ�X]\�\��X�[ۊ
-H�]\��
-��X�[ۈYH��X]\�\Ȉ�\�Ә[YOH�KLM��N�KL���Yܘ^KML���]��\�Ә[YOH�X^]�M�^X]]�M�N�M�ΜN���]��\�Ә[YOH�^X�[�\�X�LL������\�Ә[YOH�^L��N�^M�۝X��^Yܘ^KNLX�M����\���YK�\ܘYH�[�[�IܙH�XYK�������\�Ә[YOH�^[�^Yܘ^KM�X^]�L�^X]]ȏ��H��YHY\��]�\�[�H]�\�][��[�H�YY�[�\��[�[�\��\�I��I�H�XY[�\�˂��[Z][H[�����H����[\�ݙH]������]����]��\�Ә[YOH�ܚYܚYX���LHY�ܚYX���L��\NX^]�M^X]]ȏ���ʈ��YHY\�
-��B�]��\�Ә[YOH���]�]H��[�YL�N�ܙ\��ܙ\�Yܘ^KL��Y��\�H���]��\�Ә[YOH�[�[�KY�^][\�X�[�\�L�KLH��Yܘ^KLL��[�YY�[^Yܘ^KM�^\�H�۝[YY][HX�M�����YB��]�����\�Ә[YOH�^L��۝X��^Yܘ^KNLX�L����]�\�Y�ς��\�Ә[YOH�^Yܘ^KM�X�M���]�\�][��[�H�YY�\��\��[�\��\�I���XY[�\�����[�\�Ә[YOH��X�K^KL�X�N����	ѝ[\��\��Y[�Xܛ���[L[Y\�[�
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, i) => (
+            <div key={step.num} className="relative text-center">
+              {/* Connector line */}
+              {i < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-0.5 bg-amber-200">
+                  <ChevronRight className="absolute -right-2 -top-2 w-5 h-5 text-amber-400" />
+                </div>
+              )}
+              {/* Step number */}
+              <div className="w-20 h-20 bg-amber-50 border-2 border-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <step.icon className="w-8 h-8 text-amber-600" />
+              </div>
+              <div className="inline-flex items-center justify-center w-7 h-7 bg-amber-400 text-white text-sm font-bold rounded-full mb-3">
+                {step.num}
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{step.title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-�Y]�X����	�\���\��]��ܙ\�[��\[�[\�\���	Й[��X\����\\�\�ۈY�Z[��
-��ٚ[\���	�X]\�]HX]X\Xܛ���[[Y[��[ۜ���K�X\
+function StatsBar() {
+  const stats = [
+    { value: '10', label: 'Growth Themes' },
+    { value: '47', label: 'Metrics' },
+    { value: '7', label: 'Benchmark Profiles' },
+    { value: '20+', label: 'Industry Sources' },
+  ];
 
-][KJHO�
-�H�^O^�_H�\�Ә[YOH��^][\�\�\��\Lȏ���X���\��L��\�Ә[YOH��MHMH^YܙY[�ML�^\��[��L]L�H�ς��[��\�Ә[YOH�^Yܘ^KM�^\�H���][_O��[����O��
-J_B��[��[���H���Y۝\��\�Ә[YOH������Y�[^X�[�\�M�KL���Yܘ^KNLݙ\����Yܘ^KN^]�]H�۝\�[ZX����[�Y[��[��][ۈ����Yۈ\��YB��[�ς��]�����ʈ�[Z][HY\�
-��B�]��\�Ә[YOH���]�]H��[�YL�N�ܙ\�L��ܙ\�X[X�\�M�Y��[��[]]�H���]��\�Ә[YOH�X���]H]�L��Y�M�L�KLH��X[X�\�M^]�]H^^��۝X����[�YY�[����P��SQS�Q��]���]��\�Ә[YOH�[�[�KY�^][\�X�[�\�L�KLH��X[X�\�ML��[�YY�[^X[X�\�M�^\�H�۝[YY][HX�M����[Z][B��]�����\�Ә[YOH�^L��۝X��^Yܘ^KNLX�L���X^[Z\�H�[YO�ς��\�Ә[YOH�^Yܘ^KM�X�M����܈�\�\��\�[�\�X��]�\\�[���܈^]���[�\�Ә[YOH��X�K^KL�X�N����	�]�\�][��[���YI��	�[\�ݙ[Y[���YX\�]�[ܚ]\�YX�[ۜ���	���[�\�[�[�[[��8�%�]ZY�[�[\�\���	��	��Ո^ܝ���	�^X�]]�H�[[X\�H�\ܝ���	�]Z[Y\��\��Y[��\ܝ���K�X\
+  return (
+    <div className="bg-gray-900 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <p className="text-3xl sm:text-4xl font-bold text-amber-400">{stat.value}</p>
+              <p className="text-sm text-gray-400 mt-1">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
-][KJHO�
-�H�^O^�_H�\�Ә[YOH��^][\�\�\��\Lȏ���X���\��L��\�Ә[YOH��MHMH^X[X�\�ML�^\��[��L]L�H�ς��[��\�Ә[YOH�^Yܘ^KM�^\�H���][_O��[����O��
-J_B��[���]ۂ�ې�X��^�
-HO���[Y[���][[Y[��RY
-	��۝X�	�O˜�ܛ�[�՚Y]���Z]�[܎�	��[��	�J_B��\�Ә[YOH������Y�[^X�[�\�M�KL���X[X�\�Mݙ\����X[X�\�ML^]�]H�۝X����[�Y[��[��][ۈ�Y��\�H����[��\�X��]�[Z][B�؝]ۏ���]����]����]�����X�[ۏ��
-NB���[��[ۈ�۝X��X�[ۊ
-H�ۜ�ٛܛK�]�ܛWHH\�T�]J��[YN�	��[XZ[�	��Y\��Y�N�	��JN�ۜ���]\��]�]\�HH\�T�]J�[
-N���	��[�[���	��[�	�	�\��܉��ۜ�[�T�X�Z]H\�[��
-JHO�K��]�[�Y�][
+function TestimonialsSection() {
+  const testimonials = [
+    {
+      quote: "This assessment completely changed how we think about our firm's readiness for exit. The gap analysis alone was worth it — we had blind spots we didn't know existed.",
+      name: 'Sarah Mitchell',
+      title: 'Managing Partner, Technology Consultancy',
+      rating: 5,
+    },
+    {
+      quote: "We used GrowthLens to benchmark ourselves before approaching buyers. The structured framework gave us confidence and helped us command a better multiple.",
+      name: 'James Thornton',
+      title: 'CEO, Management Consultancy',
+      rating: 5,
+    },
+    {
+      quote: "Finally, a tool that speaks the language of professional services M&A. The 47 metrics cover everything an acquirer would look at — nothing else comes close.",
+      name: 'David Chen',
+      title: 'Founder, Financial Advisory Firm',
+      rating: 5,
+    },
+  ];
 
-N�]�]\�	��[�[���N��ۜ��\��܈HH]�Z]�\X�\�B�����J	��۝X���X�Z\��[ۜ��B��[��\�
-�[YN��ܛK��[YK�[XZ[��ܛK�[XZ[�Y\��Y�N��ܛK�Y\��Y�K�JN�Y�
-\��܊H�ۜ��K�\��܊	��۝X��ܛH\��܎��\��܊N�]�]\�	�\��܉�NH[�H�]�]\�	��[�	�N�]�ܛJ��[YN�	��[XZ[�	��Y\��Y�N�	��JNB�N��]\��
-��X�[ۈYH��۝X���\�Ә[YOH�KLM��N�KL���]�]H���]��\�Ә[YOH�X^]�L�^X]]�M�N�M�ΜN���]��\�Ә[YOH�^X�[�\�X�LL�����\�Ә[YOH�^L��N�^M�۝X��^Yܘ^KNLX�M��]	��[������\�Ә[YOH�^[�^Yܘ^KM�����]\�[�H]�H]Y\�[ۜ�X��]H��[Y]�ܚ��[�H�[���Y�܈�YY[�[�\��][��[�\��\�[�8�%�IܙH\�H�[������]������]\�OOH	��[�	��
-�]��\�Ә[YOH�^X�[�\�KLL���YܙY[�ML��[�YL��ܙ\��ܙ\�YܙY[�L�����X���\��L��\�Ә[YOH��LL�LL�^YܙY[�ML^X]]�X�M�ς���\�Ә[YOH�^^�۝X��^Yܘ^KNLX�L���Y\��Y�H�[��ς��\�Ә[YOH�^Yܘ^KM����I��]�X���[�H�][���\�ˏ����]���
-H�
-��ܛH۔�X�Z]^�[�T�X�Z]H�\�Ә[YOH��X�K^KMH���]���X�[�\�Ә[YOH�����^\�H�۝[YY][H^Yܘ^KM�X�LH���[YO�X�[��[�]�\OH�^���\]Z\�Y��[YO^ٛܛK��[Y_B�ې�[��O^�JHO��]�ܛJ�����ܛK�[YN�K�\��]��[YHJ_B��\�Ә[YOH��Y�[MKL��ܙ\��ܙ\�Yܘ^KL���[�Y[����\Μ�[��L����\Μ�[��X[X�\�M���\Θ�ܙ\�X[X�\�M�][�K[�ۙH�[��][ۈ��X�Z�\�H�[�\��[YH��ς��]���]���X�[�\�Ә[YOH�����^\�H�۝[YY][H^Yܘ^KM�X�LH��[XZ[�X�[��[�]�\OH�[XZ[���\]Z\�Y��[YO^ٛܛK�[XZ[B�ې�[��O^�JHO��]�ܛJ�����ܛK[XZ[�K�\��]��[YHJ_B��\�Ә[YOH��Y�[MKL��ܙ\��ܙ\�Yܘ^KL���[�Y[����\Μ�[��L����\Μ�[��X[X�\�M���\Θ�ܙ\�X[X�\�M�][�K[�ۙH�[��][ۈ��X�Z�\�H�[�\�[XZ[���H��ς��]���]���X�[�\�Ә[YOH�����^\�H�۝[YY][H^Yܘ^KM�X�LH��Y\��Y�O�X�[��^\�XB��\]Z\�Y�����^�_B��[YO^ٛܛK�Y\��Y�_B�ې�[��O^�JHO��]�ܛJ�����ܛKY\��Y�N�K�\��]��[YHJ_B��\�Ә[YOH��Y�[MKL��ܙ\��ܙ\�Yܘ^KL���[�Y[����\Μ�[��L����\Μ�[��X[X�\�M���\Θ�ܙ\�X[X�\�M�][�K[�ۙH�[��][ۈ�\�^�K[�ۙH��X�Z�\�H����[��H[Ȃ�ς��]����]ۂ�\OH��X�Z]��\�X�Y^��]\�OOH	��[�[���B��\�Ә[YOH��Y�[M�KL���X[X�\�Mݙ\����X[X�\�ML\�X�Y���X[X�\�L�^]�]H�۝X����[�Y[��[��][ۈ�Y��\�H������]\�O}= 'sending' ? 'Sending...' : 'Send Message'}
+  return (
+    <section id="testimonials" className="py-16 sm:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Trusted by firm leaders
+          </h2>
+          <p className="text-lg text-gray-600">See what professional services firm owners are saying</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((t, i) => (
+            <div key={i} className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+              {/* Stars */}
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: t.rating }).map((_, j) => (
+                  <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-6 italic">"{t.quote}"</p>
+              <div>
+                <p className="font-semibold text-gray-900">{t.name}</p>
+                <p className="text-sm text-gray-500">{t.title}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeaturesSection() {
+  return (
+    <section id="features" className="py-16 sm:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Start free. Upgrade when you're ready.
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            The free tier gives you everything you need to understand your firm's M&A readiness.
+            Premium unlocks the tools to improve it.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Free tier */}
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="inline-flex items-center px-3 py-1 bg-gray-100 rounded-full text-gray-700 text-sm font-medium mb-4">
+              Free
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Get started</h3>
+            <p className="text-gray-600 mb-6">Everything you need to assess your firm's readiness</p>
+            <ul className="space-y-3 mb-8">
+              {[
+                'Full assessment across all 10 themes and 47 metrics',
+                'Dashboard with scores and gap analysis',
+                'Benchmark comparison against 7 profiles',
+                'Maturity heatmap across all dimensions',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <Link to="/signup" className="block w-full text-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition">
+              Sign Up Free
+            </Link>
+          </div>
+
+          {/* Premium tier */}
+          <div className="bg-white rounded-2xl p-8 border-2 border-amber-400 shadow-lg relative">
+            <div className="absolute -top-3 right-6 px-3 py-1 bg-amber-400 text-white text-xs font-bold rounded-full">
+              RECOMMENDED
+            </div>
+            <div className="inline-flex items-center px-3 py-1 bg-amber-50 rounded-full text-amber-700 text-sm font-medium mb-4">
+              Premium
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Maximise value</h3>
+            <p className="text-gray-600 mb-6">For firms serious about preparing for exit</p>
+            <ul className="space-y-3 mb-8">
+              {[
+                'Everything in Free',
+                'Improvement Roadmap with prioritised actions',
+                'Scenario Modelling — what-if analysis',
+                'PDF & CSV exports',
+                'Executive Summary reports',
+                'Detailed Assessment reports',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="block w-full text-center px-6 py-3 bg-amber-400 hover:bg-amber-500 text-white font-bold rounded-lg transition shadow-sm"
+            >
+              Talk to Us About Premium
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactSection() {
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState(null); // 'sending' | 'sent' | 'error'
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('sending');
+
+    const { error } = await supabase
+      .from('contact_submissions')
+      .insert({
+        name: form.name,
+        email: form.email,
+        message: form.message,
+      });
+
+    if (error) {
+      console.error('Contact form error:', error);
+      setStatus('error');
+    } else {
+      setStatus('sent');
+      setForm({ name: '', email: '', message: '' });
+    }
+  };
+
+  return (
+    <section id="contact" className="py-16 sm:py-24 bg-white">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Let's Talk</h2>
+          <p className="text-lg text-gray-600">
+            Whether you have questions about the framework, want a walkthrough, or need help
+            interpreting your results — we're here to help.
+          </p>
+        </div>
+
+        {status === 'sent' ? (
+          <div className="text-center py-12 bg-green-50 rounded-2xl border border-green-200">
+            <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Message sent</h3>
+            <p className="text-gray-600">We'll get back to you within 24 hours.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <input
+                type="text"
+                required
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+              <textarea
+                required
+                rows={5}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition resize-none"
+                placeholder="How can we help?"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={status === 'sending'}
+              className="w-full px-6 py-3 bg-amber-400 hover:bg-amber-500 disabled:bg-amber-300 text-white font-bold rounded-lg transition shadow-sm"
+            >
+              {status === 'sending' ? 'Sending...' : 'Send Message'}
             </button>
             {status === 'error' && (
               <p className="text-red-600 text-sm text-center">Something went wrong. Please try again or email us directly.</p>
