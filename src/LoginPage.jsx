@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { BarChart3, Eye, EyeOff } from 'lucide-react';
+import { BarChart3, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 export default function LoginPage() {
   const { signIn, resetPassword } = useAuth();
@@ -144,6 +144,13 @@ export default function LoginPage() {
           Don't have an account?{' '}
           <Link to="/signup" className="text-amber-600 hover:text-amber-700 font-medium">Sign up free</Link>
         </p>
+        {/* Back to home */}
+        <div className="text-center mt-4">
+          <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Back to home
+          </Link>
+        </div>
       </div>
     </div>
   );
