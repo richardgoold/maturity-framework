@@ -1,0 +1,58 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light gray background -->
+  <rect width="800" height="500" fill="#f3f4f6"/>
+
+  <!-- Border -->
+  <rect x="20" y="20" width="760" height="460" fill="none" stroke="#d1d5db" stroke-width="2" rx="8"/>
+
+  <!-- Metric cards (left side) -->
+  <g transform="translate(100, 120)">
+    <!-- Card 1 -->
+    <rect x="0" y="0" width="140" height="100" fill="white" stroke="#e5e7eb" stroke-width="1" rx="4"/>
+    <text x="10" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#374151">Revenue Growth</text>
+    <circle cx="25" cy="55" r="6" fill="#bbdefb" stroke="#2563eb" stroke-width="1"/>
+    <circle cx="55" cy="55" r="6" fill="#ffe0b2" stroke="#f2a71b" stroke-width="1"/>
+    <circle cx="85" cy="55" r="6" fill="#a5d6a7" stroke="#10b981" stroke-width="1"/>
+    <text x="10" y="85" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">Rate maturity level</text>
+
+    <!-- Card 2 -->
+    <rect x="0" y="120" width="140" height="100" fill="white" stroke="#e5e7eb" stroke-width="1" rx="4"/>
+    <text x="10" y="145" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#374151">Pricing Strategy</text>
+    <circle cx="25" cy="175" r="6" fill="#bbdefb" stroke="#2563eb" stroke-width="1"/>
+    <circle cx="55" cy="175" r="6" fill="#ffe0b2" stroke="#f2a71b" stroke-width="1"/>
+    <circle cx="85" cy="175" r="6" fill="#a5d6a7" stroke="#10b981" stroke-width="1"/>
+    <text x="10" y="205" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">Rate maturity level</text>
+  </g>
+
+  <!-- Progress indicator (right) -->
+  <g transform="translate(500, 180)">
+    <!-- Theme progress -->
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#374151">Theme Progress</text>
+
+    <!-- Bar 1 -->
+    <text x="0" y="25" font-family="Arial, sans-serif" font-size="11" fill="#6b7280">Financial</text>
+    <rect x="0" y="30" width="150" height="8" fill="#e5e7eb" rx="2"/>
+    <rect x="0" y="30" width="105" height="8" fill="#f2a71b" rx="2"/>
+    <text x="155" y="36" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">3/4</text>
+
+    <!-- Bar 2 -->
+    <text x="0" y="55" font-family="Arial, sans-serif" font-size="11" fill="#6b7280">People</text>
+    <rect x="0" y="60" width="150" height="8" fill="#e5e7eb" rx="2"/>
+    <rect x="0" y="60" width="75" height="8" fill="#f2a71b" rx="2"/>
+    <text x="155" y="66" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">2/5</text>
+
+    <!-- Bar 3 -->
+    <text x="0" y="85" font-family="Arial, sans-serif" font-size="11" fill="#6b7280">Services</text>
+    <rect x="0" y="90" width="150" height="8" fill="#e5e7eb" rx="2"/>
+    <rect x="0" y="90" width="150" height="8" fill="#f2a71b" rx="2"/>
+    <text x="155" y="96" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">5/5</text>
+  </g>
+
+  <!-- Label text -->
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#374151">
+    Interactive Assessment
+  </text>
+  <text x="400" y="370" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#6b7280">
+    Rate your firm across 47 metrics in 10 growth themes
+  </text>
+</svg>
