@@ -83,15 +83,18 @@ function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="inline-flex items-center px-4 py-1.5 bg-amber-50 border border-amber-200 rounded-full text-amber-700 text-sm font-medium mb-6">
-            Professional Services Growth Platform
+          <div className="mb-6">
+            <span className="block text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-amber-600">
+              Professional Services Growth Platform
+            </span>
+            <div className="mt-2 mx-auto w-16 h-1 bg-amber-400 rounded-full"></div>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-            See what acquirers and investors see
+            See what acquirers and investors
             <br />
-            <span className="text-amber-500">before they do.</span>
+            see <span className="text-amber-500">before they do.</span>
           </h1>
 
           {/* Subtitle */}
@@ -131,34 +134,46 @@ function HeroSection() {
                 </div>
               </div>
               {/* Rich dashboard mockup */}
-              <div className="p-4 sm:p-6 bg-gradient-to-br from-gray-900 to-gray-800">
+              <div className="p-3 sm:p-4 bg-gradient-to-br from-gray-900 to-gray-800">
                 {/* Top row: Score + Radar + Benchmark */}
-                <div className="grid grid-cols-12 gap-3 sm:gap-4">
+                <div className="grid grid-cols-12 gap-2 sm:gap-3">
                   {/* Readiness score donut */}
-                  <div className="col-span-3 bg-gray-800/60 rounded-lg p-3 sm:p-4 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-2">M&A Readiness</p>
+                  <div className="col-span-3 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
+                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1">M&A Readiness</p>
                     <div className="flex items-center justify-center">
-                      <svg viewBox="0 0 80 80" className="w-16 h-16 sm:w-20 sm:h-20">
+                      <svg viewBox="0 0 80 80" className="w-14 h-14 sm:w-16 sm:h-16">
                         <circle cx="40" cy="40" r="32" fill="none" stroke="#374151" strokeWidth="6" />
                         <circle cx="40" cy="40" r="32" fill="none" stroke="#f59e0b" strokeWidth="6" strokeDasharray="161" strokeDashoffset="32" strokeLinecap="round" transform="rotate(-90 40 40)" />
                         <text x="40" y="38" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">80%</text>
                         <text x="40" y="50" textAnchor="middle" fill="#9ca3af" fontSize="7">Nearly Ready</text>
                       </svg>
                     </div>
+                    {/* Mini theme scores under donut */}
+                    <div className="mt-1 space-y-0.5">
+                      {[
+                        { name: 'Overall', pct: 80, color: '#f59e0b' },
+                        { name: 'Financial', pct: 85, color: '#22c55e' },
+                        { name: 'People', pct: 72, color: '#22c55e' },
+                      ].map((t) => (
+                        <div key={t.name} className="flex items-center gap-1">
+                          <span className="text-gray-500 text-[6px] w-10 text-right">{t.name}</span>
+                          <div className="flex-1 h-1 bg-gray-700 rounded-full">
+                            <div className="h-full rounded-full" style={{ width: `${t.pct}%`, backgroundColor: t.color }}></div>
+                          </div>
+                          <span className="text-gray-500 text-[6px] w-5">{t.pct}%</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   {/* Radar chart */}
-                  <div className="col-span-5 bg-gray-800/60 rounded-lg p-3 sm:p-4 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-2">Maturity Overview</p>
+                  <div className="col-span-5 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
+                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1">Maturity Overview</p>
                     <svg viewBox="0 0 200 150" className="w-full">
-                      {/* Radar grid */}
                       <polygon points="100,20 165,50 165,110 100,140 35,110 35,50" fill="none" stroke="#374151" strokeWidth="0.5" />
                       <polygon points="100,40 150,60 150,100 100,125 50,100 50,60" fill="none" stroke="#374151" strokeWidth="0.5" />
                       <polygon points="100,60 135,75 135,95 100,110 65,95 65,75" fill="none" stroke="#374151" strokeWidth="0.5" />
-                      {/* Your firm */}
                       <polygon points="100,28 158,55 150,108 100,132 45,100 42,52" fill="#1B4F72" fillOpacity="0.35" stroke="#1B4F72" strokeWidth="2" />
-                      {/* Benchmark */}
                       <polygon points="100,35 152,58 148,105 100,128 52,98 48,55" fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4,3" />
-                      {/* Labels */}
                       <text x="100" y="14" textAnchor="middle" fill="#9ca3af" fontSize="7">Financial</text>
                       <text x="175" y="50" textAnchor="start" fill="#9ca3af" fontSize="7">People</text>
                       <text x="175" y="115" textAnchor="start" fill="#9ca3af" fontSize="7">Services</text>
@@ -166,15 +181,15 @@ function HeroSection() {
                       <text x="22" y="115" textAnchor="end" fill="#9ca3af" fontSize="7">Clients</text>
                       <text x="22" y="50" textAnchor="end" fill="#9ca3af" fontSize="7">Leadership</text>
                     </svg>
-                    <div className="flex items-center justify-center gap-4 mt-1">
+                    <div className="flex items-center justify-center gap-4 mt-0.5">
                       <div className="flex items-center gap-1"><div className="w-3 h-1 bg-blue-800 rounded"></div><span className="text-gray-500 text-[8px]">Your Firm</span></div>
                       <div className="flex items-center gap-1"><div className="w-3 h-1 border-t border-dashed border-amber-500"></div><span className="text-gray-500 text-[8px]">M&A-Ready</span></div>
                     </div>
                   </div>
-                  {/* Benchmark bars */}
-                  <div className="col-span-4 bg-gray-800/60 rounded-lg p-3 sm:p-4 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-2">Benchmark Comparison</p>
-                    <div className="space-y-2">
+                  {/* Benchmark bars — all 10 themes */}
+                  <div className="col-span-4 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
+                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1">Benchmark Comparison</p>
+                    <div className="space-y-1">
                       {[
                         { name: 'Financial', score: 85, bench: 70 },
                         { name: 'People', score: 72, bench: 68 },
@@ -183,59 +198,105 @@ function HeroSection() {
                         { name: 'Sales', score: 55, bench: 65 },
                         { name: 'Clients', score: 82, bench: 68 },
                         { name: 'Leadership', score: 75, bench: 67 },
+                        { name: 'Cost', score: 62, bench: 65 },
+                        { name: 'Delivery', score: 88, bench: 70 },
+                        { name: 'Market', score: 58, bench: 65 },
                       ].map((d) => (
-                        <div key={d.name} className="flex items-center gap-2">
-                          <span className="text-gray-500 text-[7px] sm:text-[8px] w-14 text-right">{d.name}</span>
-                          <div className="flex-1 h-2 bg-gray-700 rounded-full relative overflow-hidden">
+                        <div key={d.name} className="flex items-center gap-1.5">
+                          <span className="text-gray-500 text-[6px] sm:text-[7px] w-12 text-right">{d.name}</span>
+                          <div className="flex-1 h-1.5 bg-gray-700 rounded-full relative overflow-hidden">
                             <div className="h-full rounded-full" style={{ width: `${d.score}%`, backgroundColor: d.score >= d.bench ? '#22c55e' : d.score >= d.bench - 5 ? '#f59e0b' : '#ef4444' }}></div>
                             <div className="absolute top-0 h-full w-0.5 bg-gray-400" style={{ left: `${d.bench}%` }}></div>
                           </div>
+                          <span className="text-gray-500 text-[6px] w-5">{d.score}%</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Bottom row: Heatmap + Strengths */}
-                <div className="grid grid-cols-12 gap-3 sm:gap-4 mt-3 sm:mt-4">
-                  {/* Mini heatmap */}
-                  <div className="col-span-7 bg-gray-800/60 rounded-lg p-3 sm:p-4 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-2">47-Metric Maturity Heatmap</p>
-                    <div className="grid grid-cols-10 gap-0.5">
-                      {[3,2,3,2,1,3,3,2,3,2,2,3,1,2,3,2,3,3,2,1,3,2,2,3,3,1,2,3,2,3,3,2,1,2,3,2,3,2,3,2,1,3,2,3,3,2,3].map((v, i) => (
-                        <div key={i} className="aspect-square rounded-sm" style={{
-                          backgroundColor: v === 3 ? '#A5D6A7' : v === 2 ? '#BBDEFB' : '#FFE0B2',
-                          opacity: 0.9
-                        }}></div>
+                {/* Bottom row: Heatmap (labelled grid) + Key Insights (data-rich) */}
+                <div className="grid grid-cols-12 gap-2 sm:gap-3 mt-2 sm:mt-3">
+                  {/* Labelled heatmap — theme rows x metric columns */}
+                  <div className="col-span-7 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
+                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">47-Metric Maturity Heatmap</p>
+                    <div className="space-y-0.5">
+                      {[
+                        { theme: 'Financial', cells: [3,2,3,3,2,3] },
+                        { theme: 'People', cells: [2,3,1,2,3] },
+                        { theme: 'Services', cells: [3,2,3,2,3] },
+                        { theme: 'Vision', cells: [2,1,2,2,1] },
+                        { theme: 'Sales', cells: [1,2,1,2] },
+                        { theme: 'Clients', cells: [3,3,2,3] },
+                        { theme: 'Leadership', cells: [2,3,2] },
+                        { theme: 'Cost', cells: [2,1,2,1,2,1,2] },
+                        { theme: 'Delivery', cells: [3,3,2] },
+                        { theme: 'Market', cells: [2,1,2,2,1] },
+                      ].map((row) => (
+                        <div key={row.theme} className="flex items-center gap-1">
+                          <span className="text-gray-500 text-[6px] w-12 text-right flex-shrink-0">{row.theme}</span>
+                          <div className="flex gap-px flex-1">
+                            {row.cells.map((v, i) => (
+                              <div key={i} className="h-2.5 rounded-sm flex-1 min-w-0" style={{
+                                backgroundColor: v === 3 ? '#A5D6A7' : v === 2 ? '#BBDEFB' : '#FFE0B2',
+                              }}></div>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#FFE0B2'}}></div><span className="text-gray-500 text-[7px]">Foundational</span></div>
-                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#BBDEFB'}}></div><span className="text-gray-500 text-[7px]">Evolving</span></div>
-                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#A5D6A7'}}></div><span className="text-gray-500 text-[7px]">Optimised</span></div>
+                    <div className="flex items-center gap-3 mt-1.5">
+                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#FFE0B2'}}></div><span className="text-gray-500 text-[6px]">Foundational</span></div>
+                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#BBDEFB'}}></div><span className="text-gray-500 text-[6px]">Evolving</span></div>
+                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#A5D6A7'}}></div><span className="text-gray-500 text-[6px]">Optimised</span></div>
                     </div>
                   </div>
-                  {/* Strengths & gaps */}
-                  <div className="col-span-5 bg-gray-800/60 rounded-lg p-3 sm:p-4 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-2">Key Insights</p>
-                    <div className="space-y-2">
+                  {/* Key Insights — data-rich panel */}
+                  <div className="col-span-5 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50 flex flex-col">
+                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">Key Insights</p>
+                    <div className="space-y-1.5 flex-1">
                       <div>
-                        <p className="text-green-400 text-[8px] font-semibold mb-1">Top Strengths</p>
-                        {['Financial Performance', 'Client Relationships', 'Service Quality'].map((s) => (
-                          <div key={s} className="flex items-center gap-1 mb-0.5">
-                            <div className="w-1 h-1 rounded-full bg-green-400"></div>
-                            <span className="text-gray-400 text-[7px] sm:text-[8px]">{s}</span>
+                        <p className="text-green-400 text-[7px] sm:text-[8px] font-semibold mb-0.5">Top Strengths</p>
+                        {[
+                          { name: 'Financial Performance', score: '85%' },
+                          { name: 'Delivery Excellence', score: '88%' },
+                          { name: 'Client Relationships', score: '82%' },
+                        ].map((s) => (
+                          <div key={s.name} className="flex items-center justify-between mb-0.5">
+                            <div className="flex items-center gap-1">
+                              <div className="w-1 h-1 rounded-full bg-green-400"></div>
+                              <span className="text-gray-400 text-[7px]">{s.name}</span>
+                            </div>
+                            <span className="text-green-400 text-[7px] font-semibold">{s.score}</span>
                           </div>
                         ))}
                       </div>
                       <div>
-                        <p className="text-amber-400 text-[8px] font-semibold mb-1">Priority Improvements</p>
-                        {['Sales & Pipeline', 'Vision & Strategy', 'Cost Optimisation'].map((s) => (
-                          <div key={s} className="flex items-center gap-1 mb-0.5">
-                            <div className="w-1 h-1 rounded-full bg-amber-400"></div>
-                            <span className="text-gray-400 text-[7px] sm:text-[8px]">{s}</span>
+                        <p className="text-amber-400 text-[7px] sm:text-[8px] font-semibold mb-0.5">Priority Improvements</p>
+                        {[
+                          { name: 'Sales & Pipeline', gap: '+10%' },
+                          { name: 'Vision & Strategy', gap: '+8%' },
+                          { name: 'Market Profile', gap: '+7%' },
+                        ].map((s) => (
+                          <div key={s.name} className="flex items-center justify-between mb-0.5">
+                            <div className="flex items-center gap-1">
+                              <div className="w-1 h-1 rounded-full bg-amber-400"></div>
+                              <span className="text-gray-400 text-[7px]">{s.name}</span>
+                            </div>
+                            <span className="text-amber-400 text-[7px] font-semibold">{s.gap}</span>
                           </div>
                         ))}
+                      </div>
+                    </div>
+                    {/* Summary stat */}
+                    <div className="mt-1.5 pt-1.5 border-t border-gray-700/50">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-500 text-[7px]">M&A Readiness</span>
+                        <span className="text-amber-400 text-[8px] font-bold">80% — Nearly Ready</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-0.5">
+                        <span className="text-gray-500 text-[7px]">Themes above benchmark</span>
+                        <span className="text-green-400 text-[8px] font-bold">6 of 10</span>
                       </div>
                     </div>
                   </div>
@@ -276,7 +337,6 @@ function PreviewsSection() {
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
               </div>
               <div className="p-4 aspect-[4/3] flex flex-col justify-between">
-                {/* Mini radar + score */}
                 <div className="flex items-center gap-3">
                   <svg viewBox="0 0 80 80" className="w-16 h-16 flex-shrink-0">
                     <circle cx="40" cy="40" r="30" fill="none" stroke="#374151" strokeWidth="5" />
@@ -289,7 +349,6 @@ function PreviewsSection() {
                     <p className="text-gray-400 text-[10px]">Top 25% of firms assessed</p>
                   </div>
                 </div>
-                {/* Theme scores */}
                 <div className="space-y-1.5 mt-3">
                   {[
                     { name: 'Financial Performance', pct: 85, color: '#22c55e' },
@@ -375,7 +434,6 @@ function PreviewsSection() {
               <div className="p-4 aspect-[4/3] flex flex-col">
                 <p className="text-white text-xs font-semibold mb-2">Assessment Framework</p>
                 <div className="flex gap-2 flex-1">
-                  {/* Themes sidebar */}
                   <div className="w-1/3 space-y-1">
                     {['Financial', 'People', 'Services', 'Vision', 'Sales', 'Clients', 'Leadership', 'Cost', 'Delivery', 'Market'].map((t, i) => (
                       <div key={t} className={`text-[7px] px-1.5 py-1 rounded ${i === 0 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'text-gray-500 hover:bg-gray-800'}`}>
@@ -383,7 +441,6 @@ function PreviewsSection() {
                       </div>
                     ))}
                   </div>
-                  {/* Metrics */}
                   <div className="w-2/3 space-y-1.5">
                     {[
                       { name: 'Revenue Growth Rate', level: 3 },
@@ -421,7 +478,6 @@ function PreviewsSection() {
     </section>
   );
 }
-
 // ─── How It Works ────────────────────────────────────────────────
 function HowItWorksSection() {
   const steps = [
@@ -609,7 +665,7 @@ function TestimonialsSection() {
                   <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-gray-700 leading-relaxed mb-6 italic">"{t.quote}"</p>
+              <p className="text-gray-700 leading-relaxed mb-6 italic">"\{t.quote}"</p>
               <div>
                 <p className="font-semibold text-gray-900">{t.name}</p>
                 <p className="text-sm text-gray-500">{t.title}</p>
