@@ -1,17 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/maturity-framework/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Growth Drivers Maturity Framework</title>
+    <title>GrowthLens | M&A Readiness Assessment for Professional Services</title>
+    <meta name="description" content="Assess your professional services firm across 47 growth metrics. Benchmark against M&A-ready standards and build a roadmap to maximise firm value." />
+    <meta property="og:title" content="GrowthLens — M&A Readiness Assessment" />
+    <meta property="og:description" content="Rate your firm across 10 growth themes and 47 metrics. Compare against M&A-ready benchmarks." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // SPA redirect for GitHub Pages
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </head>
-  <body>
+  <body class="font-['Inter'] antialiased">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/maturity-framework/src/main.jsx"></script>
   </body>
 </html>
