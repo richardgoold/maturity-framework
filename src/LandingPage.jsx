@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from './supabase';
 import {
   BarChart3, Target, TrendingUp, Award, CheckCircle2,
-  ArrowRight, Star, Mail, ExternalLink, Linkedin,
+  ArrowRight, Mail, ExternalLink, Linkedin,
   Shield, Users, Globe, ChevronRight, ArrowLeft
 } from 'lucide-react';
 
@@ -32,7 +32,6 @@ function NavBar() {
           <div className="hidden md:flex items-center gap-8">
             <button onClick={() => scrollTo('how-it-works')} className="text-sm text-gray-600 hover:text-gray-900 transition">How It Works</button>
             <button onClick={() => scrollTo('features')} className="text-sm text-gray-600 hover:text-gray-900 transition">Features</button>
-            <button onClick={() => scrollTo('testimonials')} className="text-sm text-gray-600 hover:text-gray-900 transition">Testimonials</button>
             <button onClick={() => scrollTo('contact')} className="text-sm text-gray-600 hover:text-gray-900 transition">Contact</button>
           </div>
 
@@ -62,7 +61,6 @@ function NavBar() {
             <div className="flex flex-col gap-3">
               <button onClick={() => scrollTo('how-it-works')} className="text-left text-sm text-gray-600 py-2">How It Works</button>
               <button onClick={() => scrollTo('features')} className="text-left text-sm text-gray-600 py-2">Features</button>
-              <button onClick={() => scrollTo('testimonials')} className="text-left text-sm text-gray-600 py-2">Testimonials</button>
               <button onClick={() => scrollTo('contact')} className="text-left text-sm text-gray-600 py-2">Contact</button>
               <div className="flex gap-3 pt-2">
                 <Link to="/login" className="text-sm text-gray-600 py-2">Log In</Link>
@@ -75,6 +73,7 @@ function NavBar() {
     </nav>
   );
 }
+
 // ─── Hero Section ────────────────────────────────────────────────
 function HeroSection() {
   return (
@@ -267,7 +266,7 @@ function HeroSection() {
                   </div>
                 </div>
 
-                {/* Bottom row: 2-col Heatmap + Key Insights */}
+                {/* Bottom row: Heatmap (labelled grid) + Key Insights (data-rich) */}
                 <div className="grid grid-cols-12 gap-2 sm:gap-3 mt-2 sm:mt-3">
                   {/* 2-column heatmap matching the real app layout */}
                   <div className="col-span-7 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
@@ -295,8 +294,7 @@ function HeroSection() {
                               }}>{v}</div>
                             ))}
                           </div>
-                        </div>
-                      ))}
+                        </div>            ))}
                     </div>
                     <div className="flex items-center gap-2 mt-1.5">
                       <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#FFE0B2'}}></div><span className="text-gray-500 text-[5px]">Foundational</span></div>
@@ -535,6 +533,7 @@ function PreviewsSection() {
     </section>
   );
 }
+
 // ─── How It Works ────────────────────────────────────────────────
 function HowItWorksSection() {
   const steps = [
@@ -620,7 +619,7 @@ function StatsBar() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center">
             <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="10" /></p>
-            <p className="text-sm text-gray-400 mt-1">Growth Themes</p>
+       <p className="text-sm text-gray-400 mt-1">Growth Themes</p>
           </div>
           <div className="text-center">
             <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="47" /></p>
@@ -640,99 +639,6 @@ function StatsBar() {
   );
 }
 
-// ─── Logo Carousel ───────────────────────────────────────────────
-function LogoCarousel() {
-  const logos = [
-    'Strategy Partners', 'Meridian Advisory', 'Apex Consulting',
-    'Pinnacle Group', 'Horizon Partners', 'Summit Associates',
-    'Catalyst Advisory', 'Vanguard Consulting'
-  ];
-
-  return (
-    <section className="py-10 bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-xs text-gray-400 uppercase tracking-widest mb-6">Trusted by leading professional services firms</p>
-        <div className="relative overflow-hidden">
-          <div className="flex animate-scroll gap-12 items-center">
-            {[...logos, ...logos].map((name, i) => (
-              <div key={i} className="flex-shrink-0 px-4 py-2 bg-gray-50 rounded-lg border border-gray-100">
-                <span className="text-gray-400 text-sm font-medium whitespace-nowrap">{name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-scroll {
-          animation: scroll 30s linear infinite;
-          width: max-content;
-        }
-        .animate-scroll:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
-    </section>
-  );
-}
-
-// ─── Testimonials ────────────────────────────────────────────────
-function TestimonialsSection() {
-  const testimonials = [
-    {
-      quote: "This assessment completely changed how we think about our firm's readiness for growth and exit. The gap analysis alone was worth it — we had blind spots we didn't know existed.",
-      name: 'Sarah Mitchell',
-      title: 'Managing Partner, Technology Consultancy',
-      rating: 5,
-    },
-    {
-      quote: "We used GrowthLens to benchmark ourselves before approaching investors. The structured framework gave us confidence and helped us demonstrate our value far more effectively.",
-      name: 'James Thornton',
-      title: 'CEO, Management Consultancy',
-      rating: 5,
-    },
-    {
-      quote: "Finally, a tool that speaks the language of professional services growth. The 47 metrics cover everything that drives sustainable value — nothing else comes close.",
-      name: 'David Chen',
-      title: 'Founder, Financial Advisory Firm',
-      rating: 5,
-    },
-  ];
-
-  return (
-    <section id="testimonials" className="py-16 sm:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Trusted by firm leaders
-          </h2>
-          <p className="text-lg text-gray-600">See what professional services firm owners are saying</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
-            <div key={i} className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 leading-relaxed mb-6 italic">"\{t.quote}"</p>
-              <div>
-                <p className="font-semibold text-gray-900">{t.name}</p>
-                <p className="text-sm text-gray-500">{t.title}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── Features / Pricing ──────────────────────────────────────────
 function FeaturesSection() {
@@ -950,8 +856,6 @@ export default function LandingPage() {
       <PreviewsSection />
       <HowItWorksSection />
       <StatsBar />
-      <LogoCarousel />
-      <TestimonialsSection />
       <FeaturesSection />
       <ContactSection />
       <Footer />
