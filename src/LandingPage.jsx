@@ -75,7 +75,6 @@ function NavBar() {
     </nav>
   );
 }
-
 // ─── Hero Section ────────────────────────────────────────────────
 function HeroSection() {
   return (
@@ -83,29 +82,31 @@ function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="mb-6">
-            <span className="block text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-amber-600">
-              Professional Services Growth Platform
-            </span>
-            <div className="mt-2 mx-auto w-16 h-1 bg-amber-400 rounded-full"></div>
+          <div className="mb-8 inline-block">
+            <div className="bg-gray-900 px-8 py-3 rounded-lg shadow-lg">
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-amber-400">
+                Professional Services Growth Platform
+              </span>
+            </div>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-            See what acquirers and investors
-            <br />
-            see <span className="text-amber-500">before they do.</span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-2">
+            See what acquirers and investors see
           </h1>
+          <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-amber-500 leading-tight mb-6">
+            before they do.
+          </p>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
             Assess your firm across the 10 dimensions that drive sustainable growth in professional services.
             Whether you're scaling for the long term or preparing for a capital event, benchmark against
             industry standards and get a clear roadmap to maximise value.
           </p>
 
           {/* Tagline */}
-          <p className="text-sm font-semibold text-amber-600 tracking-widest uppercase mb-8">
+          <p className="text-xl sm:text-2xl font-bold text-amber-600 tracking-widest uppercase mb-8">
             Measure. Benchmark. Maximise.
           </p>
 
@@ -141,23 +142,30 @@ function HeroSection() {
                   <div className="col-span-3 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
                     <p className="text-gray-400 text-[10px] sm:text-xs mb-1">M&A Readiness</p>
                     <div className="flex items-center justify-center">
-                      <svg viewBox="0 0 80 80" className="w-14 h-14 sm:w-16 sm:h-16">
+                      <svg viewBox="0 0 80 80" className="w-12 h-12 sm:w-14 sm:h-14">
                         <circle cx="40" cy="40" r="32" fill="none" stroke="#374151" strokeWidth="6" />
                         <circle cx="40" cy="40" r="32" fill="none" stroke="#f59e0b" strokeWidth="6" strokeDasharray="161" strokeDashoffset="32" strokeLinecap="round" transform="rotate(-90 40 40)" />
                         <text x="40" y="38" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">80%</text>
                         <text x="40" y="50" textAnchor="middle" fill="#9ca3af" fontSize="7">Nearly Ready</text>
                       </svg>
                     </div>
-                    {/* Mini theme scores under donut */}
+                    {/* All 10 theme scores */}
                     <div className="mt-1 space-y-0.5">
                       {[
-                        { name: 'Overall', pct: 80, color: '#f59e0b' },
                         { name: 'Financial', pct: 85, color: '#22c55e' },
                         { name: 'People', pct: 72, color: '#22c55e' },
+                        { name: 'Services', pct: 78, color: '#22c55e' },
+                        { name: 'Vision', pct: 60, color: '#ef4444' },
+                        { name: 'Sales', pct: 55, color: '#ef4444' },
+                        { name: 'Clients', pct: 82, color: '#22c55e' },
+                        { name: 'Leadership', pct: 75, color: '#f59e0b' },
+                        { name: 'Cost', pct: 62, color: '#f59e0b' },
+                        { name: 'Delivery', pct: 88, color: '#22c55e' },
+                        { name: 'Market', pct: 58, color: '#ef4444' },
                       ].map((t) => (
                         <div key={t.name} className="flex items-center gap-1">
-                          <span className="text-gray-500 text-[6px] w-10 text-right">{t.name}</span>
-                          <div className="flex-1 h-1 bg-gray-700 rounded-full">
+                          <span className="text-gray-500 text-[6px] w-12 text-right">{t.name}</span>
+                          <div className="flex-1 h-1.5 bg-gray-700 rounded-full">
                             <div className="h-full rounded-full" style={{ width: `${t.pct}%`, backgroundColor: t.color }}></div>
                           </div>
                           <span className="text-gray-500 text-[6px] w-5">{t.pct}%</span>
@@ -165,23 +173,67 @@ function HeroSection() {
                       ))}
                     </div>
                   </div>
-                  {/* Radar chart */}
+                  {/* Radar chart — 10-axis */}
                   <div className="col-span-5 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
                     <p className="text-gray-400 text-[10px] sm:text-xs mb-1">Maturity Overview</p>
-                    <svg viewBox="0 0 200 150" className="w-full">
-                      <polygon points="100,20 165,50 165,110 100,140 35,110 35,50" fill="none" stroke="#374151" strokeWidth="0.5" />
-                      <polygon points="100,40 150,60 150,100 100,125 50,100 50,60" fill="none" stroke="#374151" strokeWidth="0.5" />
-                      <polygon points="100,60 135,75 135,95 100,110 65,95 65,75" fill="none" stroke="#374151" strokeWidth="0.5" />
-                      <polygon points="100,28 158,55 150,108 100,132 45,100 42,52" fill="#1B4F72" fillOpacity="0.35" stroke="#1B4F72" strokeWidth="2" />
-                      <polygon points="100,35 152,58 148,105 100,128 52,98 48,55" fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4,3" />
-                      <text x="100" y="14" textAnchor="middle" fill="#9ca3af" fontSize="7">Financial</text>
-                      <text x="175" y="50" textAnchor="start" fill="#9ca3af" fontSize="7">People</text>
-                      <text x="175" y="115" textAnchor="start" fill="#9ca3af" fontSize="7">Services</text>
-                      <text x="100" y="150" textAnchor="middle" fill="#9ca3af" fontSize="7">Sales</text>
-                      <text x="22" y="115" textAnchor="end" fill="#9ca3af" fontSize="7">Clients</text>
-                      <text x="22" y="50" textAnchor="end" fill="#9ca3af" fontSize="7">Leadership</text>
+                    <svg viewBox="0 0 240 190" className="w-full">
+                      {/* 10-point radar grid — 3 concentric rings */}
+                      {[1, 0.67, 0.33].map((scale, ring) => {
+                        const cx = 120, cy = 90, r = 65 * scale;
+                        const pts = Array.from({length: 10}, (_, i) => {
+                          const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
+                          return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
+                        }).join(' ');
+                        return <polygon key={ring} points={pts} fill="none" stroke="#374151" strokeWidth="0.5" />;
+                      })}
+                      {/* Axis lines */}
+                      {Array.from({length: 10}, (_, i) => {
+                        const cx = 120, cy = 90, r = 65;
+                        const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
+                        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#374151" strokeWidth="0.3" />;
+                      })}
+                      {/* Your Firm — varied shape */}
+                      {(() => {
+                        const cx = 120, cy = 90, r = 65;
+                        const scores = [0.85, 0.72, 0.78, 0.60, 0.55, 0.82, 0.75, 0.62, 0.88, 0.58];
+                        const pts = scores.map((s, i) => {
+                          const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
+                          return `${cx + r * s * Math.cos(angle)},${cy + r * s * Math.sin(angle)}`;
+                        }).join(' ');
+                        return <polygon points={pts} fill="#1B4F72" fillOpacity="0.35" stroke="#1B4F72" strokeWidth="2" />;
+                      })()}
+                      {/* M&A-Ready benchmark — smoother, rounder */}
+                      {(() => {
+                        const cx = 120, cy = 90, r = 65;
+                        const bench = [0.70, 0.68, 0.66, 0.64, 0.65, 0.68, 0.67, 0.65, 0.70, 0.65];
+                        const pts = bench.map((s, i) => {
+                          const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
+                          return `${cx + r * s * Math.cos(angle)},${cy + r * s * Math.sin(angle)}`;
+                        }).join(' ');
+                        return <polygon points={pts} fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4,3" />;
+                      })()}
+                      {/* 10 labels */}
+                      {[
+                        { name: 'Financial', angle: 0 },
+                        { name: 'People', angle: 1 },
+                        { name: 'Services', angle: 2 },
+                        { name: 'Vision', angle: 3 },
+                        { name: 'Sales', angle: 4 },
+                        { name: 'Clients', angle: 5 },
+                        { name: 'Leadership', angle: 6 },
+                        { name: 'Cost', angle: 7 },
+                        { name: 'Delivery', angle: 8 },
+                        { name: 'Market', angle: 9 },
+                      ].map((label) => {
+                        const cx = 120, cy = 90, r = 78;
+                        const a = (Math.PI * 2 * label.angle / 10) - Math.PI / 2;
+                        const x = cx + r * Math.cos(a);
+                        const y = cy + r * Math.sin(a);
+                        const anchor = x < 110 ? 'end' : x > 130 ? 'start' : 'middle';
+                        return <text key={label.name} x={x} y={y + 3} textAnchor={anchor} fill="#9ca3af" fontSize="6.5">{label.name}</text>;
+                      })}
                     </svg>
-                    <div className="flex items-center justify-center gap-4 mt-0.5">
+                    <div className="flex items-center justify-center gap-4 -mt-1">
                       <div className="flex items-center gap-1"><div className="w-3 h-1 bg-blue-800 rounded"></div><span className="text-gray-500 text-[8px]">Your Firm</span></div>
                       <div className="flex items-center gap-1"><div className="w-3 h-1 border-t border-dashed border-amber-500"></div><span className="text-gray-500 text-[8px]">M&A-Ready</span></div>
                     </div>
@@ -215,40 +267,41 @@ function HeroSection() {
                   </div>
                 </div>
 
-                {/* Bottom row: Heatmap (labelled grid) + Key Insights (data-rich) */}
+                {/* Bottom row: 2-col Heatmap + Key Insights */}
                 <div className="grid grid-cols-12 gap-2 sm:gap-3 mt-2 sm:mt-3">
-                  {/* Labelled heatmap — theme rows x metric columns */}
+                  {/* 2-column heatmap matching the real app layout */}
                   <div className="col-span-7 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
                     <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">47-Metric Maturity Heatmap</p>
-                    <div className="space-y-0.5">
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {[
-                        { theme: 'Financial', cells: [3,2,3,3,2,3] },
+                        { theme: 'Financial Performance', cells: [3,2,3,3,2,3] },
+                        { theme: 'Clients & Relationships', cells: [3,3,2,3] },
                         { theme: 'People', cells: [2,3,1,2,3] },
-                        { theme: 'Services', cells: [3,2,3,2,3] },
-                        { theme: 'Vision', cells: [2,1,2,2,1] },
-                        { theme: 'Sales', cells: [1,2,1,2] },
-                        { theme: 'Clients', cells: [3,3,2,3] },
-                        { theme: 'Leadership', cells: [2,3,2] },
-                        { theme: 'Cost', cells: [2,1,2,1,2,1,2] },
+                        { theme: 'Leadership & Governance', cells: [2,3,2] },
+                        { theme: 'Services & Pricing', cells: [3,2,3,2,3] },
+                        { theme: 'Cost Optimisation', cells: [2,1,2,1,2,1,2] },
+                        { theme: 'Vision & Strategy', cells: [2,1,2,2,1] },
                         { theme: 'Delivery', cells: [3,3,2] },
-                        { theme: 'Market', cells: [2,1,2,2,1] },
+                        { theme: 'Sales & Pipeline', cells: [1,2,1,2] },
+                        { theme: 'Market Profile', cells: [2,1,2,2,1] },
                       ].map((row) => (
-                        <div key={row.theme} className="flex items-center gap-1">
-                          <span className="text-gray-500 text-[6px] w-12 text-right flex-shrink-0">{row.theme}</span>
-                          <div className="flex gap-px flex-1">
+                        <div key={row.theme}>
+                          <p className="text-gray-500 text-[5px] sm:text-[6px] mb-0.5 truncate">{row.theme}</p>
+                          <div className="flex gap-0.5">
                             {row.cells.map((v, i) => (
-                              <div key={i} className="h-2.5 rounded-sm flex-1 min-w-0" style={{
+                              <div key={i} className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-sm flex items-center justify-center text-[5px] font-bold" style={{
                                 backgroundColor: v === 3 ? '#A5D6A7' : v === 2 ? '#BBDEFB' : '#FFE0B2',
-                              }}></div>
+                                color: v === 3 ? '#1E8449' : v === 2 ? '#7D6608' : '#922B21',
+                              }}>{v}</div>
                             ))}
                           </div>
                         </div>
                       ))}
                     </div>
-                    <div className="flex items-center gap-3 mt-1.5">
-                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#FFE0B2'}}></div><span className="text-gray-500 text-[6px]">Foundational</span></div>
-                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#BBDEFB'}}></div><span className="text-gray-500 text-[6px]">Evolving</span></div>
-                      <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#A5D6A7'}}></div><span className="text-gray-500 text-[6px]">Optimised</span></div>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#FFE0B2'}}></div><span className="text-gray-500 text-[5px]">Foundational</span></div>
+                      <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#BBDEFB'}}></div><span className="text-gray-500 text-[5px]">Evolving</span></div>
+                      <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#A5D6A7'}}></div><span className="text-gray-500 text-[5px]">Optimised</span></div>
                     </div>
                   </div>
                   {/* Key Insights — data-rich panel */}
@@ -337,6 +390,7 @@ function PreviewsSection() {
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
               </div>
               <div className="p-4 aspect-[4/3] flex flex-col justify-between">
+                {/* Mini radar + score */}
                 <div className="flex items-center gap-3">
                   <svg viewBox="0 0 80 80" className="w-16 h-16 flex-shrink-0">
                     <circle cx="40" cy="40" r="30" fill="none" stroke="#374151" strokeWidth="5" />
@@ -349,6 +403,7 @@ function PreviewsSection() {
                     <p className="text-gray-400 text-[10px]">Top 25% of firms assessed</p>
                   </div>
                 </div>
+                {/* Theme scores */}
                 <div className="space-y-1.5 mt-3">
                   {[
                     { name: 'Financial Performance', pct: 85, color: '#22c55e' },
@@ -434,6 +489,7 @@ function PreviewsSection() {
               <div className="p-4 aspect-[4/3] flex flex-col">
                 <p className="text-white text-xs font-semibold mb-2">Assessment Framework</p>
                 <div className="flex gap-2 flex-1">
+                  {/* Themes sidebar */}
                   <div className="w-1/3 space-y-1">
                     {['Financial', 'People', 'Services', 'Vision', 'Sales', 'Clients', 'Leadership', 'Cost', 'Delivery', 'Market'].map((t, i) => (
                       <div key={t} className={`text-[7px] px-1.5 py-1 rounded ${i === 0 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'text-gray-500 hover:bg-gray-800'}`}>
@@ -441,6 +497,7 @@ function PreviewsSection() {
                       </div>
                     ))}
                   </div>
+                  {/* Metrics */}
                   <div className="w-2/3 space-y-1.5">
                     {[
                       { name: 'Revenue Growth Rate', level: 3 },
@@ -585,7 +642,6 @@ function StatsBar() {
 
 // ─── Logo Carousel ───────────────────────────────────────────────
 function LogoCarousel() {
-  // Placeholder logos — replace with real client logos
   const logos = [
     'Strategy Partners', 'Meridian Advisory', 'Apex Consulting',
     'Pinnacle Group', 'Horizon Partners', 'Summit Associates',
