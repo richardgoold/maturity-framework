@@ -1,0 +1,48 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Light gray background -->
+  <rect width="800" height="500" fill="#f3f4f6"/>
+
+  <!-- Border -->
+  <rect x="20" y="20" width="760" height="460" fill="none" stroke="#d1d5db" stroke-width="2" rx="8"/>
+
+  <!-- Benchmark comparison bars (left) -->
+  <g transform="translate(100, 140)">
+    <!-- Bar 1 -->
+    <text x="0" y="15" font-family="Arial, sans-serif" font-size="11" fill="#6b7280">Financial</text>
+    <rect x="0" y="20" width="120" height="12" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+    <rect x="0" y="20" width="84" height="12" fill="#2563eb"/>
+    <line x1="70" y1="15" x2="70" y2="35" stroke="#f2a71b" stroke-width="2"/>
+    <!-- Bar 2 -->
+    <text x="0" y="55" font-family="Arial, sans-serif" font-size="11" fill="#6b7280">People</text>
+    <rect x="0" y="60" width="120" height="12" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+    <rect x="0" y="60" width="82" height="12" fill="#2563eb"/>
+    <line x1="68" y1="55" x2="68" y2="75" stroke="#f2a71b" stroke-width="2"/>
+
+    <!-- Bar 3 -->
+    <text x="0" y="95" font-family="Arial, sans-serif" font-size="11" fill="#6b7280">Services</text>
+    <rect x="0" y="100" width="120" height="12" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+    <rect x="0" y="100" width="66" height="12" fill="#2563eb"/>
+    <line x1="70" y1="95" x2="70" y2="115" stroke="#f2a71b" stroke-width="2"/>
+  </g>
+
+  <!-- Target icon (right) -->
+  <g transform="translate(550, 180)">
+    <!-- Outer circle -->
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#d1d5db" stroke-width="2"/>
+    <!-- Middle circle -->
+    <circle cx="0" cy="0" r="24" fill="none" stroke="#d1d5db" stroke-width="2"/>
+    <!-- Inner circle (filled) -->
+    <circle cx="0" cy="0" r="12" fill="#f2a71b"/>
+    <!-- Crosshairs -->
+    <line x1="-40" y1="0" x2="40" y2="0" stroke="#f2a71b" stroke-width="1.5" opacity="0.5"/>
+    <line x1="0" y1="-40" x2="0" y2="40" stroke="#f2a71b" stroke-width="1.5" opacity="0.5"/>
+  </g>
+
+  <!-- Label text -->
+  <text x="400" y="310" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#374151">
+    Gap Analysis & Benchmarks
+  </text>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#6b7280">
+    Compare firm performance against M&A-Ready benchmarks
+  </text>
+</svg>
