@@ -7,4 +7,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables. Check .env file.');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: false,
+    // Bypass navigator.locks to prevent stuck-lock AbortErrors (safe for single-tab app)
+    lock: (name, acquireTimeout, fn) => fn(),
+  }
+});
