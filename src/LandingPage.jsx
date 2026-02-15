@@ -814,6 +814,48 @@ function ContactSection() {
   );
 }
 
+// ─── Logo Carousel ──────────────────────────────────────────────────────────
+function LogoCarousel() {
+  const logos = [
+    "Moorhouse", "Project One", "Public First", "Roq",
+    "RQC Group", "The Institute of Clever Stuff",
+    "WeShape", "Wondrous", "YLD"
+  ];
+  const doubled = [...logos, ...logos];
+  return (
+    <section className="py-10 bg-white overflow-hidden border-t border-gray-100">
+      <p className="text-center text-xs uppercase tracking-widest text-gray-400 mb-6">
+        Trusted by leading professional services firms
+      </p>
+      <div className="relative w-full">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {doubled.map((name, i) => (
+            <span
+              key={i}
+              className="mx-8 inline-flex items-center text-lg font-semibold tracking-tight text-gray-300 hover:text-amber-600 transition-colors duration-300 cursor-default select-none"
+              style={{ fontFamily: "'Inter', system-ui, sans-serif", minWidth: 'max-content' }}
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+    </section>
+  );
+}
+
 // ─── Footer ──────────────────────────────────────────────────────
 function Footer() {
   return (
@@ -856,6 +898,7 @@ export default function LandingPage() {
       <PreviewsSection />
       <HowItWorksSection />
       <StatsBar />
+      <LogoCarousel />
       <FeaturesSection />
       <ContactSection />
       <Footer />
