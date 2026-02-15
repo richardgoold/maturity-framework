@@ -3780,9 +3780,11 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
         </div>
       )}
 
-        {tab === "comparison" && (
-          !isPremium ? <UpgradePrompt feature="comparison" onUpgrade={openContactModal} /> :
-          <>
+        {tab === "comparison" && !isPremium && (
+          <UpgradePrompt feature="comparison" onUpgrade={openContactModal} />
+        )}
+
+        {tab === "comparison" && isPremium && (
         <div className="space-y-6">
           {firmAssess.length < 2 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
@@ -3830,7 +3832,6 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
             </>
           )}
           </div>
-          </>
         )}
         </div>
     </div>
