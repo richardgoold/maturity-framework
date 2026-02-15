@@ -1,7 +1,10 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell , LineChart, Line, CartesianGrid, Legend, ReferenceLine } from "recharts";
-import { Building2, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut } from "lucide-react";
+import { Building2, Lock, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut } from "lucide-react";
 import { useAuth } from "./AuthContext";
+import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
+import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
+import { ContactModalProvider, useContactModal } from "./ContactModal";
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
 // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
@@ -3060,6 +3063,9 @@ function LandingPage({ onGetStarted }) {
   );
 }
 function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem }) {
+  const { isPremium } = useAuth();
+  const { openContactModal } = useContactModal();
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
     const [sortBy, setSortBy] = useState("date");
   const [name, setName] = useState("");
@@ -3078,7 +3084,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <h1 className="text-2xl font-bold text-gray-800">Firms</h1>
           <p className="text-sm text-gray-500 mt-1">Select a firm to assess or create a new one</p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
+        <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxFirms; if (firms.length >= limit) { setShowLimitModal(true); return; } setShowCreate(true); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
           <Plus size={16} /> New Firm
         </button>
       </div>
@@ -3100,7 +3106,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
       {firms.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
           <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">No firms yet</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">Welcome to GrowthLens</h3>
           <p className="text-gray-500 mb-6">Create your first firm to begin an M&A readiness assessment.</p>
           <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
             <Plus size={16} /> Create Your First Firm
@@ -3178,11 +3184,15 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           </div>
         </details>
       )}
+      <LimitModal isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} onUpgrade={openContactModal} type="firm" />
     </div>
   );
 }
 
 function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack }) {
+  const { isPremium } = useAuth();
+  const { openContactModal } = useContactModal();
+  const [showAssessLimitModal, setShowAssessLimitModal] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [onboardingFirmId, setOnboardingFirmId] = useState(null);
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -3204,7 +3214,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <button onClick={() => setShowTemplates(!showTemplates)} className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
             <Copy size={16} /> From Template
           </button>
-          <button onClick={() => setOnboardingFirmId(firm.id)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
+          <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxAssessmentsPerFirm; if (firmAssessments.length >= limit) { setShowAssessLimitModal(true); return; } setOnboardingFirmId(firm.id); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
             <Plus size={16} /> New Assessment
           </button>
         </div>
@@ -3290,6 +3300,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           })}
         </div>
       )}
+      <LimitModal isOpen={showAssessLimitModal} onClose={() => setShowAssessLimitModal(false)} onUpgrade={openContactModal} type="assessment" />
     </div>
   );
 }
@@ -3688,6 +3699,8 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
 
 
 function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack }) {
+  const { isPremium } = useAuth();
+  const { openContactModal } = useContactModal();
   const [tab, setTab] = useState("benchmark");
   const firmAssess = Object.values(assessments).filter(a => a.firmId === firmId).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   const assessData = firmAssess.map(a => ({
@@ -3714,7 +3727,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
 
       <div className="flex gap-2">
         <button onClick={() => setTab("benchmark")} className={tab === "benchmark" ? actTab : offTab}>Benchmark Position</button>
-        <button onClick={() => setTab("comparison")} className={tab === "comparison" ? actTab : offTab}>Assessment Comparison</button>
+        <button onClick={() => setTab("comparison")} className={tab === "comparison" ? actTab : offTab}>{!isPremium && <Lock className="w-3 h-3 mr-1 inline opacity-50" />}Assessment Comparison</button>
       </div>
 
       {tab === "benchmark" && latest && (
@@ -3730,7 +3743,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 90 ? "bg-green-100 text-green-700" : bc.readiness >= 70 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
                   <p className="text-xs mt-2" style={{ color: bc.readiness >= 90 ? "#1E8449" : bc.readiness >= 70 ? "#B7950B" : "#DC2626" }}>{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
                 </div>
-              ))}
+              )))}
             </div>
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -3767,7 +3780,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
         </div>
       )}
 
-      {tab === "comparison" && (
+      {tab === "comparison" && (!isPremium ? <UpgradePrompt feature="comparison" onUpgrade={openContactModal} /> : (
         <div className="space-y-6">
           {firmAssess.length < 2 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
@@ -3870,6 +3883,8 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
 }
 
 function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare, onGuidance }) {
+  const { isPremium } = useAuth();
+  const { openContactModal } = useContactModal();
   const [dashBannerDismissed, setDashBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_dash_banner') === '1');
   const [activeTab, setActiveTab] = useState("scores");
   const [leadInfo, setLeadInfo] = useState(() => JSON.parse(localStorage.getItem('gdmf_lead') || 'null'));
@@ -3919,7 +3934,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
         {[["scores","Scores","Overall maturity scores by theme"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["export","Export","Export assessment data"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"]].map(([id,label,tip]) => (
             <button title={tip} key={id} onClick={() => setActiveTab(id)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"}`}>{label}</button>
+              className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"} ${!isPremium && GATED_TABS.includes(id) ? "opacity-60" : ""}`}>{label}{!isPremium && GATED_TABS.includes(id) && <Lock className="w-3 h-3 ml-1 inline opacity-50" />}</button>
         ))}
       </div>
       {/* Dashboard Guidance */}
@@ -4042,18 +4057,20 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
             </div>
           );
         })()}
+        {!isPremium && <UpgradeBanner bannerKey="scores" onUpgrade={openContactModal} />}
       </div>
 
       {/* Gap Analysis */}
-      <div id="dash-gaps" style={{ display: activeTab === "gaps" ? "block" : "none" }} className="scroll-mt-16"><GapAnalysisPanel themeGaps={scores.themeGaps} /></div>
+      <div id="dash-gaps" style={{ display: activeTab === "gaps" ? "block" : "none" }} className="scroll-mt-16"><GapAnalysisPanel themeGaps={scores.themeGaps} />{!isPremium && <UpgradeBanner bannerKey="gaps" onUpgrade={openContactModal} />}</div>
 
       {/* Trend Analysis */}
       <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><TrendAnalysisPanel firmAssessments={firmAssessments} /></div>
       {/* Score Change History */}
       <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} /></div>
-      <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16"><ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
-      <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16"><ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/></div>
-      {activeTab === "export" && <>
+      <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16">{isPremium ? <ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/> : <UpgradePrompt feature="roadmap" onUpgrade={openContactModal} />}</div>
+      <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16">{isPremium ? <ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/> : <UpgradePrompt feature="scenario" onUpgrade={openContactModal} />}</div>
+      {activeTab === "export" && !isPremium && <UpgradePrompt feature="export" onUpgrade={openContactModal} />}
+        {activeTab === "export" && isPremium && <>
         {!leadInfo ? (
           <div style={{background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.25)", borderRadius: "12px", padding: "24px", marginBottom: "16px", textAlign: "center"}}>
             <h3 style={{fontSize: "1.1rem", fontWeight: "700", color: "#f5f5f5", margin: "0 0 4px"}}>Get Your Assessment Report</h3>
@@ -4091,7 +4108,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       <div className="mb-4"><div style={{ display: activeTab === "charts" ? "block" : "none" }}><StrengthsWeaknesses ratings={assessment.ratings} /></div></div>
       <div id="dash-heatmap" style={{ display: activeTab === "heatmap" ? "block" : "none" }} className="mb-4 scroll-mt-16"><HeatmapGrid ratings={assessment.ratings} /></div>
-      <div id="dash-export" style={{ display: activeTab === "export" ? "block" : "none" }} className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
+      <div id="dash-export" style={{ display: activeTab === "export" && isPremium ? "block" : "none" }} className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
     </div>
   );
 }
@@ -4311,7 +4328,7 @@ const GuidancePage = ({ onBack }) => {
 };
 
 export default function App() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, isPremium, profile } = useAuth();
   const [state, setState] = useState(() => {
     return getInitialState();
   });
@@ -4531,6 +4548,7 @@ export default function App() {
   }, []);
 
   return (
+    <ContactModalProvider>
     <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {confirmDialog && <ConfirmDialog {...confirmDialog} />}
@@ -4555,7 +4573,8 @@ export default function App() {
             <h1 className="text-sm font-bold text-white leading-tight cursor-pointer hover:text-[#f2a71b] transition-colors" onClick={() => { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
             <p className="text-xs text-gray-400">M&A Due Diligence Assessment Platform</p>
           {user && (
-            <button onClick={() => signOut()} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition" title="Sign out">
+            {isPremium ? <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded-full">Premium</span> : <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-500 rounded-full">Free</span>}
+              <button onClick={() => signOut()} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition" title="Sign out">
               <LogOut className="w-4 h-4" />
               <span className="hidden sm:inline">Sign Out</span>
             </button>
@@ -4693,5 +4712,6 @@ export default function App() {
       </footer>
 </main>
     </div>
+    </ContactModalProvider>
   );
 }
