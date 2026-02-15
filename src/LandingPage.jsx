@@ -103,13 +103,13 @@ function HeroSection() {
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
-            Assess your firm across the 10 dimensions that drive sustainable growth in professional services.
-            Benchmark against industry standards and get a clear roadmap to maximise value.
+            Baseline your firm across the 10 dimensions that drive sustainable growth in professional services.
+            Build a blueprint for improvement and navigate towards maximum value.
           </p>
 
           {/* Tagline */}
           <p className="text-xl sm:text-2xl font-extrabold text-amber-400 tracking-[0.2em] uppercase mb-10">
-            Measure. Benchmark. Maximise.
+            Baseline. Blueprint. Navigate.
           </p>
 
           {/* CTA */}
@@ -428,8 +428,7 @@ function PreviewsSection() {
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              See exactly where your firm stands with scores across all 10 growth dimensions,
-              benchmarked against industry standards
+              See exactly where your firm stands with scores across all 10 growth dimensions, benchmarked to industry standards
             </p>
           </div>
 
@@ -474,8 +473,7 @@ function PreviewsSection() {
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              Get a prioritised improvement roadmap showing exactly which gaps to close first
-              for the biggest impact on your firm's value
+              A prioritised improvement roadmap showing which gaps to close first for the biggest impact
             </p>
           </div>
 
@@ -527,8 +525,7 @@ function PreviewsSection() {
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              A structured framework covering 10 themes and 47 growth metrics, each with clear
-              maturity level definitions and guidance
+              10 themes and 47 growth metrics with clear maturity level definitions and practical guidance
             </p>
           </div>
         </div>
@@ -541,9 +538,9 @@ function PreviewsSection() {
 function HowItWorksSection() {
   const steps = [
     { num: 1, title: 'Sign up', desc: 'Create your free account in 30 seconds', icon: Users },
-    { num: 2, title: 'Assess', desc: 'Rate your firm across 10 themes and 47 metrics', icon: Target },
-    { num: 3, title: 'Benchmark', desc: 'Compare against M&A-ready standards', icon: BarChart3 },
-    { num: 4, title: 'Act', desc: 'Get a prioritised roadmap to maximise value', icon: TrendingUp },
+    { num: 2, title: 'Baseline', desc: 'Assess your firm across 10 themes and 47 metrics', icon: Target },
+    { num: 3, title: 'Blueprint', desc: 'Get a prioritised roadmap benchmarked against M&A-ready standards', icon: BarChart3 },
+    { num: 4, title: 'Navigate', desc: 'Expert guidance to close gaps and maximise value', icon: TrendingUp },
   ];
 
   return (
@@ -551,21 +548,21 @@ function HowItWorksSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">How it works</h2>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto">From sign-up to strategic action in four simple steps</p>
+          <p className="text-lg text-gray-500 max-w-xl mx-auto">From sign-up to strategic action in four steps</p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-0">
           {steps.map((step, i) => (
             <div key={step.num} className="flex items-center gap-0 flex-1">
               <div className="flex flex-col items-center text-center flex-1">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-amber-50 border-2 border-amber-200 rounded-2xl flex items-center justify-center mb-3 shadow-sm">
-                  <step.icon className="w-7 h-7 sm:w-8 sm:h-8 text-amber-600" />
-                </div>
                 <div className="inline-flex items-center justify-center w-8 h-8 bg-amber-400 text-white text-sm font-bold rounded-full mb-3 shadow-sm">
                   {step.num}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">{step.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed max-w-[180px]">{step.desc}</p>
+                <p className="text-gray-500 text-sm leading-relaxed max-w-[200px] mb-4">{step.desc}</p>
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-amber-50 border-2 border-amber-200 rounded-2xl flex items-center justify-center shadow-sm">
+                  <step.icon className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600" />
+                </div>
               </div>
               {/* Arrow connector */}
               {i < steps.length - 1 && (
@@ -851,7 +848,7 @@ function LogoCarousel() {
   return (
     <section className="py-10 bg-white overflow-hidden border-t border-gray-100">
       <p className="text-center text-xs uppercase tracking-widest text-gray-400 mb-6">
-        Trusted by leading professional services firms
+        Trusted by leading professional services firms  ·  Includes
       </p>
       <div className="relative w-full">
         <div className="flex animate-marquee whitespace-nowrap items-center">
