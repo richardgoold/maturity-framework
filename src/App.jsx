@@ -4351,6 +4351,7 @@ export default function App() {
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showUpgradeFor, setShowUpgradeFor] = useState(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   useEffect(() => { saveState(state); }, [state]);
   useEffect(() => { localStorage.setItem('gdmf_deleted', JSON.stringify(recentlyDeleted)); }, [recentlyDeleted]);
   useEffect(() => { setRecentlyDeleted(rd => rd.filter(item => Date.now() - item.timestamp < 30 * 24 * 60 * 60 * 1000)); }, []);
@@ -4593,11 +4594,34 @@ export default function App() {
             <h1 className="text-sm font-bold text-white leading-tight cursor-pointer hover:text-[#f2a71b] transition-colors" onClick={() => { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
             <p className="text-xs text-gray-400">M&A Due Diligence Assessment Platform</p>
           {user && (<>
-            {isPremium ? <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded-full">Premium</span> : <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-500 rounded-full">Free</span>}
-              <button onClick={() => signOut()} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition" title="Sign out">
-              <LogOut className="w-4 h-4" />
-              <span className="hidden sm:inline">Sign Out</span>
-            </button>
+            <div className="relative">
+              <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors">
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${isPremium ? 'bg-amber-100 text-amber-800' : 'bg-gray-200 text-gray-600'}`}>{isPremium ? 'Premium' : 'Free'}</span>
+                <ChevronDown className="w-3 h-3 text-gray-400" />
+              </button>
+              {showProfileMenu && (
+                <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowProfileMenu(false)} />
+                <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                  <div className="px-4 py-2 border-b border-gray-100">
+                    <p className="text-sm font-medium text-gray-800">{profile?.full_name || 'User'}</p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
+                  </div>
+                  <div className="px-4 py-2 border-b border-gray-100">
+                    <p className="text-xs text-gray-400 uppercase tracking-wide">Current Plan</p>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-sm font-medium text-gray-700">{isPremium ? 'Premium' : 'Free Plan'}</span>
+                      {!isPremium && <button onClick={() => { setShowProfileMenu(false); openContactModal({ subject: 'Premium Upgrade Enquiry' }); }} className="text-xs text-amber-600 hover:text-amber-700 font-medium">Upgrade</button>}
+                    </div>
+                  </div>
+                  <button onClick={() => { setShowProfileMenu(false); signOut(); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+                </>
+              )}
+            </div>
           </>)}
           </div>
         </div>
