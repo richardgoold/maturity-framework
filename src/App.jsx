@@ -3195,6 +3195,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   const [showAssessLimitModal, setShowAssessLimitModal] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [onboardingFirmId, setOnboardingFirmId] = useState(null);
+  const [showUpgradeFor, setShowUpgradeFor] = useState(null);
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const handleCreateWithTemplate = (templateRatings) => {
@@ -4499,9 +4500,9 @@ export default function App() {
   const navItems = [
     { id: "firms", label: "Firms", icon: Building2 },
     { id: "assess", label: "Assess", icon: ClipboardCheck, disabled: !selectedAssessmentId },
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId },
-    { id: "guidance", label: "Guidance", icon: BookOpen },
-    { id: "connect", label: "Let's Talk", icon: Handshake },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId, locked: !isPremium },
+    { id: "guidance", label: "Guidance", icon: BookOpen, locked: !isPremium },
+    { id: "connect", label: "Let's Talk", icon: MessageSquare },
   ];
 
 
@@ -4557,6 +4558,20 @@ export default function App() {
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {confirmDialog && <ConfirmDialog {...confirmDialog} />}
       {undoToast && <UndoToast message={undoToast.message} seconds={8} onUndo={undoToast.onUndo} onExpire={undoToast.onExpire} />}
+      {showUpgradeFor && (
+        <>
+          <div className="fixed inset-0 bg-black/50 z-50" onClick={() => setShowUpgradeFor(null)} />
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-[#2a2a2a] border border-gray-700 rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center">
+            <div className="w-14 h-14 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+              <Lock size={24} className="text-[#f2a71b]" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">{showUpgradeFor} is a Pro feature</h3>
+            <p className="text-sm text-gray-400 mb-6">Upgrade to GrowthLens Pro to unlock full dashboards, guidance, and detailed reporting.</p>
+            <button onClick={() => { setShowUpgradeFor(null); setView("connect"); }} className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-colors" style={{background: "#f2a71b"}}>Contact Us to Upgrade</button>
+            <button onClick={() => setShowUpgradeFor(null)} className="w-full py-2 mt-2 rounded-lg text-sm text-gray-400 hover:text-white transition-colors">Maybe later</button>
+          </div>
+        </>
+      )}
       {view === "firms" && (
         <div className="fixed bottom-4 right-4 z-40 flex gap-2">
           <button onClick={exportData} className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 text-sm text-gray-700 transition-colors" title="Export backup">
@@ -4587,13 +4602,15 @@ export default function App() {
         </div>
         <nav className="hidden md:flex flex-wrap items-center gap-1">
           {navItems.map(n => (
-            <button key={n.id} disabled={n.disabled} onClick={() => {
+            <button key={n.id} disabled={n.disabled && !n.locked} onClick={() => {
+              if (n.locked) { setShowUpgradeFor(n.label); return; }
               if (n.id === "dashboard") { if (selectedAssessmentId) setDashboardAssessmentId(selectedAssessmentId); }
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
-                if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
-                setView(n.id);
-            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-[#f2a71b] font-bold border-b-2 border-[#f2a71b]" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
-              <n.icon size={14} /> <span className="hidden sm:inline">{n.label}</span>
+              setView(n.id);
+            }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${view === n.id ? "bg-amber-900/10 text-[#f2a71b] font-bold border-b-2 border-[#f2a71b]" : n.locked ? "text-gray-500 cursor-not-allowed opacity-60" : n.disabled ? "text-gray-300 cursor-not-allowed" : "text-[#c5c5c5] hover:bg-[rgba(255,255,255,0.08)]"}`}>
+              {n.locked ? <Lock size={12} className="text-gray-500" /> : <n.icon size={14} />}
+              <span className="hidden sm:inline">{n.label}</span>
+              {n.locked && <span className="text-[10px] text-amber-500/70 font-normal ml-0.5">PRO</span>}
             </button>
           ))}
         </nav>
@@ -4604,9 +4621,13 @@ export default function App() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#1a1a1a] border-t border-white/10 px-4 py-2 flex flex-col gap-1">
           {navItems.map(n => (
-            <button key={n.id} disabled={n.disabled} onClick={() => { setView(n.id); setMobileMenuOpen(false); }} className="flex items-center gap-2 w-full px-3 py-3 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/10 text-left">
-              <n.icon size={18} />
+            <button key={n.id} disabled={n.disabled && !n.locked} onClick={() => {
+              if (n.locked) { setShowUpgradeFor(n.label); return; }
+              setView(n.id); setMobileMenuOpen(false);
+            }} className={`flex items-center gap-2 w-full px-3 py-3 rounded-lg text-sm font-medium text-left transition-colors ${n.locked ? "text-gray-500 opacity-60" : "text-gray-300 hover:bg-white/10"}`}>
+              {n.locked ? <Lock size={16} className="text-gray-500" /> : <n.icon size={18} />}
               {n.label}
+              {n.locked && <span className="text-[10px] text-amber-500/70 font-normal ml-auto">PRO</span>}
             </button>
           ))}
         </div>
