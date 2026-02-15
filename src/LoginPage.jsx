@@ -18,10 +18,23 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { error: signInError } = await signIn({
-      email: form.email,
-      password: form.password,
-    });
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Login timed out. Please try again.')), 15000)
+    );
+
+    let result;
+    try {
+      result = await Promise.race([
+        signIn({ email: form.email, password: form.password }),
+        timeoutPromise,
+      ]);
+    } catch (err) {
+      setLoading(false);
+      setError(err.message || 'Login failed. Please try again.');
+      return;
+    }
+
+    const { error: signInError } = result || {};
 
     setLoading(false);
 
