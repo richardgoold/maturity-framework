@@ -77,40 +77,43 @@ function NavBar() {
 // ─── Hero Section ────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-gradient-to-b from-gray-50 via-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="mb-8 inline-block">
-            <div className="bg-gray-900 px-8 py-3 rounded-lg shadow-lg">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-amber-400">
-                Professional Services Growth Platform
+          <div className="mb-10 inline-block">
+            <div className="bg-gray-900 px-10 py-5 sm:px-14 sm:py-6 rounded-2xl shadow-2xl border border-gray-700/50">
+              <span className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-amber-400">
+                Professional Services
+              </span>
+              <br />
+              <span className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-amber-400">
+                Growth Platform
               </span>
             </div>
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-2">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-3">
             See what acquirers and investors see
           </h1>
-          <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-amber-500 leading-tight mb-6">
+          <p className="text-4xl sm:text-5xl lg:text-6xl font-black text-amber-400 leading-tight mb-8">
             before they do.
           </p>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
             Assess your firm across the 10 dimensions that drive sustainable growth in professional services.
-            Whether you're scaling for the long term or preparing for a capital event, benchmark against
-            industry standards and get a clear roadmap to maximise value.
+            Benchmark against industry standards and get a clear roadmap to maximise value.
           </p>
 
           {/* Tagline */}
-          <p className="text-xl sm:text-2xl font-bold text-amber-600 tracking-widest uppercase mb-8">
+          <p className="text-xl sm:text-2xl font-extrabold text-amber-400 tracking-[0.2em] uppercase mb-10">
             Measure. Benchmark. Maximise.
           </p>
 
           {/* CTA */}
-          <Link to="/signup" className="inline-flex items-center px-8 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition shadow-lg shadow-amber-200/50 gap-2">
+          <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
             Sign Up Free
             <ArrowRight className="w-5 h-5" />
           </Link>
@@ -368,19 +371,19 @@ function PreviewsSection() {
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Deep insights across every dimension of your firm
+        <div className="text-center mb-14">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 max-w-2xl mx-auto leading-tight">
+            Deep insights across every<br className="hidden sm:block" /> dimension of your firm
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
             From structured assessments to actionable roadmaps — understand exactly where your firm
             excels and where to focus for maximum impact.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {/* Card 1: Benchmark Dashboard */}
-          <div className="group">
+          <div className="group flex flex-col">
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
               <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -424,14 +427,14 @@ function PreviewsSection() {
                 <p className="text-gray-500 text-[9px] mt-2">+ 5 more themes assessed</p>
               </div>
             </div>
-            <p className="mt-4 text-center text-gray-600 text-sm leading-relaxed">
+            <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
               See exactly where your firm stands with scores across all 10 growth dimensions,
               benchmarked against industry standards
             </p>
           </div>
 
           {/* Card 2: Improvement Roadmap */}
-          <div className="group">
+          <div className="group flex flex-col">
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
               <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -470,14 +473,14 @@ function PreviewsSection() {
                 </div>
               </div>
             </div>
-            <p className="mt-4 text-center text-gray-600 text-sm leading-relaxed">
+            <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
               Get a prioritised improvement roadmap showing exactly which gaps to close first
               for the biggest impact on your firm's value
             </p>
           </div>
 
           {/* Card 3: Assessment Framework */}
-          <div className="group">
+          <div className="group flex flex-col">
             <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
               <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -523,7 +526,7 @@ function PreviewsSection() {
                 <p className="text-gray-500 text-[8px] mt-1.5 text-center">6 of 47 metrics shown</p>
               </div>
             </div>
-            <p className="mt-4 text-center text-gray-600 text-sm leading-relaxed">
+            <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
               A structured framework covering 10 themes and 47 growth metrics, each with clear
               maturity level definitions and guidance
             </p>
@@ -544,27 +547,30 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="py-12 sm:py-16 bg-gray-50">
+    <section id="how-it-works" className="py-16 sm:py-24 bg-white border-t border-gray-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-10">How it works</h2>
+        <div className="text-center mb-14">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">How it works</h2>
+          <p className="text-lg text-gray-500 max-w-xl mx-auto">From sign-up to strategic action in four simple steps</p>
+        </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-0">
           {steps.map((step, i) => (
             <div key={step.num} className="flex items-center gap-0 flex-1">
               <div className="flex flex-col items-center text-center flex-1">
-                <div className="w-14 h-14 bg-amber-50 border-2 border-amber-200 rounded-xl flex items-center justify-center mb-2">
-                  <step.icon className="w-6 h-6 text-amber-600" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-amber-50 border-2 border-amber-200 rounded-2xl flex items-center justify-center mb-3 shadow-sm">
+                  <step.icon className="w-7 h-7 sm:w-8 sm:h-8 text-amber-600" />
                 </div>
-                <div className="inline-flex items-center justify-center w-6 h-6 bg-amber-400 text-white text-xs font-bold rounded-full mb-2">
+                <div className="inline-flex items-center justify-center w-8 h-8 bg-amber-400 text-white text-sm font-bold rounded-full mb-3 shadow-sm">
                   {step.num}
                 </div>
-                <h3 className="text-sm font-bold text-gray-900 mb-1">{step.title}</h3>
-                <p className="text-gray-600 text-xs leading-relaxed max-w-[150px]">{step.desc}</p>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">{step.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed max-w-[180px]">{step.desc}</p>
               </div>
               {/* Arrow connector */}
               {i < steps.length - 1 && (
-                <div className="hidden sm:flex items-center px-2">
-                  <ChevronRight className="w-5 h-5 text-amber-300" />
+                <div className="hidden sm:flex items-center px-3">
+                  <ChevronRight className="w-6 h-6 text-amber-400" />
                 </div>
               )}
             </div>
@@ -645,11 +651,11 @@ function FeaturesSection() {
   return (
     <section id="features" className="py-16 sm:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-14">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
             Start free. Upgrade when you're ready.
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
             The free tier gives you everything you need to understand your firm's strengths and growth opportunities.
             Premium unlocks the tools to accelerate improvement.
           </p>
@@ -701,6 +707,20 @@ function FeaturesSection() {
                 'Detailed Assessment reports',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm">{item}</span>
+                </li>
+              ))}
+              <li className="pt-3 border-t border-amber-100">
+                <span className="text-xs font-semibold text-amber-600 uppercase tracking-wide">Advisory Services</span>
+              </li>
+              {[
+                'Growth Blueprint — personalised improvement plan',
+                'Expert coaching & strategic mentoring',
+                'Quarterly progress reviews & recalibration',
+                'Guidance through key milestones & decisions',
+              ].map((item, i) => (
+                <li key={`adv-${i}`} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
                   <span className="text-gray-700 text-sm">{item}</span>
                 </li>
@@ -861,36 +881,93 @@ function LogoCarousel() {
     </section>
   );
 }
-// ─── Footer ──────────────────────────────────────────────────────
-function Footer() {
+// ─── Policy Modal ────────────────────────────────────────────────
+function PolicyModal({ isOpen, onClose, title, children }) {
+  if (!isOpen) return null;
   return (
-    <footer className="bg-gray-900 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-amber-400 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-bold text-white">GrowthLens</span>
-          </div>
-
-          {/* Links */}
-          <div className="flex items-center gap-6 text-sm text-gray-400">
-            <a href="#" className="hover:text-white transition">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition">Terms of Use</a>
-            <a href="https://www.linkedin.com/in/richardgooldofficial/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
-              <Linkedin className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* Copyright */}
-          <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} GrowthLens. All rights reserved.
-          </p>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+          <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition text-gray-400 hover:text-gray-600">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <div className="px-6 py-6 text-sm text-gray-600 leading-relaxed space-y-4">
+          {children}
         </div>
       </div>
-    </footer>
+    </div>
+  );
+}
+
+// ─── Footer ──────────────────────────────────────────────────────
+function Footer() {
+  const [modal, setModal] = useState(null);
+
+  return (
+    <>
+      <footer className="bg-gray-900 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 bg-amber-400 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-lg font-bold text-white">GrowthLens</span>
+            </div>
+
+            {/* Links */}
+            <div className="flex items-center gap-6 text-sm text-gray-400">
+              <button onClick={() => setModal('privacy')} className="hover:text-white transition">Privacy Policy</button>
+              <button onClick={() => setModal('terms')} className="hover:text-white transition">Terms of Use</button>
+              <a href="https://www.linkedin.com/in/richardgooldofficial/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+                <Linkedin className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Copyright */}
+            <p className="text-sm text-gray-500">
+              &copy; {new Date().getFullYear()} GrowthLens. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      <PolicyModal isOpen={modal === 'privacy'} onClose={() => setModal(null)} title="Privacy Policy">
+        <p><strong>Last updated:</strong> February 2026</p>
+        <p>GrowthLens (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your personal information when you use the GrowthLens platform.</p>
+        <p><strong>Information We Collect</strong></p>
+        <p>We collect information you provide directly, including your name, email address, and firm details when you create an account. We also collect assessment data you enter into the platform, and usage data such as pages visited and features used.</p>
+        <p><strong>How We Use Your Information</strong></p>
+        <p>Your information is used to provide and improve the GrowthLens service, generate assessment reports and benchmarks, communicate with you about your account, and analyse platform usage to enhance the user experience.</p>
+        <p><strong>Data Security</strong></p>
+        <p>We implement industry-standard security measures to protect your data. Assessment data is encrypted in transit and at rest. We do not sell or share your personal information with third parties for marketing purposes.</p>
+        <p><strong>Data Retention</strong></p>
+        <p>Your account data is retained for as long as your account is active. You may request deletion of your account and associated data at any time by contacting us.</p>
+        <p><strong>Contact</strong></p>
+        <p>For questions about this privacy policy, please contact us at privacy@growthlens.app.</p>
+      </PolicyModal>
+
+      <PolicyModal isOpen={modal === 'terms'} onClose={() => setModal(null)} title="Terms of Use">
+        <p><strong>Last updated:</strong> February 2026</p>
+        <p>These terms govern your use of the GrowthLens platform. By accessing or using GrowthLens, you agree to be bound by these terms.</p>
+        <p><strong>Service Description</strong></p>
+        <p>GrowthLens provides a maturity assessment framework for professional services firms. The platform enables firms to assess their growth readiness across multiple dimensions and benchmark against industry standards.</p>
+        <p><strong>Account Responsibilities</strong></p>
+        <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to provide accurate and complete information when creating your account.</p>
+        <p><strong>Acceptable Use</strong></p>
+        <p>You agree to use GrowthLens only for lawful purposes and in accordance with these terms. You may not use the platform to transmit harmful content or attempt to gain unauthorised access to the service.</p>
+        <p><strong>Intellectual Property</strong></p>
+        <p>The GrowthLens framework, including the assessment methodology, benchmark data, and associated content, is proprietary. Your assessment data remains your property.</p>
+        <p><strong>Disclaimer</strong></p>
+        <p>GrowthLens provides assessment tools and benchmarks for informational purposes. The platform does not constitute professional financial, legal, or M&A advisory services. Results should be considered alongside professional advice.</p>
+        <p><strong>Contact</strong></p>
+        <p>For questions about these terms, please contact us at legal@growthlens.app.</p>
+      </PolicyModal>
+    </>
   );
 }
 
