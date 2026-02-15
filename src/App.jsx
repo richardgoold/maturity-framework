@@ -3103,7 +3103,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
         </div>
       )}
 
-      {firms.filter(f => !f.id.startsWith('demo_')).length === 0 ? (
+      {firms.filter(f => !f.id.startsWith('demo_')).length === 0 && (
         <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
           <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
           <h3 className="text-lg font-semibold text-gray-800 mb-2">Welcome to GrowthLens</h3>
@@ -3112,7 +3112,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             <Plus size={16} /> Create Your First Firm
           </button>
         </div>
-      ) : (
+      )}
         <>
         <div className="flex items-center gap-4 mb-3 px-1">
           <span className="text-xs text-gray-400 font-medium">Score:</span>
@@ -3151,7 +3151,6 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                         <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 33 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                         <div className="text-xs text-gray-400">{latestScores.ratedCount}/{latestScores.totalMetrics} rated</div>
                       </div>
-                    )}
                     {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
 {!firm.id.startsWith("demo_") &&                     <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
                       <Trash2 size={14} />
