@@ -3142,7 +3142,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800">{firm.name}{firm.id.startsWith("demo_") && <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">DEMO</span>}</h3>
-                      <p className="text-xs text-gray-400">{firm.id.startsWith("demo_") ? <span className="text-amber-600 font-medium">Explore all Pro features with this demo firm</span> : {firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}}</p>
+                      <p className="text-xs text-gray-400">{firm.id.startsWith("demo_") ? <span className="text-amber-600 font-medium">Explore all Pro features with this demo firm</span> : <>{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""</>}}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
