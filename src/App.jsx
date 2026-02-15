@@ -3743,7 +3743,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 90 ? "bg-green-100 text-green-700" : bc.readiness >= 70 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
                   <p className="text-xs mt-2" style={{ color: bc.readiness >= 90 ? "#1E8449" : bc.readiness >= 70 ? "#B7950B" : "#DC2626" }}>{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
                 </div>
-              )))}
+              ))}
             </div>
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
