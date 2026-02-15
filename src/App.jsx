@@ -4576,13 +4576,13 @@ export default function App() {
           <div>
             <h1 className="text-sm font-bold text-white leading-tight cursor-pointer hover:text-[#f2a71b] transition-colors" onClick={() => { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
             <p className="text-xs text-gray-400">M&A Due Diligence Assessment Platform</p>
-          {user && (
+          {user && (<>
             {isPremium ? <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded-full">Premium</span> : <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-500 rounded-full">Free</span>}
               <button onClick={() => signOut()} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition" title="Sign out">
               <LogOut className="w-4 h-4" />
               <span className="hidden sm:inline">Sign Out</span>
             </button>
-          )}
+          </>)}
           </div>
         </div>
         <nav className="hidden md:flex flex-wrap items-center gap-1">
