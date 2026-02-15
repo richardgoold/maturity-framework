@@ -3141,8 +3141,8 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                       {firm.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800">{firm.name}</h3>
-                      <p className="text-xs text-gray-400">{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}</p>
+                      <h3 className="font-semibold text-gray-800">{firm.name}{firm.id.startsWith("demo_") && <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">DEMO</span>}</h3>
+                      <p className="text-xs text-gray-400">{firm.id.startsWith("demo_") ? <span className="text-amber-600 font-medium">Explore all Pro features with this demo firm</span> : {firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -3153,9 +3153,9 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                       </div>
                     )}
                     {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
-                    <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
+{!firm.id.startsWith("demo_") &&                     <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
                       <Trash2 size={14} />
-                    </button>
+                    </button>}
                     <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
                   </div>
                 </div>
@@ -3887,7 +3887,7 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
   );
 }
 
-function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare, onGuidance }) {
+function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare, onGuidance, isDemoFirm }) {
   const { isPremium } = useAuth();
   const { openContactModal } = useContactModal();
   const [dashBannerDismissed, setDashBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_dash_banner') === '1');
@@ -3939,7 +3939,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
         {[["scores","Scores","Overall maturity scores by theme"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["export","Export","Export assessment data"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"]].map(([id,label,tip]) => (
             <button title={tip} key={id} onClick={() => setActiveTab(id)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"} ${!isPremium && GATED_TABS.includes(id) ? "opacity-60" : ""}`}>{label}{!isPremium && GATED_TABS.includes(id) && <Lock className="w-3 h-3 ml-1 inline opacity-50" />}</button>
+              className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"} ${(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) ? "opacity-60" : ""}`}>{label}{(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) && <Lock className="w-3 h-3 ml-1 inline opacity-50" />}</button>
         ))}
       </div>
       {/* Dashboard Guidance */}
@@ -4062,7 +4062,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
             </div>
           );
         })()}
-        {!isPremium && <UpgradeBanner bannerKey="scores" onUpgrade={openContactModal} />}
+        {(!isPremium && !isDemoFirm) && <UpgradeBanner bannerKey="scores" onUpgrade={openContactModal} />}
       </div>
 
       {/* Gap Analysis */}
@@ -4072,10 +4072,10 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><TrendAnalysisPanel firmAssessments={firmAssessments} /></div>
       {/* Score Change History */}
       <div style={{ display: activeTab === "gaps" ? "block" : "none" }}><ScoreChangePanel currentAssessment={assessment} previousAssessment={previousAssessment} /></div>
-      <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16">{isPremium ? <ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/> : <UpgradePrompt feature="roadmap" onUpgrade={openContactModal} />}</div>
-      <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16">{isPremium ? <ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/> : <UpgradePrompt feature="scenario" onUpgrade={openContactModal} />}</div>
-      {activeTab === "export" && !isPremium && <UpgradePrompt feature="export" onUpgrade={openContactModal} />}
-        {activeTab === "export" && isPremium && <>
+      <div id="dash-roadmap" style={{ display: activeTab === "roadmap" ? "block" : "none" }} className="scroll-mt-16">{(isPremium || isDemoFirm) ? <ImprovementRoadmap assessment={assessment} benchmarkProfile={benchmarkProfile}/> : <UpgradePrompt feature="roadmap" onUpgrade={openContactModal} />}</div>
+      <div id="dash-scenario" style={{ display: activeTab === "scenario" ? "block" : "none" }} className="scroll-mt-16">{(isPremium || isDemoFirm) ? <ScenarioPanel assessment={assessment} benchmarkProfile={benchmarkProfile}/> : <UpgradePrompt feature="scenario" onUpgrade={openContactModal} />}</div>
+      {activeTab === "export" && (!isPremium && !isDemoFirm) && <UpgradePrompt feature="export" onUpgrade={openContactModal} />}
+        {activeTab === "export" && (isPremium || isDemoFirm) && <>
         {!leadInfo ? (
           <div style={{background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.25)", borderRadius: "12px", padding: "24px", marginBottom: "16px", textAlign: "center"}}>
             <h3 style={{fontSize: "1.1rem", fontWeight: "700", color: "#f5f5f5", margin: "0 0 4px"}}>Get Your Assessment Report</h3>
@@ -4113,7 +4113,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       <div className="mb-4"><div style={{ display: activeTab === "charts" ? "block" : "none" }}><StrengthsWeaknesses ratings={assessment.ratings} /></div></div>
       <div id="dash-heatmap" style={{ display: activeTab === "heatmap" ? "block" : "none" }} className="mb-4 scroll-mt-16"><HeatmapGrid ratings={assessment.ratings} /></div>
-      <div id="dash-export" style={{ display: activeTab === "export" && isPremium ? "block" : "none" }} className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
+      <div id="dash-export" style={{ display: activeTab === "export" && (isPremium || isDemoFirm) ? "block" : "none" }} className="scroll-mt-16"><ExportPanel assessment={assessment} firmName={firmName} firmSector={firmSector} scores={scores} benchmarkProfile={benchmarkProfile} /></div>
     </div>
   );
 }
@@ -4501,8 +4501,8 @@ export default function App() {
   const navItems = [
     { id: "firms", label: "Firms", icon: Building2 },
     { id: "assess", label: "Assess", icon: ClipboardCheck, disabled: !selectedAssessmentId },
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId, locked: !isPremium },
-    { id: "guidance", label: "Guidance", icon: BookOpen, locked: !isPremium },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId },
+    { id: "guidance", label: "Guidance", icon: BookOpen },
     { id: "connect", label: "Let's Talk", icon: MessageSquare },
   ];
 
@@ -4674,6 +4674,7 @@ export default function App() {
               onBenchmarkChange={setBenchmarkProfile}
             onCompare={() => setView("comparison")}
             onGuidance={() => setView("guidance")}
+                isDemoFirm={dashboardFirm?.id?.startsWith("demo_") || false}
             />
             )}
         {view === "comparison" && (
