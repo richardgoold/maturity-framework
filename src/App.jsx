@@ -3103,7 +3103,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
         </div>
       )}
 
-      {firms.filter(f => !f.id.startsWith('demo_')).length === 0 && (
+      {firms.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
           <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
           <h3 className="text-lg font-semibold text-gray-800 mb-2">Welcome to GrowthLens</h3>
@@ -3112,7 +3112,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             <Plus size={16} /> Create Your First Firm
           </button>
         </div>
-      )}
+      ) : (
         <>
         <div className="flex items-center gap-4 mb-3 px-1">
           <span className="text-xs text-gray-400 font-medium">Score:</span>
