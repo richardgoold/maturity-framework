@@ -4350,6 +4350,7 @@ export default function App() {
 
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showUpgradeFor, setShowUpgradeFor] = useState(null);
   useEffect(() => { saveState(state); }, [state]);
   useEffect(() => { localStorage.setItem('gdmf_deleted', JSON.stringify(recentlyDeleted)); }, [recentlyDeleted]);
   useEffect(() => { setRecentlyDeleted(rd => rd.filter(item => Date.now() - item.timestamp < 30 * 24 * 60 * 60 * 1000)); }, []);
