@@ -22,82 +22,103 @@ export function AuthProvider({ children }) {
     return data;
   }
 
-  useEffect(() => {
-    // Check current session on mount
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        const p = await fetchProfile(session.user.id);
-        setProfile(p);
-      }
-      setLoading(false);
-    });
-
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+    useEffect(() => {
+      // Check current session on mount
+      supabase.auth.getSession().then(async ({ data: { session } }) => {
         setUser(session?.user ?? null);
         if (session?.user) {
-          const p = await fetchProfile(session.user.id);
-          setProfile(p);
-        } else {
-          setProfile(null);
+          try {
+            const p = await fetchProfile(session.user.id);
+            setProfile(p);
+          } catch (err) {
+            console.error('Session profile fetch error:', err);
+          }
         }
         setLoading(false);
-      }
-    );
+      }).catch(err => {
+        console.error('getSession error:', err);
+        setLoading(false);
+      });
 
-    return () => subscription.unsubscribe();
-  }, []);
+      // Listen for auth state changes
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          setUser(session?.user ?? null);
+          if (session?.user) {
+            try {
+              const p = await fetchProfile(session.user.id);
+              setProfile(p);
+            } catch (err) {
+              console.error('Auth state profile fetch error:', err);
+            }
+          } else {
+            setProfile(null);
+          }
+          setLoading(false);
+        }
+      );
+
+      return () => subscription.unsubscribe();
+    }, []);
 
   // Sign up with email/password + profile data
-  async function signUp({ email, password, fullName, companyName, jobTitle, revenueBand }) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-          company_name: companyName,
-          job_title: jobTitle,
-          revenue_band: revenueBand
+    async function signUp({ email, password, fullName, companyName, jobTitle, revenueBand }) {
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+              company_name: companyName,
+              job_title: jobTitle,
+              revenue_band: revenueBand
+            }
+          }
+        });
+
+        if (error) return { error };
+
+        // Profile auto-created by DB trigger with all metadata fields
+        if (data.user) {
+          const p = await fetchProfile(data.user.id);
+          setProfile(p);
         }
+
+        return { data };
+      } catch (err) {
+        console.error('Sign up error:', err);
+        return { error: { message: err.message || 'An unexpected error occurred. Please try again.' } };
       }
-    });
-
-    if (error) return { error };
-
-    // Profile auto-created by DB trigger with all metadata fields
-    if (data.user) {
-      const p = await fetchProfile(data.user.id);
-      setProfile(p);
     }
-
-    return { data };
-  }
 
   // Sign in with email/password
-  async function signIn({ email, password }) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    async function signIn({ email, password }) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-    if (error) return { error };
+        if (error) return { error };
 
-    // Check approval status
-    if (data.user) {
-      const p = await fetchProfile(data.user.id);
-      setProfile(p);
+        // Check approval status
+        if (data.user) {
+          const p = await fetchProfile(data.user.id);
+          setProfile(p);
 
-      if (p && !p.approved) {
-        await supabase.auth.signOut();
-        return { error: { message: 'Your account is pending approval. Please check back later.' } };
+          if (p && !p.approved) {
+            await supabase.auth.signOut();
+            return { error: { message: 'Your account is pending approval. Please check back later.' } };
+          }
+        }
+
+        return { data };
+      } catch (err) {
+        console.error('Sign in error:', err);
+        return { error: { message: err.message || 'An unexpected error occurred. Please try again.' } };
       }
     }
-
-    return { data };
-  }
 
   // Sign out
   async function signOut() {
