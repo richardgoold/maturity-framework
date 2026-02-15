@@ -839,9 +839,9 @@ function LogoCarousel() {
             logo.src ? (
               <img key={i} src={logo.src} alt={logo.name}
                 className="mx-8 h-8 w-auto object-contain transition-all duration-300 cursor-default"
-                style={{ filter: 'grayscale(1) brightness(0) opacity(0.4)', minWidth: 'max-content' }}
+                style={{ filter: 'grayscale(1) opacity(0.4)', minWidth: 'max-content' }}
                 onMouseOver={e => { e.target.style.filter = logo.invert ? 'brightness(0) opacity(0.8)' : 'grayscale(0) opacity(1)'; }}
-                onMouseOut={e => { e.target.style.filter = 'grayscale(1) brightness(0) opacity(0.4)'; }}
+                onMouseOut={e => { e.target.style.filter = 'grayscale(1) opacity(0.4)'; }}
               />
             ) : (
               <span key={i}
