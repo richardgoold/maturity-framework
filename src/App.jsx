@@ -4556,7 +4556,6 @@ export default function App() {
   }, []);
 
   return (
-    <ContactModalProvider>
     <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {confirmDialog && <ConfirmDialog {...confirmDialog} />}
@@ -4764,6 +4763,5 @@ export default function App() {
       </footer>
 </main>
     </div>
-    </ContactModalProvider>
   );
 }
