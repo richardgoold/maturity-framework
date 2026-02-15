@@ -9,7 +9,7 @@ import SignupPage from './SignupPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import { AuthProvider } from './AuthContext';
 
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 class ErrorBoundary extends Component {
   constructor(props) {
