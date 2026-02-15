@@ -55,34 +55,23 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: fullName,
+          company_name: companyName,
+          job_title: jobTitle,
+          revenue_band: revenueBand
+        }
+      }
     });
 
     if (error) return { error };
 
-    // Insert profile row
+    // Profile auto-created by DB trigger with all metadata fields
     if (data.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          email: email,
-          full_name: fullName,
-          company_name: companyName,
-          job_title: jobTitle,
-          revenue_band: revenueBand,
-          role: 'user',
-          approved: true, // auto-approve by default
-          tier: 'free',
-        });
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError);
-        return { error: profileError };
-      }
-
-      // Fetch the profile we just created
       const p = await fetchProfile(data.user.id);
       setProfile(p);
+    }
     }
 
     return { data };
