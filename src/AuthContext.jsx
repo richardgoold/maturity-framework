@@ -72,7 +72,6 @@ export function AuthProvider({ children }) {
       const p = await fetchProfile(data.user.id);
       setProfile(p);
     }
-    }
 
     return { data };
   }
