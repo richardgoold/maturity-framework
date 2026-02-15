@@ -3084,7 +3084,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <h1 className="text-2xl font-bold text-gray-800">Firms</h1>
           <p className="text-sm text-gray-500 mt-1">Select a firm to assess or create a new one</p>
         </div>
-        <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxFirms; if (firms.length >= limit) { setShowLimitModal(true); return; } setShowCreate(true); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
+        <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxFirms; if (firms.filter(f => !f.id.startsWith('demo_')).length >= limit) { setShowLimitModal(true); return; } setShowCreate(true); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
           <Plus size={16} /> New Firm
         </button>
       </div>
@@ -3103,7 +3103,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
         </div>
       )}
 
-      {firms.length === 0 ? (
+      {firms.filter(f => !f.id.startsWith('demo_')).length === 0 ? (
         <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
           <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
           <h3 className="text-lg font-semibold text-gray-800 mb-2">Welcome to GrowthLens</h3>
