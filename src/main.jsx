@@ -8,6 +8,7 @@ import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignupPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import { AuthProvider } from './AuthContext';
+import { ContactModalProvider } from './ContactModal';
 
 import React, { Component } from 'react';
 
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter basename={basename}>
       <AuthProvider>
+        <ContactModalProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -57,6 +59,7 @@ createRoot(document.getElementById('root')).render(
           {/* Catch-all: redirect to landing */}
           <Route path="*" element={<LandingPage />} />
         </Routes>
+        </ContactModalProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>
