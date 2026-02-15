@@ -3826,7 +3826,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                 </div>
               </div>
             </>
-          )}
+          ))}
         </div>
       )}
     </div>
