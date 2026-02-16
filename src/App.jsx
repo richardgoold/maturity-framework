@@ -4577,8 +4577,6 @@ export default function App() {
           </div>
         </>
       )}
-      {view === "firms" && (
-      )}
       {/* Admin banner */}
       {isAdmin && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center justify-between flex-shrink-0">
