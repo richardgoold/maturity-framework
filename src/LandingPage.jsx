@@ -739,8 +739,8 @@ function FeaturesSection() {
 
 // ─── Contact Section ─────────────────────────────────────────────
 function ContactSection() {
-  const [form, setForm] = useState({ na
-  const { user } = useAuth();me: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const { user } = useAuth();
   const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
