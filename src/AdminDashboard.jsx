@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
-import { Users, Building2, ClipboardCheck, Mail, Settings, Shield, LayoutDashboard, ChevronRight, ChevronDown, ChevronUp, Search, X, Check, AlertCircle, Eye, Edit3, ArrowLeft, LogOut, BarChart3, TrendingUp, Clock, RefreshCw } from "lucide-react";
+import { Users, Building2, ClipboardCheck, Mail, Settings, Shield, LayoutDashboard, ChevronRight, ChevronDown, ChevronUp, Search, X, Check, AlertCircle, Eye, Edit3, ArrowLeft, LogOut, BarChart3, TrendingUp, Clock, RefreshCw, Trash2 } from "lucide-react";
 import { useAuth } from "./AuthContext";
 import { useAdminData } from "./useAdminData";
 import { FRAMEWORK, BENCHMARK_PROFILES, calcScores } from "./App";
@@ -1193,8 +1193,9 @@ function AdminContactsTable({ contacts, users, onSelectContact }) {
 // ADMIN CONTACT DETAIL
 // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
-function AdminContactDetail({ contact, users, onBack, onMarkRead, onMarkUnread }) {
+function AdminContactDetail({ contact, users, onBack, onMarkRead, onMarkUnread, onDelete }) {
   const contactUser = contact.user_id ? users.find(u => u.id === contact.user_id) : null;
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   // Auto-mark as read
   useEffect(() => {
@@ -1252,6 +1253,21 @@ function AdminContactDetail({ contact, users, onBack, onMarkRead, onMarkUnread }
           <button onClick={() => onMarkRead(contact.id)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
             Mark as Read
           </button>
+        )}
+        {!confirmDelete ? (
+          <button onClick={() => setConfirmDelete(true)} className="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 flex items-center gap-2">
+            <Trash2 size={16} /> Delete
+          </button>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-red-600 font-medium">Delete this submission?</span>
+            <button onClick={async () => { await onDelete(contact.id); onBack(); }} className="px-3 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
+              Confirm
+            </button>
+            <button onClick={() => setConfirmDelete(false)} className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+              Cancel
+            </button>
+          </div>
         )}
       </div>
     </div>
@@ -1449,7 +1465,7 @@ export default function AdminDashboard() {
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
   const adminData = useAdminData();
-  const { users, firms, assessments, contacts, auditLog, appConfig, stats, loading, error, updateUserProfile, rejectUser, updateAssessmentRatings, markContactRead, markContactUnread, updateAppConfig, logAudit, reload } = adminData;
+  const { users, firms, assessments, contacts, auditLog, appConfig, stats, loading, error, updateUserProfile, rejectUser, updateAssessmentRatings, markContactRead, markContactUnread, deleteContact, updateAppConfig, logAudit, reload } = adminData;
 
   const [view, setView] = useState("overview");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -1571,6 +1587,7 @@ export default function AdminDashboard() {
             onBack={() => { setSelectedContact(null); setView("contacts"); }}
             onMarkRead={markContactRead}
             onMarkUnread={markContactUnread}
+            onDelete={deleteContact}
           />
         ) : null;
       case "settings":
