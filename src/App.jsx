@@ -4603,7 +4603,7 @@ export default function App() {
             <Target size={18} className="text-gray-900" />
           </div>
           <div>
-            <h1 className="text-sm font-bold text-gray-900 leading-tight cursor-pointer hover:text-amber-500 transition-colors" onClick={() => { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
+            <h1 className="text-sm font-bold text-gray-900 leading-tight cursor-pointer hover:text-amber-500 transition-colors" onClick={() => { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>Growth Drivers Maturity Framework</h1>
             <p className="text-xs text-gray-500">M&A Due Diligence Assessment Platform</p>
           {user && (<>
             <div className="relative">
@@ -4675,7 +4675,7 @@ export default function App() {
         view={view}
         firmName={selectedFirm?.name}
         onNavigate={(v) => {
-          if (v === "landing") { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
+          if (v === "landing") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firms") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firmDetail") { setView("firmDetail"); setSelectedAssessmentId(null); }
           else if (v === "assess") { if (!selectedAssessmentId) { setView("firms"); } else { setView("assess"); } }
@@ -4723,7 +4723,7 @@ export default function App() {
             />
         )}
         {view === "guidance" && (
-          <GuidancePage onBack={() => setView("landing")} />
+          <GuidancePage onBack={() => setView("firms")} />
         )}
         {view === "connect" && (
           <div className="min-h-[80vh] flex items-center justify-center p-4">
