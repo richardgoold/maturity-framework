@@ -127,6 +127,17 @@ export function useAdminData() {
     return true;
   }, []);
 
+  const deleteContact = useCallback(async (contactId) => {
+    const { error: err } = await supabase
+      .from('contact_submissions')
+      .delete()
+      .eq('id', contactId);
+    if (err) throw err;
+
+    setContacts(prev => prev.filter(c => c.id !== contactId));
+    return true;
+  }, []);
+
   // ââ App config management ââââââââââââââââââââââââââââââââ
   const updateAppConfig = useCallback(async (key, value) => {
     // Try update first, then insert if no rows affected
@@ -248,6 +259,7 @@ export function useAdminData() {
     updateAssessmentRatings,
     markContactRead,
     markContactUnread,
+    deleteContact,
     updateAppConfig,
     logAudit,
     reload: loadAll,
