@@ -4578,14 +4578,6 @@ export default function App() {
         </>
       )}
       {view === "firms" && (
-        <div className="fixed bottom-4 right-4 z-40 flex gap-2">
-          <button onClick={exportData} className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 text-sm text-gray-700 transition-colors" title="Export backup">
-            <Download size={16} /> Backup
-          </button>
-          <button onClick={importData} className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-50 text-sm text-gray-700 transition-colors" title="Import backup">
-            <Upload size={16} /> Restore
-          </button>
-        </div>
       )}
       {/* Admin banner */}
       {isAdmin && (
