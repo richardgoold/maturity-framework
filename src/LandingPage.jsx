@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from './supabase';
+import { useAuth } from './AuthContext';
 import {
   BarChart3, Target, TrendingUp, Award, CheckCircle2,
   ArrowRight, Mail, ExternalLink, Linkedin,
@@ -738,7 +739,8 @@ function FeaturesSection() {
 
 // ─── Contact Section ─────────────────────────────────────────────
 function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ na
+  const { user } = useAuth();me: '', email: '', message: '' });
   const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -750,12 +752,13 @@ function ContactSection() {
       .insert({
         name: form.name,
         email: form.email,
+        m.insert({
+        name: form.name,
+        email: form.email,
         message: form.message,
-      });
-
-    if (error) {
-      console.error('Contact form error:', error);
-      setStatus('error');
+        ...(user?.id ? { user_id: user.id } : {}),
+        source_context: 'landing_page',
+      });     setStatus('error');
     } else {
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
