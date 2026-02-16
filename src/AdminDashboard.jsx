@@ -11,13 +11,13 @@ import { FRAMEWORK, BENCHMARK_PROFILES, calcScores } from "./App";
 // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function formatDate(ts) {
-  if (!ts) return "â";
+  if (!ts) return "\u2014";
   const d = new Date(ts);
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
 function formatDateTime(ts) {
-  if (!ts) return "â";
+  if (!ts) return "\u2014";
   const d = new Date(ts);
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
@@ -396,7 +396,7 @@ function AdminUsersTable({ users, firms, assessments, onSelectUser, appConfig })
                   <tr key={u.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => onSelectUser(u)}>
                     <td className="px-4 py-3 text-sm font-medium text-gray-900">{u.full_name}</td>
                     <td className="px-4 py-3 text-sm text-gray-600">{u.email}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{u.company_name || "â"}</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">{u.company_name || "\u2014"}</td>
                     <td className="px-4 py-3"><Badge color={u.tier === "premium" ? "blue" : "gray"}>{u.tier}</Badge></td>
                     <td className="px-4 py-3"><Badge color={u.approved ? "green" : "amber"}>{u.approved ? "Approved" : "Pending"}</Badge></td>
                     <td className="px-4 py-3 text-sm text-gray-600">{userFirms}</td>
@@ -494,9 +494,9 @@ function AdminUserDetail({ user: selectedUser, firms, assessments, onBack, onSav
       <div className="bg-white rounded-xl border border-gray-200 p-5">
         <h3 className="text-sm font-semibold text-gray-700 mb-4">Profile Information</h3>
         <div className="grid grid-cols-2 gap-4 text-sm">
-          <div><span className="text-gray-500">Company:</span> <span className="font-medium ml-1">{selectedUser.company_name || "â"}</span></div>
-          <div><span className="text-gray-500">Job Title:</span> <span className="font-medium ml-1">{selectedUser.job_title || "â"}</span></div>
-          <div><span className="text-gray-500">Revenue Band:</span> <span className="font-medium ml-1">{selectedUser.revenue_band || "â"}</span></div>
+          <div><span className="text-gray-500">Company:</span> <span className="font-medium ml-1">{selectedUser.company_name || "\u2014"}</span></div>
+          <div><span className="text-gray-500">Job Title:</span> <span className="font-medium ml-1">{selectedUser.job_title || "\u2014"}</span></div>
+          <div><span className="text-gray-500">Revenue Band:</span> <span className="font-medium ml-1">{selectedUser.revenue_band || "\u2014"}</span></div>
           <div><span className="text-gray-500">Signed Up:</span> <span className="font-medium ml-1">{formatDateTime(selectedUser.created_at)}</span></div>
           <div><span className="text-gray-500">Last Active:</span> <span className="font-medium ml-1">{formatDateTime(selectedUser.last_active_at)}</span></div>
         </div>
@@ -674,9 +674,9 @@ function AdminFirmsTable({ firms, users, assessments, onSelectFirm }) {
               {paged.map(f => (
                 <tr key={f.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => onSelectFirm(f)}>
                   <td className="px-4 py-3 text-sm font-medium text-gray-900">{f.name}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{f.sector || "â"}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">{f.sector || "\u2014"}</td>
                   <td className="px-4 py-3 text-sm text-gray-600">{f.ownerName}<br/><span className="text-xs text-gray-400">{f.ownerEmail}</span></td>
-                  <td className="px-4 py-3 text-sm font-medium">{f.latestScore != null ? `${f.latestScore}%` : "â"}</td>
+                  <td className="px-4 py-3 text-sm font-medium">{f.latestScore != null ? `${f.latestScore}%` : "\u2014"}</td>
                   <td className="px-4 py-3 text-sm text-gray-600">{f.assessmentCount}</td>
                   <td className="px-4 py-3 text-sm text-gray-500">{formatDate(f.created_at)}</td>
                   <td className="px-4 py-3"><ChevronRight size={16} className="text-gray-400" /></td>
@@ -855,7 +855,7 @@ function AdminAssessmentDashboard({ assessment, firm, owner, onBack, onSaveRatin
       {/* Edit mode banner */}
       {editMode && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 flex items-center justify-between">
-          <span className="text-sm text-blue-800 font-medium">Edit Mode â Changes are not saved until you click Save</span>
+          <span className="text-sm text-blue-800 font-medium">Edit Mode - Changes are not saved until you click Save</span>
           <div className="flex gap-2">
             <button onClick={handleSave} disabled={saving} className="px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50">
               {saving ? "Saving..." : "Save Changes"}
@@ -1007,7 +1007,7 @@ function AdminHeatmapTab({ ratings }) {
                 const c = levelColors[level];
                 return (
                   <div key={metric.id} className="px-3 py-2 rounded text-xs font-medium" style={{ backgroundColor: c.bg, color: c.text }}>
-                    {metric.name} â {c.label}
+                    {metric.name} - {c.label}
                   </div>
                 );
               })}
@@ -1232,7 +1232,7 @@ function AdminContactDetail({ contact, users, onBack, onMarkRead, onMarkUnread }
           <h3 className="text-sm font-semibold text-gray-700 mb-3">Registered User</h3>
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div><span className="text-gray-500">Name:</span> <span className="font-medium ml-1">{contactUser.full_name}</span></div>
-            <div><span className="text-gray-500">Company:</span> <span className="font-medium ml-1">{contactUser.company_name || "â"}</span></div>
+            <div><span className="text-gray-500">Company:</span> <span className="font-medium ml-1">{contactUser.company_name || "\u2014"}</span></div>
             <div><span className="text-gray-500">Tier:</span> <Badge color={contactUser.tier === "premium" ? "blue" : "gray"}>{contactUser.tier}</Badge></div>
             <div><span className="text-gray-500">Signed Up:</span> <span className="font-medium ml-1">{formatDate(contactUser.created_at)}</span></div>
           </div>
@@ -1316,8 +1316,8 @@ function AdminSettings({ appConfig, onUpdateConfig, onLogAudit }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">User Approval Mode</label>
           <p className="text-xs text-gray-400 mb-2">Controls whether new sign-ups are automatically approved or require manual admin approval.</p>
           <select value={approvalMode} onChange={e => setApprovalMode(e.target.value)} className="w-full max-w-xs px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="auto">Auto â Users approved immediately</option>
-            <option value="manual">Manual â Admin approval required</option>
+            <option value="auto">Auto - Users approved immediately</option>
+            <option value="manual">Manual - Admin approval required</option>
           </select>
         </div>
 
@@ -1415,8 +1415,8 @@ function AdminAuditLog({ auditLog, users }) {
                     <td className="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">{formatDateTime(entry.created_at)}</td>
                     <td className="px-4 py-3 text-sm text-gray-600">{admin?.full_name || "Unknown"}</td>
                     <td className="px-4 py-3"><Badge color="blue">{getActionLabel(entry.action)}</Badge></td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{target?.full_name || "â"}</td>
-                    <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">{entry.details ? JSON.stringify(entry.details) : "â"}</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">{target?.full_name || "\u2014"}</td>
+                    <td className="px-4 py-3 text-xs text-gray-500 max-w-xs truncate">{entry.details ? JSON.stringify(entry.details) : "\u2014"}</td>
                   </tr>
                 );
               })}
