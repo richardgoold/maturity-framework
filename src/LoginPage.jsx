@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import { supabase } from './supabase';
 import { BarChart3, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 export default function LoginPage() {
@@ -18,6 +19,24 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
+    // Resolve username to email if no @ present
+    let loginEmail = form.email.trim();
+    if (!loginEmail.includes('@')) {
+      try {
+        const { data, error: rpcError } = await supabase.rpc('get_email_by_username', { lookup_username: loginEmail });
+        if (rpcError || !data) {
+          setLoading(false);
+          setError('Username not found.');
+          return;
+        }
+        loginEmail = data;
+      } catch {
+        setLoading(false);
+        setError('Username lookup failed.');
+        return;
+      }
+    }
+
     const timeoutPromise = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Login timed out. Please try again.')), 15000)
     );
@@ -25,7 +44,7 @@ export default function LoginPage() {
     let result;
     try {
       result = await Promise.race([
-        signIn({ email: form.email, password: form.password }),
+        signIn({ email: loginEmail, password: form.password }),
         timeoutPromise,
       ]);
     } catch (err) {
@@ -97,9 +116,9 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email or username</label>
               <input
-                type="email"
+                type="text"
                 required
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
