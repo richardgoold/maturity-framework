@@ -7,6 +7,8 @@ import LandingPage from './LandingPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignupPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
+import AdminRoute from './AdminRoute.jsx';
+import AdminDashboard from './AdminDashboard.jsx';
 import { AuthProvider } from './AuthContext';
 import { ContactModalProvider } from './ContactModal';
 
@@ -54,6 +56,14 @@ createRoot(document.getElementById('root')).render(
                   <App />
                 </ErrorBoundary>
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
             }
           />
           {/* Catch-all: redirect to landing */}
