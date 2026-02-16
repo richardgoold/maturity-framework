@@ -739,23 +739,26 @@ function FeaturesSection() {
 
 // ─── Contact Section ─────────────────────────────────────────────
 function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const { user } = useAuth();
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
 
+    const submission = {
+      name: form.name,
+      email: form.email,
+      message: form.message,
+    };
+    // Include user_id if logged in, and source_context for tracking
+    if (user?.id) submission.user_id = user.id;
+    submission.source_context = 'landing_page';
+
     const { error } = await supabase
       .from('contact_submissions')
-      .insert({
-        name: form.name,
-        email: form.email,
-        message: form.message,
-        ...(user?.id ? { user_id: user.id } : {}),
-        source_context: 'landing_page',
-      });
+      .insert(submission);
 
     if (error) {
       console.error('Contact form error:', error);
@@ -764,6 +767,7 @@ function ContactSection() {
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
     }
+  };
 
   return (
     <section id="contact" className="py-16 sm:py-24 bg-white">
