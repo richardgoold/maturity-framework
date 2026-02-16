@@ -108,6 +108,39 @@ export function AuthProvider({ children }) {
 
       // Profile auto-created by DB trigger with all metadata fields
       if (data.user) {
+      // Check approval_mode and default_tier from app_config
+      let autoApprove = true;
+      let defaultTier = 'free';
+      try {
+        const { data: configRows } = await supabase.from('app_config').select('key, value');
+        if (configRows) {
+          const configMap = {};
+          configRows.forEach(r => { configMap[r.key] = r.value; });
+          if (configMap.approval_mode === 'manual') autoApprove = false;
+          if (configMap.default_tier === 'premium') defaultTier = 'premium';
+        }
+      } catch (e) {
+        console.warn('Could not read app_config, using defaults:', e);
+      }
+
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          email: email,
+          full_name: fullName,
+          company_name: companyName,
+          job_title: jobTitle,
+          revenue_band: revenueBand,
+          role: 'user',
+          approved: autoApprove,
+          tier: defaultTier,
+        });
+
+      if (profileError) {
+        console.error('Error creating profile:', profileError);
+      }
+
         const p = await fetchProfile(data.user.id);
         setProfile(p);
       }
