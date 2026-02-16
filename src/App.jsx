@@ -4336,6 +4336,7 @@ const GuidancePage = ({ onBack }) => {
 
 export default function App() {
   const { user, signOut, isPremium, profile , isAdmin } = useAuth();
+  const navigate = useNavigate();
   const { openContactModal } = useContactModal();
   const [state, setState] = useState(() => {
     return getInitialState();
