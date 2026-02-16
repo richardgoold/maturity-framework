@@ -4335,7 +4335,7 @@ const GuidancePage = ({ onBack }) => {
 };
 
 export default function App() {
-  const { user, signOut, isPremium, profile } = useAuth();
+  const { user, signOut, isPremium, profile , isAdmin } = useAuth();
   const { openContactModal } = useContactModal();
   const [state, setState] = useState(() => {
     return getInitialState();
