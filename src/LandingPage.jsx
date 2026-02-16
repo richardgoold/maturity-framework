@@ -752,18 +752,18 @@ function ContactSection() {
       .insert({
         name: form.name,
         email: form.email,
-        m.insert({
-        name: form.name,
-        email: form.email,
         message: form.message,
         ...(user?.id ? { user_id: user.id } : {}),
         source_context: 'landing_page',
-      });     setStatus('error');
+      });
+
+    if (error) {
+      console.error('Contact form error:', error);
+      setStatus('error');
     } else {
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
     }
-  };
 
   return (
     <section id="contact" className="py-16 sm:py-24 bg-white">
