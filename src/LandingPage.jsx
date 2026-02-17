@@ -839,43 +839,54 @@ function ContactSection() {
 }
 
 // ─── Logo Carousel ───────────────────────────────────────
-  function LogoCarousel() {
+function LogoCarousel() {
     const logos = [
-      { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg", invert: false },
-      { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg", invert: true },
-      { name: "Public First", src: "https://www.publicfirst.co.uk/wp-content/uploads/2026/01/PublicFirstLogo.webp", invert: true },
-      { name: "Roq", src: "/maturity-framework/logos/Roq.jpeg", invert: false, bg: true },
-      { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png", invert: true },
-      { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg", invert: false, bg: true },
-      { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", invert: false },
-      { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: false },
-      { name: "The ICS", src: "/maturity-framework/logos/The ICS.jpeg", invert: false, bg: true },
+      { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg" },
+      { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
+      { name: "Roq", src: "/maturity-framework/logos/Roq.jpeg" },
+      { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png" },
+      { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg" },
+      { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp" },
+      { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg" },
+      { name: "The ICS", src: "/maturity-framework/logos/The ICS.jpeg" },
     ];
 
     const activeLogos = logos.filter(l => l.src);
     const doubled = [...activeLogos, ...activeLogos];
 
     return (
-      <section style={{ padding: '3rem 0', background: '#1f2937' }}>
-        <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem' }}>
+      <section style={{ padding: '3rem 0', background: '#1a1a1a' }}>
+        <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '2rem' }}>
           Trusted by leading professional services firms including
         </p>
         <style>{`
           @keyframes logo-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         `}</style>
-        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '3rem', width: 'max-content', animation: 'logo-scroll 35s linear infinite' }}>
+        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', width: 'max-content', animation: 'logo-scroll 40s linear infinite' }}>
             {doubled.map((logo, i) => (
-              <div key={i} style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 56, padding: '0 0.5rem' }}>
-                <div style={logo.bg ? { background: 'white', borderRadius: 8, padding: '6px 12px', display: 'flex', alignItems: 'center' } : { display: 'flex', alignItems: 'center' }}>
-                  <img
-                    src={logo.src}
-                    alt={logo.name}
-                    title={logo.name}
-                    style={{ height: logo.name === 'YLD' ? 44 : logo.bg ? 30 : 36, maxWidth: 160, objectFit: 'contain', opacity: 0.85, filter: logo.invert ? 'brightness(0) invert(1)' : 'none' }}
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                  />
-                </div>
+              <div key={i} style={{
+                flex: '0 0 auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'white',
+                borderRadius: 10,
+                width: 200,
+                height: 120,
+                padding: '12px 20px',
+              }}>
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  title={logo.name}
+                  style={{
+                    maxHeight: 80,
+                    maxWidth: 160,
+                    objectFit: 'contain',
+                  }}
+                  onError={(e) => { e.target.parentElement.style.display = 'none'; }}
+                />
               </div>
             ))}
           </div>
