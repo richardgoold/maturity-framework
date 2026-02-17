@@ -845,7 +845,7 @@ function LogoCarousel() {
       { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
       { name: "Public First", src: "/maturity-framework/logos/Public First.png" },
       { name: "Roq", src: "/maturity-framework/logos/Roq.jpeg" },
-      { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png" },
+      { name: "RQC Group", src: "/maturity-framework/logos/RQC Group.png" },
       { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg" },
       { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", darken: true },
       { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: true },
@@ -873,8 +873,8 @@ function LogoCarousel() {
                 justifyContent: 'center',
                 background: 'white',
                 borderRadius: 10,
-                width: 200,
-                height: 120,
+                width: 220,
+                height: 130,
                 padding: '12px 20px',
               }}>
                 <img
@@ -882,8 +882,8 @@ function LogoCarousel() {
                   alt={logo.name}
                   title={logo.name}
                   style={{
-                    maxHeight: 80,
-                    maxWidth: 160,
+                    maxHeight: 95,
+                    maxWidth: 180,
                     objectFit: 'contain',
                     filter: logo.darken ? 'brightness(0)' : logo.invert ? 'invert(1)' : 'none',
                   }}
