@@ -96,16 +96,16 @@ function HeroSection() {
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-3">
-            See what acquirers and investors see
+            How strong is your firm,
           </h1>
           <p className="text-4xl sm:text-5xl lg:text-6xl font-black text-amber-400 leading-tight mb-8">
-            before they do.
+            really?
           </p>
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
-            Baseline your firm across the 10 dimensions that drive sustainable growth in professional services.
-            Build a blueprint for improvement and navigate towards maximum value.
+            Assess your firm across 10 growth dimensions and 47 metrics, benchmarked against
+            20+ industry sources including Hinge, Deltek, SPI Research, and Mercer.
           </p>
 
           {/* Tagline */}
