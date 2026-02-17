@@ -3934,7 +3934,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       {/* Section Navigation */}
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
-        {[["scores","Scores","Overall maturity scores by theme"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["export","Export","Export assessment data"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"]].map(([id,label,tip]) => (
+        {[["scores","Scores","Overall maturity scores by theme"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"],["export","Export & Reports","Export and download reports"]].map(([id,label,tip]) => (
             <button title={tip} key={id} onClick={() => setActiveTab(id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"} ${(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) ? "opacity-60" : ""}`}>{label}{(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) && <Lock className="w-3 h-3 ml-1 inline opacity-50" />}</button>
         ))}
