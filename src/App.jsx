@@ -4708,12 +4708,12 @@ export default function App() {
       )}
       {/* Header */}
       <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0 bg-white border-b border-gray-200">
-        <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate('/')}>
           <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-amber-400">
             <Target size={18} className="text-gray-900" />
           </div>
           <div>
-            <h1 className="text-sm font-bold text-gray-900 leading-tight cursor-pointer hover:text-amber-500 transition-colors" onClick={() => navigate('/')}>Growth Drivers Maturity Framework</h1>
+                  <h1 className="text-sm font-bold text-gray-900 leading-tight">Growth Drivers Maturity Framework</h1>
             <p className="text-xs text-gray-500">M&A Due Diligence Assessment Platform</p>
           {user && (<>
             <div className="relative">
