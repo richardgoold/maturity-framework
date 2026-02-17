@@ -2698,17 +2698,17 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
         <Download size={14} /> Export Assessment
       </h3>
       <div className="grid grid-cols-4 gap-3">
-        <button onClick={() => { track("Export Exec Summary"); exportExecutiveSummary(assessment, firmName, firmSector, scores); }
+        <button onClick={() => { track("Export Exec Summary"); exportExecutiveSummary(assessment, firmName, firmSector, scores); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <ClipboardCheck size={20} />
           <span className="text-xs text-center leading-tight">Executive Summary</span>
         </button>
-        <button onClick={() => { track("Export PDF"); exportToPDF(assessment, firmName, firmSector, scores); }
+        <button onClick={() => { track("Export PDF"); exportToPDF(assessment, firmName, firmSector, scores); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <FileText size={20} />
           <span className="text-xs text-center leading-tight">Export PDF Report</span>
         </button>
-        <button onClick={() => { track("Export Detailed Report"); exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile); }
+        <button onClick={() => { track("Export Detailed Report"); exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <BookOpen size={20} />
           <span className="text-xs text-center leading-tight">Detailed Report</span>
