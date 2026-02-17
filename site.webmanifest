@@ -1,0 +1,10 @@
+{
+  "name": "GrowthLens",
+  "short_name": "GrowthLens",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "theme_color": "#f2a71b",
+  "background_color": "#f8fafc",
+  "display": "standalone"
+}
