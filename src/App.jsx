@@ -1071,7 +1071,7 @@ const generateDemoData = () => {
     mkt_mktg: createRating(2, "12% of revenue marketing-influenced"),
     mkt_award: createRating(3, "MCA winner 2024, shortlisted 2025"),
     mkt_thought: createRating(3, "6 whitepapers, regular speaking slots"),
-    mkt_brand: createRating(2, "Growing brand recognition in target sectors")
+    mkt_brand: createRating(2, "Growing brand recognition in target sectors"),
     mkt_digital: createRating(2, "25% of pipeline from inbound, content strategy in place")
   };
 
@@ -1132,7 +1132,7 @@ const generateDemoData = () => {
     mkt_mktg: createRating(2, "8% of revenue marketing-influenced"),
     mkt_award: createRating(2, "Regional award winner"),
     mkt_thought: createRating(2, "Regular blog and webinar programme"),
-    mkt_brand: createRating(2, "Growing regional recognition")
+    mkt_brand: createRating(2, "Growing regional recognition"),
     mkt_digital: createRating(2, "15% of pipeline from inbound channels")
   };
 
@@ -1193,7 +1193,7 @@ const generateDemoData = () => {
     mkt_mktg: createRating(1, "No marketing function"),
     mkt_award: createRating(1, "No industry recognition"),
     mkt_thought: createRating(1, "No thought leadership activity"),
-    mkt_brand: createRating(1, "Limited brand awareness")
+    mkt_brand: createRating(1, "Limited brand awareness"),
     mkt_digital: createRating(1, "Under 5% of pipeline from digital channels")
   };
 
