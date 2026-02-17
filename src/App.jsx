@@ -4571,7 +4571,7 @@ function ContactView() {
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-1">Richard Goold</h2>
         <p className="text-gray-600 max-w-md mx-auto mb-4">
-          Helping founders, CEOs and boards build, scale and prepare their firms for successful outcomes through coaching, M&A readiness support and advisory.
+          Supporting founders, CEOs and boards build, scale and prepare their firms for successful outcomes through coaching, M&A readiness support and advisory.
         </p>
         <div className="flex items-center justify-center gap-3">
           <a href="https://richardgoold.com" target="_blank" rel="noopener noreferrer"
