@@ -4900,15 +4900,15 @@ export default function App() {
                   <h1 className="text-sm font-bold text-gray-900 leading-tight">GrowthLens</h1>
             <p className="text-xs text-gray-500">M&A Due Diligence Assessment Platform</p>
           {user && (<>
-            <div className="relative">
-              <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors">
+            <div className="relative" style={{ zIndex: 50 }}>
+              <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(!showProfileMenu); }} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors">
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${isPremium ? 'bg-amber-100 text-amber-800' : 'bg-gray-200 text-gray-600'}`}>{isPremium ? 'Premium' : 'Free'}</span>
                 <ChevronDown className="w-3 h-3 text-gray-500" />
               </button>
               {showProfileMenu && (
                 <>
-                <div className="fixed inset-0 z-40" onClick={() => setShowProfileMenu(false)} />
-                <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); }} />
+                <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50" onClick={(e) => e.stopPropagation()}>
                   <div className="px-4 py-2 border-b border-gray-100">
                     <p className="text-sm font-medium text-gray-800">{profile?.full_name || 'User'}</p>
                     <p className="text-xs text-gray-500">{user?.email}</p>
@@ -4920,7 +4920,7 @@ export default function App() {
                       {!isPremium && <button onClick={() => { setShowProfileMenu(false); openContactModal({ subject: 'Premium Upgrade Enquiry' }); }} className="text-xs text-amber-600 hover:text-amber-700 font-medium">Upgrade</button>}
                     </div>
                   </div>
-                  <button onClick={() => { setShowProfileMenu(false); signOut(); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); signOut(); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                     <LogOut className="w-4 h-4" />
                     Sign Out
                   </button>
