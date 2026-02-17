@@ -7,6 +7,8 @@ import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
 import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
 import { ContactModalProvider, useContactModal } from "./ContactModal";
 import { supabase } from './supabase';
+// ─── Plausible Analytics Helper ─────────────────
+const track = (name, props) => { try { window.plausible?.(name, props ? { props } : undefined); } catch(e) {} };
 // -----------------------------------------------------------------------
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
 // -----------------------------------------------------------------------
@@ -2696,17 +2698,17 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
         <Download size={14} /> Export Assessment
       </h3>
       <div className="grid grid-cols-4 gap-3">
-        <button onClick={() => exportExecutiveSummary(assessment, firmName, firmSector, scores)}
+        <button onClick={() => { track("Export Exec Summary"); exportExecutiveSummary(assessment, firmName, firmSector, scores); }
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <ClipboardCheck size={20} />
           <span className="text-xs text-center leading-tight">Executive Summary</span>
         </button>
-        <button onClick={() => exportToPDF(assessment, firmName, firmSector, scores)}
+        <button onClick={() => { track("Export PDF"); exportToPDF(assessment, firmName, firmSector, scores); }
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <FileText size={20} />
           <span className="text-xs text-center leading-tight">Export PDF Report</span>
         </button>
-        <button onClick={() => exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile)}
+        <button onClick={() => { track("Export Detailed Report"); exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile); }
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <BookOpen size={20} />
           <span className="text-xs text-center leading-tight">Detailed Report</span>
@@ -3355,6 +3357,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
 }
 
 function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence, onGuidance }) {
+  useEffect(() => { track("Assessment Started"); }, []);
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
   const scrollRef = useRef(null);
@@ -3936,6 +3939,7 @@ function ScoreChangePanel({ currentAssessment, previousAssessment }) {
 }
 
 function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessments, benchmarkProfile, onBenchmarkChange, onCompare, onGuidance, isDemoFirm }) {
+  useEffect(() => { track("Dashboard Viewed"); }, []);
   const { isPremium } = useAuth();
   const { openContactModal } = useContactModal();
   const [dashBannerDismissed, setDashBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_dash_banner') === '1');
@@ -4128,7 +4132,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           <div style={{background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.25)", borderRadius: "12px", padding: "24px", marginBottom: "16px", textAlign: "center"}}>
             <h3 style={{fontSize: "1.1rem", fontWeight: "700", color: "#f5f5f5", margin: "0 0 4px"}}>Get Your Assessment Report</h3>
             <p style={{fontSize: "0.85rem", color: "#9ca3af", margin: "0 0 16px"}}>Enter your details to unlock PDF and executive summary exports</p>
-            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.target); const info = {name: fd.get("leadName"), email: fd.get("leadEmail"), company: fd.get("leadCompany")}; localStorage.setItem("gdmf_lead", JSON.stringify(info)); setLeadInfo(info); supabase.from("leads").insert({ name: info.name, email: info.email, company: info.company || null, source_context: "dashboard_export" }).then(() => {}); }} style={{display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "500px", margin: "0 auto"}}>
+            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.target); const info = {name: fd.get("leadName"), email: fd.get("leadEmail"), company: fd.get("leadCompany")}; localStorage.setItem("gdmf_lead", JSON.stringify(info)); setLeadInfo(info); track("Lead Captured", { email: info.email }); supabase.from("leads").insert({ name: info.name, email: info.email, company: info.company || null, source_context: "dashboard_export" }).then(() => {}); }} style={{display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "500px", margin: "0 auto"}}>
               <input name="leadName" required placeholder="Your name" style={{flex: "1 1 140px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
               <input name="leadEmail" type="email" required placeholder="Email address" style={{flex: "1 1 180px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
               <input name="leadCompany" placeholder="Company (optional)" style={{flex: "1 1 140px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
