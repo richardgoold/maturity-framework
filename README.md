@@ -1,11 +1,11 @@
 # Growth Drivers Maturity Framework
 
-An M&A due diligence assessment platform for evaluating professional services firms across 10 maturity themes and 47 metrics.
+An M&A due diligence assessment platform for evaluating professional services firms across 10 maturity themes and 57 metrics.
 
 ## Features
 
 - **10 Assessment Themes**: Financial Performance, People, Services & Pricing, Vision & Strategy, Sales & Pipeline, Clients & Relationships, Leadership & Governance, Cost Optimisation, Delivery, Market Profile
-- **47 Weighted Metrics**: Each with Foundational/Evolving/Optimised maturity levels
+- **57 Weighted Metrics**: Each with Foundational/Evolving/Optimised maturity levels
 - **Earnout Tracking**: Calculate projected earnout based on achievement levels
 - **Industry Benchmarking**: Compare against sector averages (Consulting, Tech, Legal, Engineering)
 - **Assessment Templates**: Pre-configured profiles for quick starts
