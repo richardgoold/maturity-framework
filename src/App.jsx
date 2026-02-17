@@ -10,12 +10,12 @@ import { supabase } from './supabase';
 // ─── Plausible Analytics Helper ─────────────────
 const track = (name, props) => { try { window.plausible?.(name, props ? { props } : undefined); } catch(e) {} };
 // -----------------------------------------------------------------------
-// FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
+// FRAMEWORK DATA - All 57 metrics from the Growth Drivers spreadsheet
 // -----------------------------------------------------------------------
 export const FRAMEWORK = {
   themes: [
       {
-      id: "financial", name: "Financial Performance", icon: "pound", totalWeight: 600, color: "#1B4F72",
+      id: "financial", name: "Financial Performance", icon: "pound", totalWeight: 750, color: "#1B4F72",
       metrics: [
         { id: "fin_revenue", name: "Revenue Growth & Profitability", question: "How consistently are you achieving year-over-year revenue growth and profitability?", weight: 100, foundational: "Revenue growth <5% per year, low or inconsistent profitability, reliance on a few large projects", evolving: "Revenue growth 5-10% per year, moderate profitability, some diversification of revenue streams", optimised: "Revenue growth >10% per year, strong profitability with predictable, diversified revenue streams and high-margin services", guidance: "Look for consistent YoY revenue growth of 10%+. Acquirers value predictable, compounding growth over one-off spikes. Consider organic vs acquisition-driven growth." , improvementAction: "Focus on recurring revenue models and multi-year contracts to demonstrate predictable growth trajectory" },
         { id: "fin_gm", name: "Gross Margin", question: "What is your current gross margin?", weight: 100, foundational: "Gross margin <40%, cost overruns are frequent, and pricing is reactive rather than strategic", evolving: "Gross margin 40-50%, some cost control measures in place, but efficiency improvements still needed", optimised: "Gross margin >50%, strong cost control, pricing strategy optimised for profitability and scalability", guidance: "Healthy PSFs target gross margins of 50-70%. Margins below 40% signal pricing pressure or delivery inefficiency. Track trends over 3+ years for stability." , improvementAction: "Review pricing strategy, reduce delivery cost leakage, and shift toward higher-margin service lines" },
@@ -23,26 +23,31 @@ export const FRAMEWORK = {
         { id: "fin_cash", name: "Cash Flow", question: "How consistent and positive is your free cash flow?", weight: 100, foundational: "Free cash flow is negative or low, debtor days >60, frequent working capital constraints", evolving: "Free cash flow is positive but inconsistent, debtor days 45-60, some cash reserves maintained", optimised: "Free cash flow is consistently strong, debtor days <45, 80%+ cash flow conversion from EBITDA", guidance: "Consistent positive free cash flow demonstrates business sustainability. Look for low debtor days (<45), predictable billing cycles, and minimal capital expenditure requirements." , improvementAction: "Implement stricter billing cycles, reduce debtor days below 45, and build 3-month cash reserves" },
         { id: "fin_quality", name: "Quality of Revenue", question: "How high-quality and recurring is your revenue base?", weight: 100, foundational: "Recurring/repeat revenue <10%, heavy reliance on new business development, volatile income streams", evolving: "Recurring/repeat revenue 10-30%, some multi-year contracts, but still significant project-based work", optimised: "Recurring/repeat revenue >30%, long-term client contracts, high revenue predictability", guidance: "High-quality revenue is recurring, predictable, and diversified. Retainer-based and subscription models score highest. Project-based revenue with strong repeat rates also scores well." , improvementAction: "Diversify revenue across clients (no single client >15%), grow recurring contracts to 40%+ of revenue" },
         { id: "fin_rate", name: "Blended Rate Card", question: "What is your average day rate and implementation of this?", weight: 100, foundational: "Average daily rate <\u00A31,000, frequent discounting, weak commercial discipline", evolving: "Average daily rate \u00A31,000-\u00A31,500, some rate consistency, but discounting still occurs", optimised: "Average daily rate >\u00A31,500, strong commercial discipline, pricing reflects market leadership and value", guidance: "Blended rate trends indicate pricing power. Rising rates with maintained utilisation signals market strength. Compare against sector benchmarks for your discipline." , improvementAction: "Implement value-based pricing, reduce discounting, and benchmark rates against market by grade level" },
+        { id: "fin_overhead", name: "Overhead Ratio", question: "What are your total overheads (non-delivery costs) as a percentage of revenue?", weight: 75, foundational: "Overheads exceed 35% of revenue, indicating poor cost control, bloated administration, or inefficient operations", evolving: "Overheads 25–35% of revenue, reasonable efficiency but opportunity for optimisation through technology or process improvement", optimised: "Overheads below 25% of revenue, lean operations with integrated technology driving efficiency and strong cost discipline", guidance: "Overhead ratio directly impacts EBITDA. The industry average is approximately 30%, but M&A-ready firms target below 25%. Track overhead trends quarterly and benchmark against peers. Key components: office costs, non-billable staff, technology, administration, and marketing." , improvementAction: "Audit all overhead categories, consolidate technology spend, automate administrative processes, and benchmark against Deltek Clarity data" },
+        { id: "fin_revfte", name: "Revenue per FTE", question: "What is your average annual revenue per full-time equivalent employee?", weight: 75, foundational: "Revenue per FTE below £80k, indicating low utilisation, weak pricing, or overstaffing relative to revenue", evolving: "Revenue per FTE £80k–£130k, moderate productivity with room for improvement in utilisation or pricing", optimised: "Revenue per FTE above £130k, demonstrating strong pricing power, high utilisation, and efficient delivery leverage", guidance: "Revenue per FTE is a core M&A efficiency metric. Top-quartile PSFs achieve £130–180k per head. Track trends over 3+ years — consistent improvement signals operational maturity. Acquirers use this to benchmark against comparable firms and identify post-acquisition efficiency opportunities." , improvementAction: "Improve utilisation rates, review pricing strategy, reduce non-billable headcount ratio, and benchmark against sector peers" },
       ]
     },
     {
-      id: "people", name: "People", icon: "users", totalWeight: 425, color: "#6C3483",
+      id: "people", name: "People", icon: "users", totalWeight: 525, color: "#6C3483",
       metrics: [
         { id: "ppl_talent", name: "Talent & Competence Management", question: "How comprehensive and structured is your talent and competency management framework?", weight: 100, foundational: "One or none of: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", evolving: "2-3 of these: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", optimised: "All of these: detailed competency framework; consistent training and mentoring structure; annual appraisal system; clear role definitions", guidance: "Comprehensive talent management includes structured career paths, regular development reviews, skills gap analysis, and leadership succession planning." , improvementAction: "Establish structured career pathways, implement 360-degree reviews, and create leadership development programs" },
         { id: "ppl_exp", name: "Employee Experience", question: "What is your internal employee satisfaction or GlassDoor rating?", weight: 100, foundational: "Internal NPS below 40 (or not measured) and Glassdoor rating below 3.5", evolving: "Internal NPS rating below 40 (or not measured) OR Glassdoor rating below 4", optimised: "Internal NPS rating 40+ AND Glassdoor rating above 4", guidance: "Employee satisfaction scores above 70% indicate a healthy culture. Track eNPS, exit interview themes, Glassdoor ratings, and participation in engagement surveys." , improvementAction: "Run quarterly eNPS surveys, act on feedback loops, and benchmark benefits against market leaders" },
         { id: "ppl_recruit", name: "Recruitment", question: "How effectively structured and targeted is your recruitment process?", weight: 100, foundational: "Low (0-3) qualified applicants per job. Vague or unarticulated Employee Value Proposition", evolving: "Medium (3-7) qualified applicants per job. Vague or unarticulated Employee Value Proposition", optimised: "High (7+) qualified applicants per job. Clear Employee Value Proposition", guidance: "Effective recruitment means <60 day time-to-hire, structured interview processes, diverse pipelines, and strong employer branding. Low offer-rejection rates signal market positioning." , improvementAction: "Build employer brand, reduce time-to-hire below 30 days, and establish graduate/intern pipelines" },
         { id: "ppl_churn", name: "Churn & Attrition", question: "What is your annual attrition rate, and how effective are your retention strategies?", weight: 100, foundational: "Attrition >25% annually", evolving: "Attrition between 15-25%", optimised: "Attrition <15%, strong retention strategies", guidance: "Annual attrition below 15% is healthy for PSFs. Distinguish between voluntary and involuntary turnover. High performer retention is the critical metric for acquirers." , improvementAction: "Implement stay interviews, address top 3 attrition drivers, and target voluntary attrition below 12%" },
         { id: "ppl_wf", name: "Workforce Composition", question: "How reliant are you on delivery teams composed of contractors versus permanent employees?", weight: 25, foundational: ">50% of delivery team are contractors, low organisational knowledge retention", evolving: "30-50% of delivery team are contractors, some investment in permanent teams", optimised: "<30% of delivery team are contractors, strong internal capability and knowledge retention", guidance: "Balanced workforce composition means no over-reliance on contractors or key individuals. Aim for a healthy mix of junior/mid/senior with clear development pathways." , improvementAction: "Reduce key-person dependency, cross-train teams, and build bench strength in critical delivery areas" },
+        { id: "ppl_equity", name: "Equity & Ownership Breadth", question: "How broadly is equity or ownership distributed among key staff beyond the founders?", weight: 50, foundational: "Equity held entirely by founder(s), or fewer than 5% of staff have any ownership stake; high key-person concentration risk", evolving: "Equity shared with 5–15% of staff (typically senior managers only); founder(s) retain more than 70% of equity", optimised: "Equity distributed among 15%+ of staff across multiple levels; no single individual holds more than 50% of equity; aligned retention incentives", guidance: "Broad equity distribution is a critical M&A signal. Founder-only ownership triggers 20–40% valuation discounts due to key-person risk. Acquirers prefer distributed ownership that aligns incentives and supports retention through deal transitions. Target: 15–25% of key staff with equity stakes, with no single holder above 50%." , improvementAction: "Implement equity participation scheme for key staff, reduce founder concentration below 50%, and align ownership with retention and performance goals" },
+        { id: "ppl_training", name: "Training & Development Investment", question: "What percentage of revenue do you invest in structured training and professional development?", weight: 50, foundational: "Training investment below 1% of revenue (or fewer than 3 days per employee per year), ad-hoc and reactive approach to development", evolving: "Training investment 1–2.5% of revenue (4–5 days per employee per year), documented L&D strategy with a mix of formal and informal learning", optimised: "Training investment above 2.5% of revenue (6+ days per employee per year), comprehensive integrated programme linked to competency framework and business outcomes", guidance: "Training investment is a leading indicator of talent retention and capability growth. Top-quartile PSFs invest 2.5–5% of revenue in L&D. Track training days per employee, budget allocation, and correlation with retention rates. Acquirers view underinvestment as a risk signal for post-deal talent flight." , improvementAction: "Establish minimum training budget of 2.5% of revenue, implement structured learning pathways, and track L&D ROI through retention and performance metrics" },
       ]
     },
     {
-      id: "services", name: "Services & Pricing", icon: "tag", totalWeight: 300, color: "#1A5276",
+      id: "services", name: "Services & Pricing", icon: "tag", totalWeight: 350, color: "#1A5276",
       metrics: [
         { id: "srv_prop", name: "Market Proposition", question: "How clearly is your market proposition defined and differentiated from competitors?", weight: 100, foundational: "Vague market positioning, low differentiation from competitors, low focus on specific client pain points", evolving: "Some differentiation but client pain points or benefits are vague", optimised: "Clearly defined, differentiated value proposition(s) focus on clear client needs and benefits", guidance: "A clear, differentiated value proposition articulates why clients choose you over alternatives. It should be specific, measurable, and consistently communicated across the firm." , improvementAction: "Define clear service tiers, retire underperforming offerings, and align portfolio to market demand" },
         { id: "srv_innov", name: "Service Innovation", question: "What percentage of your revenue is put towards service development / creation?", weight: 25, foundational: "No structured investment (<2% of revenue)", evolving: "3-5% of revenue reinvested in service development", optimised: ">5% of revenue reinvested in service innovation", guidance: "Active innovation includes regular service line reviews, R&D investment (2-5% of revenue), client co-creation, and a pipeline of new offerings in development." , improvementAction: "Allocate 5-10% of revenue to R&D, run quarterly innovation sprints, and track new service launch metrics" },
         { id: "srv_ip", name: "Service IP", question: "To what extent is your delivery supported by proprietary or IP-based content?", weight: 100, foundational: "<10% of delivery supported by proprietary IP", evolving: "10%-30% of delivery incorporates proprietary IP", optimised: ">30% of delivery is productised or IP-based", guidance: "Proprietary IP includes frameworks, tools, methodologies, and data assets. Documented, protected IP significantly increases firm valuation in M&A transactions." , improvementAction: "Codify delivery methodologies, create reusable frameworks, and protect intellectual property formally" },
         { id: "srv_size", name: "Project Size", question: "What is your average project size?", weight: 50, foundational: "Average contract size less than \u00A350k", evolving: "Average project size \u00A350k-\u00A3250k", optimised: "Average project size \u00A3250k+", guidance: "Optimal deal sizes balance profitability with risk. Growing average project size indicates market trust and capability maturity. Track trends over 12-24 months." , improvementAction: "Standardise delivery processes, invest in tooling/automation, and design services for delegation" },
         { id: "srv_price", name: "Pricing Strategy", question: "What percentage of your work is charged as value-based pricing or fixed price?", weight: 25, foundational: "Ad-hoc pricing; low understanding of price elasticity", evolving: "Some structured pricing models but inconsistent", optimised: "Data-driven pricing strategy, strong market positioning", guidance: "Value-based pricing, clear rate cards, and minimal discounting indicate pricing maturity. Firms that can articulate and defend their pricing command premium valuations." , improvementAction: "Implement tiered pricing models, shift from time-based to value-based pricing where possible" },
+        { id: "srv_portfolio", name: "Service Portfolio Architecture", question: "How structured is your service portfolio with clear entry-level, core, and strategic service tiers?", weight: 50, foundational: "No structured service tiers; largest service line accounts for over 60% of revenue; limited client upsell pathway", evolving: "Some service tiering in place; largest service line accounts for 40–60% of revenue; emerging upsell pathways between service lines", optimised: "Well-defined service tiers (entry, core, strategic) with documented client journey; largest service line below 40% of revenue; 3+ material service lines contributing to growth", guidance: "Service portfolio architecture measures how intentionally your services are structured to create client progression from initial engagement to strategic partnership. Well-architected portfolios include entry-level services that lower barriers, core services that generate volume, and strategic services that deepen relationships and margins." , improvementAction: "Map your service portfolio into tiers, identify gaps in the client journey, and develop entry-level offerings that create upsell pathways" },
       ]
     },
     {
@@ -56,29 +61,32 @@ export const FRAMEWORK = {
       ]
     },
     {
-      id: "sales", name: "Sales & Pipeline", icon: "trending-up", totalWeight: 275, color: "#B7950B",
+      id: "sales", name: "Sales & Pipeline", icon: "trending-up", totalWeight: 325, color: "#B7950B",
       metrics: [
         { id: "sal_pipe", name: "Pipeline Visibility", question: "How much of the next 12 months' revenue do you currently have booked?", weight: 75, foundational: "<40% of next 12 months' revenue booked", evolving: "40-70% of next 12 months' revenue booked", optimised: ">70% of next 12 months' revenue booked", guidance: "A healthy pipeline is 3-4x annual revenue target with balanced stage distribution. Track pipeline velocity, win rates by stage, and average deal cycle length." , improvementAction: "Implement CRM discipline, maintain 3x pipeline coverage, and track conversion rates by stage" },
         { id: "sal_conv", name: "Conversion Ratios", question: "What is your typical proposal-to-project conversion ratio?", weight: 50, foundational: "<25% proposal conversion rate", evolving: "25%-50% proposal conversion rate", optimised: ">50% proposal conversion rate", guidance: "Conversion rates above 30% from qualified opportunity to close indicate strong sales execution. Track by service line, client segment, and team member." , improvementAction: "Conduct win/loss analysis on every bid, improve proposal quality, and build sector-specific case studies" },
         { id: "sal_mgmt", name: "Sales Management", question: "How structured and effective is your sales management system?", weight: 75, foundational: "Weak sales management: weak reporting or data. CRM not well integrated", evolving: "Improved sales management. CRM used, but not consistently by all", optimised: "Strong sales management by top-ranked senior. Weekly meetings driven by CRM-related data", guidance: "Mature sales management includes CRM discipline, regular pipeline reviews, accurate forecasting (within 10%), and documented sales processes with clear stage gates." , improvementAction: "Map client account plans for cross-sell, train teams on full portfolio, and set cross-sell revenue targets" },
         { id: "sal_skills", name: "Sales Skills & Processes", question: "How well-defined and effective are your sales mentoring and training systems?", weight: 75, foundational: "No structured sales training/processes", evolving: "Some structured sales processes, but inconsistently applied", optimised: "Highly structured, repeatable sales process", guidance: "Sales capability goes beyond individual talent to include structured training, playbooks, proposal templates, and win/loss analysis feeding continuous improvement." , improvementAction: "Build inbound marketing engine, train sales teams on consultative selling, and measure pipeline quality" },
+        { id: "sal_crosssell", name: "Cross-sell & Account Expansion", question: "What percentage of your annual revenue comes from selling additional services to existing clients?", weight: 50, foundational: "Cross-sell/upsell revenue below 15% of total; fewer than 1.5 service lines per client on average; ad-hoc account development", evolving: "Cross-sell/upsell revenue 15–25% of total; 1.5–2.5 service lines per client; some structured account planning in place", optimised: "Cross-sell/upsell revenue above 25% of total; 2.5+ service lines per client on average; systematic account growth plans with quarterly reviews", guidance: "Expansion revenue from existing clients is typically the highest-margin revenue source for PSFs. Track service lines per client, expansion revenue as a percentage of total, and account plan coverage for top 20 clients. Acquirers view strong cross-sell as evidence of deep client relationships and growth potential." , improvementAction: "Implement formal account plans for top 20 clients, set cross-sell revenue targets, and train delivery teams to identify expansion opportunities" },
       ]
     },
     {
-      id: "clients", name: "Clients & Relationships", icon: "handshake", totalWeight: 250, color: "#922B21",
+      id: "clients", name: "Clients & Relationships", icon: "handshake", totalWeight: 300, color: "#922B21",
       metrics: [
         { id: "cli_conc", name: "Client Concentration & Risk", question: "How concentrated is your revenue among your top three clients?", weight: 100, foundational: "Top 3 clients contribute >50% of total revenue, high dependency on a few key relationships", evolving: "Top 3 clients contribute 30-50% of total revenue, moderate diversification", optimised: "Top 3 clients contribute <30% of total revenue, well-diversified client base", guidance: "Client concentration below 20% for top client and below 50% for top 5 clients reduces acquirer risk. Active diversification strategy should be documented." , improvementAction: "Reduce largest client to below 15% of revenue, diversify across 3+ sectors, build mid-market pipeline" },
         { id: "cli_long", name: "Client Longevity", question: "What is your average client tenure?", weight: 100, foundational: "Average client tenure <6 months, transactional relationships, low retention", evolving: "Average client tenure 6-24 months, some long-term relationships", optimised: "Average client tenure >2 years, high retention rate, strong account management", guidance: "Long-term client relationships (3+ years average tenure) indicate service quality and switching costs. Track Net Revenue Retention and expansion revenue." , improvementAction: "Implement NPS tracking, conduct quarterly business reviews with top 20 clients, target 90%+ retention" },
         { id: "cli_size", name: "Client Size", question: "What is the typical size of your client contracts?", weight: 25, foundational: "Majority of clients are small contracts (<\u00A350k annual spend)", evolving: "Mix of small and mid-sized clients, with 20%+ of revenue from mid-tier (\u00A350k-\u00A3250k)", optimised: "30%+ of revenue from large clients (\u00A3250k+ per year), strategic account penetration", guidance: "Growing average client size indicates deepening relationships and cross-sell success. Track revenue per client trends and number of service lines per client." , improvementAction: "Develop structured account growth plans, set expansion targets per client, and track wallet share" },
         { id: "cli_part", name: "Partnerships & Alliances", question: "How structured and beneficial are your strategic partnerships and alliances?", weight: 25, foundational: "No formal partnerships, occasional ad hoc collaborations", evolving: "1-3 strategic partnerships, contributing <10% of revenue", optimised: "3+ strong partnerships, contributing >15% of revenue, integrated into go-to-market", guidance: "Strategic client partnerships include joint planning, executive sponsorship, multi-year contracts, and embedded team models. These create defensible revenue streams." , improvementAction: "Establish multi-stakeholder relationships at each key client, implement relationship mapping tools" },
+        { id: "cli_ref", name: "Referenceable Clients", question: "What percentage of your active clients would willingly serve as a reference or case study?", weight: 50, foundational: "Fewer than 50% of clients would serve as references; no formal reference programme; limited published case studies", evolving: "50–75% referenceable clients; some case studies and testimonials collected; informal reference process", optimised: "Over 75% referenceable clients; formal reference programme with documented case studies; references readily available for sales and M&A due diligence", guidance: "Referenceable clients are a critical asset in both sales and M&A due diligence. Acquirers will want to speak to clients during the deal process. Firms with >75% referenceability demonstrate strong delivery quality and client satisfaction. Track referenceability separately from NPS — a client can be satisfied but unwilling to go on record." , improvementAction: "Build formal reference programme, request testimonials after successful projects, publish case studies quarterly, and maintain a reference-ready client list" },
       ]
     },
     {
-      id: "leadership", name: "Leadership & Governance", icon: "shield", totalWeight: 250, color: "#4A235A",
+      id: "leadership", name: "Leadership & Governance", icon: "shield", totalWeight: 300, color: "#4A235A",
       metrics: [
         { id: "led_team", name: "Senior Leadership Team", question: "How experienced and strategically skilled is your senior leadership team?", weight: 100, foundational: "Weak leadership team", evolving: "Improving leadership team", optimised: "Very experienced leadership team with experience of M&A", guidance: "A complete, capable leadership team has clear roles, complementary skills, and succession plans. No single point of failure. Board or advisory board adds governance strength." , improvementAction: "Build balanced leadership team across functions, invest in executive coaching, and conduct team reviews" },
         { id: "led_deleg", name: "Delegation & Succession", question: "How clearly defined are your delegation and succession planning processes?", weight: 100, foundational: "Founders drive most key decisions", evolving: "Some delegation, but founder dependence remains", optimised: "CEO and leadership team operate independently", guidance: "Effective delegation means the firm runs without founder dependency. Key decisions are made at appropriate levels with documented authority matrices." , improvementAction: "Document succession plans for all key roles, develop internal candidates, and test plans annually" },
         { id: "led_gov", name: "Governance & Controls", question: "How robust are your governance and control mechanisms?", weight: 50, foundational: "One or none of: Strong advisory board; Strong governance for decision-making; Strong strategic reporting", evolving: "Two of these: Strong advisory board; Strong governance; Strong strategic reporting", optimised: "All three: Strong advisory board; Strong governance for decision-making; Strong strategic reporting", guidance: "Strong governance includes regular board meetings, documented policies, risk management frameworks, compliance procedures, and clear reporting structures." , improvementAction: "Establish independent advisory board, implement formal board reporting, and define governance charter" },
+        { id: "led_risk", name: "Risk Management", question: "How formal and comprehensive is your risk management framework?", weight: 50, foundational: "No formal risk register; risk management is reactive; no business continuity plan or compliance framework documented", evolving: "Risk register maintained and reviewed quarterly; basic business continuity plan in place; some compliance documentation but not systematically embedded", optimised: "Enterprise risk management fully embedded with risk register reviewed quarterly by board; business continuity plan tested annually; formal assessment of third-party, cyber, and operational risks", guidance: "Formal risk management is increasingly scrutinised in M&A due diligence. Acquirers expect to see a maintained risk register, business continuity planning, and evidence of compliance maturity. Weak risk governance can trigger 10–15% valuation discounts. Align with ISO 31000 principles for best practice." , improvementAction: "Establish a formal risk register with assigned owners, implement business continuity plan, and conduct annual risk reviews with board oversight" },
       ]
     },
     {
@@ -94,28 +102,30 @@ export const FRAMEWORK = {
       ]
     },
     {
-      id: "delivery", name: "Delivery", icon: "check-square", totalWeight: 175, color: "#2E86C1",
+      id: "delivery", name: "Delivery", icon: "check-square", totalWeight: 225, color: "#2E86C1",
       metrics: [
         { id: "del_sat", name: "Client Satisfaction", question: "How structured and effective is your client satisfaction measurement (NPS)?", weight: 75, foundational: "No structured feedback mechanisms (NPS <20)", evolving: "Periodic feedback collection, NPS 20-50", optimised: "Advanced feedback mechanisms, NPS >50", guidance: "Client satisfaction scores (CSAT/NPS) above industry average demonstrate delivery quality. Regular measurement, trend tracking, and action on feedback score highest." , improvementAction: "Implement quality assurance checkpoints, track client satisfaction per project, and maintain scorecards" },
         { id: "del_util", name: "Utilisation", question: "What percentage of your staff are billable?", weight: 50, foundational: "Utilisation <60%", evolving: "Utilisation 60-75%", optimised: "Utilisation >75%", guidance: "Utilisation rates of 70-80% for senior staff and 80-85% for delivery teams are healthy. Track billable vs non-billable carefully and manage bench time productively." , improvementAction: "Target 75%+ billable utilization, implement real-time tracking, and address underperforming areas" },
         { id: "del_qa", name: "Quality Assurance", question: "How robust are your quality assurance standards?", weight: 50, foundational: "No formal QA standards", evolving: "Some QA standards in place, inconsistent adherence", optimised: "Robust QA framework throughout project delivery, consistently applied", guidance: "Quality assurance includes peer review processes, delivery standards, client acceptance procedures, and continuous improvement loops from project retrospectives." , improvementAction: "Standardize delivery methodology, train all staff, and measure methodology adherence on every project" },
+        { id: "del_otob", name: "On-Time & On-Budget Delivery", question: "What percentage of your projects are delivered on time and within budget?", weight: 50, foundational: "Fewer than 60% of projects delivered on time and on budget; rework rate above 8% of project hours; limited scope or change control", evolving: "60–80% of projects on time and on budget; rework rate 3–8%; formal change control process in place but inconsistently applied", optimised: "Over 80% of projects on time and on budget; rework rate below 3%; rigorous change control and scope management; project margins consistently above target", guidance: "On-time, on-budget delivery is the operational proof of a firm's promises. The industry average is approximately 73% on-time delivery (SPI Research 2024), but this has been declining. Track on-time and on-budget rates separately, monitor rework as a percentage of total project hours, and ensure change control processes are consistently applied." , improvementAction: "Implement project health dashboards, introduce earned value management for large projects, and conduct post-project reviews to reduce rework rates" },
       ]
     },
     {
-      id: "market", name: "Market Profile", icon: "globe", totalWeight: 175, color: "#CA6F1E",
+      id: "market", name: "Market Profile", icon: "globe", totalWeight: 200, color: "#CA6F1E",
       metrics: [
         { id: "mkt_size", name: "Market Size & Growth Potential", question: "How clearly defined and executed is your branding strategy?", weight: 25, foundational: "Small maximum market (less than $500m)", evolving: "Medium maximum market ($500m-1bn)", optimised: "Large maximum market (>$1bn)", guidance: "Addressable market size should be clearly defined and large enough for growth ambitions. Document TAM, SAM, and SOM with credible bottom-up analysis." , improvementAction: "Define total addressable market, track market share trends, and identify growth white spaces" },
         { id: "mkt_mktg", name: "Marketing Influence on Revenue", question: "What percentage of your revenue is directly influenced by marketing activities?", weight: 50, foundational: "<5% of revenue influenced by marketing", evolving: "5-15% of revenue influenced by marketing", optimised: "15%+ of revenue driven by marketing", guidance: "Marketing effectiveness is measured by lead generation metrics, brand awareness, share of voice, and marketing-attributed pipeline. Track cost per qualified lead." , improvementAction: "Build content marketing pipeline, track cost per lead, and measure marketing-sourced pipeline quarterly" },
         { id: "mkt_award", name: "Awards & Recognition", question: "How many national or industry awards have you won in the past three years?", weight: 50, foundational: "No national or industry awards won in the past three years", evolving: "1-2 national or industry awards won in the past three years", optimised: "3+ national or industry awards, with external validation from major industry bodies", guidance: "Industry awards and recognition validate market positioning. Active award submissions, analyst relations, and industry body participation demonstrate thought leadership." , improvementAction: "Pursue relevant industry awards, build case study library, and manage online review presence actively" },
         { id: "mkt_thought", name: "Thought Leadership", question: "How active and recognised is your thought leadership?", weight: 50, foundational: "No thought leadership content published in past 6 months", evolving: "2-3 pieces of thought leadership content published monthly", optimised: "Recognised industry thought leader, 4+ high-impact pieces monthly with significant recognition", guidance: "Thought leadership includes regular publishing, speaking engagements, research reports, and media presence. Content should demonstrate deep domain expertise." , improvementAction: "Publish quarterly research/whitepapers, secure speaking slots at key events, and build analyst relationships" },
         { id: "mkt_brand", name: "Branding", question: "What is your brand awareness and market recognition level?", weight: 0, foundational: "No defined brand strategy, weak recognition outside existing clients", evolving: "Some brand recognition, 1-2 external PR initiatives annually", optimised: "Recognised industry brand with strong external presence driving inbound opportunities", guidance: "Brand strength is measured by unaided awareness, brand preference in target segments, and premium pricing ability. Consistent visual identity and messaging across channels." , improvementAction: "Build distinctive thought leadership program, measure share of voice, and invest in digital brand presence" },
+        { id: "mkt_digital", name: "Digital Presence & Inbound Pipeline", question: "What percentage of your new business pipeline originates from your digital presence (website, content, SEO, social)?", weight: 25, foundational: "Less than 10% of pipeline from digital/inbound; website outdated or not optimised; no content strategy or lead tracking", evolving: "10–30% of pipeline from digital channels; website functional with some content; basic lead tracking and CRM integration; some online thought leadership", optimised: "Over 30% of pipeline from digital/inbound channels; website optimised for lead generation; systematic content strategy with regular publishing; marketing automation and attribution tracking in place", guidance: "Digital presence is increasingly the primary discovery channel for PSF buyers. High-growth firms generate 30%+ of pipeline from inbound digital channels. Track website traffic, conversion rates, content engagement, and marketing-attributed pipeline. Inbound leads cost approximately 2.6x less than outbound and convert at higher rates." , improvementAction: "Invest in website optimisation, build systematic content calendar, implement marketing automation, and track digital attribution to pipeline" },
       ]
     },
   ]
 };
 
 const TOTAL_MAX_SCORE = FRAMEWORK.themes.reduce((sum, t) => sum + t.metrics.reduce((s, m) => s + m.weight * 3, 0), 0);
-const TOTAL_WEIGHTED_POINTS = FRAMEWORK.themes.reduce((sum, t) => sum + t.totalWeight, 0); // 3000
+const TOTAL_WEIGHTED_POINTS = FRAMEWORK.themes.reduce((sum, t) => sum + t.totalWeight, 0); // 3525
 
 // -----------------------------------------------------------------------
 // INDUSTRY BENCHMARKS - Average scores by sector
@@ -376,6 +386,26 @@ const ENHANCED_GUIDANCE = {
       },
       improvementTips: ["Review and update rate cards annually with 3–5% increases", "Implement a discount approval process — require MD sign-off for >10% discounts", "Track rate realisation monthly and set a firm-wide target of >90%", "Introduce value-based pricing alternatives for advisory engagements"]
     },
+    fin_revfte: {
+      benchmarks: "Top-quartile PSFs achieve revenue per FTE of £130–180k (SPI Research reports $199k average across 403 firms globally). Revenue per head is a primary efficiency metric in M&A due diligence — it captures the combined effect of pricing power, utilisation, and delivery leverage. Consistent improvement over 3+ years is more valued than a single high figure.",
+      caseStudy: "A 90-person consulting firm had revenue per FTE of £95k — below the £130k M&A-ready threshold. Analysis revealed two issues: utilisation at 62% and average rates 15% below market. By improving utilisation to 73% through better resource planning and raising rates by 10% over 18 months, revenue per FTE reached £138k without adding headcount — adding £3.9M to top-line revenue.",
+      workedExample: {
+        situation: "Your firm has 80 FTEs generating £8.5M revenue, giving revenue per FTE of £106k. Your utilisation rate is 68% and your blended rate is competitive.",
+        rating: "Evolving (Level 2)",
+        rationale: "£106k per FTE is above Foundational but below the £130k target. The 68% utilisation suggests the primary lever for improvement is operational efficiency rather than pricing. Improving utilisation to 75% would lift revenue per FTE to approximately £117k, and targeted rate increases could push it above £130k."
+      },
+      improvementTips: ["Track revenue per FTE monthly as a board-level KPI", "Decompose into utilisation x rate x leverage to identify the weakest factor", "Benchmark against Deltek Clarity and SPI Research data for your sector", "Set a 3-year target trajectory with annual milestones"]
+    },
+    fin_overhead: {
+      benchmarks: "The industry average overhead ratio for PSFs is approximately 30% (Deltek Clarity 2025). However, this is the average — not the M&A-ready target. Top-quartile firms achieve overheads below 25% of revenue, enabled by integrated technology stacks (PSA, CRM, HCM), lean administration, and efficient office strategies. Overhead ratio directly impacts EBITDA — a 5-point reduction flows straight to the bottom line.",
+      caseStudy: "A 120-person consultancy had 38% overheads driven by expensive city-centre offices, a large HR team relative to headcount, and fragmented technology (7 separate systems with manual data entry between them). After consolidating to a single PSA platform, moving to a hybrid office model, and automating expense management, overheads dropped to 26% over two years — adding £1.4M to annual EBITDA.",
+      workedExample: {
+        situation: "Your overheads are 32% of revenue. The largest components are office costs (10%), non-billable staff (12%), and technology/tools (6%). You have not formally benchmarked against peers.",
+        rating: "Evolving (Level 2)",
+        rationale: "32% is close to industry average but above the 25% M&A-ready target. The non-billable staff ratio of 12% warrants examination — M&A-ready firms typically achieve 8–10%. Technology spend at 6% may indicate fragmentation. To reach Optimised, target office costs below 7%, non-billable staff below 10%, and consolidate technology."
+      },
+      improvementTips: ["Break overheads into categories and benchmark each against Deltek Clarity data", "Audit non-billable headcount ratio — target below 10% of total staff", "Consolidate technology platforms to reduce licence and integration costs", "Review office strategy — hybrid models can reduce property costs by 30–40%"]
+    },
     ppl_talent: {
       benchmarks: "M&A-ready firms have structured competency frameworks covering 100% of roles, with documented career paths from entry to partner level. Training investment should exceed 3% of revenue (top firms invest 5%+). Skill gap analysis should be conducted annually, with >80% of identified gaps addressed through targeted development within 12 months.",
       caseStudy: "A 90-person consultancy had no competency framework and promoted based on tenure rather than capability. After implementing a skills matrix, creating learning pathways, and tying promotion to demonstrated competence, they saw a 40% increase in internal promotion rates and a 25% reduction in mis-hires within two years.",
@@ -426,6 +456,26 @@ const ENHANCED_GUIDANCE = {
       },
       improvementTips: ["Create a 3-year workforce plan targeting a 3:1 leverage ratio", "Develop a strategic contractor vs permanent framework — define which roles should be permanent", "Begin tracking diversity metrics across seniority levels and set improvement targets", "Model the margin impact of improving leverage ratios to build the business case"]
     },
+    ppl_training: {
+      benchmarks: "Top-quartile PSFs invest 2.5–5% of revenue in training and development, equating to 6–8 days per employee per year. The ATD benchmark suggests 40–50 hours annually as healthy for knowledge workers. Firms with higher training investment show significantly lower voluntary attrition (Deltek reports 11.7% average when L&D is prioritised vs 15%+ when it is not). Training ROI should be tracked through retention, promotion rates, and capability assessments.",
+      caseStudy: "A 75-person consulting firm spent less than 0.5% of revenue on training, relying on 'learning on the job.' Annual attrition hit 28%, with exit interviews consistently citing lack of development. After implementing a structured L&D programme at 3% of revenue (including external certifications, internal mentoring, and quarterly skills workshops), attrition dropped to 14% within 18 months — saving approximately £400k in annual recruitment costs.",
+      workedExample: {
+        situation: "Your firm invests approximately 1.5% of revenue in training. Most development is informal (shadowing, on-the-job). You offer an annual external training budget of £500 per person but uptake is below 40%.",
+        rating: "Evolving (Level 2)",
+        rationale: "1.5% investment is above Foundational but below the 2.5% M&A-ready target. The low uptake of the training budget suggests it is not well-promoted or the allocation is too small to cover meaningful courses. To reach Optimised, increase investment to 2.5%+, create structured learning pathways tied to career progression, and track completion and impact."
+      },
+      improvementTips: ["Set a minimum training budget of 2.5% of revenue and track it as a board-level KPI", "Create structured learning pathways aligned to your competency framework", "Track training ROI through retention rates, promotion rates, and skill assessment scores", "Offer a mix of formal courses, mentoring, and on-the-job development opportunities"]
+    },
+    ppl_equity: {
+      benchmarks: "M&A-ready PSFs distribute equity among 15–25% of key staff (Schwab RIA 2025 benchmark shows 33% of staff as equity owners in advisory firms). Founder-only ownership triggers key-person discounts of 20–40% on valuation. The critical threshold is ensuring no single individual holds more than 50% of equity. Equity should be tied to retention agreements (typically 2–4 year vesting) to protect value through M&A transitions.",
+      caseStudy: "A founder-owned 60-person consultancy valued at 6x EBITDA (£4.2M) was told by two potential acquirers that the concentration of ownership was a deal-breaker. The founder implemented an equity scheme distributing 25% of shares among 8 senior leaders over 3 years with performance-based vesting. When the firm went to market again, it achieved 8.2x EBITDA (£5.7M) — a 36% premium attributed directly to reduced key-person risk.",
+      workedExample: {
+        situation: "Your founding partners hold 95% of equity between them. Two senior managers have 2.5% each but no formal retention agreements. No other staff have ownership stakes.",
+        rating: "Foundational (Level 1)",
+        rationale: "95% founder concentration creates severe key-person risk that acquirers will price in as a significant discount. The 2.5% stakes without retention agreements offer minimal protection. To reach Evolving, develop an equity distribution plan targeting 10–15% of staff with vesting schedules aligned to business plan milestones."
+      },
+      improvementTips: ["Develop a formal equity participation plan with clear eligibility criteria", "Target distribution to 15%+ of staff across multiple levels (not just the leadership team)", "Implement 3–4 year vesting schedules tied to retention and performance", "Ensure no single individual holds more than 50% of total equity"]
+    },
     srv_prop: {
       benchmarks: "M&A-ready firms have clearly articulated service propositions that can be explained in under 60 seconds and differentiated from competitors. The proposition should be validated through client feedback (>80% of clients able to articulate what makes the firm different). Market positioning should be documented and reviewed annually against competitive intelligence.",
       caseStudy: "A generalist consultancy struggled to articulate their differentiation beyond ‘our people.’ After conducting a positioning study with 30 clients and 15 prospects, they discovered their real strength was in post-merger integration for mid-market firms. Repositioning around this niche increased average project value by 45% and win rates by 20 percentage points.",
@@ -475,6 +525,16 @@ const ENHANCED_GUIDANCE = {
         rationale: "Near-complete reliance on T&M billing limits margin potential and exposes the firm to utilisation risk. The ad-hoc fixed-fee quoting without structured scoping is actually riskier than pure T&M. To reach Evolving, develop a value-based pricing capability for advisory work with proper scoping methodology."
       },
       improvementTips: ["Identify 2–3 service offerings best suited for value-based pricing (typically advisory/diagnostic)", "Develop a scoping methodology that quantifies client value outcomes", "Train partners on value conversation techniques and pricing confidence", "Pilot value-based pricing on 5–10 engagements and measure margin impact"]
+    },
+    srv_portfolio: {
+      benchmarks: "M&A-ready PSFs have structured service portfolios with 3+ material service lines, where no single line exceeds 40% of total revenue. The portfolio should include clear entry-level services (lower risk, lower value) that create upsell pathways to core and strategic offerings. Firms with well-architected portfolios achieve 25%+ higher average project values because clients naturally progress through the service tiers.",
+      caseStudy: "A technology consultancy had 75% of revenue from a single service line (cloud migration). When the market matured and competition intensified, margins fell from 45% to 28%. After designing a structured portfolio with cloud assessments (entry), migration (core), and managed services (strategic), they reduced single-line dependence to 45% and created a natural client progression that increased average engagement length from 4 to 14 months.",
+      workedExample: {
+        situation: "Your firm has two main service lines: advisory (65% of revenue) and implementation (35%). There is no structured entry-level offering, and upsell from implementation to advisory is rare.",
+        rating: "Evolving (Level 2)",
+        rationale: "Having two service lines is a start, but 65% concentration in advisory is above the 40% threshold. The lack of entry-level services limits pipeline development, and the poor cross-sell between lines suggests they operate as silos. To reach Optimised, design an entry-level diagnostic service, create formal pathways between lines, and reduce advisory dependence below 50%."
+      },
+      improvementTips: ["Map your current service portfolio into entry, core, and strategic tiers", "Design low-barrier entry services (diagnostics, assessments) that create upsell pathways", "Set targets for each service line as a percentage of total revenue", "Track client progression through service tiers and measure average engagement length"]
     },
     vis_market: {
       benchmarks: "M&A-ready firms have a clearly defined target market with demonstrable market share. The ideal is a niche position with >15% share in a defined segment, supported by evidence of market understanding (published market analysis, client win data by segment, competitive positioning maps). Firms targeting a total addressable market 10–50x their current revenue have credible growth headroom.",
@@ -566,6 +626,16 @@ const ENHANCED_GUIDANCE = {
       },
       improvementTips: ["Create proposal templates with consistent structure and branding", "Invest in consultative selling training for all BD-active staff", "Document a standard sales process from initial enquiry to contract signature", "Implement proposal reviews with feedback to continuously improve quality"]
     },
+    sal_crosssell: {
+      benchmarks: "M&A-ready PSFs generate 25–35% of annual revenue from cross-selling additional services to existing clients. The average number of service lines per client should be 2.5+ for top-20 accounts. Expansion revenue is typically the highest-margin revenue source (30–40% lower cost of sale than new business). Track account plan coverage — top-quartile firms have formal account plans for clients representing 80%+ of revenue.",
+      caseStudy: "A 100-person consultancy with £15M revenue had only 12% of revenue from cross-sell — despite having four distinct service lines. After implementing structured quarterly business reviews with the top 20 clients, creating a 'service menu' for account managers, and incentivising cross-introductions between practice leads, cross-sell revenue grew to 28% within two years, adding £2.4M in high-margin revenue.",
+      workedExample: {
+        situation: "Your top 20 clients average 1.3 service lines each. Cross-sell revenue is approximately 18% of total. Account planning is informal and inconsistent.",
+        rating: "Evolving (Level 2)",
+        rationale: "18% cross-sell is above Foundational but below the 25% target. The low service-lines-per-client metric (1.3 vs target of 2.5+) indicates significant untapped potential. The lack of formal account plans means cross-sell opportunities are being missed. To reach Optimised, implement formal account plans for all top-20 clients with specific cross-sell targets."
+      },
+      improvementTips: ["Implement formal account plans for the top 20 clients with specific cross-sell targets", "Create a client service menu and train delivery teams to identify expansion opportunities", "Introduce quarterly business reviews with strategic clients to surface unmet needs", "Track and report cross-sell revenue as a separate KPI alongside new business"]
+    },
     cli_conc: {
       benchmarks: "M&A advisors flag concentration risk when any single client exceeds 15-20% of revenue. Best-practice PSFs keep their top client below 10% and top-5 clients below 35%. Acquirers typically apply a revenue-at-risk discount of 1-2x EBITDA for every client representing more than 20% of billings (Source: Hinge Research, PCE Investment Banking).",
       caseStudy: "A 60-person management consultancy derived 42% of revenue from one government department. When that contract was re-tendered and lost, the firm faced an immediate 40% revenue gap. Over 18 months they rebuilt by targeting three new sectors, eventually reducing top-client dependency to 14% and improving their valuation multiple by 1.5x.",
@@ -606,6 +676,16 @@ const ENHANCED_GUIDANCE = {
       },
       improvementTips: ["Design a formal client partnership programme with clear tiers, benefits, and qualification criteria for each level", "Assign executive sponsors to strategic accounts and conduct joint annual planning sessions with client leadership", "Create co-innovation opportunities such as joint research, pilot programmes, or shared IP development with top-tier partners", "Measure partnership health through a balanced scorecard covering revenue, satisfaction, strategic alignment, and relationship breadth"]
     },
+    cli_ref: {
+      benchmarks: "M&A-ready PSFs have over 75% of active clients willing to serve as references (SPI Research tracks this at 71.9–76% across surveyed firms). Firms with >90% referenceability have a 38% higher win-to-bid ratio. During M&A due diligence, acquirers will typically request 5–10 client references — firms that struggle to provide these face immediate credibility concerns and potential valuation discounts.",
+      caseStudy: "A mid-sized consultancy approaching a sale found that only 40% of their clients would agree to be referenced. The primary issues were inconsistent delivery quality and a lack of ongoing relationship management after project completion. Over 12 months they implemented post-project reviews, a client success programme, and a formal reference request process. Referenceability rose to 82%, and the three case studies they published generated £1.2M in new pipeline.",
+      workedExample: {
+        situation: "You have 35 active clients. You have 4 published case studies (all over 2 years old) and could confidently offer perhaps 15 clients as references if asked.",
+        rating: "Evolving (Level 2)",
+        rationale: "At approximately 43% referenceability, this is above Foundational but well below the 75% target. The outdated case studies suggest delivery quality may have changed since they were published. To reach Optimised, refresh case studies annually, implement a post-project reference request process, and build a reference-ready client database."
+      },
+      improvementTips: ["Build a formal reference programme — request references at project completion when satisfaction is highest", "Maintain a database of reference-ready clients with up-to-date contact information", "Publish at least 4 new case studies per year covering different service lines and sectors", "Prepare a reference pack for M&A due diligence with diverse client profiles"]
+    },
     led_team: {
       benchmarks: "Acquirers evaluate leadership teams on depth, complementarity, and retention risk. Best-practice PSFs have a leadership team of 4-7 members covering delivery, sales, finance, and people. Key person dependency where one leader holds more than 40% of client relationships or institutional knowledge is a major red flag. Leadership teams with 3+ years average tenure together signal stability (Source: PCE Investment Banking, Equiteq).",
       caseStudy: "A founder-led strategy firm had all major client relationships, pricing decisions, and delivery oversight concentrated in the CEO. When exploring a sale, three potential acquirers walked away citing key-person risk. The firm spent 18 months deliberately distributing responsibilities, promoting two directors to Managing Partner roles, and transitioning client relationships. The eventual sale achieved a 30% higher multiple than the initial offers.",
@@ -635,6 +715,16 @@ const ENHANCED_GUIDANCE = {
         rationale: "Governance is informal and undocumented, with no independent oversight or structured decision-making processes. This is foundational because acquirers see poor governance as a risk indicator for post-acquisition integration challenges and hidden liabilities."
       },
       improvementTips: ["Establish a formal advisory board with at least one independent non-executive who brings M&A or industry expertise", "Document a governance charter defining meeting cadence, decision-making processes, voting rights, and escalation procedures", "Implement structured board reporting with standardised financial dashboards, KPI tracking, and strategic initiative updates", "Create a succession plan for all key leadership roles and review it annually with the advisory board"]
+    },
+    led_risk: {
+      benchmarks: "M&A-ready PSFs maintain a formal risk register reviewed quarterly by the board, with assigned risk owners and documented mitigation plans. Business continuity plans should be tested annually. Cyber security and data protection frameworks should be documented and evidenced. Weak risk governance can trigger 10–15% valuation discounts in M&A (ISO 31000, G31000 Risk Maturity Model). Acquirers specifically check for employment law compliance, data protection (GDPR), professional indemnity insurance adequacy, and contractual risk management.",
+      caseStudy: "During due diligence on a 70-person technology consultancy, the acquirer discovered no risk register, expired professional indemnity insurance, and undocumented contractor arrangements that created IR35 exposure. The deal was delayed by 4 months for remediation and the purchase price was reduced by 12% to cover identified risk exposures. A competitor firm of similar size with documented risk management completed its sale 6 weeks faster at a 10% higher multiple.",
+      workedExample: {
+        situation: "Your firm has professional indemnity insurance and basic data protection policies, but no formal risk register, no business continuity plan, and no regular risk review process.",
+        rating: "Foundational (Level 1)",
+        rationale: "While basic insurance and data protection exist, the absence of a risk register and business continuity plan leaves the firm exposed to operational, regulatory, and reputational risks. Acquirers will flag this as a due diligence concern. To reach Evolving, establish a risk register with quarterly reviews and create a basic business continuity plan."
+      },
+      improvementTips: ["Create a formal risk register covering operational, financial, regulatory, cyber, and reputational risks", "Assign a risk owner for each identified risk and document mitigation actions", "Develop and test a business continuity plan at least annually", "Review professional indemnity, cyber insurance, and key contractual protections quarterly"]
     },
     cos_deliv: {
       benchmarks: "Top-quartile PSFs achieve delivery cost ratios of 55-65% of revenue, with direct project costs tightly managed. Delivery overhead (non-billable delivery support) should be below 8-12% of revenue. Project-level gross margins of 45-55% indicate healthy delivery economics. Firms with mature delivery cost management consistently outperform on EBITDA margins by 5-8 percentage points (Source: Deltek Clarity, SPI Research).",
@@ -736,6 +826,16 @@ const ENHANCED_GUIDANCE = {
       },
       improvementTips: ["Document delivery methodologies for your top 3 service offerings, starting with the most common engagement types", "Introduce quality gates at project initiation, key milestones, and final delivery with clear criteria for passing each gate", "Implement peer review for all client-facing deliverables above a minimum engagement size threshold", "Create delivery playbooks that capture best practices and enable consistent quality regardless of which team or partner leads the engagement"]
     },
+    del_otob: {
+      benchmarks: "The industry average for on-time project delivery is approximately 73.4% (SPI Research 2024), declining from 80.2% in previous years. M&A-ready PSFs target over 80% on-time and on-budget delivery. Rework should be below 3% of total project hours for optimised firms (vs 8–10% at industry average). Scope change frequency should be formally tracked — projects with more than 2 material scope changes are at high risk of budget and timeline overrun. PSA tool users show 24% higher project margins on average.",
+      caseStudy: "A consulting firm discovered that only 55% of projects were delivered on time and on budget, with an average rework rate of 12%. Root cause analysis revealed poor scope definition at project initiation and absent change control. After implementing a structured scoping methodology, mandatory change control process, and weekly project health dashboards, on-time delivery improved to 83% and rework dropped to 4% within 12 months — improving project margins by 8 percentage points.",
+      workedExample: {
+        situation: "Your firm tracks project deadlines informally. You estimate about 65% of projects finish on time, but budget tracking is done retrospectively at project close rather than in real-time.",
+        rating: "Evolving (Level 2)",
+        rationale: "65% is above Foundational but below the 80% target. The lack of real-time budget tracking means margin erosion is only discovered after it has occurred. To reach Optimised, implement real-time project dashboards, formal change control processes, and a standard project health review cadence."
+      },
+      improvementTips: ["Implement real-time project health dashboards tracking schedule, budget, and scope status", "Establish a formal change control process requiring client sign-off for all material scope changes", "Conduct post-project reviews on every engagement and track rework rates as a firm-wide KPI", "Use earned value management principles for projects above a defined size threshold"]
+    },
     mkt_size: {
       benchmarks: "Well-positioned PSFs can clearly articulate their total addressable market (TAM) and serviceable addressable market (SAM). Firms targeting a defined SAM of 500M-2B with clear market share goals are viewed favourably by acquirers. Market position should be defensible through specialisation, geographic presence, or unique capabilities. Niche leaders with 5-15% market share in defined segments command premium valuations (Source: Hinge Research, Equiteq).",
       caseStudy: "A generalist business consulting firm struggled to articulate its market position to a potential acquirer. They conducted a market sizing exercise, identified three underserved vertical niches where they had existing expertise, and repositioned as specialists. Within two years they had grown market share to 8% in their primary niche and attracted acquisition interest at a significantly higher multiple than the original discussions.",
@@ -785,6 +885,16 @@ const ENHANCED_GUIDANCE = {
         rationale: "Brand presence is weak and inconsistent, limiting the firm ability to command premium fees or attract top talent. This is foundational because a strong brand is a transferable asset that acquirers value, and the current state suggests limited investment in how the firm is perceived by the market."
       },
       improvementTips: ["Invest in professional brand development including visual identity, messaging framework, and comprehensive brand guidelines", "Ensure brand consistency across every client touchpoint from website to proposals to deliverables to email signatures", "Conduct a brand awareness survey within your target market to establish a baseline and track improvement over time", "Develop a brand activation plan that builds awareness through consistent thought leadership, events, and digital presence"]
+    },
+    mkt_digital: {
+      benchmarks: "High-growth PSFs generate 30%+ of their new business pipeline from digital/inbound channels (Hinge Research 2025). Organic search drives approximately 33% of PSF website traffic (Conductor 2024). Inbound leads cost 2.6x less than outbound and convert at higher rates. M&A-ready firms have websites optimised for lead generation with clear calls-to-action, gated content, and marketing automation tracking attribution from first touch to closed deal.",
+      caseStudy: "A 50-person niche consultancy relied entirely on partner networks for new business, with a brochure-style website generating zero leads. After investing in content marketing (weekly blog posts, quarterly research reports), SEO optimisation, and marketing automation, inbound pipeline grew from 0% to 35% of total within 18 months. The reduced dependence on partner-led business development directly addressed the key-person risk that had previously suppressed their valuation.",
+      workedExample: {
+        situation: "Your website was last updated 3 years ago. You publish occasional blog posts but have no content strategy, no lead tracking, and no marketing automation. Approximately 5% of your pipeline comes from inbound enquiries.",
+        rating: "Foundational (Level 1)",
+        rationale: "5% inbound pipeline is well below the 10% threshold for Evolving. The outdated website and absent content strategy mean digital channels are not contributing to growth. To reach Evolving, invest in website redesign with lead capture, implement basic marketing automation, and establish a regular content publishing cadence."
+      },
+      improvementTips: ["Invest in website optimisation with clear CTAs, gated content, and lead capture forms", "Establish a content calendar with minimum monthly publishing of thought leadership content", "Implement marketing automation to track lead attribution from first touch to opportunity", "Measure and report digital pipeline contribution as a board-level KPI quarterly"]
     }
   }
 };
@@ -903,18 +1013,23 @@ const generateDemoData = () => {
     fin_cash: createRating(3, "Excellent cash conversion, 28 day debtors"),
     fin_quality: createRating(2, "32% recurring revenue from retainers"),
     fin_rate: createRating(3, "Average day rate £1,800"),
+    fin_revfte: createRating(3, "Revenue per FTE £165k"),
+    fin_overhead: createRating(3, "Overheads at 22% of revenue"),
     // People
     ppl_talent: createRating(3, "Full competency framework implemented"),
     ppl_exp: createRating(2, "Glassdoor 4.2, eNPS 42"),
     ppl_recruit: createRating(3, "Strong employer brand, 14 applicants per role"),
     ppl_churn: createRating(2, "Attrition at 16%, below industry average"),
     ppl_wf: createRating(3, "90% permanent staff"),
+    ppl_training: createRating(3, "3.5% of revenue on L&D, 8 days per employee"),
+    ppl_equity: createRating(3, "18% of staff hold equity, founder at 45%"),
     // Services & Pricing
     srv_prop: createRating(3, "Clear differentiation in digital transformation"),
     srv_innov: createRating(2, "5% R&D investment"),
     srv_ip: createRating(3, "Proprietary methodology and tools"),
     srv_size: createRating(3, "Average deal size £320k"),
     srv_price: createRating(3, "Value-based pricing model"),
+    srv_portfolio: createRating(3, "3 service tiers with clear client journey"),
     // Vision & Strategy
     vis_market: createRating(3, "AI consulting — hot sector"),
     vis_comp: createRating(2, "Good differentiation, 4 direct competitors"),
@@ -926,15 +1041,18 @@ const generateDemoData = () => {
     sal_conv: createRating(2, "42% win rate"),
     sal_mgmt: createRating(3, "CRM driven, weekly pipeline reviews"),
     sal_skills: createRating(3, "MEDDIC methodology trained across all sellers"),
+    sal_crosssell: createRating(2, "22% cross-sell revenue, 2.1 lines per client"),
     // Clients & Relationships
     cli_conc: createRating(2, "Top 3 clients at 28%, manageable concentration"),
     cli_long: createRating(3, "Average tenure 4.8 years"),
     cli_size: createRating(3, "48% from £250k+ clients"),
     cli_part: createRating(3, "Microsoft Gold and Salesforce partnerships"),
+    cli_ref: createRating(3, "85% referenceable, 12 published case studies"),
     // Leadership & Governance
     led_team: createRating(3, "Ex-Big 4 leadership with M&A experience"),
     led_deleg: createRating(3, "CEO fully delegated, strong deputies"),
     led_gov: createRating(3, "Advisory board with PE representation"),
+    led_risk: createRating(3, "Formal risk register, BCP tested annually"),
     // Cost Optimisation
     cos_deliv: createRating(2, "15% nearshore delivery"),
     cos_tech: createRating(3, "Fully integrated CRM, PSA, BI stack"),
@@ -947,12 +1065,14 @@ const generateDemoData = () => {
     del_sat: createRating(3, "NPS 65, quarterly surveys"),
     del_util: createRating(3, "84% billable utilisation"),
     del_qa: createRating(3, "Full QA gates on all projects"),
+    del_otob: createRating(3, "88% on time and budget, 2% rework"),
     // Market Profile
     mkt_size: createRating(3, "Large addressable market £2bn+"),
     mkt_mktg: createRating(2, "12% of revenue marketing-influenced"),
     mkt_award: createRating(3, "MCA winner 2024, shortlisted 2025"),
     mkt_thought: createRating(3, "6 whitepapers, regular speaking slots"),
     mkt_brand: createRating(2, "Growing brand recognition in target sectors")
+    mkt_digital: createRating(2, "25% of pipeline from inbound, content strategy in place")
   };
 
   // Demo Firm 2: TechBridge Solutions (Mid-Market — Nearly Ready ~72%)
@@ -963,16 +1083,21 @@ const generateDemoData = () => {
     fin_cash: createRating(2, "Cash conversion improving, 48 day debtors"),
     fin_quality: createRating(2, "18% recurring revenue"),
     fin_rate: createRating(2, "Day rate £1,150"),
+    fin_revfte: createRating(2, "Revenue per FTE £105k"),
+    fin_overhead: createRating(2, "Overheads at 31% of revenue"),
     ppl_talent: createRating(2, "Competency framework exists, improving"),
     ppl_exp: createRating(2, "Glassdoor 3.8, eNPS 28"),
     ppl_recruit: createRating(2, "6 applicants per role"),
     ppl_churn: createRating(2, "22% attrition"),
     ppl_wf: createRating(2, "65% permanent staff"),
+    ppl_training: createRating(2, "1.8% of revenue on L&D, 4 days per employee"),
+    ppl_equity: createRating(2, "8% of staff hold equity, founder at 65%"),
     srv_prop: createRating(2, "Good capability, clearer messaging emerging"),
     srv_innov: createRating(2, "Structured R&D starting"),
     srv_ip: createRating(2, "Some reusable accelerators and templates"),
     srv_size: createRating(2, "Average deal £95k"),
     srv_price: createRating(2, "Moving toward value-based pricing"),
+    srv_portfolio: createRating(2, "2 service lines, some tiering emerging"),
     vis_market: createRating(3, "Cloud migration — warm sector with growth"),
     vis_comp: createRating(2, "Moderate differentiation"),
     vis_align: createRating(2, "Strategy cascaded to senior team"),
@@ -982,13 +1107,16 @@ const generateDemoData = () => {
     sal_conv: createRating(2, "35% win rate"),
     sal_mgmt: createRating(2, "CRM adopted, improving discipline"),
     sal_skills: createRating(3, "Sales training programme in place"),
+    sal_crosssell: createRating(2, "18% cross-sell revenue, 1.8 lines per client"),
     cli_conc: createRating(2, "Top 3 at 38%"),
     cli_long: createRating(2, "2.5 year average tenure"),
     cli_size: createRating(2, "Growing mid-market client base"),
     cli_part: createRating(2, "AWS and Azure partnerships"),
+    cli_ref: createRating(2, "62% referenceable, 5 case studies"),
     led_team: createRating(3, "Strong leadership with industry experience"),
     led_deleg: createRating(2, "Founder stepping back, deputies growing"),
     led_gov: createRating(2, "Advisory board established"),
+    led_risk: createRating(2, "Risk register maintained, basic BCP"),
     cos_deliv: createRating(2, "5% nearshore delivery"),
     cos_tech: createRating(2, "CRM and basic PSA in place"),
     cos_scale: createRating(2, "30% automation"),
@@ -999,11 +1127,13 @@ const generateDemoData = () => {
     del_sat: createRating(2, "NPS 38, bi-annual surveys"),
     del_util: createRating(2, "72% billable utilisation"),
     del_qa: createRating(3, "QA on all client projects"),
+    del_otob: createRating(2, "72% on time and budget, 5% rework"),
     mkt_size: createRating(2, "Medium addressable market"),
     mkt_mktg: createRating(2, "8% of revenue marketing-influenced"),
     mkt_award: createRating(2, "Regional award winner"),
     mkt_thought: createRating(2, "Regular blog and webinar programme"),
     mkt_brand: createRating(2, "Growing regional recognition")
+    mkt_digital: createRating(2, "15% of pipeline from inbound channels")
   };
 
   // Demo Firm 3: Phoenix Advisory (Turnaround — Needs Work ~36%)
@@ -1014,16 +1144,21 @@ const generateDemoData = () => {
     fin_cash: createRating(1, "Working capital challenges, 68 day debtors"),
     fin_quality: createRating(1, "100% project-based revenue"),
     fin_rate: createRating(1, "Day rate £750, under market rate"),
+    fin_revfte: createRating(1, "Revenue per FTE £68k"),
+    fin_overhead: createRating(1, "Overheads at 42% of revenue"),
     ppl_talent: createRating(1, "No formal development framework"),
     ppl_exp: createRating(1, "Glassdoor 3.0, high dissatisfaction"),
     ppl_recruit: createRating(1, "Struggling to attract talent"),
     ppl_churn: createRating(1, "35% attrition, critical flight risk"),
     ppl_wf: createRating(1, "60% contractors, high dependency"),
+    ppl_training: createRating(1, "No training budget, ad-hoc only"),
+    ppl_equity: createRating(1, "100% founder owned, no equity sharing"),
     srv_prop: createRating(1, "Generalist positioning, no differentiation"),
     srv_innov: createRating(1, "No formal R&D investment"),
     srv_ip: createRating(1, "No proprietary IP or methodology"),
     srv_size: createRating(1, "£35k average deal size"),
     srv_price: createRating(1, "Heavy discounting to win work"),
+    srv_portfolio: createRating(1, "Single service line, no tiering"),
     vis_market: createRating(1, "Project management — crowded, cold sector"),
     vis_comp: createRating(1, "Highly commoditised, no differentiation"),
     vis_align: createRating(1, "No clear strategy communicated"),
@@ -1033,13 +1168,16 @@ const generateDemoData = () => {
     sal_conv: createRating(1, "20% win rate, declining"),
     sal_mgmt: createRating(1, "Spreadsheet-based tracking"),
     sal_skills: createRating(1, "No formal sales process or training"),
+    sal_crosssell: createRating(1, "8% cross-sell, 1.1 lines per client"),
     cli_conc: createRating(1, "Top 3 clients at 68%, critical risk"),
     cli_long: createRating(1, "6 month average tenure, high churn"),
     cli_size: createRating(1, "Mostly small contracts under £50k"),
     cli_part: createRating(1, "No strategic partnerships"),
+    cli_ref: createRating(1, "35% referenceable, 1 outdated case study"),
     led_team: createRating(2, "Founder experienced but stretched thin"),
     led_deleg: createRating(1, "100% founder dependent"),
     led_gov: createRating(1, "No governance structure"),
+    led_risk: createRating(1, "No risk register or BCP"),
     cos_deliv: createRating(1, "100% onshore, high cost base"),
     cos_tech: createRating(1, "Basic spreadsheets and email"),
     cos_scale: createRating(1, "Manual processes throughout"),
@@ -1050,11 +1188,13 @@ const generateDemoData = () => {
     del_sat: createRating(1, "NPS 12, no formal surveys"),
     del_util: createRating(1, "52% billable utilisation"),
     del_qa: createRating(1, "Inconsistent QA, no formal process"),
+    del_otob: createRating(1, "45% on time, 15% rework rate"),
     mkt_size: createRating(2, "Niche market with limited growth"),
     mkt_mktg: createRating(1, "No marketing function"),
     mkt_award: createRating(1, "No industry recognition"),
     mkt_thought: createRating(1, "No thought leadership activity"),
     mkt_brand: createRating(1, "Limited brand awareness")
+    mkt_digital: createRating(1, "Under 5% of pipeline from digital channels")
   };
 
   return {
@@ -2984,7 +3124,7 @@ function LandingPage({ onGetStarted }) {
     return { ...theme, d, lx, ly, labelColor, nameParts, color: segColors[theme.id] || "#4e5b73", isHovered: hoveredTheme === theme.id };
   });
   const steps = [
-    { num: 1, title: "Assess", desc: "Rate 47 metrics across 10 growth themes using a 3-level maturity scale" },
+    { num: 1, title: "Assess", desc: "Rate 57 metrics across 10 growth themes using a 3-level maturity scale" },
     { num: 2, title: "Benchmark", desc: "Compare against M&A-ready PSF benchmarks from 20+ industry sources" },
     { num: 3, title: "Identify", desc: "Pinpoint strengths, gaps, and strategic priorities ranked by impact" },
     { num: 4, title: "Act", desc: "Follow improvement roadmaps and scenario models to grow firm value" }
@@ -3002,7 +3142,7 @@ function LandingPage({ onGetStarted }) {
             Assess. Benchmark.<br /><span style={{ color: "#f2a71b" }}>Maximise Value.</span>
           </h1>
           <p className="text-sm sm:text-base leading-relaxed" style={{ color: "#c5c5c5", maxWidth: 480, margin: "0 auto" }}>
-            A structured framework that evaluates professional services firms across 10 growth themes and 47 metrics — benchmarked against M&A-ready standards.
+            A structured framework that evaluates professional services firms across 10 growth themes and 57 metrics — benchmarked against M&A-ready standards.
           </p>
         </div>
         {/* GROWTH THEMES */}
@@ -4176,8 +4316,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
 // ———— Guidance Page ————————————————————————————————————————
 const GuidancePage = ({ onBack }) => {
   const sections = [
-    { title: "What is the Growth Drivers Maturity Framework?", image: "guide-firms.jpg", content: "The Growth Drivers Maturity Framework is an M&A due diligence assessment platform designed for professional services firms (PSFs). It evaluates your firm across 10 growth themes and 47 metrics, benchmarked against M&A-ready industry standards. The framework helps you understand where your firm stands relative to what acquirers look for when pricing transactions." },
-    { title: "How the Assessment Works", image: "guide-assessment.jpg", content: "Each of the 47 metrics is rated on a 3-point maturity scale: Level 1 (Foundational) means basic or informal processes are in place. Level 2 (Evolving) means structured processes exist with some consistency. Level 3 (Optimised) means best-in-class, systematic, and measurable practices are embedded. Your scores are aggregated by theme and compared against M&A-Ready benchmarks derived from 20+ industry sources including Hinge Research, Deltek, SPI Research, and Mercer." },
+    { title: "What is the Growth Drivers Maturity Framework?", image: "guide-firms.jpg", content: "The Growth Drivers Maturity Framework is an M&A due diligence assessment platform designed for professional services firms (PSFs). It evaluates your firm across 10 growth themes and 57 metrics, benchmarked against M&A-ready industry standards. The framework helps you understand where your firm stands relative to what acquirers look for when pricing transactions." },
+    { title: "How the Assessment Works", image: "guide-assessment.jpg", content: "Each of the 57 metrics is rated on a 3-point maturity scale: Level 1 (Foundational) means basic or informal processes are in place. Level 2 (Evolving) means structured processes exist with some consistency. Level 3 (Optimised) means best-in-class, systematic, and measurable practices are embedded. Your scores are aggregated by theme and compared against M&A-Ready benchmarks derived from 20+ industry sources including Hinge Research, Deltek, SPI Research, and Mercer." },
     { title: "Understanding the Dashboard", image: "guide-dashboard.jpg", content: "The dashboard provides multiple views of your assessment: the M&A Readiness Score shows your overall readiness as a percentage inside a donut chart. The Radar Overview compares your theme scores against M&A-Ready benchmarks. The Readiness Gap Analysis ranks themes by their gap to benchmark. The Improvement Roadmap shows where focused effort will have the most impact. The Scenario Modelling tool lets you drag sliders to project how improvements would affect your overall score." },
     { title: "Benchmark Profiles", image: "guide-benchmark.jpg", content: "Benchmarks represent top-quartile PSF performance — the level that acquirers price for at M&A transaction events. The default M&A-Ready (PSF) benchmark averages 67% across all themes. You can compare against different benchmark profiles including Top Decile, Industry Average, and sector-specific standards via the Benchmark Profile selector on the dashboard." },
     { title: "Using the Insights Tab", image: "guide-insights.jpg", content: "The Insights tab (accessible from the dashboard) shows how your firm measures against all available benchmark profiles simultaneously. Green indicates M&A Ready (\u226590%), amber indicates Nearly Ready (\u226570%), and scores below 70% indicate areas needing focused improvement. Use Assessment Comparison to track progress over time once you have multiple assessments." },
