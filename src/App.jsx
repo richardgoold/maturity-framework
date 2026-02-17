@@ -4581,7 +4581,6 @@ export default function App() {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, disabled: !selectedAssessmentId && !dashboardAssessmentId },
     { id: "guidance", label: "Guidance", icon: BookOpen },
     { id: "contact", label: "Contact", icon: MessageSquare },
-    { id: "connect", label: "Let's Talk", icon: MessageSquare },
   ];
 
 
@@ -4790,50 +4789,6 @@ export default function App() {
         )}
         {view === "contact" && (
           <ContactView />
-        )}
-        {view === "connect" && (
-          <div className="min-h-[80vh] flex items-center justify-center p-4">
-            <div className="max-w-3xl w-full">
-              <div className="bg-gray-900 rounded-2xl p-8 sm:p-12 text-center shadow-xl border border-gray-800">
-                <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-6 mb-8">
-                  <div className="sm:text-left">
-                    <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3">Let's Talk</h1>
-                    <p className="text-xl sm:text-2xl text-amber-500 font-semibold tracking-wide">Build. Scale. Exit.</p>
-                  </div>
-                  <div className="w-40 h-40 sm:w-52 sm:h-52 rounded-full border-4 border-amber-400 shadow-lg flex-shrink-0 overflow-hidden">
-                    <img src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp" alt="Richard Goold" className="w-full h-full object-cover" style={{objectPosition: '55% 28%', transform: 'scale(1.65)'}} />
-                  </div>
-                </div>
-                <div className="mb-8">
-                  <p className="text-gray-600 text-base leading-relaxed mb-4">Helping founders, CEOs and boards navigate the hard parts — growth, culture, and capital events.</p>
-                  <p className="text-gray-400 text-sm leading-relaxed">Whether you're preparing for a transaction, building your leadership team, or strengthening operational readiness — I work alongside management teams as a trusted advisor to drive real, measurable progress.</p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-200">
-                    <div className="text-amber-500 font-bold text-lg mb-1">Growth</div>
-                    <div className="text-gray-400 text-xs">Revenue acceleration & market expansion</div>
-                  </div>
-                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-200">
-                    <div className="text-amber-500 font-bold text-lg mb-1">Culture</div>
-                    <div className="text-gray-400 text-xs">Leadership alignment & team development</div>
-                  </div>
-                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-200">
-                    <div className="text-amber-500 font-bold text-lg mb-1">Capital Events</div>
-                    <div className="text-gray-400 text-xs">M&A readiness & transaction support</div>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                  <a href="mailto:richard@richardgoold.com" className="flex items-center gap-2 bg-[#f2a71b] text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-[#f2a71b]/90 transition-colors w-full sm:w-auto justify-center">
-                    <Mail size={18} /> Let's Connect
-                  </a>
-                  <a href="https://richardgoold.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border-2 border-[#f2a71b] text-amber-500 font-bold px-6 py-3 rounded-lg hover:bg-[#f2a71b]/10 transition-colors w-full sm:w-auto justify-center">
-                    <Globe size={18} /> richardgoold.com <ExternalLink size={14} />
-                  </a>
-                </div>
-                <p className="text-gray-500 text-sm italic">Your next move starts here.</p>
-              </div>
-            </div>
-          </div>
         )}
             <footer className="mt-auto py-6 border-t border-gray-200 text-center">
         <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Growth Drivers Maturity Framework. All rights reserved.</p>
