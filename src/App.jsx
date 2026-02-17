@@ -4594,6 +4594,114 @@ function ContactView() {
   );
 }
 
+// ContactView - Advisory intro with contact form
+function ContactView() {
+  const { user } = useAuth();
+  const [formData, setFormData] = React.useState({ name: '', email: '', message: '' });
+  const [submitting, setSubmitting] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
+  const [error, setError] = React.useState('');
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError('');
+    try {
+      const { error: dbError } = await supabase.from('contact_submissions').insert([{
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        source_context: 'app_contact',
+        user_id: user?.id || null,
+      }]);
+      if (dbError) throw dbError;
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-10">
+      {/* Advisory Intro */}
+      <div className="text-center mb-10">
+        <div className="w-32 h-32 mx-auto mb-4 rounded-full border-4 border-amber-400 shadow-lg overflow-hidden">
+          <img
+            src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp"
+            alt="Richard Goold"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: '55% 28%', transform: 'scale(1.65)' }}
+          />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">Richard Goold</h2>
+        <p className="text-gray-600 max-w-md mx-auto mb-4">
+          Helping founders, CEOs and boards build, scale and prepare their firms for successful outcomes through coaching, M&A readiness support and advisory.
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <a href="https://richardgoold.com" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <Globe className="w-4 h-4" /> Website
+          </a>
+          <a href="https://www.linkedin.com/in/richardgooldofficial/" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <ExternalLink className="w-4 h-4" /> LinkedIn
+          </a>
+        </div>
+      </div>
+
+      {/* Contact Form */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Get in Touch</h3>
+        {submitted ? (
+          <div className="text-center py-8">
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircle className="w-6 h-6 text-green-600" />
+            </div>
+            <p className="text-gray-900 font-medium">Message sent!</p>
+            <p className="text-gray-500 text-sm mt-1">Richard will be in touch shortly.</p>
+            <button onClick={() => setSubmitted(false)} className="mt-4 text-sm text-amber-600 hover:text-amber-700 font-medium">
+              Send another message
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleContactSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <input type="text" required value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition-colors"
+                placeholder="Your name" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input type="email" required value={formData.email}
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition-colors"
+                placeholder="your@email.com" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+              <textarea required rows={4} value={formData.message}
+                onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition-colors resize-none"
+                placeholder="How can Richard help?" />
+            </div>
+            {error && <p className="text-red-600 text-sm">{error}</p>}
+            <button type="submit" disabled={submitting}
+              className="w-full py-3 bg-amber-400 hover:bg-amber-500 text-white font-bold rounded-lg shadow transition-colors disabled:opacity-50">
+              {submitting ? 'Sending...' : 'Send Message'}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
 export default function App() {
   const { user, signOut, isPremium, profile , isAdmin } = useAuth();
   const navigate = useNavigate();
