@@ -884,7 +884,7 @@ function LogoCarousel() {
                     maxHeight: 80,
                     maxWidth: 160,
                     objectFit: 'contain',
-                    filter: logo.darken ? 'brightness(0)' : logo.invert ? 'brightness(0) invert(1)' : 'none',
+                    filter: logo.darken ? 'brightness(0)' : logo.invert ? 'invert(1)' : 'none',
                   }}
                   onError={(e) => { e.target.parentElement.style.display = 'none'; }}
                 />
