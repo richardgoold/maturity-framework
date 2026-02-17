@@ -838,50 +838,46 @@ function ContactSection() {
   );
 }
 
-// ─── Logo Carousel ──────────────────────────────────────────────────────────
+// ─── Logo Carousel ───────────────────────────────────────
 function LogoCarousel() {
   const logos = [
     { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg" },
     { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
     { name: "Public First", src: "https://www.publicfirst.co.uk/wp-content/uploads/2026/01/PublicFirstLogo.webp" },
-    { name: "Roq", src: null },
     { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png" },
-    { name: "WeShape", src: null },
     { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp" },
-    { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: true },
+    { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg" },
+    { name: "Roq", src: null },
+    { name: "WeShape", src: null },
     { name: "The Institute of Clever Stuff", src: null },
   ];
-  const doubled = [...logos, ...logos];
+
+  const activeLogos = logos.filter(l => l.src);
+  const doubled = [...activeLogos, ...activeLogos];
+
   return (
-    <section className="py-10 bg-white overflow-hidden border-t border-gray-100">
-      <p className="text-center text-xs uppercase tracking-widest text-gray-400 mb-6">
-        Trusted by leading professional services firms  ·  Includes
+    <section style={{ padding: '3rem 0', background: '#f9fafb' }}>
+      <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem' }}>
+        Trusted by leading professional services firms
       </p>
-      <div className="relative w-full">
-        <div className="flex animate-marquee whitespace-nowrap items-center">
+      <style>{`
+        @keyframes logo-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+      `}</style>
+      <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem', width: 'max-content', animation: 'logo-scroll 35s linear infinite' }}>
           {doubled.map((logo, i) => (
-            logo.src ? (
-              <img key={i} src={logo.src} alt={logo.name}
-                className="mx-8 h-8 w-auto object-contain transition-all duration-300 cursor-default"
-                style={{ filter: 'grayscale(1) opacity(0.4)', minWidth: 'max-content' }}
-                onMouseOver={e => { e.target.style.filter = logo.invert ? 'brightness(0) opacity(0.8)' : 'grayscale(0) opacity(1)'; }}
-                onMouseOut={e => { e.target.style.filter = 'grayscale(1) opacity(0.4)'; }}
+            <div key={i} style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 56, padding: '0 0.5rem' }}>
+              <img
+                src={logo.src}
+                alt={logo.name}
+                title={logo.name}
+                style={{ height: 36, maxWidth: 140, objectFit: 'contain', opacity: 0.7, filter: 'grayscale(100%)' }}
+                onError={(e) => { e.target.style.display = 'none'; }}
               />
-            ) : (
-              <span key={i}
-                className="mx-8 inline-flex items-center text-lg font-semibold tracking-tight text-gray-300 hover:text-amber-600 transition-colors duration-300 cursor-default select-none"
-                style={{ fontFamily: "'Inter', system-ui, sans-serif", minWidth: 'max-content' }}>
-                {logo.name}
-              </span>
-            )
+            </div>
           ))}
         </div>
       </div>
-      <style>{`
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 30s linear infinite; }
-        .animate-marquee:hover { animation-play-state: paused; }
-      `}</style>
     </section>
   );
 }
