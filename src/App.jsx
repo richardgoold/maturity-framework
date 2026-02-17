@@ -1053,7 +1053,6 @@ const generateDemoData = () => {
     mkt_thought: createRating(1, "No thought leadership activity"),
     mkt_brand: createRating(1, "Limited brand awareness")
   };
-  };
 
   return {
     firms: [
