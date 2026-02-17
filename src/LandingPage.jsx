@@ -103,7 +103,7 @@ function HeroSection() {
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
-            Assess your firm across 10 growth dimensions and 47 metrics, benchmarked against
+            Assess your firm across 10 growth dimensions and 57 metrics, benchmarked against
             20+ industry sources including Hinge, Deltek, SPI Research, and Mercer.
           </p>
 
@@ -273,7 +273,7 @@ function HeroSection() {
                 <div className="grid grid-cols-12 gap-2 sm:gap-3 mt-2 sm:mt-3">
                   {/* 2-column heatmap matching the real app layout */}
                   <div className="col-span-7 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">47-Metric Maturity Heatmap</p>
+                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">57-Metric Maturity Heatmap</p>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {[
                         { theme: 'Financial Performance', cells: [3,2,3,3,2,3] },
@@ -521,11 +521,11 @@ function PreviewsSection() {
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-500 text-[8px] mt-1.5 text-center">6 of 47 metrics shown</p>
+                <p className="text-gray-500 text-[8px] mt-1.5 text-center">6 of 57 metrics shown</p>
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              10 themes and 47 growth metrics with clear maturity level definitions and practical guidance
+              10 themes and 57 growth metrics with clear maturity level definitions and practical guidance
             </p>
           </div>
         </div>
@@ -538,7 +538,7 @@ function PreviewsSection() {
 function HowItWorksSection() {
   const steps = [
     { num: 1, title: 'Sign up', desc: 'Create your free account in 30 seconds', icon: Users },
-    { num: 2, title: 'Baseline', desc: 'Assess your firm across 10 themes and 47 metrics', icon: Target },
+    { num: 2, title: 'Baseline', desc: 'Assess your firm across 10 themes and 57 metrics', icon: Target },
     { num: 3, title: 'Blueprint', desc: 'Get a prioritised roadmap benchmarked against M&A-ready standards', icon: BarChart3 },
     { num: 4, title: 'Navigate', desc: 'Expert guidance to close gaps and maximise value', icon: TrendingUp },
   ];
@@ -625,7 +625,7 @@ function StatsBar() {
        <p className="text-sm text-gray-400 mt-1">Growth Themes</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="47" /></p>
+            <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="57" /></p>
             <p className="text-sm text-gray-400 mt-1">Metrics</p>
           </div>
           <div className="text-center">
@@ -668,7 +668,7 @@ function FeaturesSection() {
             <p className="text-gray-600 mb-6">Everything you need to assess your firm's growth maturity</p>
             <ul className="space-y-3 mb-8">
               {[
-                'Full assessment across all 10 themes and 47 metrics',
+                'Full assessment across all 10 themes and 57 metrics',
                 'Dashboard with scores and gap analysis',
                 'Benchmark comparison against 7 profiles',
                 'Maturity heatmap across all dimensions',
