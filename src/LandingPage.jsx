@@ -843,6 +843,7 @@ function LogoCarousel() {
     const logos = [
       { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg", darken: true },
       { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
+      { name: "Public First", src: "/maturity-framework/logos/Public First.png" },
       { name: "Roq", src: "/maturity-framework/logos/Roq.jpeg" },
       { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png" },
       { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg" },
