@@ -3081,7 +3081,7 @@ function LandingPage({ onGetStarted }) {
       </div>    </div>
   );
 }
-function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem }) {
+function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem, userTier }) {
   const { isPremium , isAdmin } = useAuth();
   const navigate = useNavigate();
   const { openContactModal } = useContactModal();
@@ -3091,6 +3091,10 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
 
+  const FREE_FIRM_LIMIT = 1;
+  const userFirms = firms.filter(f => !f.id?.startsWith("demo_"));
+  const isFree = userTier !== "premium";
+  const atFirmLimit = isFree && userFirms.length >= FREE_FIRM_LIMIT;
   const handleCreate = () => {
     if (!name.trim()) return;
     onCreateFirm({ id: genId(), name: name.trim(), sector: sector.trim(), createdAt: new Date().toISOString() });
@@ -3105,11 +3109,34 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <p className="text-sm text-gray-500 mt-1">Select a firm to assess or create a new one</p>
         </div>
         <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxFirms; if (firms.filter(f => !f.id.startsWith('demo_')).length >= limit) { setShowLimitModal(true); return; } setShowCreate(true); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
-          <Plus size={16} /> New Firm
+        {atFirmLimit ? (
+          <div className="flex items-center gap-2 bg-gray-100 text-gray-500 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 cursor-default" title="Free plan allows 1 firm. Upgrade for unlimited firms.">
+            <Shield size={16} /> Firm Limit Reached
+          </div>
+        ) : (
+          <button onClick={() => setShowCreate(true)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
+            <Plus size={16} /> New Firm
+          </button>
+        )}
         </button>
       </div>
 
-      {showCreate && (
+      {atFirmLimit && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+          <div className="flex items-start gap-3">
+            <Shield size={20} className="text-amber-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 firm included</h4>
+              <p className="text-xs text-gray-600 mt-1">Your free account includes one firm assessment. Upgrade to Premium for unlimited firms, advanced benchmarking, and detailed reporting.</p>
+              <a href="mailto:richard@richardgoold.com?subject=GrowthLens%20Premium%20Enquiry" className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
+                <Mail size={12} /> Contact us about upgrading
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showCreate && !atFirmLimit && (
         <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-4 mb-4 shadow-sm">
           <h3 className="text-sm font-bold text-gray-700 mb-3">Create New Firm</h3>
           <div className="grid grid-cols-2 gap-3 mb-3">
@@ -4769,7 +4796,7 @@ export default function App() {
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
       {view === "firms" && !selectedFirmId && (
-          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} />
+          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} userTier={profile?.tier} />
         )}
         {view === "firmDetail" && selectedFirm && (
           <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} />
