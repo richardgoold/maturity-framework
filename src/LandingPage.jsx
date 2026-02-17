@@ -839,48 +839,50 @@ function ContactSection() {
 }
 
 // ─── Logo Carousel ───────────────────────────────────────
-function LogoCarousel() {
-  const logos = [
-    { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg", invert: false },
-    { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg", invert: true },
-    { name: "Public First", src: "https://www.publicfirst.co.uk/wp-content/uploads/2026/01/PublicFirstLogo.webp", invert: true },
-    { name: "Roq", src: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%2080%22%20width%3D%22200%22%20height%3D%2280%22%3E%3Crect%20width%3D%22200%22%20height%3D%2280%22%20fill%3D%22white%22%20rx%3D%224%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2252%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2242%22%20font-weight%3D%22700%22%20fill%3D%22%231a2744%22%20letter-spacing%3D%222%22%3Eroq%3C%2Ftext%3E%3C%2Fsvg%3E", invert: true },
-    { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png", invert: true },
-    { name: "WeShape", src: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%2080%22%20width%3D%22200%22%20height%3D%2280%22%3E%3Crect%20width%3D%22200%22%20height%3D%2280%22%20fill%3D%22white%22%20rx%3D%224%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2250%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2232%22%20font-weight%3D%22700%22%20fill%3D%22%234CAF50%22%20letter-spacing%3D%221%22%3EWe%20Shape%3C%2Ftext%3E%3C%2Fsvg%3E", invert: true },
-    { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", invert: false },
-    { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: false },
-    { name: "The Institute of Clever Stuff", src: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%2080%22%20width%3D%22200%22%20height%3D%2280%22%3E%3Crect%20width%3D%22200%22%20height%3D%2280%22%20fill%3D%22white%22%20rx%3D%224%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2242%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2238%22%20font-weight%3D%22700%22%20fill%3D%22%2300a5a8%22%20letter-spacing%3D%223%22%3EICS%3C%2Ftext%3E%3Ctext%20x%3D%22100%22%20y%3D%2262%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%228%22%20font-weight%3D%22600%22%20fill%3D%22%23555%22%20letter-spacing%3D%221.5%22%3ETHE%20INSTITUTE%20OF%20CLEVER%20STUFF%3C%2Ftext%3E%3C%2Fsvg%3E", invert: true },
-  ];
+  function LogoCarousel() {
+    const logos = [
+      { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg", invert: false },
+      { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg", invert: true },
+      { name: "Public First", src: "https://www.publicfirst.co.uk/wp-content/uploads/2026/01/PublicFirstLogo.webp", invert: true },
+      { name: "Roq", src: "/maturity-framework/logos/Roq.jpeg", invert: false, bg: true },
+      { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png", invert: true },
+      { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg", invert: false, bg: true },
+      { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", invert: false },
+      { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: false },
+      { name: "The ICS", src: "/maturity-framework/logos/The ICS.jpeg", invert: false, bg: true },
+    ];
 
-  const activeLogos = logos.filter(l => l.src);
-  const doubled = [...activeLogos, ...activeLogos];
+    const activeLogos = logos.filter(l => l.src);
+    const doubled = [...activeLogos, ...activeLogos];
 
-  return (
-    <section style={{ padding: '3rem 0', background: '#1f2937' }}>
-      <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem' }}>
-        Trusted by leading professional services firms including
-      </p>
-      <style>{`
-        @keyframes logo-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-      `}</style>
-      <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem', width: 'max-content', animation: 'logo-scroll 35s linear infinite' }}>
-          {doubled.map((logo, i) => (
-            <div key={i} style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 56, padding: '0 0.5rem' }}>
-              <img
-                src={logo.src}
-                alt={logo.name}
-                title={logo.name}
-                style={{ height: logo.name === 'YLD' ? 44 : 36, maxWidth: 160, objectFit: 'contain', opacity: 0.85, filter: logo.invert ? 'brightness(0) invert(1)' : 'none' }}
-                onError={(e) => { e.target.style.display = 'none'; }}
-              />
-            </div>
-          ))}
+    return (
+      <section style={{ padding: '3rem 0', background: '#1f2937' }}>
+        <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem' }}>
+          Trusted by leading professional services firms including
+        </p>
+        <style>{`
+          @keyframes logo-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        `}</style>
+        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '3rem', width: 'max-content', animation: 'logo-scroll 35s linear infinite' }}>
+            {doubled.map((logo, i) => (
+              <div key={i} style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 56, padding: '0 0.5rem' }}>
+                <div style={logo.bg ? { background: 'white', borderRadius: 8, padding: '6px 12px', display: 'flex', alignItems: 'center' } : { display: 'flex', alignItems: 'center' }}>
+                  <img
+                    src={logo.src}
+                    alt={logo.name}
+                    title={logo.name}
+                    style={{ height: logo.name === 'YLD' ? 44 : logo.bg ? 30 : 36, maxWidth: 160, objectFit: 'contain', opacity: 0.85, filter: logo.invert ? 'brightness(0) invert(1)' : 'none' }}
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
+    );
+  }
 // ─── Policy Modal ────────────────────────────────────────────────
 function PolicyModal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
