@@ -4530,10 +4530,10 @@ const GuidancePage = ({ onBack }) => {
 // ContactView - Advisory intro with contact form
 function ContactView() {
   const { user } = useAuth();
-  const [formData, setFormData] = React.useState({ name: '', email: '', message: '' });
-  const [submitting, setSubmitting] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
-  const [error, setError] = React.useState('');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
