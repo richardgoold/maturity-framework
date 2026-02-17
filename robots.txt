@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /maturity-framework/
+Disallow: /maturity-framework/assets/
+
+Sitemap: https://richardgoold.github.io/maturity-framework/sitemap.xml
