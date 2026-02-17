@@ -78,46 +78,71 @@ function NavBar() {
 // ─── Hero Section ────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-gradient-to-b from-gray-50 via-white to-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-4xl mx-auto">
-          {/* Badge */}
-          <div className="mb-10 inline-block">
-            <div className="bg-gray-900 px-10 py-5 sm:px-14 sm:py-6 rounded-2xl shadow-2xl border border-gray-700/50 text-center">
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
-                Professional Services
+      <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-[#1A202C] border-t-[3px] border-b-[3px] border-amber-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+
+            {/* Logo */}
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div className="w-10 h-10 bg-amber-400 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-6 h-6 text-white" />
               </div>
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
-                Growth Platform
+              <span className="text-2xl font-bold text-white">GrowthLens</span>
+            </div>
+
+            {/* Badge */}
+            <div className="mb-10 inline-block">
+              <div className="bg-gray-900 px-10 py-5 sm:px-14 sm:py-6 rounded-2xl shadow-2xl border border-gray-800">
+                <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
+                  Professional Services
+                </div>
+                <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
+                  Growth Platform
+                </div>
               </div>
             </div>
+
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-1">
+              How strong is
+            </h1>
+            <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-10">
+              <span className="text-white">your firm, </span><span className="text-amber-400">really?</span>
+            </p>
+
+            {/* Stats */}
+            <div className="flex items-start justify-center gap-6 sm:gap-10 mb-6 max-w-3xl mx-auto">
+              <div className="flex-1 text-center">
+                <div className="text-4xl sm:text-5xl font-black text-amber-400">10</div>
+                <div className="text-xs sm:text-sm text-gray-400 mt-1">Growth Dimensions</div>
+              </div>
+              <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
+              <div className="flex-1 text-center">
+                <div className="text-4xl sm:text-5xl font-black text-amber-400">57</div>
+                <div className="text-xs sm:text-sm text-gray-400 mt-1">Metrics</div>
+              </div>
+              <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
+              <div className="flex-1 text-center">
+                <div className="text-4xl sm:text-5xl font-black text-amber-400">20+</div>
+                <div className="text-xs sm:text-sm text-gray-400 mt-1">Industry Benchmark Sources</div>
+              </div>
+            </div>
+
+            <p className="text-sm text-gray-500 mb-8">
+              Evidence-based benchmarks from Hinge, Deltek, SPI Research, Mercer & more.
+            </p>
+
+            {/* Tagline */}
+            <p className="text-xl sm:text-2xl font-extrabold text-amber-400 tracking-[0.2em] uppercase mb-10">
+              Baseline. Blueprint. Navigate.
+            </p>
+
+            {/* CTA */}
+            <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-full shadow-lg transition-all duration-200 gap-2">
+              Sign Up Free
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
-
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-3">
-            How strong is your firm,
-          </h1>
-          <p className="text-4xl sm:text-5xl lg:text-6xl font-black text-amber-400 leading-tight mb-8">
-            really?
-          </p>
-
-          {/* Subtitle */}
-          <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
-            Assess your firm across 10 growth dimensions and 57 metrics, benchmarked against
-            20+ industry sources including Hinge, Deltek, SPI Research, and Mercer.
-          </p>
-
-          {/* Tagline */}
-          <p className="text-xl sm:text-2xl font-extrabold text-amber-400 tracking-[0.2em] uppercase mb-10">
-            Baseline. Blueprint. Navigate.
-          </p>
-
-          {/* CTA */}
-          <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
-            Sign Up Free
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
 
         {/* Hero dashboard illustration */}
         <div className="mt-16 max-w-5xl mx-auto">
