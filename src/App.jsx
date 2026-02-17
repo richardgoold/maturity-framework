@@ -4357,7 +4357,7 @@ function ContactView() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
         {/* Advisory Intro */}
         <div className="text-center mb-10">
-          <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-4 border-amber-400 shadow-lg mx-auto mb-4" style={{ backgroundImage: 'url(https://richardgoold.com/wp-content/uploads/2025/08/hero.webp)', backgroundSize: '378px 250px', backgroundPosition: '-120px -35px' }} />
+          <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-4 border-amber-400 shadow-lg mx-auto mb-4" style={{ backgroundImage: 'url(https://richardgoold.com/wp-content/uploads/2025/08/hero.webp)', backgroundSize: '378px 250px', backgroundPosition: '-150px -35px' }} />
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Richard Goold</h2>
           <p className="text-gray-600 max-w-lg mx-auto mb-6">Helping professional services firms build, scale, and prepare for successful exits through coaching, M&A readiness assessment, and strategic advisory.</p>
           <div className="flex items-center justify-center gap-3">
