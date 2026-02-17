@@ -6,6 +6,7 @@ import { useAuth } from "./AuthContext";
 import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
 import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
 import { ContactModalProvider, useContactModal } from "./ContactModal";
+import { supabase } from './supabase';
 // -----------------------------------------------------------------------
 // FRAMEWORK DATA - All 47 metrics from the Growth Drivers spreadsheet
 // -----------------------------------------------------------------------
@@ -4127,7 +4128,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           <div style={{background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.25)", borderRadius: "12px", padding: "24px", marginBottom: "16px", textAlign: "center"}}>
             <h3 style={{fontSize: "1.1rem", fontWeight: "700", color: "#f5f5f5", margin: "0 0 4px"}}>Get Your Assessment Report</h3>
             <p style={{fontSize: "0.85rem", color: "#9ca3af", margin: "0 0 16px"}}>Enter your details to unlock PDF and executive summary exports</p>
-            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.target); const info = {name: fd.get("leadName"), email: fd.get("leadEmail"), company: fd.get("leadCompany")}; localStorage.setItem("gdmf_lead", JSON.stringify(info)); setLeadInfo(info); }} style={{display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "500px", margin: "0 auto"}}>
+            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.target); const info = {name: fd.get("leadName"), email: fd.get("leadEmail"), company: fd.get("leadCompany")}; localStorage.setItem("gdmf_lead", JSON.stringify(info)); setLeadInfo(info); supabase.from("leads").insert({ name: info.name, email: info.email, company: info.company || null, source_context: "dashboard_export" }).then(() => {}); }} style={{display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "500px", margin: "0 auto"}}>
               <input name="leadName" required placeholder="Your name" style={{flex: "1 1 140px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
               <input name="leadEmail" type="email" required placeholder="Email address" style={{flex: "1 1 180px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
               <input name="leadCompany" placeholder="Company (optional)" style={{flex: "1 1 140px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
