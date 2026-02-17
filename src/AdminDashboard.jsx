@@ -736,7 +736,7 @@ function AdminFirmDetail({ firm, users, assessments, onBack, onViewAssessment })
                   <div>
                     <span className="text-sm font-medium">Assessment</span>
                     <span className="text-xs text-gray-500 ml-2">{formatDateTime(a.created_at)}</span>
-                    <span className="text-xs text-gray-400 ml-2">{ratedCount}/47 metrics rated</span>
+                    <span className="text-xs text-gray-400 ml-2">{ratedCount}/57 metrics rated</span>
                   </div>
                   <div className="flex items-center gap-3">
                     {score && (
