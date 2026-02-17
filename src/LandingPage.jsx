@@ -6,7 +6,7 @@ import {
   BarChart3, Target, TrendingUp, Award, CheckCircle2,
   ArrowRight, Mail, ExternalLink, Linkedin,
   Shield, Users, Globe, ChevronRight, ArrowLeft
-} from 'lucide-react';
+, Lock} from 'lucide-react';
 
 // ─── NavBar ──────────────────────────────────────────────────────
 function NavBar() {
@@ -562,10 +562,10 @@ function PreviewsSection() {
 // ─── How It Works ────────────────────────────────────────────────
 function HowItWorksSection() {
   const steps = [
-    { num: 1, title: 'Sign up', desc: 'Create your free account in 30 seconds', icon: Users },
-    { num: 2, title: 'Baseline', desc: 'Assess your firm across 10 themes and 57 metrics', icon: Target },
-    { num: 3, title: 'Blueprint', desc: 'Get a prioritised roadmap benchmarked against M&A-ready standards', icon: BarChart3 },
-    { num: 4, title: 'Navigate', desc: 'Expert guidance to close gaps and maximise value', icon: TrendingUp },
+    { num: 1, title: 'Sign Up', desc: 'Create your free account in 30 seconds', icon: Users, tier: 'free' },
+    { num: 2, title: 'Baseline', desc: 'Rate your firm across 10 themes and 57 metrics', icon: Target, tier: 'free' },
+    { num: 3, title: 'Blueprint', desc: 'Compare against M&A-ready benchmarks and identify gaps', icon: BarChart3, tier: 'premium' },
+    { num: 4, title: 'Navigate', desc: 'Get a prioritised roadmap to maximise firm value', icon: TrendingUp, tier: 'premium' },
   ];
 
   return (
@@ -573,21 +573,21 @@ function HowItWorksSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">How it works</h2>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto">From sign-up to strategic action in four steps</p>
+          <p className="text-lg text-gray-500 max-w-xl mx-auto">From sign-up to strategic action in four simple steps</p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-0">
           {steps.map((step, i) => (
             <div key={step.num} className="flex items-center gap-0 flex-1">
               <div className="flex flex-col items-center text-center flex-1">
-                <div className="inline-flex items-center justify-center w-8 h-8 bg-amber-400 text-white text-sm font-bold rounded-full mb-3 shadow-sm">
+                <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-3 shadow-sm border-2 ${step.tier === 'premium' ? 'bg-gray-50 border-gray-200' : 'bg-amber-50 border-amber-200'}`}>
+                  <step.icon className={`w-7 h-7 sm:w-8 sm:h-8 ${step.tier === 'premium' ? 'text-gray-500' : 'text-amber-600'}`} />
+                </div>
+                <div className={`inline-flex items-center justify-center w-8 h-8 text-white text-sm font-bold rounded-full mb-3 shadow-sm ${step.tier === 'premium' ? 'bg-gray-400' : 'bg-amber-400'}`}>
                   {step.num}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">{step.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed max-w-[200px] mb-4">{step.desc}</p>
-                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-amber-50 border-2 border-amber-200 rounded-2xl flex items-center justify-center shadow-sm">
-                  <step.icon className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600" />
-                </div>
+                <p className="text-gray-500 text-sm leading-relaxed max-w-[180px]">{step.desc}</p>
               </div>
               {/* Arrow connector */}
               {i < steps.length - 1 && (
@@ -597,6 +597,23 @@ function HowItWorksSection() {
               )}
             </div>
           ))}
+        </div>
+
+        {/* Tier indicator bar */}
+        <div className="hidden sm:flex mt-8 max-w-[90%] mx-auto">
+          <div className="flex-1 flex items-center justify-center gap-2 py-2 rounded-l-full bg-amber-50 border border-amber-200 text-xs font-semibold text-amber-700 tracking-wide">
+            <span>Included Free</span>
+          </div>
+          <div className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-r-full bg-gray-50 border border-gray-200 text-xs font-semibold text-gray-500 tracking-wide">
+            <Lock className="w-3 h-3" />
+            <span>Premium</span>
+          </div>
+        </div>
+
+        {/* Mobile tier indicators */}
+        <div className="flex sm:hidden justify-center gap-4 mt-6">
+          <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">Steps 1–2: Free</span>
+          <span className="flex items-center gap-1 text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full"><Lock className="w-3 h-3" /> Steps 3–4: Premium</span>
         </div>
       </div>
     </section>
