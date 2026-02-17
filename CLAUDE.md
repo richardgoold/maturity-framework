@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-An M&A due diligence assessment platform that evaluates professional services firms (PSFs) across 10 growth themes and 47 metrics, benchmarked against M&A-ready industry standards. Built as a single-page React application deployed to GitHub Pages.
+An M&A due diligence assessment platform that evaluates professional services firms (PSFs) across 10 growth themes and 57 metrics, benchmarked against M&A-ready industry standards. Built as a single-page React application deployed to GitHub Pages.
 
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://richardgoold.github.io/maturity-framework/
@@ -39,7 +39,7 @@ CLAUDE.md                      # This file
 ## App.jsx Structure (top to bottom)
 
 - **Imports:** React, Recharts, Lucide icons
-- **FRAMEWORK constant (~lines 1-380):** All 10 themes with 47 metrics, each with id, name, question, weight, icon, and 3 maturity level descriptions
+- **FRAMEWORK constant (~lines 1-380):** All 10 themes with 57 metrics, each with id, name, question, weight, icon, and 3 maturity level descriptions
 - **Demo data (~lines 383-450):** Pre-populated firms and assessments (Apex, TechBridge, Phoenix)
 - **BENCHMARKS constant (~line 115):** M&A-Ready benchmark percentages per theme
 - **Helper functions:** calculateScores, getStrengths, getImprovements, etc.
@@ -60,7 +60,7 @@ These represent top-quartile PSF performance levels that acquirers price for at 
 
 - **MetricCard** — Individual metric rating card
 - **ThemeSidebar** — Left sidebar showing theme list
-- **HeatmapGrid** — Two-column maturity heatmap (all 47 metrics), colourblind-friendly palette
+- **HeatmapGrid** — Two-column maturity heatmap (all 57 metrics), colourblind-friendly palette
 - **StrengthsWeaknesses** — Top strengths and key improvement areas with weight indicators
 - **ExportPanel** — PDF/CSV export buttons in 3-column grid layout
 - **RadarOverview** — Radar chart for theme scores (Your Firm #1B4F72, fillOpacity 0.35, strokeWidth 3 + M&A-Ready amber #D97706)
@@ -95,7 +95,7 @@ App (manages firms, assessments, navigation state)
       calls exportToPDF(assessment, firmName, firmSector, scores)
 - **InsightsView** — Benchmark position and assessment comparison (green >= 90%, amber >= 70%)
 - **ConnectView ("Let's Talk")** — Contact/advisory section with side-by-side layout: left-aligned heading ("Let's Talk" + "Build. Scale. Exit.") with circular portrait photo on the right. Photo uses wrapper div with overflow-hidden, objectPosition '55% 28%', transform scale(1.65) for tight face crop. Image sourced from richardgoold.com/wp-content/uploads/2025/08/hero.webp. Three service cards (Growth, Culture, Capital Events), CTA buttons (mailto + richardgoold.com).
-- **GuidancePage** — Enhanced guidance tab with ENHANCED_GUIDANCE data (~107K chars). Covers all 47 metrics across 10 themes with: metric descriptions, key questions, maturity level definitions (Foundational/Evolving/Optimised), industry benchmarks with sources, practical improvement steps, and key considerations. Features search, theme filtering, and expandable metric cards.
+- **GuidancePage** — Enhanced guidance tab with ENHANCED_GUIDANCE data (~107K chars). Covers all 57 metrics across 10 themes with: metric descriptions, key questions, maturity level definitions (Foundational/Evolving/Optimised), industry benchmarks with sources, practical improvement steps, and key considerations. Features search, theme filtering, and expandable metric cards.
 ```
 
 ## Dashboard Features
@@ -164,18 +164,18 @@ Confidential — For authorised use only.
 
 ## 10 Growth Themes
 
-1. **Financial Performance** (6 metrics, weight 600)
-2. **People** (5 metrics, weight 425)
-3. **Services & Pricing** (5 metrics, weight 300)
+1. **Financial Performance** (8 metrics, weight 750)
+2. **People** (7 metrics, weight 525)
+3. **Services & Pricing** (6 metrics, weight 350)
 4. **Vision & Strategy** (5 metrics, weight 300)
-5. **Sales & Pipeline** (4 metrics, weight 300)
-6. **Clients & Relationships** (4 metrics, weight 300)
-7. **Leadership & Governance** (3 metrics, weight 300)
-8. **Cost Optimisation** (7 metrics, weight 225)
-9. **Delivery** (3 metrics, weight 300)
-10. **Market Profile** (5 metrics, weight 250)
+5. **Sales & Pipeline** (5 metrics, weight 325)
+6. **Clients & Relationships** (5 metrics, weight 300)
+7. **Leadership & Governance** (4 metrics, weight 300)
+8. **Cost Optimisation** (7 metrics, weight 250)
+9. **Delivery** (4 metrics, weight 225)
+10. **Market Profile** (6 metrics, weight 200)
 
-**Total:** 47 metrics, max score 9000 (3 x sum of all weights)
+**Total:** 57 metrics, max score 9000 (3 x sum of all weights)
 
 Each theme in the FRAMEWORK constant has an icon property from Lucide React, though icons are not yet rendered in all views.
 
@@ -246,7 +246,7 @@ The exportToPDF function (~line 953) generates a professional print-ready HTML d
 - Theme maturity scores (5x2 grid) with branded colours
 - M&A-Ready Benchmark comparison table with horizontal bar charts
 - Strengths and improvement areas tables
-- Full 47-metric maturity heatmap
+- Full 57-metric maturity heatmap
 - benchmarkSectorDisplay (~line 1120) maps sector to 'M&A-Ready' for the PDF heading
 - Branded colour scheme: amber #D97706 for M&A-Ready, navy #1B4F72 for firm scores
 
@@ -265,7 +265,7 @@ f47bddf  Fix assessment comparison chart: two-line labels, distinct bar colours
 8585961  Update benchmark bar colour to warm stone (#c4b5a5)
 --- Previous session (11-12 Feb 2026) ---
          7 mobile responsive improvements across 5 commits
-         ENHANCED_GUIDANCE data (107K chars, 47 metrics, 10 themes)
+         ENHANCED_GUIDANCE data (107K chars, 57 metrics, 10 themes)
          Guidance page restructuring
          5 UI change requests (benchmark colour, industry sources, strengths formatting, donut chart, CTA tab)
 2aaba7a  Dashboard improvements: donut score, roadmap fix, export buttons, accessibility
@@ -330,7 +330,7 @@ All changes below were applied in a single commit after a session crash recovery
 ### Not Yet Implemented
 - **Theme icons throughout the app** — FRAMEWORK data has icon properties but they are not rendered in heatmap, gap analysis, or theme headers. Risk: touching multiple components.
 - **Continuous scrolling assess tab** — Assessment currently uses discrete theme-by-theme navigation. Continuous scrolling would require significant refactoring of the AssessmentView component.
-- ~~New guidance page~~ **DONE** — GuidancePage component with ENHANCED_GUIDANCE data (107K chars, 47 metrics, 10 themes, search, filtering, expandable cards)
+- ~~New guidance page~~ **DONE** — GuidancePage component with ENHANCED_GUIDANCE data (107K chars, 57 metrics, 10 themes, search, filtering, expandable cards)
 - **Consistent theme colours** — Partially addressed by the colourblind palette change, but theme-specific accent colours are not applied throughout all views.
 
 ### Export Button Layout
@@ -338,7 +338,7 @@ The grid grid-cols-3 layout works for the first two buttons (Executive Summary a
 
 ## M&A-Ready Benchmark Methodology
 
-Benchmarks represent top-quartile PSF performance (the level that acquirers price for at transaction events). Values were synthesised from 20+ industry sources across all 47 metrics, then aggregated to theme level.
+Benchmarks represent top-quartile PSF performance (the level that acquirers price for at transaction events). Values were synthesised from 20+ industry sources across all 57 metrics, then aggregated to theme level.
 
 **Key sources:** Hinge Research Institute, Deltek Clarity, SPI Research, Mercer, Deloitte, PwC, McKinsey, Harvard Business Review, Bain & Company, KPMG.
 
