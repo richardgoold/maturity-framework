@@ -1825,8 +1825,38 @@ const generateCSV = (assessment) => {
   return rows.map(r => r.map(c => `"${c}"`).join(",")).join("\n");
 };
 
+// Shared PDF renderer using html2pdf.js
+const renderPdfFromHtml = (html, filename, opts = {}) => {
+  const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+  const bodyContent = bodyMatch ? bodyMatch[1] : html;
+  const styleBlocks = [];
+  html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => { styleBlocks.push(css); });
+  const container = document.createElement("div");
+  container.style.position = "fixed";
+  container.style.left = "-9999px";
+  container.style.top = "0";
+  container.style.width = "210mm";
+  container.style.background = "white";
+  const styleTag = styleBlocks.length ? "<style>" + styleBlocks.join("\n") + "</style>" : "";
+  container.innerHTML = styleTag + bodyContent;
+  document.body.appendChild(container);
+  const defaultOpts = {
+    margin: [8, 8, 8, 8],
+    filename: filename || "report.pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+  };
+  const mergedOpts = { ...defaultOpts, ...opts, filename: filename || defaultOpts.filename };
+  window.html2pdf().set(mergedOpts).from(container).save().then(() => {
+    document.body.removeChild(container);
+  }).catch(() => {
+    document.body.removeChild(container);
+  });
+};
+
 const exportToPDF = (assessment, firmName, firmSector, scores) => {
-  const printWindow = window.open('', '_blank');
 
   // Get benchmark data for the sector
   const sectorKey = Object.keys(BENCHMARKS).find(
@@ -2365,9 +2395,8 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
     </html>
   `;
 
-  printWindow.document.write(html);
-  printWindow.document.close();
-  printWindow.onload = () => { printWindow.print(); };
+  const safeFileName = (firmName || "assessment").replace(/[^a-zA-Z0-9-_ ]/g, "");
+  renderPdfFromHtml(html, `${safeFileName}-maturity-report.pdf`);
 };
 
 // -----------------------------------------------------------------------
@@ -2376,8 +2405,6 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
 // ─── Executive Summary PDF Export ────────────────────────────────
 const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
-  const w = window.open("", "_blank");
-  if (!w) { alert("Please allow popups for PDF export."); return; }
   const date = new Date(assessment.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
   const { readinessScore, readinessLevel, themeGaps } = scores;
   const overallPct = scores.pct;
@@ -2436,9 +2463,8 @@ const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
   <div style="font-size:9px;color:#9ca3af;margin-top:3px">https://richardgoold.github.io/maturity-framework/</div>
 </div>
 </body></html>`;
-  w.document.write(html);
-  w.document.close();
-  setTimeout(() => w.print(), 500);
+  const safeFileName = (firmName || "assessment").replace(/[^a-zA-Z0-9-_ ]/g, "");
+  renderPdfFromHtml(html, `${safeFileName}-executive-summary.pdf`);
 };
 
 
@@ -2658,11 +2684,8 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
 
   html += `</body></html>`;
 
-  // Open and print
-  const w = window.open("", "_blank");
-  w.document.write(html);
-  w.document.close();
-  setTimeout(() => w.print(), 500);
+  const safeFileName = (firmName || "assessment").replace(/[^a-zA-Z0-9-_ ]/g, "");
+  renderPdfFromHtml(html, `${safeFileName}-detailed-report.pdf`);
 }
 
 function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfile }) {
