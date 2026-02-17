@@ -844,12 +844,12 @@ function LogoCarousel() {
     { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg" },
     { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
     { name: "Public First", src: "https://www.publicfirst.co.uk/wp-content/uploads/2026/01/PublicFirstLogo.webp" },
+    { name: "Roq", src: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%2080%22%20width%3D%22200%22%20height%3D%2280%22%3E%3Crect%20width%3D%22200%22%20height%3D%2280%22%20fill%3D%22white%22%20rx%3D%224%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2252%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2242%22%20font-weight%3D%22700%22%20fill%3D%22%231a2744%22%20letter-spacing%3D%222%22%3Eroq%3C%2Ftext%3E%3C%2Fsvg%3E" },
     { name: "RQC Group", src: "https://rqcgroup.com/wp-content/uploads/2022/04/logo.png" },
+    { name: "WeShape", src: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%2080%22%20width%3D%22200%22%20height%3D%2280%22%3E%3Crect%20width%3D%22200%22%20height%3D%2280%22%20fill%3D%22white%22%20rx%3D%224%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2250%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2232%22%20font-weight%3D%22700%22%20fill%3D%22%234CAF50%22%20letter-spacing%3D%221%22%3EWe%20Shape%3C%2Ftext%3E%3C%2Fsvg%3E" },
     { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp" },
     { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg" },
-    { name: "Roq", src: null },
-    { name: "WeShape", src: null },
-    { name: "The Institute of Clever Stuff", src: null },
+    { name: "The Institute of Clever Stuff", src: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%2080%22%20width%3D%22200%22%20height%3D%2280%22%3E%3Crect%20width%3D%22200%22%20height%3D%2280%22%20fill%3D%22white%22%20rx%3D%224%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2242%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%2238%22%20font-weight%3D%22700%22%20fill%3D%22%2300a5a8%22%20letter-spacing%3D%223%22%3EICS%3C%2Ftext%3E%3Ctext%20x%3D%22100%22%20y%3D%2262%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2C%20Helvetica%2C%20sans-serif%22%20font-size%3D%228%22%20font-weight%3D%22600%22%20fill%3D%22%23555%22%20letter-spacing%3D%221.5%22%3ETHE%20INSTITUTE%20OF%20CLEVER%20STUFF%3C%2Ftext%3E%3C%2Fsvg%3E" },
   ];
 
   const activeLogos = logos.filter(l => l.src);
