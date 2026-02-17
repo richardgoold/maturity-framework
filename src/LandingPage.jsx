@@ -83,13 +83,12 @@ function HeroSection() {
         <div className="text-center max-w-4xl mx-auto">
           {/* Badge */}
           <div className="mb-10 inline-block">
-            <div className="bg-gray-900 px-10 py-5 sm:px-14 sm:py-6 rounded-2xl shadow-2xl border border-gray-700/50">
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400 text-center">
+            <div className="bg-gray-900 px-10 py-5 sm:px-14 sm:py-6 rounded-2xl shadow-2xl border border-gray-700/50 text-center">
+              <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
                 Professional Services
               </div>
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400 flex justify-between">
-                <span>Growth</span>
-                <span>Platform</span>
+              <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
+                Growth Platform
               </div>
             </div>
           </div>
