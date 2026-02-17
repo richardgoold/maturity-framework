@@ -848,7 +848,7 @@ function LogoCarousel() {
       { name: "RQC Group", src: "/maturity-framework/logos/RQC Group.png" },
       { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg", big: true },
       { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", darken: true },
-      { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: true },
+      { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: true, big: true },
       { name: "The ICS", src: "/maturity-framework/logos/The ICS.jpeg" },
     ];
 
