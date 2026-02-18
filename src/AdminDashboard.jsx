@@ -422,7 +422,7 @@ function AdminUsersTable({ users, firms, assessments, onSelectUser, appConfig })
 // ADMIN USER DETAIL
 // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
-function AdminUserDetail({ user: selectedUser, firms, assessments, onBack, onSave, onLogAudit, onViewFirm }) {
+function AdminUserDetail({ user: selectedUser, firms, assessments, onBack, onSave, onLogAudit, onViewFirm, onDeleteUser }) {
   const [tier, setTier] = useState(selectedUser.tier);
   const [approved, setApproved] = useState(selectedUser.approved);
   const [role, setRole] = useState(selectedUser.role);
@@ -555,6 +555,11 @@ function AdminUserDetail({ user: selectedUser, firms, assessments, onBack, onSav
         {selectedUser.tier === "premium" && (
           <button onClick={() => { setTier("free"); }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 flex items-center gap-2">
             Downgrade to Free
+          </button>
+        )}
+        {onDeleteUser && (
+          <button onClick={() => onDeleteUser(selectedUser)} className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 flex items-center gap-2 ml-auto">
+            <Trash2 size={16} /> Delete User
           </button>
         )}
       </div>
@@ -1465,7 +1470,7 @@ export default function AdminDashboard() {
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
   const adminData = useAdminData();
-  const { users, firms, assessments, contacts, auditLog, appConfig, stats, loading, error, updateUserProfile, rejectUser, updateAssessmentRatings, markContactRead, markContactUnread, deleteContact, updateAppConfig, logAudit, reload } = adminData;
+  const { users, firms, assessments, contacts, auditLog, appConfig, stats, loading, error, updateUserProfile, rejectUser, deleteUser, updateAssessmentRatings, markContactRead, markContactUnread, deleteContact, updateAppConfig, logAudit, reload } = adminData;
 
   const [view, setView] = useState("overview");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -1503,11 +1508,30 @@ export default function AdminDashboard() {
         },
         onCancel: () => setConfirm(null),
       });
+    } else if (action === "delete") {
+      setConfirm({
+        title: "Delete User",
+        message: `Permanently delete ${user.full_name} (${user.email})? This will remove all their firms, assessments, and data. This action cannot be undone.`,
+        confirmLabel: "Delete User",
+        confirmColor: "red",
+        onConfirm: async () => {
+          setConfirm(null);
+          try {
+            await deleteUser(user.id);
+            await logAudit({ action: "delete_user", targetUserId: user.id, targetResource: "profiles", targetResourceId: user.id, details: { email: user.email, full_name: user.full_name } });
+            setSelectedUser(null);
+            setView("users");
+          } catch (err) {
+            console.error("Delete user failed:", err);
+          }
+        },
+        onCancel: () => setConfirm(null),
+      });
     } else {
       setSelectedUser(user);
       setView("user-detail");
     }
-  }, [updateUserProfile, rejectUser, logAudit]);
+  }, [updateUserProfile, rejectUser, deleteUser, logAudit]);
 
   // Loading state
   if (loading) {
@@ -1552,6 +1576,7 @@ export default function AdminDashboard() {
             onSave={updateUserProfile}
             onLogAudit={logAudit}
             onViewFirm={(f) => { setSelectedFirm(f); setView("firm-detail"); }}
+            onDeleteUser={(u) => handleUserAction(u, "delete")}
           />
         ) : null;
       case "firms":
