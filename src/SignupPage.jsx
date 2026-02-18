@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { BarChart3, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { BarChart3, Eye, EyeOff, ArrowLeft, Mail, CheckCircle } from 'lucide-react';
 
 const REVENUE_BANDS = [
   'Under £1m',
@@ -15,10 +15,10 @@ const REVENUE_BANDS = [
 
 export default function SignupPage() {
   const { signUp } = useAuth();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [emailSent, setEmailSent] = useState(false);
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -53,7 +53,7 @@ export default function SignupPage() {
     if (signUpError) {
       setError(signUpError.message || 'Sign up failed. Please try again.');
     } else {
-      navigate('/app');
+      setEmailSent(true);
     }
   };
 
@@ -76,6 +76,25 @@ export default function SignupPage() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+          {emailSent ? (
+            <div className="text-center py-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-8 h-8 text-green-600" />
+              </div>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">Check your email</h1>
+              <p className="text-gray-500 text-sm mb-4">
+                We've sent a verification link to <strong>{form.email}</strong>.
+                Please click the link to confirm your account.
+              </p>
+              <p className="text-gray-400 text-xs mb-6">
+                Didn't receive it? Check your spam folder or try signing up again.
+              </p>
+              <Link to="/login" className="inline-flex items-center gap-2 px-6 py-2.5 bg-amber-400 hover:bg-amber-500 text-white font-bold rounded-lg transition shadow-sm">
+                Go to Log In
+              </Link>
+            </div>
+          ) : (
+            <>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Create your free account</h1>
           <p className="text-gray-500 text-sm mb-6">Start assessing and growing your firm's value today</p>
 
@@ -191,6 +210,8 @@ export default function SignupPage() {
               {loading ? 'Creating account...' : 'Sign Up'}
             </button>
           </form>
+                </>
+          )}
         </div>
 
         {/* Login link */}
