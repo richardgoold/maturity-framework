@@ -167,7 +167,7 @@ function HeroSection() {
                 </div>
               </div>
               {/* Rich dashboard mockup */}
-              <div className="p-3 sm:p-4 bg-gradient-to-br from-gray-900 to-gray-800">
+              <div className="p-3 sm:p-4 bg-gray-50">
                 {/* Top row: Score + Radar + Benchmark */}
                 <div className="grid grid-cols-12 gap-2 sm:gap-3">
                   {/* Readiness score donut */}
