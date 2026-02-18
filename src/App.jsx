@@ -3009,7 +3009,7 @@ function TemplateSelector({ onSelect, onClose }) {
 // -----------------------------------------------------------------------
 
 
-function Breadcrumbs({ view, firmNme, onNavigate }) {
+function Breadcrumbs({ view, firmName, onNavigate }) {
   if (view === "landing") return null
     const crumbs = [{ label: "Home", view: "firms" }];
   if (view === "firms") {
