@@ -271,16 +271,26 @@ export function useSupabaseData() {
       const assessment = currentState.assessments[assessmentId];
       if (!assessment) return;
 
-      const { error } = await supabase
-        .from('assessments')
-        .update({ ratings: assessment.ratings })
-        .eq('id', assessmentId);
+      // Use JSONB merge to prevent overwriting metrics added outside the app
+      // This merges the app's ratings INTO the existing ratings (existing keys preserved if not in update)
+      const { error } = await supabase.rpc('merge_ratings', {
+        p_assessment_id: assessmentId,
+        p_new_ratings: assessment.ratings,
+      });
 
       if (error) {
         console.error('Error saving ratings:', error);
+        // Fallback to direct update if RPC not available
+        if (error.message?.includes('function') || error.code === '42883') {
+          const { error: fallbackError } = await supabase
+            .from('assessments')
+            .update({ ratings: assessment.ratings })
+            .eq('id', assessmentId);
+          if (fallbackError) {
+            console.error('Fallback save also failed:', fallbackError);
+          }
+        }
       }
-    }, 1000);
-  }, []);
 
   return {
     state,
