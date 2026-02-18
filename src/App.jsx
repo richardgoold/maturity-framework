@@ -3408,7 +3408,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <p className="text-sm text-gray-500">{firm.sector || "Professional Services"}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button onClick={() => setShowTemplates(!showTemplates)} className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
+          <button onClick={() => setShowTemplates(!showTemplates)} title="Create a new assessment from a pre-built template" className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
             <Copy size={16} /> From Template
           </button>
           <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxAssessmentsPerFirm; if (firmAssessments.length >= limit) { setShowAssessLimitModal(true); return; } setOnboardingFirmId(firm.id); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
@@ -4969,7 +4969,7 @@ export default function App() {
         </div>
         <nav className="hidden md:flex flex-wrap items-center gap-1">
           {navItems.map(n => (
-            <button key={n.id} disabled={n.disabled && !n.locked} onClick={() => {
+            <button key={n.id} ·disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
               if (n.locked) { setShowUpgradeFor(n.label); return; }
               if (n.id === "dashboard") { if (selectedAssessmentId) setDashboardAssessmentId(selectedAssessmentId); }
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
@@ -4988,7 +4988,7 @@ export default function App() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 px-4 py-2 flex flex-col gap-1">
           {navItems.map(n => (
-            <button key={n.id} disabled={n.disabled && !n.locked} onClick={() => {
+            <button key={n.id} ·disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
               if (n.locked) { setShowUpgradeFor(n.label); return; }
               setView(n.id); setMobileMenuOpen(false);
             }} className={`flex items-center gap-2 w-full px-3 py-3 rounded-lg text-sm font-medium text-left transition-colors ${n.locked ? "text-gray-500 opacity-60" : "text-gray-700 hover:bg-gray-100"}`}>
@@ -5060,7 +5060,7 @@ export default function App() {
         )}
             <footer className="mt-auto py-6 border-t border-gray-200 text-center">
         <p className="text-xs text-gray-400">&copy; {new Date().getFullYear()} GrowthLens. All rights reserved.</p>
-        <p className="text-xs text-gray-400 mt-1">Confidential &mdash; For authorised use only.</p>
+        {user && <p className="text-xs text-gray-400 mt-1">Confidential &mdash; For authorised use only.</p>}
       </footer>
 </main>
     </div>

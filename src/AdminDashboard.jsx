@@ -1330,7 +1330,7 @@ function AdminSettings({ appConfig, onUpdateConfig, onLogAudit }) {
   return (
     <div className="p-6 max-w-2xl space-y-6">
       {confirm && <ConfirmDialog {...confirm} />}
-      <h2 className="text-xl font-bold text-gray-900">Platform Settings</h2>
+      <h2 className="text-xl font-bold text-gray-900">Platform Settings</h2><p className="text-xs text-gray-400 mt-1">This is a demonstration environment. User credentials are stored client-side for demo purposes. For production use, implement server-side authentication.</p>
 
       <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-5">
         <div>
@@ -1409,7 +1409,7 @@ function AdminAuditLog({ auditLog, users }) {
 
   return (
     <div className="p-6 space-y-4">
-      <h2 className="text-xl font-bold text-gray-900">Audit Log</h2>
+      <h2 className="text-xl font-bold text-gray-900">Audit Log</h2><p className="text-xs text-gray-400 mt-1">Tracks activity in this browser session only. Export regularly to maintain records.</p>
 
       <div className="max-w-md">
         <SearchBar value={search} onChange={setSearch} placeholder="Search audit entries..." />
