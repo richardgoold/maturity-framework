@@ -78,6 +78,7 @@ function NavBar() {
 // ─── Hero Section ────────────────────────────────────────────────
 function HeroSection() {
   return (
+    <>
       <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-[#1A202C] border-t-[3px] border-amber-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
@@ -392,6 +393,7 @@ function HeroSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
