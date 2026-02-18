@@ -571,7 +571,7 @@ function HowItWorksSection() {
     { num: 1, title: 'Sign Up', desc: 'Create your free account in 30 seconds', icon: Users, tier: 'free' },
     { num: 2, title: 'Baseline', desc: 'Rate your firm across 10 themes and 57 metrics', icon: Target, tier: 'free' },
     { num: 3, title: 'Blueprint', desc: 'Compare against M&A-ready benchmarks and identify gaps', icon: BarChart3, tier: 'premium' },
-    { num: 4, title: 'Navigate', desc: 'Get a prioritised roadmap to maximise firm value', icon: TrendingUp, tier: 'premium' },
+    { num: 4, title: 'Navigate', desc: 'Expert-guided roadmap with strategic mentoring and quarterly recalibration', icon: TrendingUp, tier: 'premium' },
   ];
 
   return (
