@@ -4928,7 +4928,7 @@ export default function App() {
       )}
       {/* Header */}
       <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0 bg-white border-b border-gray-200">
-              <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate('/')}>
+              <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setView("firms")}>
           <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-amber-400">
             <Target size={18} className="text-gray-900" />
           </div>
@@ -5005,7 +5005,7 @@ export default function App() {
         view={view}
         firmName={selectedFirm?.name}
         onNavigate={(v) => {
-                if (v === "landing") { navigate('/'); return; }
+                if (v === "landing") { setView("firms"); return; }
           else if (v === "firms") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firmDetail") { setView("firmDetail"); setSelectedAssessmentId(null); }
           else if (v === "assess") { if (!selectedAssessmentId) { setView("firms"); } else { setView("assess"); } }
