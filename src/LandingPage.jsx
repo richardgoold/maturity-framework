@@ -192,7 +192,7 @@ function HeroSection() {
                       ].map((t) => (
                         <div key={t.name} className="flex items-center gap-1">
                           <span className="text-gray-500 text-[6px] w-12 text-right">{t.name}</span>
-                          <div className="flex-1 h-1.5 bg-gray-700 rounded-full">
+                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full">
                             <div className="h-full rounded-full" style={{ width: `${t.pct}%`, backgroundColor: t.color }}></div>
                           </div>
                           <span className="text-gray-500 text-[6px] w-5">{t.pct}%</span>
@@ -283,7 +283,7 @@ function HeroSection() {
                       ].map((d) => (
                         <div key={d.name} className="flex items-center gap-1.5">
                           <span className="text-gray-500 text-[6px] sm:text-[7px] w-12 text-right">{d.name}</span>
-                          <div className="flex-1 h-1.5 bg-gray-700 rounded-full relative overflow-hidden">
+                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full relative overflow-hidden">
                             <div className="h-full rounded-full" style={{ width: `${d.score}%`, backgroundColor: d.score >= d.bench ? '#22c55e' : d.score >= d.bench - 5 ? '#f59e0b' : '#ef4444' }}></div>
                             <div className="absolute top-0 h-full w-0.5 bg-gray-400" style={{ left: `${d.bench}%` }}></div>
                           </div>
@@ -409,8 +409,8 @@ function PreviewsSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {/* Card 1: Benchmark Dashboard */}
           <div className="group flex flex-col">
-            <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
-              <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
+            <div className="bg-white rounded-xl overflow-hidden shadow-xl border border-gray-200 transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
+              <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-100">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
                 <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
@@ -419,14 +419,14 @@ function PreviewsSection() {
                 {/* Mini radar + score */}
                 <div className="flex items-center gap-3">
                   <svg viewBox="0 0 80 80" className="w-16 h-16 flex-shrink-0">
-                    <circle cx="40" cy="40" r="30" fill="none" stroke="#374151" strokeWidth="5" />
+                    <circle cx="40" cy="40" r="30" fill="none" stroke="#e5e7eb" strokeWidth="5" />
                     <circle cx="40" cy="40" r="30" fill="none" stroke="#22c55e" strokeWidth="5" strokeDasharray="151" strokeDashoffset="30" strokeLinecap="round" transform="rotate(-90 40 40)" />
-                    <text x="40" y="38" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">80%</text>
+                    <text x="40" y="38" textAnchor="middle" fill="#1f2937" fontSize="14" fontWeight="bold">80%</text>
                     <text x="40" y="48" textAnchor="middle" fill="#9ca3af" fontSize="6">Ready</text>
                   </svg>
                   <div>
-                    <p className="text-white text-xs font-semibold">Nearly M&A Ready</p>
-                    <p className="text-gray-400 text-[10px]">Top 25% of firms assessed</p>
+                    <p className="text-gray-900 text-xs font-semibold">Nearly M&A Ready</p>
+                    <p className="text-gray-500 text-[10px]">Top 25% of firms assessed</p>
                   </div>
                 </div>
                 {/* Theme scores */}
@@ -440,16 +440,16 @@ function PreviewsSection() {
                   ].map((t) => (
                     <div key={t.name}>
                       <div className="flex justify-between">
-                        <span className="text-gray-400 text-[8px]">{t.name}</span>
-                        <span className="text-gray-500 text-[8px]">{t.pct}%</span>
+                        <span className="text-gray-500 text-[8px]">{t.name}</span>
+                        <span className="text-gray-400 text-[8px]">{t.pct}%</span>
                       </div>
-                      <div className="h-1.5 bg-gray-700 rounded-full">
+                      <div className="h-1.5 bg-gray-200 rounded-full">
                         <div className="h-full rounded-full" style={{ width: `${t.pct}%`, backgroundColor: t.color }}></div>
                       </div>
                     </div>
                   ))}
                 </div>
-                <p className="text-gray-500 text-[9px] mt-2">+ 5 more themes assessed</p>
+                <p className="text-gray-400 text-[9px] mt-2">+ 5 more themes assessed</p>
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
@@ -459,14 +459,14 @@ function PreviewsSection() {
 
           {/* Card 2: Improvement Roadmap */}
           <div className="group flex flex-col">
-            <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
-              <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
+            <div className="bg-white rounded-xl overflow-hidden shadow-xl border border-gray-200 transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
+              <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-100">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
                 <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
               </div>
               <div className="p-4 aspect-[4/3] flex flex-col">
-                <p className="text-white text-xs font-semibold mb-3">Improvement Roadmap</p>
+                <p className="text-gray-900 text-xs font-semibold mb-3">Improvement Roadmap</p>
                 <div className="space-y-2 flex-1">
                   {[
                     { theme: 'Sales & Pipeline', gap: 45, priority: 'Critical' },
@@ -474,26 +474,26 @@ function PreviewsSection() {
                     { theme: 'Cost Optimisation', gap: 25, priority: 'High' },
                     { theme: 'Market Profile', gap: 20, priority: 'Medium' },
                   ].map((item, i) => (
-                    <div key={item.theme} className="bg-gray-800/60 rounded-lg p-2 border border-gray-700/50">
+                    <div key={item.theme} className="bg-gray-50 rounded-lg p-2 border border-gray-200">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-gray-300 text-[9px] font-medium">{item.theme}</span>
+                        <span className="text-gray-700 text-[9px] font-medium">{item.theme}</span>
                         <span className={`text-[7px] px-1.5 py-0.5 rounded-full font-medium ${
-                          item.priority === 'Critical' ? 'bg-red-900/50 text-red-300' :
-                          item.priority === 'High' ? 'bg-amber-900/50 text-amber-300' :
-                          'bg-blue-900/50 text-blue-300'
+                          item.priority === 'Critical' ? 'bg-red-100 text-red-600' :
+                          item.priority === 'High' ? 'bg-amber-100 text-amber-600' :
+                          'bg-blue-100 text-blue-600'
                         }`}>{item.priority}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-1.5 bg-gray-700 rounded-full">
+                        <div className="flex-1 h-1.5 bg-gray-200 rounded-full">
                           <div className="h-full bg-amber-500 rounded-full" style={{ width: `${100 - item.gap}%` }}></div>
                         </div>
-                        <span className="text-amber-400 text-[8px] font-semibold">+{item.gap}%</span>
+                        <span className="text-amber-600 text-[8px] font-semibold">+{item.gap}%</span>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="bg-gray-800/40 rounded p-1.5 mt-2 border border-gray-700/30">
-                  <p className="text-amber-400 text-[8px] text-center font-medium">Closing these gaps could increase your readiness score by 18 points</p>
+                <div className="bg-amber-50 rounded p-1.5 mt-2 border border-amber-200">
+                  <p className="text-amber-700 text-[8px] text-center font-medium">Closing these gaps could increase your readiness score by 18 points</p>
                 </div>
               </div>
             </div>
@@ -504,19 +504,19 @@ function PreviewsSection() {
 
           {/* Card 3: Assessment Framework */}
           <div className="group flex flex-col">
-            <div className="bg-gray-900 rounded-xl overflow-hidden shadow-xl transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
-              <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800">
+            <div className="bg-white rounded-xl overflow-hidden shadow-xl border border-gray-200 transform transition group-hover:scale-[1.02] group-hover:shadow-2xl">
+              <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-100">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
                 <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
               </div>
               <div className="p-4 aspect-[4/3] flex flex-col">
-                <p className="text-white text-xs font-semibold mb-2">Assessment Framework</p>
+                <p className="text-gray-900 text-xs font-semibold mb-2">Assessment Framework</p>
                 <div className="flex gap-2 flex-1">
                   {/* Themes sidebar */}
                   <div className="w-1/3 space-y-1">
                     {['Financial', 'People', 'Services', 'Vision', 'Sales', 'Clients', 'Leadership', 'Cost', 'Delivery', 'Market'].map((t, i) => (
-                      <div key={t} className={`text-[7px] px-1.5 py-1 rounded ${i === 0 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'text-gray-500 hover:bg-gray-800'}`}>
+                      <div key={t} className={`text-[7px] px-1.5 py-1 rounded ${i === 0 ? 'bg-amber-100 text-amber-700 border border-amber-300' : 'text-gray-500 hover:bg-gray-100'}`}>
                         {t}
                       </div>
                     ))}
@@ -531,13 +531,13 @@ function PreviewsSection() {
                       { name: 'Revenue per Employee', level: 1 },
                       { name: 'Contract Quality', level: 3 },
                     ].map((m) => (
-                      <div key={m.name} className="bg-gray-800/60 rounded p-1.5 border border-gray-700/50">
+                      <div key={m.name} className="bg-gray-50 rounded p-1.5 border border-gray-200">
                         <div className="flex items-center justify-between">
-                          <span className="text-gray-300 text-[7px]">{m.name}</span>
+                          <span className="text-gray-700 text-[7px]">{m.name}</span>
                           <div className="flex gap-0.5">
                             {[1,2,3].map((l) => (
                               <div key={l} className={`w-2.5 h-2.5 rounded-sm text-[6px] flex items-center justify-center font-bold ${
-                                l <= m.level ? (l === 3 ? 'bg-green-500/30 text-green-300' : l === 2 ? 'bg-blue-500/30 text-blue-300' : 'bg-amber-500/30 text-amber-300') : 'bg-gray-700 text-gray-600'
+                                l <= m.level ? (l === 3 ? 'bg-green-100 text-green-700' : l === 2 ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700') : 'bg-gray-200 text-gray-400'
                               }`}>{l}</div>
                             ))}
                           </div>
@@ -546,7 +546,7 @@ function PreviewsSection() {
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-500 text-[8px] mt-1.5 text-center">6 of 57 metrics shown</p>
+                <p className="text-gray-400 text-[8px] mt-1.5 text-center">6 of 57 metrics shown</p>
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
