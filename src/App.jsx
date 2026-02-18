@@ -4566,10 +4566,9 @@ function ContactView() {
       <div className="text-center mb-10">
         <div className="w-32 h-32 mx-auto mb-4 rounded-full border-4 border-amber-400 shadow-lg overflow-hidden">
           <img
-            src="https://richardgoold.com/wp-content/uploads/2025/08/hero.webp"
+            src="https://xbrywtjahuidaufcdvti.supabase.co/storage/v1/object/public/images/Portrait%20Photo.png"
             alt="Richard Goold"
             className="w-full h-full object-cover"
-            style={{ objectPosition: '55% 28%', transform: 'scale(1.65)' }}
           />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-1">Richard Goold</h2>
