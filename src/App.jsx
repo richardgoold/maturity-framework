@@ -3012,7 +3012,7 @@ function TemplateSelector({ onSelect, onClose }) {
 function Breadcrumbs({ view, firmName, onNavigate }) {
   if (view === "landing") return null;
 
-  const crumbs = [{ label: "Home", view: "firms" }];
+  const crumbs = [{ label: "Home", view: "landing" }];
   if (view === "firms") {
     crumbs.push({ label: "Firms", view: "firms" });
   }
@@ -3042,7 +3042,7 @@ function Breadcrumbs({ view, firmName, onNavigate }) {
 
   return (
     <div className="px-4 py-1.5 bg-gray-50 border-b border-gray-100 flex items-center gap-1.5 text-xs text-gray-400 flex-shrink-0">
-      <button onClick={() => onNavigate("firms")} className="hover:text-[#f2a71b] transition-colors"><Home size={12} /></button>
+      <button onClick={() => onNavigate("landing")} className="hover:text-[#f2a71b] transition-colors"><Home size={12} /></button>
       {crumbs.map((c, i) => (
         <span key={i} className="flex items-center gap-1.5">
           {i > 0 && <ChevronRight size={10} />}
@@ -5006,7 +5006,7 @@ export default function App() {
         view={view}
         firmName={selectedFirm?.name}
         onNavigate={(v) => {
-          if (v === "landing") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
+          if (v === "landing") { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firms") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firmDetail") { setView("firmDetail"); setSelectedAssessmentId(null); }
           else if (v === "assess") { if (!selectedAssessmentId) { setView("firms"); } else { setView("assess"); } }
