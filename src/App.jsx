@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+pb-16 sm:pb-24 bg-whiteiDashboard previewmport { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell , LineChart, Line, CartesianGrid, Legend, ReferenceLine } from "recharts";
 import { Building2, Lock, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut } from "lucide-react";
@@ -913,64 +913,68 @@ const TEMPLATES = {
     description: "High-performing firm ready for acquisition",
     icon: "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
     ratings: {
-      fin_revenue: 3, fin_gm: 3, fin_ebitda: 2.5, fin_cash: 3, fin_quality: 2.5, fin_rate: 3,
-      ppl_talent: 3, ppl_exp: 2.5, ppl_recruit: 3, ppl_churn: 3, ppl_wf: 3,
-      srv_prop: 3, srv_innov: 2.5, srv_ip: 3, srv_size: 3, srv_price: 2.5,
+      fin_revenue: 3, fin_gm: 3, fin_ebitda: 2.5, fin_cash: 3, fin_quality: 2.5, fin_rate: 3, fin_revfte: 3, fin_overhead: 2.5,
+      ppl_talent: 3, ppl_exp: 2.5, ppl_recruit: 3, ppl_churn: 3, ppl_wf: 3, ppl_training: 3, ppl_equity: 2.5,
+      srv_prop: 3, srv_innov: 2.5, srv_ip: 3, srv_size: 3, srv_price: 2.5, srv_portfolio: 3,
       vis_market: 3, vis_comp: 2.5, vis_align: 3, vis_plan: 3, vis_esg: 2,
-      sal_pipe: 3, sal_conv: 2.5, sal_mgmt: 3, sal_skills: 3,
-      cli_conc: 3, cli_long: 3, cli_size: 2.5, cli_part: 2.5,
-      led_team: 3, led_deleg: 3, led_gov: 3,
+      sal_pipe: 3, sal_conv: 2.5, sal_mgmt: 3, sal_skills: 3, sal_crosssell: 2.5,
+      cli_conc: 3, cli_long: 3, cli_size: 2.5, cli_part: 2.5, cli_ref: 3,
+      led_team: 3, led_deleg: 3, led_gov: 3, led_risk: 3,
       cos_deliv: 2.5, cos_tech: 3, cos_scale: 2.5, cos_data: 3, cos_lever: 3, cos_know: 2.5, cos_resrc: 3,
-      del_sat: 3, del_util: 3, del_qa: 3,
-      mkt_size: 3, mkt_mktg: 2.5, mkt_award: 3, mkt_thought: 2.5, mkt_brand: 2.5
+      del_sat: 3, del_util: 3, del_qa: 3, del_otob: 3,
+      mkt_size: 3, mkt_mktg: 2.5, mkt_award: 3, mkt_thought: 2.5, mkt_brand: 2.5, mkt_digital: 2.5,
+      fin_revfte: 3, fin_overhead: 3, ppl_training: 3, ppl_equity: 3, srv_portfolio: 3, sal_crosssell: 3, cli_ref: 3, led_risk: 3, del_otob: 3, mkt_digital: 3
     }
   },
   "Typical Mid-Market": {
     description: "Average professional services firm",
     icon: "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
     ratings: {
-      fin_revenue: 2, fin_gm: 2, fin_ebitda: 2, fin_cash: 1.5, fin_quality: 1.5, fin_rate: 2,
-      ppl_talent: 2, ppl_exp: 2, ppl_recruit: 1.5, ppl_churn: 2, ppl_wf: 2,
-      srv_prop: 2, srv_innov: 1.5, srv_ip: 1.5, srv_size: 2, srv_price: 1.5,
+      fin_revenue: 2, fin_gm: 2, fin_ebitda: 2, fin_cash: 1.5, fin_quality: 1.5, fin_rate: 2, fin_revfte: 2, fin_overhead: 2,
+      ppl_talent: 2, ppl_exp: 2, ppl_recruit: 1.5, ppl_churn: 2, ppl_wf: 2, ppl_training: 1.5, ppl_equity: 1.5,
+      srv_prop: 2, srv_innov: 1.5, srv_ip: 1.5, srv_size: 2, srv_price: 1.5, srv_portfolio: 1.5,
       vis_market: 2, vis_comp: 2, vis_align: 1.5, vis_plan: 2, vis_esg: 1,
-      sal_pipe: 2, sal_conv: 2, sal_mgmt: 1.5, sal_skills: 2,
-      cli_conc: 1.5, cli_long: 2, cli_size: 2, cli_part: 1.5,
-      led_team: 2, led_deleg: 1.5, led_gov: 2,
+      sal_pipe: 2, sal_conv: 2, sal_mgmt: 1.5, sal_skills: 2, sal_crosssell: 1.5,
+      cli_conc: 1.5, cli_long: 2, cli_size: 2, cli_part: 1.5, cli_ref: 1.5,
+      led_team: 2, led_deleg: 1.5, led_gov: 2, led_risk: 1.5,
       cos_deliv: 1.5, cos_tech: 2, cos_scale: 1.5, cos_data: 2, cos_lever: 2, cos_know: 1.5, cos_resrc: 2,
-      del_sat: 2, del_util: 2, del_qa: 2,
-      mkt_size: 2, mkt_mktg: 1.5, mkt_award: 1.5, mkt_thought: 1.5, mkt_brand: 1.5
+      del_sat: 2, del_util: 2, del_qa: 2, del_otob: 2,
+      mkt_size: 2, mkt_mktg: 1.5, mkt_award: 1.5, mkt_thought: 1.5, mkt_brand: 1.5, mkt_digital: 1.5,
+      fin_revfte: 2, fin_overhead: 2, ppl_training: 2, ppl_equity: 1, srv_portfolio: 2, sal_crosssell: 1, cli_ref: 2, led_risk: 2, del_otob: 2, mkt_digital: 1
     }
   },
   "Turnaround Target": {
     description: "Firm with significant improvement potential",
     icon: "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ§",
     ratings: {
-      fin_revenue: 1, fin_gm: 1.5, fin_ebitda: 1, fin_cash: 1, fin_quality: 1, fin_rate: 1.5,
-      ppl_talent: 1.5, ppl_exp: 1, ppl_recruit: 1, ppl_churn: 1, ppl_wf: 1.5,
-      srv_prop: 1.5, srv_innov: 1, srv_ip: 1, srv_size: 1.5, srv_price: 1,
+      fin_revenue: 1, fin_gm: 1.5, fin_ebitda: 1, fin_cash: 1, fin_quality: 1, fin_rate: 1.5, fin_revfte: 1, fin_overhead: 1,
+      ppl_talent: 1.5, ppl_exp: 1, ppl_recruit: 1, ppl_churn: 1, ppl_wf: 1.5, ppl_training: 1, ppl_equity: 1,
+      srv_prop: 1.5, srv_innov: 1, srv_ip: 1, srv_size: 1.5, srv_price: 1, srv_portfolio: 1,
       vis_market: 1.5, vis_comp: 1, vis_align: 1, vis_plan: 1.5, vis_esg: 1,
-      sal_pipe: 1, sal_conv: 1.5, sal_mgmt: 1, sal_skills: 1,
-      cli_conc: 1, cli_long: 1.5, cli_size: 1, cli_part: 1,
-      led_team: 1.5, led_deleg: 1, led_gov: 1,
+      sal_pipe: 1, sal_conv: 1.5, sal_mgmt: 1, sal_skills: 1, sal_crosssell: 1,
+      cli_conc: 1, cli_long: 1.5, cli_size: 1, cli_part: 1, cli_ref: 1,
+      led_team: 1.5, led_deleg: 1, led_gov: 1, led_risk: 1,
       cos_deliv: 1, cos_tech: 1.5, cos_scale: 1, cos_data: 1.5, cos_lever: 1.5, cos_know: 1, cos_resrc: 1,
-      del_sat: 1.5, del_util: 1, del_qa: 1.5,
-      mkt_size: 1.5, mkt_mktg: 1, mkt_award: 1, mkt_thought: 1, mkt_brand: 1
+      del_sat: 1.5, del_util: 1, del_qa: 1.5, del_otob: 1,
+      mkt_size: 1.5, mkt_mktg: 1, mkt_award: 1, mkt_thought: 1, mkt_brand: 1, mkt_digital: 1,
+      fin_revfte: 1, fin_overhead: 1, ppl_training: 1, ppl_equity: 1, srv_portfolio: 1, sal_crosssell: 1, cli_ref: 1, led_risk: 1, del_otob: 1, mkt_digital: 1
     }
   },
   "Tech-Enabled Services": {
     description: "Strong on technology, developing other areas",
     icon: "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ»",
     ratings: {
-      fin_revenue: 2.5, fin_gm: 2.5, fin_ebitda: 2, fin_cash: 2, fin_quality: 2, fin_rate: 2,
-      ppl_talent: 2, ppl_exp: 2.5, ppl_recruit: 2.5, ppl_churn: 2, ppl_wf: 2,
-      srv_prop: 2.5, srv_innov: 3, srv_ip: 3, srv_size: 2, srv_price: 2,
+      fin_revenue: 2.5, fin_gm: 2.5, fin_ebitda: 2, fin_cash: 2, fin_quality: 2, fin_rate: 2, fin_revfte: 2.5, fin_overhead: 2,
+      ppl_talent: 2, ppl_exp: 2.5, ppl_recruit: 2.5, ppl_churn: 2, ppl_wf: 2, ppl_training: 2.5, ppl_equity: 2,
+      srv_prop: 2.5, srv_innov: 3, srv_ip: 3, srv_size: 2, srv_price: 2, srv_portfolio: 2.5,
       vis_market: 3, vis_comp: 2.5, vis_align: 2, vis_plan: 2.5, vis_esg: 1.5,
-      sal_pipe: 2, sal_conv: 2, sal_mgmt: 2.5, sal_skills: 2,
-      cli_conc: 2, cli_long: 2, cli_size: 2, cli_part: 2.5,
-      led_team: 2, led_deleg: 2, led_gov: 2,
+      sal_pipe: 2, sal_conv: 2, sal_mgmt: 2.5, sal_skills: 2, sal_crosssell: 2,
+      cli_conc: 2, cli_long: 2, cli_size: 2, cli_part: 2.5, cli_ref: 2,
+      led_team: 2, led_deleg: 2, led_gov: 2, led_risk: 2,
       cos_deliv: 3, cos_tech: 3, cos_scale: 3, cos_data: 3, cos_lever: 2.5, cos_know: 2.5, cos_resrc: 2.5,
-      del_sat: 2.5, del_util: 2.5, del_qa: 2.5,
-      mkt_size: 2.5, mkt_mktg: 2.5, mkt_award: 2, mkt_thought: 2.5, mkt_brand: 2
+      del_sat: 2.5, del_util: 2.5, del_qa: 2.5, del_otob: 2.5,
+      mkt_size: 2.5, mkt_mktg: 2.5, mkt_award: 2, mkt_thought: 2.5, mkt_brand: 2, mkt_digital: 2.5,
+      fin_revfte: 2, fin_overhead: 2, ppl_training: 3, ppl_equity: 2, srv_portfolio: 3, sal_crosssell: 2, cli_ref: 2, led_risk: 2, del_otob: 3, mkt_digital: 3
     }
   }
 };
@@ -4662,6 +4666,40 @@ export default function App() {
   useEffect(() => { saveState(state); }, [state]);
   useEffect(() => { localStorage.setItem('gdmf_deleted', JSON.stringify(recentlyDeleted)); }, [recentlyDeleted]);
   useEffect(() => { setRecentlyDeleted(rd => rd.filter(item => Date.now() - item.timestamp < 30 * 24 * 60 * 60 * 1000)); }, []);
+
+  // One-time migration: backfill demo assessments with missing metrics
+  useEffect(() => {
+    const demoData = generateDemoData();
+    const DEMO_FIRM_RATINGS = {
+      "Apex Consulting Partners": demoData.assessments.demo_apex_a1.ratings,
+      "TechBridge Solutions": demoData.assessments.demo_techbridge_a1.ratings,
+      "Phoenix Advisory Group": demoData.assessments.demo_phoenix_a1.ratings,
+    };
+    const allMetricIds = FRAMEWORK.themes.flatMap(t => t.metrics.map(m => m.id));
+    setState(s => {
+      let changed = false;
+      const newAssessments = { ...s.assessments };
+      s.firms.forEach(firm => {
+        const demoRatings = DEMO_FIRM_RATINGS[firm.name];
+        if (!demoRatings) return;
+        Object.entries(newAssessments).forEach(([key, assessment]) => {
+          if (assessment.firmId !== firm.id) return;
+          const ratings = assessment.ratings || {};
+          const ratedIds = Object.keys(ratings).filter(k => ratings[k]?.level);
+          if (ratedIds.length >= allMetricIds.length) return;
+          const newRatings = { ...ratings };
+          allMetricIds.forEach(mid => {
+            if (!newRatings[mid] || !newRatings[mid].level) {
+              if (demoRatings[mid]) { newRatings[mid] = demoRatings[mid]; changed = true; }
+            }
+          });
+          newAssessments[key] = { ...assessment, ratings: newRatings };
+        });
+      });
+      if (!changed) return s;
+      return { ...s, assessments: newAssessments };
+    });
+  }, []);
 
   const createFirm = (firm) => setState(s => ({ ...s, firms: [...s.firms, firm] }));
   const deleteFirm = (id) => {
