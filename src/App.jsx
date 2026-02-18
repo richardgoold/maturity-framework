@@ -5006,7 +5006,7 @@ export default function App() {
         view={view}
         firmName={selectedFirm?.name}
         onNavigate={(v) => {
-          if (v === "landing") { setView("landing"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
+                if (v === "landing") { navigate('/'); return; }
           else if (v === "firms") { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }
           else if (v === "firmDetail") { setView("firmDetail"); setSelectedAssessmentId(null); }
           else if (v === "assess") { if (!selectedAssessmentId) { setView("firms"); } else { setView("assess"); } }
