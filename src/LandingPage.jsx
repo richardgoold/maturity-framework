@@ -8,6 +8,9 @@ import {
   Shield, Users, Globe, ChevronRight, ArrowLeft
 , Lock} from 'lucide-react';
 
+// ISS-013: Module-level setter for contact form pre-fill
+let setContactMessage = null;
+
 // ─── NavBar ──────────────────────────────────────────────────────
 function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -39,7 +42,7 @@ function NavBar() {
           {/* Auth buttons */}
           <div className="hidden md:flex items-center gap-4">
             <Link to="/login" className="text-sm text-gray-600 hover:text-gray-900 transition">Log In</Link>
-            <Link to="/signup" className="inline-flex items-center px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-white font-semibold text-sm rounded-lg transition shadow-sm">
+            <Link to="/signup?tier=free" className="inline-flex items-center px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-white font-semibold text-sm rounded-lg transition shadow-sm">
               Sign Up Free
             </Link>
           </div>
@@ -772,7 +775,10 @@ function FeaturesSection() {
               ))}
             </ul>
             <button
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  if (setContactMessage) setContactMessage("I'm interested in learning more about the Premium tier.");
+                }}
               className="block w-full text-center px-6 py-3 bg-amber-400 hover:bg-amber-500 text-white font-bold rounded-lg transition shadow-sm"
             >
               Talk to Us About Premium
@@ -789,6 +795,12 @@ function ContactSection() {
   const { user } = useAuth();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(null);
+
+  // ISS-013: Expose form setter for pricing CTA pre-fill
+  useEffect(() => {
+    setContactMessage = (msg) => setForm(f => ({ ...f, message: msg }));
+    return () => { setContactMessage = null; };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
