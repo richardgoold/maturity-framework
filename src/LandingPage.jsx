@@ -78,7 +78,7 @@ function NavBar() {
 // ─── Hero Section ────────────────────────────────────────────────
 function HeroSection() {
   return (
-      <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-[#1A202C] border-t-[3px] border-b-[3px] border-amber-400">
+      <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-[#1A202C] border-t-[3px] border-amber-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
 
@@ -143,20 +143,24 @@ function HeroSection() {
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
+        </div>
+      </section>
 
-        {/* Hero dashboard illustration */}
-        <div className="mt-16 max-w-5xl mx-auto">
+      {/* Dashboard illustration — white background */}
+      <section className="pb-16 sm:pb-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
           <div className="relative">
-            <div className="bg-gray-900 rounded-xl shadow-2xl overflow-hidden">
+            <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
               {/* Browser bar */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-gray-800">
+              <div className="flex items-center gap-2 px-4 py-3 bg-gray-100 border-b border-gray-200">
                 <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-red-400"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
                   <div className="w-3 h-3 rounded-full bg-green-400"></div>
                 </div>
                 <div className="flex-1 mx-4">
-                  <div className="bg-gray-700 rounded-md px-3 py-1 text-gray-400 text-xs">
+                  <div className="bg-white rounded-md px-3 py-1 text-gray-500 text-xs border border-gray-200">
                     growthlens.app/dashboard
                   </div>
                 </div>
@@ -166,13 +170,13 @@ function HeroSection() {
                 {/* Top row: Score + Radar + Benchmark */}
                 <div className="grid grid-cols-12 gap-2 sm:gap-3">
                   {/* Readiness score donut */}
-                  <div className="col-span-3 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1">M&A Readiness</p>
+                  <div className="col-span-3 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
+                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1">M&A Readiness</p>
                     <div className="flex items-center justify-center">
                       <svg viewBox="0 0 80 80" className="w-12 h-12 sm:w-14 sm:h-14">
-                        <circle cx="40" cy="40" r="32" fill="none" stroke="#374151" strokeWidth="6" />
+                        <circle cx="40" cy="40" r="32" fill="none" stroke="#d1d5db" strokeWidth="6" />
                         <circle cx="40" cy="40" r="32" fill="none" stroke="#f59e0b" strokeWidth="6" strokeDasharray="161" strokeDashoffset="32" strokeLinecap="round" transform="rotate(-90 40 40)" />
-                        <text x="40" y="38" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">80%</text>
+                        <text x="40" y="38" textAnchor="middle" fill="#1f2937" fontSize="16" fontWeight="bold">80%</text>
                         <text x="40" y="50" textAnchor="middle" fill="#9ca3af" fontSize="7">Nearly Ready</text>
                       </svg>
                     </div>
@@ -201,8 +205,8 @@ function HeroSection() {
                     </div>
                   </div>
                   {/* Radar chart — 10-axis */}
-                  <div className="col-span-5 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1">Maturity Overview</p>
+                  <div className="col-span-5 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
+                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1">Maturity Overview</p>
                     <svg viewBox="0 0 240 190" className="w-full">
                       {/* 10-point radar grid — 3 concentric rings */}
                       {[1, 0.67, 0.33].map((scale, ring) => {
@@ -211,13 +215,13 @@ function HeroSection() {
                           const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
                           return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
                         }).join(' ');
-                        return <polygon key={ring} points={pts} fill="none" stroke="#374151" strokeWidth="0.5" />;
+                        return <polygon key={ring} points={pts} fill="none" stroke="#d1d5db" strokeWidth="0.5" />;
                       })}
                       {/* Axis lines */}
                       {Array.from({length: 10}, (_, i) => {
                         const cx = 120, cy = 90, r = 65;
                         const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
-                        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#374151" strokeWidth="0.3" />;
+                        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.3" />;
                       })}
                       {/* Your Firm — varied shape */}
                       {(() => {
@@ -266,8 +270,8 @@ function HeroSection() {
                     </div>
                   </div>
                   {/* Benchmark bars — all 10 themes */}
-                  <div className="col-span-4 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1">Benchmark Comparison</p>
+                  <div className="col-span-4 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
+                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1">Benchmark Comparison</p>
                     <div className="space-y-1">
                       {[
                         { name: 'Financial', score: 85, bench: 70 },
@@ -297,8 +301,8 @@ function HeroSection() {
                 {/* Bottom row: Heatmap (labelled grid) + Key Insights (data-rich) */}
                 <div className="grid grid-cols-12 gap-2 sm:gap-3 mt-2 sm:mt-3">
                   {/* 2-column heatmap matching the real app layout */}
-                  <div className="col-span-7 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">57-Metric Maturity Heatmap</p>
+                  <div className="col-span-7 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
+                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1.5">57-Metric Maturity Heatmap</p>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {[
                         { theme: 'Financial Performance', cells: [3,2,3,3,2,3] },
@@ -331,8 +335,8 @@ function HeroSection() {
                     </div>
                   </div>
                   {/* Key Insights — data-rich panel */}
-                  <div className="col-span-5 bg-gray-800/60 rounded-lg p-2 sm:p-3 border border-gray-700/50 flex flex-col">
-                    <p className="text-gray-400 text-[10px] sm:text-xs mb-1.5">Key Insights</p>
+                  <div className="col-span-5 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200 flex flex-col">
+                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1.5">Key Insights</p>
                     <div className="space-y-1.5 flex-1">
                       <div>
                         <p className="text-green-400 text-[7px] sm:text-[8px] font-semibold mb-0.5">Top Strengths</p>
@@ -344,7 +348,7 @@ function HeroSection() {
                           <div key={s.name} className="flex items-center justify-between mb-0.5">
                             <div className="flex items-center gap-1">
                               <div className="w-1 h-1 rounded-full bg-green-400"></div>
-                              <span className="text-gray-400 text-[7px]">{s.name}</span>
+                              <span className="text-gray-500 text-[7px]">{s.name}</span>
                             </div>
                             <span className="text-green-400 text-[7px] font-semibold">{s.score}</span>
                           </div>
@@ -360,7 +364,7 @@ function HeroSection() {
                           <div key={s.name} className="flex items-center justify-between mb-0.5">
                             <div className="flex items-center gap-1">
                               <div className="w-1 h-1 rounded-full bg-amber-400"></div>
-                              <span className="text-gray-400 text-[7px]">{s.name}</span>
+                              <span className="text-gray-500 text-[7px]">{s.name}</span>
                             </div>
                             <span className="text-amber-400 text-[7px] font-semibold">{s.gap}</span>
                           </div>
@@ -368,7 +372,7 @@ function HeroSection() {
                       </div>
                     </div>
                     {/* Summary stat */}
-                    <div className="mt-1.5 pt-1.5 border-t border-gray-700/50">
+                    <div className="mt-1.5 pt-1.5 border-t border-gray-200/50">
                       <div className="flex items-center justify-between">
                         <span className="text-gray-500 text-[7px]">M&A Readiness</span>
                         <span className="text-amber-400 text-[8px] font-bold">80% — Nearly Ready</span>
@@ -383,7 +387,7 @@ function HeroSection() {
               </div>
             </div>
             {/* Decorative glow */}
-            <div className="absolute -inset-4 bg-amber-400/10 rounded-2xl blur-2xl -z-10"></div>
+            <div className="absolute -inset-4 bg-gray-200/50 rounded-2xl blur-2xl -z-10"></div>
           </div>
         </div>
       </div>
