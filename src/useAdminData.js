@@ -89,6 +89,43 @@ export function useAdminData() {
     if (err) throw err;
     setUsers(prev => prev.map(u => u.id === userId ? { ...u, approved: false } : u));
     return true;
+
+  }, []);
+
+  const deleteUser = useCallback(async (userId) => {
+    // Delete user's assessments first (FK constraint)
+    const { error: assessErr } = await supabase
+      .from('assessments')
+      .delete()
+      .eq('user_id', userId);
+    if (assessErr) throw assessErr;
+
+    // Delete user's firms
+    const { error: firmsErr } = await supabase
+      .from('firms')
+      .delete()
+      .eq('user_id', userId);
+    if (firmsErr) throw firmsErr;
+
+    // Delete user's contact submissions
+    await supabase
+      .from('contact_submissions')
+      .delete()
+      .eq('user_id', userId);
+
+    // Delete user profile
+    const { error: profileErr } = await supabase
+      .from('profiles')
+      .delete()
+      .eq('id', userId);
+    if (profileErr) throw profileErr;
+
+    // Update local state
+    setUsers(prev => prev.filter(u => u.id !== userId));
+    setFirms(prev => prev.filter(f => f.user_id !== userId));
+    setAssessments(prev => prev.filter(a => a.user_id !== userId));
+    setContacts(prev => prev.filter(c => c.user_id !== userId));
+    return true;
   }, []);
 
   // ââ Assessment management ââââââââââââââââââââââââââââââââ
@@ -256,6 +293,7 @@ export function useAdminData() {
     // Actions
     updateUserProfile,
     rejectUser,
+    deleteUser,
     updateAssessmentRatings,
     markContactRead,
     markContactUnread,
