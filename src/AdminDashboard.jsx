@@ -234,7 +234,7 @@ function AdminOverview({ users, firms, assessments, contacts, stats }) {
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Users" value={stats.totalUsers} icon={Users} color="blue" subtitle={`${stats.freeUsers} free Â· ${stats.premiumUsers} premium`} />
+        <StatCard label="Total Users" value={stats.totalUsers} icon={Users} color="blue" subtitle={`${stats.freeUsers} free · ${stats.premiumUsers} premium`} />
         <StatCard label="Total Firms" value={stats.totalFirms} icon={Building2} color="green" />
         <StatCard label="Assessments" value={stats.totalAssessments} icon={ClipboardCheck} color="purple" subtitle={`${assessmentsThisMonth} this month`} />
         <StatCard label="Unread Messages" value={stats.unreadContacts} icon={Mail} color={stats.unreadContacts > 0 ? "amber" : "gray"} subtitle={`${stats.totalContacts} total`} />
@@ -715,7 +715,7 @@ function AdminFirmDetail({ firm, users, assessments, onBack, onViewAssessment })
 
       <div>
         <h2 className="text-xl font-bold text-gray-900">{firm.name}</h2>
-        <p className="text-sm text-gray-500">{firm.sector || "No sector"} Â· Created {formatDate(firm.created_at)}</p>
+        <p className="text-sm text-gray-500">{firm.sector || "No sector"} · Created {formatDate(firm.created_at)}</p>
       </div>
 
       {/* Owner info */}
@@ -845,7 +845,7 @@ function AdminAssessmentDashboard({ assessment, firm, owner, onBack, onSaveRatin
         <div>
           <h2 className="text-xl font-bold text-gray-900">{firm?.name || "Assessment"}</h2>
           <p className="text-sm text-gray-500">
-            Owner: {owner?.full_name || "Unknown"} Â· {formatDateTime(assessment.created_at)}
+            Owner: {owner?.full_name || "Unknown"} · {formatDateTime(assessment.created_at)}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -1218,7 +1218,7 @@ function AdminContactDetail({ contact, users, onBack, onMarkRead, onMarkUnread, 
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-xl font-bold text-gray-900">{contact.name}</h2>
-          <p className="text-sm text-gray-500">{contact.email} Â· {formatDateTime(contact.created_at)}</p>
+          <p className="text-sm text-gray-500">{contact.email} · {formatDateTime(contact.created_at)}</p>
         </div>
         <div className="flex gap-2">
           {contact.source_context && <Badge color="purple">{contact.source_context}</Badge>}

@@ -61,7 +61,7 @@ export const FRAMEWORK = {
       ]
     },
     {
-      id: "sales", name: "Sales & Pipeline", icon: "trending-up", totalWeight: 325, color: "#B7950B",
+      id: "sales", name: "Sales & Pipeline", icon: "trending-up", totalWeight: 325, color: "#D97706",
       metrics: [
         { id: "sal_pipe", name: "Pipeline Visibility", question: "How much of the next 12 months' revenue do you currently have booked?", weight: 75, foundational: "<40% of next 12 months' revenue booked", evolving: "40-70% of next 12 months' revenue booked", optimised: ">70% of next 12 months' revenue booked", guidance: "A healthy pipeline is 3-4x annual revenue target with balanced stage distribution. Track pipeline velocity, win rates by stage, and average deal cycle length." , improvementAction: "Implement CRM discipline, maintain 3x pipeline coverage, and track conversion rates by stage" },
         { id: "sal_conv", name: "Conversion Ratios", question: "What is your typical proposal-to-project conversion ratio?", weight: 50, foundational: "<25% proposal conversion rate", evolving: "25%-50% proposal conversion rate", optimised: ">50% proposal conversion rate", guidance: "Conversion rates above 30% from qualified opportunity to close indicate strong sales execution. Track by service line, client segment, and team member." , improvementAction: "Conduct win/loss analysis on every bid, improve proposal quality, and build sector-specific case studies" },
@@ -71,7 +71,7 @@ export const FRAMEWORK = {
       ]
     },
     {
-      id: "clients", name: "Clients & Relationships", icon: "handshake", totalWeight: 300, color: "#922B21",
+      id: "clients", name: "Clients & Relationships", icon: "handshake", totalWeight: 300, color: "#DC2626",
       metrics: [
         { id: "cli_conc", name: "Client Concentration & Risk", question: "How concentrated is your revenue among your top three clients?", weight: 100, foundational: "Top 3 clients contribute >50% of total revenue, high dependency on a few key relationships", evolving: "Top 3 clients contribute 30-50% of total revenue, moderate diversification", optimised: "Top 3 clients contribute <30% of total revenue, well-diversified client base", guidance: "Client concentration below 20% for top client and below 50% for top 5 clients reduces acquirer risk. Active diversification strategy should be documented." , improvementAction: "Reduce largest client to below 15% of revenue, diversify across 3+ sectors, build mid-market pipeline" },
         { id: "cli_long", name: "Client Longevity", question: "What is your average client tenure?", weight: 100, foundational: "Average client tenure <6 months, transactional relationships, low retention", evolving: "Average client tenure 6-24 months, some long-term relationships", optimised: "Average client tenure >2 years, high retention rate, strong account management", guidance: "Long-term client relationships (3+ years average tenure) indicate service quality and switching costs. Track Net Revenue Retention and expansion revenue." , improvementAction: "Implement NPS tracking, conduct quarterly business reviews with top 20 clients, target 90%+ retention" },
@@ -90,7 +90,7 @@ export const FRAMEWORK = {
       ]
     },
     {
-      id: "cost", name: "Cost Optimisation", icon: "calculator", totalWeight: 250, color: "#1E8449",
+      id: "cost", name: "Cost Optimisation", icon: "calculator", totalWeight: 250, color: "#16A34A",
       metrics: [
         { id: "cos_deliv", name: "Delivery Model", question: "How efficient and optimised is your current delivery model?", weight: 25, foundational: "Delivery is fully onshore, cost inefficiencies", evolving: "Some offshore delivery, but limited efficiency gains", optimised: "Optimised delivery mix with offshore efficiencies", guidance: "Delivery cost efficiency means optimal staff-to-project ratios, minimal rework, and consistent on-budget project delivery. Track cost variance against estimates." , improvementAction: "Track project profitability weekly, implement earned value management, and address margin erosion early" },
         { id: "cos_tech", name: "Technology Maturity", question: "What is the maturity level of your technology infrastructure (CRM, PSA, HCM)?", weight: 75, foundational: "Limited use of CRM, PSA, or automation", evolving: "Basic adoption of CRM, PSA, and some automation", optimised: "Fully integrated digital ecosystem (CRM, PSA, AI)", guidance: "Technology enablement includes modern tools for collaboration, project management, time tracking, and client delivery. Cloud-first, integrated platforms score highest." , improvementAction: "Consolidate technology stack, measure ROI on all platforms, and automate repetitive delivery tasks" },
@@ -1304,9 +1304,9 @@ export const calcScores = (ratings, benchmarkObj) => {
 // -----------------------------------------------------------------------
 const levelColor = (level) => {
   if (!level) return { bg: "#F0F0F0", text: "#6C757D", border: "#DEE2E6" };
-  if (level <= 1.5) return { bg: "#FFE0B2", text: "#922B21", border: "#E6B0AA" };
+  if (level <= 1.5) return { bg: "#FFE0B2", text: "#DC2626", border: "#E6B0AA" };
   if (level <= 2.5) return { bg: "#BBDEFB", text: "#7D6608", border: "#F9E79F" };
-  return { bg: "#A5D6A7", text: "#1E8449", border: "#A9DFBF" };
+  return { bg: "#A5D6A7", text: "#16A34A", border: "#A9DFBF" };
 };
 
 const levelLabel = (level) => {
@@ -1518,7 +1518,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
                   <AnimatedNumber value={scores.pct} suffix="%" />
                 </div>
                 <div className="text-xs text-gray-500">Maturity Score</div>
-                <div className="text-xs mt-0.5" style={{ color: scores.ratedCount === scores.totalMetrics ? '#1E8449' : scores.ratedCount > 0 ? '#B7950B' : '#9ca3af' }}>
+                <div className="text-xs mt-0.5" style={{ color: scores.ratedCount === scores.totalMetrics ? '#16A34A' : scores.ratedCount > 0 ? '#D97706' : '#9ca3af' }}>
                   {scores.ratedCount}/{scores.totalMetrics} metrics rated
                 </div>
               </div>
@@ -1599,7 +1599,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
 
 function ScoreGauge({ score, max, label }) {
   const pct = max > 0 ? (score / max) * 100 : 0;
-  const color = pct >= 80 ? "#1E8449" : pct >= 40 ? "#B7950B" : "#922B21";
+  const color = pct >= 80 ? "#16A34A" : pct >= 40 ? "#D97706" : "#DC2626";
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-36 h-36">
@@ -1629,9 +1629,9 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
   const [comment, setComment] = useState(rating?.comment || "");
   const [animatingLevel, setAnimatingLevel] = useState(null);
   const levels = [
-    { level: 1, label: "Foundational", text: metric.foundational, color: "#922B21", bg: "#FFE0B2", border: "#E6B0AA" },
+    { level: 1, label: "Foundational", text: metric.foundational, color: "#DC2626", bg: "#FFE0B2", border: "#E6B0AA" },
     { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#BBDEFB", border: "#F9E79F" },
-    { level: 3, label: "Optimised", text: metric.optimised, color: "#1E8449", bg: "#A5D6A7", border: "#A9DFBF" },
+    { level: 3, label: "Optimised", text: metric.optimised, color: "#16A34A", bg: "#A5D6A7", border: "#A9DFBF" },
   ];
   const currentLevel = rating?.level;
 
@@ -2051,9 +2051,9 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
   const themeCardsHtml = FRAMEWORK.themes.map(theme => {
     const themeScore = scores.themeScores[theme.id];
     const pct = themeScore ? Math.round(themeScore.pct) : 0;
-    let scoreColor = '#922B21'; // red
-    if (pct >= 80) scoreColor = '#1E8449'; // green
-    else if (pct >= 40) scoreColor = '#B7950B'; // amber
+    let scoreColor = '#DC2626'; // red
+    if (pct >= 80) scoreColor = '#16A34A'; // green
+    else if (pct >= 40) scoreColor = '#D97706'; // amber
 
     return `
       <div style="display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; 
@@ -2076,9 +2076,9 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
     const firmPct = themeScore ? Math.round(themeScore.pct) : 0;
     const benchmarkPct = Math.round(benchmarkData[theme.id] || 0);
 
-    let scoreColor = '#922B21';
-    if (firmPct >= 66) scoreColor = '#1E8449';
-    else if (firmPct >= 33) scoreColor = '#B7950B';
+    let scoreColor = '#DC2626';
+    if (firmPct >= 66) scoreColor = '#16A34A';
+    else if (firmPct >= 33) scoreColor = '#D97706';
 
     return `
       <tr>
@@ -2126,8 +2126,8 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
       const rating = assessment.ratings[metric.id];
       const level = rating ? rating.level : 0;
       let cellColor = '#ddd';
-      if (level === 3) cellColor = '#1E8449';
-      else if (level === 2) cellColor = '#B7950B';
+      if (level === 3) cellColor = '#16A34A';
+      else if (level === 2) cellColor = '#D97706';
       else if (level === 1) cellColor = '#D35400';
 
       return `
@@ -2241,7 +2241,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
           width: 120px;
           height: 120px;
           border-radius: 50%;
-          background: #1E8449;
+          background: #16A34A;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2252,11 +2252,11 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
         }
 
         .overall-score.amber {
-          background: #B7950B;
+          background: #D97706;
         }
 
         .overall-score.red {
-          background: #922B21;
+          background: #DC2626;
         }
 
         .header-right-text {
@@ -2417,11 +2417,11 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
         }
 
         .metric-cell.level2 {
-          background: #B7950B;
+          background: #D97706;
         }
 
         .metric-cell.level3 {
-          background: #1E8449;
+          background: #16A34A;
         }
 
         @media screen {
@@ -2956,7 +2956,7 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
                 return (<text x={x} y={y} textAnchor="end" fontSize={9} fill="#666" dy={lines.length > 1 ? -4 : 4}>{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? 0 : 11}>{l}</tspan>))}</text>);
               }} />
           <Tooltip formatter={(v, name) => [v, name]} />
-          <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]} label={({ x, y, width, height, value, index }) => { const d = comparisonData[index]; const gap = d.firm - d.benchmark; return <text x={x + width + 4} y={y + height / 2} fill={gap >= 0 ? "#1E8449" : "#DC2626"} fontSize={10} dominantBaseline="middle">{gap >= 0 ? "+" : ""}{gap}%</text>; }}>
+          <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]} label={({ x, y, width, height, value, index }) => { const d = comparisonData[index]; const gap = d.firm - d.benchmark; return <text x={x + width + 4} y={y + height / 2} fill={gap >= 0 ? "#16A34A" : "#DC2626"} fontSize={10} dominantBaseline="middle">{gap >= 0 ? "+" : ""}{gap}%</text>; }}>
             {comparisonData.map((entry, index) => (
               <Cell key={index} fill={entry.color} />
             ))}
@@ -3009,10 +3009,9 @@ function TemplateSelector({ onSelect, onClose }) {
 // -----------------------------------------------------------------------
 
 
-function Breadcrumbs({ view, firmName, onNavigate }) {
-  if (view === "landing") return null;
-
-  const crumbs = [{ label: "Home", view: "landing" }];
+function Breadcrumbs({ view, firmNme, onNavigate }) {
+  if (view === "landing") return null
+  const crumbs = [{ label: "Home", view: firms" }];
   if (view === "firms") {
     crumbs.push({ label: "Firms", view: "firms" });
   }
@@ -3042,7 +3041,7 @@ function Breadcrumbs({ view, firmName, onNavigate }) {
 
   return (
     <div className="px-4 py-1.5 bg-gray-50 border-b border-gray-100 flex items-center gap-1.5 text-xs text-gray-400 flex-shrink-0">
-      <button onClick={() => onNavigate("landing")} className="hover:text-[#f2a71b] transition-colors"><Home size={12} /></button>
+      <button onClick={() => onNavigate("firms")} className="hover:text-[#f2a71b] transition-colors"><Home size={12} /></button>
       {crumbs.map((c, i) => (
         <span key={i} className="flex items-center gap-1.5">
           {i > 0 && <ChevronRight size={10} />}
@@ -3313,9 +3312,9 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
         <>
         <div className="flex items-center gap-4 mb-3 px-1">
           <span className="text-xs text-gray-400 font-medium">Score:</span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>≥80% On Track</span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>40–79% Developing</span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;40% Early Stage</span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#16A34A"}}></span>≥80% On Track</span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#D97706"}}></span>40–79% Developing</span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#DC2626"}}></span>&lt;40% Early Stage</span>
         </div>
         <div className="flex items-center justify-end mb-2">
               <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-600 bg-white focus:outline-none focus:ring-1 focus:ring-amber-400">
@@ -3334,7 +3333,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
               <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 80 ? "#1E8449" : latestScores.pct >= 40 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 80 ? "#16A34A" : latestScores.pct >= 40 ? "#D97706" : "#DC2626") : "#4e5b73" }}>
                       {firm.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
@@ -3345,7 +3344,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                   <div className="flex items-center gap-3">
                     {latestScores && (
                       <div className="text-right">
-                        <div className="text-lg font-bold" style={{ color: latestScores.pct >= 80 ? "#1E8449" : latestScores.pct >= 40 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
+                        <div className="text-lg font-bold" style={{ color: latestScores.pct >= 80 ? "#16A34A" : latestScores.pct >= 40 ? "#D97706" : "#DC2626" }}>{latestScores.pct}%</div>
                         <div className="text-xs text-gray-400">{latestScores.ratedCount}/{latestScores.totalMetrics} rated</div>
                       </div>
                     )}
@@ -3482,7 +3481,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <div className="text-lg font-bold" style={{ color: scores.pct >= 80 ? "#1E8449" : scores.pct >= 40 ? "#B7950B" : "#922B21" }}>{scores.pct}%</div>
+                      <div className="text-lg font-bold" style={{ color: scores.pct >= 80 ? "#16A34A" : scores.pct >= 40 ? "#D97706" : "#DC2626" }}>{scores.pct}%</div>
                       <div className="text-xs text-gray-400">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
                   <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
@@ -3940,7 +3939,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   <div className="text-xs text-gray-500 mb-1 font-medium truncate" title={bc.name}>{bc.name}</div>
                   <div className="text-3xl font-bold" style={{color: bc.readiness >= 90 ? "#059669" : bc.readiness >= 70 ? "#D97706" : "#DC2626"}}>{bc.readiness}%</div>
                   <div className={`text-xs mt-1.5 px-2 py-0.5 rounded-full inline-block font-medium ${bc.readiness >= 90 ? "bg-green-100 text-green-700" : bc.readiness >= 70 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>{bc.level}</div>
-                  <p className="text-xs mt-2" style={{ color: bc.readiness >= 90 ? "#1E8449" : bc.readiness >= 70 ? "#B7950B" : "#DC2626" }}>{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
+                  <p className="text-xs mt-2" style={{ color: bc.readiness >= 90 ? "#16A34A" : bc.readiness >= 70 ? "#D97706" : "#DC2626" }}>{bc.readiness >= 90 ? `Exceeds benchmark by +${bc.readiness - 90}%` : `Need +${90 - bc.readiness}% to reach M&A-Ready`}</p>
                 </div>
               ))}
             </div>
