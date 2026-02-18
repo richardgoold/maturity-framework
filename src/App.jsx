@@ -4887,6 +4887,12 @@ export default function App() {
     });
   };
   
+  // ISS-016: Dynamic page title
+  useEffect(() => {
+    const titles = { firms: 'Firms', dashboard: 'Dashboard', assess: 'Assessment', settings: 'Settings' };
+    document.title = view ? `GrowthLens —  ${titles[view] || view.charAt(0).toUpperCase() + view.slice(1)}` : 'GrowthLens';
+  }, [view]);
+
   // Load Google Fonts for brand typography
   useEffect(() => {
     if (!document.getElementById("brand-fonts")) {
