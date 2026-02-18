@@ -92,6 +92,7 @@ export function AuthProvider({ children }) {
           email,
           password,
           options: {
+            emailRedirectTo: `${window.location.origin}/maturity-framework/login`,
             data: {
               full_name: fullName,
               company_name: companyName,
@@ -168,8 +169,40 @@ export function AuthProvider({ children }) {
 
       // Check approval status
       if (data.user) {
-        const p = await fetchProfile(data.user.id);
-        setProfile(p);
+      let p = await fetchProfile(data.user.id);
+
+      // If no profile yet (first login after email confirmation),
+      // create from metadata stored during sign-up
+      if (!p && data.user.user_metadata) {
+        const meta = data.user.user_metadata;
+        let autoApprove = true;
+        let defaultTier = 'free';
+        try {
+          const { data: cfgRows } = await supabase.from('app_config').select('key, value');
+          if (cfgRows) {
+            const cfgMap = {};
+            cfgRows.forEach(r => { cfgMap[r.key] = r.value; });
+            if (cfgMap.approval_mode === 'manual') autoApprove = false;
+            if (cfgMap.default_tier === 'premium') defaultTier = 'premium';
+          }
+        } catch (e) {
+          console.warn('Could not read app_config:', e);
+        }
+        await supabase.from('profiles').insert({
+          id: data.user.id,
+          email: data.user.email,
+          full_name: meta.full_name || '',
+          company_name: meta.company_name || '',
+          job_title: meta.job_title || '',
+          revenue_band: meta.revenue_band || '',
+          role: 'user',
+          approved: autoApprove,
+          tier: defaultTier,
+        });
+        p = await fetchProfile(data.user.id);
+      }
+
+      setProfile(p);
 
         if (p && !p.approved) {
           await supabase.auth.signOut();
