@@ -3011,7 +3011,7 @@ function TemplateSelector({ onSelect, onClose }) {
 
 function Breadcrumbs({ view, firmNme, onNavigate }) {
   if (view === "landing") return null
-  const crumbs = [{ label: "Home", view: firms" }];
+    const crumbs = [{ label: "Home", view: "firms" }];
   if (view === "firms") {
     crumbs.push({ label: "Firms", view: "firms" });
   }
@@ -4969,7 +4969,7 @@ export default function App() {
         </div>
         <nav className="hidden md:flex flex-wrap items-center gap-1">
           {navItems.map(n => (
-            <button key={n.id} ·disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
+            <button key={n.id}  disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
               if (n.locked) { setShowUpgradeFor(n.label); return; }
               if (n.id === "dashboard") { if (selectedAssessmentId) setDashboardAssessmentId(selectedAssessmentId); }
               if (n.id === 'firms') { setSelectedFirmId(null); setSelectedAssessmentId(null); }
@@ -4988,7 +4988,7 @@ export default function App() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 px-4 py-2 flex flex-col gap-1">
           {navItems.map(n => (
-            <button key={n.id} ·disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
+            <button key={n.id}  disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
               if (n.locked) { setShowUpgradeFor(n.label); return; }
               setView(n.id); setMobileMenuOpen(false);
             }} className={`flex items-center gap-2 w-full px-3 py-3 rounded-lg text-sm font-medium text-left transition-colors ${n.locked ? "text-gray-500 opacity-60" : "text-gray-700 hover:bg-gray-100"}`}>
