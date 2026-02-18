@@ -148,7 +148,7 @@ function HeroSection() {
       </section>
 
       {/* Dashboard illustration — white background */}
-      <section className="pb-16 sm:pb-24 bg-white">
+      <section className="pt-16 sm:pt-24 pb-16 sm:pb-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="relative">
