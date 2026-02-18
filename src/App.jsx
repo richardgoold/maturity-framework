@@ -3579,7 +3579,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
         </div>
     )}
         {FRAMEWORK.themes.map((theme) => (
-          <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="border-b border-gray-100 scroll-mt-16">
+          <div key={theme.id} id={'theme-section-' + theme.id} data-theme-id={theme.id} className="transition-opacity duration-200 border-b border-gray-100 scroll-mt-16">
             <div className="sticky top-[41px] z-[5] bg-gray-50 border-b border-gray-200 px-4 py-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
