@@ -4661,7 +4661,8 @@ export default function App() {
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showUpgradeFor, setShowUpgradeFor] = useState(null);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showProfileMenu, setshowProfileMenu] = useState(false);
+  const [showBackupReminder, setShowBackupReminder] = useState(false);
   useEffect(() => { saveState(state); }, [state]);
   useEffect(() => { localStorage.setItem('gdmf_deleted', JSON.stringify(recentlyDeleted)); }, [recentlyDeleted]);
   useEffect(() => { setRecentlyDeleted(rd => rd.filter(item => Date.now() - item.timestamp < 30 * 24 * 60 * 60 * 1000)); }, []);
@@ -4772,6 +4773,8 @@ export default function App() {
     a.download = `gdmf-backup-${new Date().toISOString().slice(0,10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
+    localStorage.setItem("gdmf_last_backup", Date.now().toString());
+    setShowBackupReminder(false);
   };
 
   const importData = () => {
@@ -4887,6 +4890,12 @@ export default function App() {
     });
   };
   
+  // ISS-010: Backup reminder
+  useEffect(() => {
+    const last = localStorage.getItem("gdmf_last_backup");
+    if (!last || Date.now() - parseInt(last) > 7 * 24 * 60 * 60 * 1000) setShowBackupReminder(true);
+  }, []);
+
   // ISS-016: Dynamic page title
   useEffect(() => {
     const titles = { firms: 'Firms', dashboard: 'Dashboard', assess: 'Assessment', settings: 'Settings' };
@@ -5021,6 +5030,12 @@ export default function App() {
       />
 
       {/* Content */}
+          {showBackupReminder && (
+            <div className="mx-4 mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between text-sm">
+              <span className="text-amber-800">It has been a while since your last backup. Back up your data via Settings to avoid losing work.</span>
+              <button onClick={() => setShowBackupReminder(false)} className="ml-3 text-amber-600 hover:text-amber-800 font-medium">Dismiss</button>
+            </div>
+          )}
       <style>{`@media print { nav, footer, .no-print, button { display: none !important; } main { overflow: visible !important; } body { font-size: 12pt; } } @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } .view-transition { animation: fadeSlideIn 0.3s ease-out; }`}</style>
         <main key={view + (selectedFirmId || "") + (selectedAssessmentId || "")} className="flex-1 overflow-auto flex flex-col view-transition">
         {view === "landing" && (
