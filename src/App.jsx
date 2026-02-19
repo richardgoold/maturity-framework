@@ -4977,6 +4977,8 @@ export default function App() {
           <div>
                   <h1 className="text-sm font-bold text-gray-900 leading-tight">GrowthLens</h1>
             <p className="text-xs text-gray-500">M&A Due Diligence Assessment Platform</p>
+          </div>
+        </div>
           {user && (<>
             <div className="relative" style={{ zIndex: 50 }}>
               <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(!showProfileMenu); }} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors">
@@ -5007,8 +5009,6 @@ export default function App() {
               )}
             </div>
           </>)}
-          </div>
-        </div>
         <nav className="hidden md:flex flex-wrap items-center gap-1">
           {navItems.map(n => (
             <button key={n.id}  disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
