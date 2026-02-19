@@ -87,11 +87,16 @@ export function AuthProvider({ children }) {
     );
 
 
-    // Fallback: detect recovery from URL hash (in case event is missed)
-    const hash = window.location.hash;
-    if (hash && hash.includes('type=recovery')) {
+    // Fallback: detect recovery from URL search params (survives 404.html redirect chain)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("type") === "recovery") {
       setIsPasswordRecovery(true);
-      sessionStorage.setItem('passwordRecovery', 'true');
+      sessionStorage.setItem("passwordRecovery", "true");
+      // Clean up URL param
+      urlParams.delete("type");
+      const cleanSearch = urlParams.toString();
+      const newUrl = window.location.pathname + (cleanSearch ? "?" + cleanSearch : "") + window.location.hash;
+      window.history.replaceState(null, null, newUrl);
     }
 
     return () => subscription.unsubscribe();
@@ -240,7 +245,7 @@ export function AuthProvider({ children }) {
   // Reset password
   async function resetPassword(email) {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/`,
+      redirectTo: `${window.location.origin}/login?type=recovery`,
     });
     return { error };
   }
