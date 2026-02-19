@@ -7,6 +7,7 @@ import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
 import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
 import { ContactModalProvider, useContactModal } from "./ContactModal";
 import { supabase } from './supabase';
+import { useSupabaseData } from './useSupabaseData';
 // ─── Plausible Analytics Helper ─────────────────
 const track = (name, props) => { try { window.plausible?.(name, props ? { props } : undefined); } catch(e) {} };
 // -----------------------------------------------------------------------
@@ -4647,6 +4648,14 @@ export default function App() {
   const [state, setState] = useState(() => {
     return getInitialState();
   });
+  // Supabase data layer
+  const sbData = useSupabaseData();
+  // When Supabase data loads, sync it into state (replaces localStorage as primary)
+  useEffect(() => {
+    if (!sbData.loading && sbData.state.firms.length > 0) {
+      setState(sbData.state);
+    }
+  }, [sbData.loading]);
   const [view, setView] = useState("firms");
   const [selectedFirmId, setSelectedFirmId] = useState(null);
   const [selectedAssessmentId, setSelectedAssessmentId] = useState(null);
@@ -4664,6 +4673,18 @@ export default function App() {
   const [showProfileMenu, setshowProfileMenu] = useState(false);
   const [showBackupReminder, setShowBackupReminder] = useState(false);
   useEffect(() => { saveState(state); }, [state]);
+  // Debounced Supabase sync for assessment ratings
+  useEffect(() => {
+    if (!user?.id || !state.assessments) return;
+    const timer = setTimeout(() => {
+      Object.entries(state.assessments).forEach(([id, assessment]) => {
+        if (assessment && assessment.ratings) {
+          supabase.from('assessments').update({ ratings: assessment.ratings }).eq('id', id).then(r => r.error && console.error('Supabase rating sync error:', r.error));
+        }
+      });
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [JSON.stringify(state.assessments)]); // localStorage backup
   useEffect(() => { localStorage.setItem('gdmf_deleted', JSON.stringify(recentlyDeleted)); }, [recentlyDeleted]);
   useEffect(() => { setRecentlyDeleted(rd => rd.filter(item => Date.now() - item.timestamp < 30 * 24 * 60 * 60 * 1000)); }, []);
 
@@ -4701,7 +4722,7 @@ export default function App() {
     });
   }, []);
 
-  const createFirm = (firm) => setState(s => ({ ...s, firms: [...s.firms, firm] }));
+  const createFirm = (firm) => { setState(s => ({ ...s, firms: [...s.firms, firm] })); supabase.from('firms').insert({ id: firm.id, user_id: user?.id, name: firm.name, sector: firm.sector }).then(r => r.error && console.error('Supabase firm insert error:', r.error)); };
   const deleteFirm = (id) => {
     const firm = state.firms.find(f => f.id === id);
     const firmAssessmentsCopy = {};
@@ -4717,6 +4738,8 @@ export default function App() {
           Object.keys(assessments).forEach(k => { if (assessments[k].firmId === id) delete assessments[k]; });
           return { firms: s.firms.filter(f => f.id !== id), assessments };
         });
+        // Persist to Supabase
+        supabase.from('firms').delete().eq('id', id).then(r => r.error && console.error('Supabase firm delete error:', r.error));
         setConfirmDialog(null);
         setSelectedFirmId(null);
         setView("firms");
@@ -4743,6 +4766,8 @@ export default function App() {
           delete newAssessments[assessmentId];
           return { ...prev, assessments: newAssessments };
         });
+    // Persist to Supabase
+    supabase.from('assessments').delete().eq('id', assessmentId).then(r => r.error && console.error('Supabase assessment delete error:', r.error));
         setConfirmDialog(null);
         setUndoToast({ message: "Assessment deleted", onUndo: () => {
           setState(s => ({ ...s, assessments: { ...s.assessments, [assessmentId]: assessment } }));
@@ -4820,6 +4845,8 @@ export default function App() {
     setState(s => ({ ...s, assessments: { ...s.assessments, [id]: { id, firmId, createdAt: new Date().toISOString(), ratings } } }));
     setSelectedAssessmentId(id);
     setView("assess");
+    // Persist to Supabase
+    if (user?.id) { supabase.from('assessments').insert({ id, firm_id: firmId, user_id: user?.id, ratings, benchmark_profile: 'Professional Services' }).then(r => r.error && console.error('Supabase assessment insert error:', r.error)); }
   };
   const rateMetric = useCallback((metricId, level) => {
     setState(s => {
