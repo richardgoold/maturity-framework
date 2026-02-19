@@ -132,13 +132,13 @@ function HeroSection() {
               </div>
               <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
               <div className="flex-1 text-center">
-                <div className="text-4xl sm:text-5xl font-black text-amber-400">20+</div>
-                <div className="text-xs sm:text-sm text-gray-400 mt-1">Industry Benchmark Sources</div>
+                <div className="text-4xl sm:text-5xl font-black text-amber-400">7</div>
+                <div className="text-xs sm:text-sm text-gray-400 mt-1">Minute Assessment</div>
               </div>
             </div>
 
             <p className="text-sm text-gray-500 mb-8">
-              Evidence-based benchmarks from Hinge, Deltek, SPI Research, Mercer & more.
+              Benchmarks grounded in industry research across professional services.
             </p>
 
             {/* Tagline */}
