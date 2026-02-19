@@ -3289,7 +3289,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
       {showCreate && !atFirmLimit && (
         <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-4 mb-4 shadow-sm">
           <h3 className="text-sm font-bold text-gray-700 mb-3">Create New Firm</h3>
-          <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" autoFocus />
             <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" />
           </div>
@@ -3339,14 +3339,13 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800">{firm.name}{firm.id.startsWith("demo_") && <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">DEMO</span>}</h3>
-                      <p className="text-xs text-gray-400">{firm.id.startsWith("demo_") ? <span className="text-amber-600 font-medium">Explore all Pro features with this demo firm</span> : <>{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}</>}</p>
+                      <p className="text-xs text-gray-400">{firm.id.startsWith("demo_") ? <span className="text-amber-600 font-medium">Explore all Pro features with this demo firm</span> : <>{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}</>}{latestScores ? ` · ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : ""}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     {latestScores && (
                       <div className="text-right">
                         <div className="text-lg font-bold" style={{ color: latestScores.pct >= 80 ? "#16A34A" : latestScores.pct >= 40 ? "#D97706" : "#DC2626" }}>{latestScores.pct}%</div>
-                        <div className="text-xs text-gray-400">{latestScores.ratedCount}/{latestScores.totalMetrics} rated</div>
                       </div>
                     )}
                     {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
