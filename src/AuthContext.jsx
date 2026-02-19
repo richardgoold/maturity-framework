@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(() => sessionStorage.getItem('passwordRecovery') === 'true');
 
   // Fetch user profile from profiles table
   async function fetchProfile(userId) {
@@ -69,6 +69,7 @@ export function AuthProvider({ children }) {
       async (event, session) => {
         if (event === 'PASSWORD_RECOVERY') {
           setIsPasswordRecovery(true);
+          sessionStorage.setItem('passwordRecovery', 'true');
         }
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -84,6 +85,14 @@ export function AuthProvider({ children }) {
         setLoading(false);
       }
     );
+
+
+    // Fallback: detect recovery from URL hash (in case event is missed)
+    const hash = window.location.hash;
+    if (hash && hash.includes('type=recovery')) {
+      setIsPasswordRecovery(true);
+      sessionStorage.setItem('passwordRecovery', 'true');
+    }
 
     return () => subscription.unsubscribe();
   }, []);
@@ -231,7 +240,7 @@ export function AuthProvider({ children }) {
   // Reset password
   async function resetPassword(email) {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/login`,
+      redirectTo: `${window.location.origin}/`,
     });
     return { error };
   }
@@ -241,6 +250,7 @@ export function AuthProvider({ children }) {
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (!error) {
       setIsPasswordRecovery(false);
+      sessionStorage.removeItem('passwordRecovery');
     }
     return { error };
   }
