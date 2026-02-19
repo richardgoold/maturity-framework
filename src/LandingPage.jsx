@@ -123,7 +123,7 @@ function HeroSection() {
             <div className="flex items-start justify-center gap-6 sm:gap-10 mb-6 max-w-3xl mx-auto">
               <div className="flex-1 text-center">
                 <div className="text-4xl sm:text-5xl font-black text-amber-400">10</div>
-                <div className="text-xs sm:text-sm text-gray-400 mt-1">Growth Dimensions</div>
+                <div className="text-xs sm:text-sm text-gray-400 mt-1">Growth Themes</div>
               </div>
               <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
               <div className="flex-1 text-center">
@@ -412,7 +412,7 @@ function PreviewsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 max-w-2xl mx-auto leading-tight">
-            Deep insights across every<br className="hidden sm:block" /> dimension of your firm
+            Deep insights across every<br className="hidden sm:block" /> growth theme for your firm
           </h2>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
             From structured assessments to actionable roadmaps — understand exactly where your firm
@@ -727,7 +727,7 @@ function FeaturesSection() {
                 'Full assessment across all 10 themes and 57 metrics',
                 'Dashboard with scores and gap analysis',
                 'Benchmark comparison against 7 profiles',
-                'Maturity heatmap across all dimensions',
+                'Maturity heatmap across all growth themes',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -1036,7 +1036,7 @@ function Footer() {
         <p><strong>Last updated:</strong> February 2026</p>
         <p>These terms govern your use of the GrowthLens platform. By accessing or using GrowthLens, you agree to be bound by these terms.</p>
         <p><strong>Service Description</strong></p>
-        <p>GrowthLens provides a maturity assessment framework for professional services firms. The platform enables firms to assess their growth readiness across multiple dimensions and benchmark against industry standards.</p>
+        <p>GrowthLens provides a maturity assessment framework for professional services firms. The platform enables firms to assess their growth readiness across multiple growth themes and benchmark against industry standards.</p>
         <p><strong>Account Responsibilities</strong></p>
         <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to provide accurate and complete information when creating your account.</p>
         <p><strong>Acceptable Use</strong></p>
