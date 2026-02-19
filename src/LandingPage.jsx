@@ -689,8 +689,8 @@ function StatsBar() {
             <p className="text-sm text-gray-400 mt-1">Benchmark Profiles</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="20" suffix="+" /></p>
-            <p className="text-sm text-gray-400 mt-1">Industry Sources</p>
+            <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="57" /></p>
+            <p className="text-sm text-gray-400 mt-1">Growth Metrics</p>
           </div>
         </div>
       </div>
