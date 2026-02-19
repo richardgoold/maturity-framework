@@ -291,6 +291,8 @@ export function useSupabaseData() {
           }
         }
       }
+    }, 1000);
+  }, [user, state]);
 
   return {
     state,
