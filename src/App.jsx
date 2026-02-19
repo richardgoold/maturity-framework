@@ -4670,7 +4670,7 @@ export default function App() {
   const [benchmarkProfile, setBenchmarkProfile] = useState(() => { const firm = state.firms?.find(f => f.id === selectedFirmId); return SECTOR_BENCHMARK_MAP[firm?.sector] || "M&A-Ready (PSF)"; });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showUpgradeFor, setShowUpgradeFor] = useState(null);
-  const [showProfileMenu, setshowProfileMenu] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showBackupReminder, setShowBackupReminder] = useState(false);
   useEffect(() => { saveState(state); }, [state]);
   // Debounced Supabase sync for assessment ratings
