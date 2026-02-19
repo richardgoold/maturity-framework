@@ -17,6 +17,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   // Fetch user profile from profiles table
   async function fetchProfile(userId) {
@@ -66,6 +67,9 @@ export function AuthProvider({ children }) {
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          setIsPasswordRecovery(true);
+        }
         setUser(session?.user ?? null);
         if (session?.user) {
           try {
@@ -227,8 +231,17 @@ export function AuthProvider({ children }) {
   // Reset password
   async function resetPassword(email) {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/maturity-framework/login`,
+      redirectTo: `${window.location.origin}/login`,
     });
+    return { error };
+  }
+
+  // Update password (used after password recovery)
+  async function updatePassword(newPassword) {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (!error) {
+      setIsPasswordRecovery(false);
+    }
     return { error };
   }
 
@@ -240,6 +253,8 @@ export function AuthProvider({ children }) {
     signIn,
     signOut,
     resetPassword,
+    updatePassword,
+    isPasswordRecovery,
     isAdmin: profile?.role === 'admin',
     isPremium: profile?.tier === 'premium',
   };
