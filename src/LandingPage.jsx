@@ -132,8 +132,8 @@ function HeroSection() {
               </div>
               <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
               <div className="flex-1 text-center">
-                <div className="text-4xl sm:text-5xl font-black text-amber-400">7</div>
-                <div className="text-xs sm:text-sm text-gray-400 mt-1">Minute Assessment</div>
+                <div className="text-4xl sm:text-5xl font-black text-amber-400">20+</div>
+                <div className="text-xs sm:text-sm text-gray-400 mt-1">Industry Benchmark Sources</div>
               </div>
             </div>
 
@@ -689,8 +689,8 @@ function StatsBar() {
             <p className="text-sm text-gray-400 mt-1">Benchmark Profiles</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="57" /></p>
-            <p className="text-sm text-gray-400 mt-1">Growth Metrics</p>
+            <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="20" suffix="+" /></p>
+            <p className="text-sm text-gray-400 mt-1">Industry Benchmark Sources</p>
           </div>
         </div>
       </div>
