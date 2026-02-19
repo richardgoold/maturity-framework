@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell , LineChart, Line, CartesianGrid, Legend, ReferenceLine } from "recharts";
-import { Building2, Lock, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut, User as UserIcon, Settings } from "lucide-react";
+import { Building2, Lock, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut, User as UserIcon, Settings, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "./AuthContext";
 import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
 import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
@@ -4642,7 +4642,7 @@ function ContactView() {
 
 
 export default function App() {
-  const { user, signOut, isPremium, profile , isAdmin } = useAuth();
+  const { user, signOut, isPremium, profile , isAdmin , updatePassword } = useAuth();
   const navigate = useNavigate();
   const { openContactModal } = useContactModal();
   const [state, setState] = useState(() => {
@@ -4671,6 +4671,12 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showUpgradeFor, setShowUpgradeFor] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [pwForm, setPwForm] = useState({ current: "", new_pw: "", confirm: "" });
+  const [pwError, setPwError] = useState("");
+  const [pwSuccess, setPwSuccess] = useState(false);
+  const [pwLoading, setPwLoading] = useState(false);
+  const [pwShowNew, setPwShowNew] = useState(false);
   useEffect(() => { saveState(state); }, [state]);
   // Debounced Supabase sync for assessment ratings
   useEffect(() => {
@@ -4931,8 +4937,58 @@ export default function App() {
     }
   }, []);
 
+  const handleChangePassword = async () => {
+    setPwError("");
+    if (!pwForm.new_pw || !pwForm.confirm) { setPwError("Please fill in all fields."); return; }
+    if (pwForm.new_pw.length < 8) { setPwError("New password must be at least 8 characters."); return; }
+    if (pwForm.new_pw !== pwForm.confirm) { setPwError("New passwords do not match."); return; }
+    setPwLoading(true);
+    const { error } = await updatePassword(pwForm.new_pw);
+    setPwLoading(false);
+    if (error) { setPwError(error.message); return; }
+    setPwSuccess(true);
+    setTimeout(() => { setShowChangePassword(false); setPwForm({ current: "", new_pw: "", confirm: "" }); setPwError(""); setPwSuccess(false); setPwShowNew(false); }, 2000);
+  };
+
   return (
     <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
+      {showChangePassword && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50" onClick={() => { setShowChangePassword(false); setPwForm({ current: "", new_pw: "", confirm: "" }); setPwError(""); setPwSuccess(false); }}>
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2"><Lock size={18} className="text-amber-500" /> Change Password</h3>
+              <button onClick={() => { setShowChangePassword(false); setPwForm({ current: "", new_pw: "", confirm: "" }); setPwError(""); setPwSuccess(false); }} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
+            </div>
+            {pwSuccess ? (
+              <div className="flex flex-col items-center py-8">
+                <CheckCircle2 size={48} className="text-green-500 mb-3" />
+                <p className="text-green-700 font-medium">Password updated successfully</p>
+              </div>
+            ) : (
+              <>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                    <div className="relative">
+                      <input type={pwShowNew ? "text" : "password"} value={pwForm.new_pw} onChange={e => setPwForm(p => ({ ...p, new_pw: e.target.value }))} placeholder="At least 8 characters" className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none" />
+                      <button type="button" onClick={() => setPwShowNew(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">{pwShowNew ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                    <input type="password" value={pwForm.confirm} onChange={e => setPwForm(p => ({ ...p, confirm: e.target.value }))} placeholder="Re-enter new password" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none" />
+                  </div>
+                </div>
+                {pwError && <p className="mt-3 text-sm text-red-600 flex items-center gap-1"><AlertCircle size={14} /> {pwError}</p>}
+                <div className="flex gap-3 mt-6">
+                  <button onClick={() => { setShowChangePassword(false); setPwForm({ current: "", new_pw: "", confirm: "" }); setPwError(""); }} className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
+                  <button onClick={handleChangePassword} disabled={pwLoading} className="flex-1 px-4 py-2 text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 disabled:opacity-50 rounded-lg transition-colors">{pwLoading ? "Updating…" : "Update Password"}</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {confirmDialog && <ConfirmDialog {...confirmDialog} />}
       {undoToast && <UndoToast message={undoToast.message} seconds={8} onUndo={undoToast.onUndo} onExpire={undoToast.onExpire} />}
@@ -4990,6 +5046,9 @@ export default function App() {
                       {!isPremium && <button onClick={() => { setShowProfileMenu(false); openContactModal({ subject: 'Premium Upgrade Enquiry' }); }} className="text-xs text-amber-600 hover:text-amber-700 font-medium">Upgrade</button>}
                     </div>
                   </div>
+                    <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); setShowChangePassword(true); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-white/5 transition-colors">
+                      <Lock size={14} /> Change Password
+                    </button>
                   <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); signOut(); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                     <LogOut className="w-4 h-4" />
                     Sign Out
