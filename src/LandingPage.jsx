@@ -16,7 +16,12 @@ function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) {
+      const navHeight = 72;
+      const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
     setMobileOpen(false);
   };
 
@@ -25,7 +30,7 @@ function NavBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="w-8 h-8 bg-amber-400 rounded-lg flex items-center justify-center">
               <BarChart3 className="w-5 h-5 text-white" />
             </div>
@@ -462,7 +467,7 @@ function PreviewsSection() {
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              See exactly where your firm stands with scores across all 10 growth dimensions, benchmarked to industry standards
+              See exactly where your firm stands with scores across all 10 growth themes, benchmarked to industry standards
             </p>
           </div>
 
@@ -656,7 +661,7 @@ function AnimatedCounter({ target, suffix = '' }) {
           }, duration / steps);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     );
 
     if (ref.current) observer.observe(ref.current);
