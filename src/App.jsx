@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell , LineChart, Line, CartesianGrid, Legend, ReferenceLine } from "recharts";
-import { Building2, Lock, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut } from "lucide-react";
+import { Building2, Lock, ChevronDown, ChevronUp, ClipboardCheck, LayoutDashboard, Plus, ChevronRight, CheckCircle2, Circle, AlertCircle, Home, TrendingUp, Target, Award, MessageSquare, ArrowLeft, ArrowRight, Trash2, Download, FileText, BarChart3, Copy, X , Info, HelpCircle, TrendingUp as TrendUp , PoundSterling, Users, Tag, Compass, Handshake, Shield, Calculator, CheckSquare, Globe, BookOpen, AlertTriangle, Upload, Menu , Mail, ExternalLink, LogOut, User as UserIcon, Settings } from "lucide-react";
 import { useAuth } from "./AuthContext";
 import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
 import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
