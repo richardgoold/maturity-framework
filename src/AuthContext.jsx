@@ -1,6 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from './supabase';
 
+// Early detection: capture recovery param before Supabase processes the URL
+const _isRecoveryFromUrl = new URLSearchParams(window.location.search).get("type") === "recovery";
+if (_isRecoveryFromUrl) sessionStorage.setItem("passwordRecovery", "true");
+
 const AuthContext = createContext(null);
 
 // Wrap any promise with a timeout to prevent infinite hangs
