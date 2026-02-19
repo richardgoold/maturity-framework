@@ -5,7 +5,7 @@
 An M&A due diligence assessment platform that evaluates professional services firms (PSFs) across 10 growth themes and 57 metrics, benchmarked against M&A-ready industry standards. Built as a single-page React application deployed to GitHub Pages.
 
 - **Repo:** richardgoold/maturity-framework
-- **Live site:** https://richardgoold.github.io/maturity-framework/
+- **Live site:** https://growthlens.app/
 - **Owner:** Richard Goold (richard@richardgoold.com)
 - **Latest commit:** 3916fd3 - "Tighter crop and recentre face in portrait circle"
 - **Last updated:** 13 February 2026
@@ -200,7 +200,7 @@ Demo firms pre-populated: Apex Consulting Partners (72%), TechBridge Solutions (
 - Runs npm ci && npm run build then deploys dist/ to GitHub Pages
 - Typically completes in ~20-25 seconds
 - Build uses Vite with base: '/maturity-framework/'
-- Live site: https://richardgoold.github.io/maturity-framework/
+- Live site: https://growthlens.app/
 
 ## Editing via GitHub Web Editor
 
@@ -360,7 +360,7 @@ Overall: 56%
 
 2. **Read this CLAUDE.md:** It documents the current state of all features, code structure, line numbers, and recent changes.
 
-3. **Verify the live site:** Visit https://richardgoold.github.io/maturity-framework/ and check:
+3. **Verify the live site:** Visit https://growthlens.app/ and check:
    - Copyright footer visible at bottom
    - M&A Readiness Score inside the donut circle
    - Scenario Modelling clarification text
