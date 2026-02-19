@@ -96,6 +96,7 @@ export default function SignupPage() {
             </p>
           </div>
         ) : (
+        <>
         /* Card */
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Create your free account</h1>
@@ -220,6 +221,7 @@ export default function SignupPage() {
           Already have an account?{' '}
           <Link to="/login" className="text-amber-600 hover:text-amber-700 font-medium">Log in</Link>
         </p>
+        </>
         )}
 
         {/* Back to home */}
