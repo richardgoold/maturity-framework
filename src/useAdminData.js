@@ -93,40 +93,18 @@ export function useAdminData() {
   }, []);
 
   const deleteUser = useCallback(async (userId) => {
-    // Delete user's assessments first (FK constraint)
-    const { error: assessErr } = await supabase
-      .from('assessments')
-      .delete()
-      .eq('user_id', userId);
-    if (assessErr) throw assessErr;
-
-    // Delete user's firms
-    const { error: firmsErr } = await supabase
-      .from('firms')
-      .delete()
-      .eq('user_id', userId);
-    if (firmsErr) throw firmsErr;
-
-    // Delete user's contact submissions
-    await supabase
-      .from('contact_submissions')
-      .delete()
-      .eq('user_id', userId);
-
-    // Delete user profile
-    const { error: profileErr } = await supabase
-      .from('profiles')
-      .delete()
-      .eq('id', userId);
-    if (profileErr) throw profileErr;
-
-    // Update local state
+    const { data, error: err } = await supabase.rpc('delete_user_completely', {
+      target_user_id: userId
+    });
+    if (err) throw err;
     setUsers(prev => prev.filter(u => u.id !== userId));
     setFirms(prev => prev.filter(f => f.user_id !== userId));
-    setAssessments(prev => prev.filter(a => a.user_id !== userId));
-    setContacts(prev => prev.filter(c => c.user_id !== userId));
+    setAssessments(prev => prev.filter(a => {
+      const firm = firms.find(f => f.id === a.firm_id);
+      return !firm || firm.user_id !== userId;
+    }));
     return true;
-  }, []);
+  }, [firms]);
 
   // ââ Assessment management ââââââââââââââââââââââââââââââââ
   const updateAssessmentRatings = useCallback(async (assessmentId, ratings) => {
