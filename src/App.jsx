@@ -1981,7 +1981,9 @@ const renderPdfFromHtml = (html, filename, opts = {}) => {
   html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => { styleBlocks.push(css); });
   const container = document.createElement("div");
   container.style.position = "fixed";
-  container.style.left = "-9999px";
+  container.style.left = "0";
+  container.style.zIndex = "-1";
+  container.style.pointerEvents = "none";
   container.style.top = "0";
   container.style.width = "210mm";
   container.style.background = "white";
@@ -1999,8 +2001,9 @@ const renderPdfFromHtml = (html, filename, opts = {}) => {
   const mergedOpts = { ...defaultOpts, ...opts, filename: filename || defaultOpts.filename };
   window.html2pdf().set(mergedOpts).from(container).save().then(() => {
     document.body.removeChild(container);
-  }).catch(() => {
-    document.body.removeChild(container);
+  }).catch((err) => {
+    console.error("PDF generation error:", err);
+    try { document.body.removeChild(container); } catch(e) {}
   });
 };
 
@@ -2008,7 +2011,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
   // Get benchmark data for the sector
   const sectorKey = Object.keys(BENCHMARKS).find(
-    key => key.toLowerCase() === firmSector.toLowerCase()
+    key => key.toLowerCase() === (firmSector || "").toLowerCase()
   ) || Object.keys(BENCHMARKS)[0];
   const benchmarkData = (BENCHMARK_PROFILES[sectorKey] || BENCHMARK_PROFILES["M&A-Ready (PSF)"]) || {};
 
@@ -2101,7 +2104,10 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
             ">
               ${firmPct > 20 ? firmPct + '%' : ''}
             </div>
-            ${firmPct <= 20 ? `<div style="display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid #eee;"><div style="width:160px;font-size:13px;font-weight:500;padding-top:4px;">${theme.name}</div><div style="flex:1;position:relative;height:48px;"><div style="position:absolute;top:14px;left:0;right:0;height:8px;background:#e5e7eb;border-radius:4px;"></div><div style="position:absolute;top:14px;left:0;width:${firmPct}%;height:8px;background:${scoreColor};border-radius:4px;opacity:0.3;"></div><div style="position:absolute;left:${firmPct}%;top:3px;transform:translateX(-50%);text-align:center;"><div style="width:22px;height:22px;border-radius:50%;background:${scoreColor};border:3px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.25);margin:0 auto;"></div><div style="font-size:10px;font-weight:bold;color:#333;margin-top:1px;">${firmPct}%</div></div><div style="position:absolute;left:${benchmarkPct}%;top:8px;transform:translateX(-50%);"><div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #1f1f1f;"></div><div style="width:2px;height:14px;background:#1f1f1f;margin:0 auto;"></div></div></div></div>` : ''}`;
+            ${firmPct <= 20 ? `<div style="display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid #eee;"><div style="width:160px;font-size:13px;font-weight:500;padding-top:4px;">${theme.name}</div><div style="flex:1;position:relative;height:48px;"><div style="position:absolute;top:14px;left:0;right:0;height:8px;background:#e5e7eb;border-radius:4px;"></div><div style="position:absolute;top:14px;left:0;width:${firmPct}%;height:8px;background:${scoreColor};border-radius:4px;opacity:0.3;"></div><div style="position:absolute;left:${firmPct}%;top:3px;transform:translateX(-50%);text-align:center;"><div style="width:22px;height:22px;border-radius:50%;background:${scoreColor};border:3px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.25);margin:0 auto;"></div><div style="font-size:10px;font-weight:bold;color:#333;margin-top:1px;">${firmPct}%</div></div><div style="position:absolute;left:${benchmarkPct}%;top:8px;transform:translateX(-50%);"><div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #1f1f1f;"></div><div style="width:2px;height:14px;background:#1f1f1f;margin:0 auto;"></div></div></div></div>` : ''}
+          </div>
+        </td>
+      </tr>`;
   }).join('');
 
   // Build strengths and weaknesses section
@@ -2851,7 +2857,7 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
         <button onClick={() => { track("Export PDF"); exportToPDF(assessment, firmName, firmSector, scores); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <FileText size={20} />
-          <span className="text-xs text-center leading-tight">Export PDF Report</span>
+          <span className="text-xs text-center leading-tight">Maturity Report</span>
         </button>
         <button onClick={() => { track("Export Detailed Report"); exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
