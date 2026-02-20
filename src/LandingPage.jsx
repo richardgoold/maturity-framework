@@ -927,11 +927,11 @@ function LogoCarousel() {
         <style>{`
           @keyframes logo-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         `}</style>
-        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', width: 'max-content', animation: 'logo-scroll 40s linear infinite' }}>
+        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 40s linear infinite' }}>
             {doubled.map((logo, i) => (
               <div key={i} style={{
-                flex: '0 0 auto',
+                flex: '0 0 auto', margin: '0 1rem',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
