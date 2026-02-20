@@ -670,7 +670,7 @@ function AnimatedCounter({ target, suffix = '' }) {
 
 function StatsBar() {
   return (
-    <div className="bg-gray-900 py-8">
+    <div className="bg-gray-900 py-8 border-b border-gray-700/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center">
@@ -914,7 +914,7 @@ function LogoCarousel() {
   ];
 
   return (
-    <section className="bg-gray-900 pt-2 pb-12">
+    <section className="bg-gray-900 pt-6 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center text-sm font-semibold tracking-widest text-gray-500 uppercase mb-6">
           Trusted by forward-thinking consultancies including
@@ -923,7 +923,7 @@ function LogoCarousel() {
           <div className="flex logo-scroll">
             {[...logos, ...logos].map((logo, i) => (
               <div key={i} className="flex-shrink-0 mx-2 sm:mx-3">
-                <div className="bg-white rounded-lg flex items-center justify-center" style={{ width: '140px', height: '80px', padding: '12px' }}>
+                <div className="bg-white rounded-lg flex items-center justify-center" style={{ width: '170px', height: '95px', padding: '14px' }}>
                   <img
                     src={logo.src}
                     alt={logo.name}
