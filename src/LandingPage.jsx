@@ -4,7 +4,7 @@ import { supabase } from './supabase';
 import { useAuth } from './AuthContext';
 import {
   BarChart3, Target, TrendingUp, Award, CheckCircle2,
-  ArrowRight, Mail, ExternalLink, Linkedin,
+  ArrowRight, Mail, Linkedin,
   Shield, Users, Globe, ChevronRight, ArrowLeft
 , Lock} from 'lucide-react';
 
@@ -838,7 +838,7 @@ function ContactSection() {
           {/* Left column - Bio */}
           <div className="text-center lg:text-left">
             <div className="flex flex-col items-center lg:items-start">
-              <div className="w-32 h-32 mb-5 rounded-full border-4 border-amber-400 shadow-lg overflow-hidden">
+              <div className="w-44 h-44 mb-5 rounded-full border-4 border-amber-400 shadow-xl overflow-hidden">
                 <img
                   src="/portrait.png"
                   alt="Richard Goold"
@@ -851,7 +851,7 @@ function ContactSection() {
               <p className="text-gray-600 mb-6 max-w-md">
                 Helping professional services firms build value, strengthen culture, and prepare for successful exits through coaching, advisory, and M&A readiness support.
               </p>
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex flex-wrap items-center gap-3">
                 <a
                   href="https://richardgoold.com"
                   target="_blank"
@@ -870,20 +870,14 @@ function ContactSection() {
                   <Linkedin size={16} />
                   LinkedIn
                 </a>
-              </div>
-              <a
-                href="https://www.favikon.com/blog/top-management-leadership-influencers-uk"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 hover:bg-gray-100 transition group"
-              >
-                <img src="/logos/Favikon.png" alt="Favikon" className="h-6 w-auto" />
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-gray-900">Top 20 UK Leadership Influencer</p>
-                  <p className="text-xs text-gray-500">Favikon, 2026</p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg bg-gray-50">
+                  <img src="/logos/Favikon.png" alt="Favikon" className="h-8 w-auto" />
+                  <div className="text-left">
+                    <p className="text-xs font-semibold text-gray-900">Top 20 UK Leadership Influencer</p>
+                    <p className="text-xs text-gray-500">Favikon, 2026</p>
+                  </div>
                 </div>
-                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition" />
-              </a>
+              </div>
             </div>
           </div>
 
