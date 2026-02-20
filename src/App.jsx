@@ -1974,39 +1974,45 @@ const generateCSV = (assessment) => {
 };
 
 // Shared PDF renderer using html2pdf.js
-const renderPdfFromHtml = (html, filename, opts = {}) => {
-  const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-  const bodyContent = bodyMatch ? bodyMatch[1] : html;
-  const styleBlocks = [];
-  html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => { styleBlocks.push(css); });
-  const container = document.createElement("div");
-  container.style.position = "fixed";
-  container.style.left = "0";
-  container.style.zIndex = "-1";
-  container.style.pointerEvents = "none";
-  container.style.top = "0";
-  container.style.width = "210mm";
-  container.style.background = "white";
-  const styleTag = styleBlocks.length ? "<style>" + styleBlocks.join("\n") + "</style>" : "";
-  container.innerHTML = styleTag + bodyContent;
-  document.body.appendChild(container);
-  const defaultOpts = {
-    margin: [8, 8, 8, 8],
-    filename: filename || "report.pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, logging: false },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+  const renderPdfFromHtml = (html, filename, opts = {}) => {
+    const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+    const bodyContent = bodyMatch ? bodyMatch[1] : html;
+    const styleBlocks = [];
+    html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => { styleBlocks.push(css); });
+    const container = document.createElement("div");
+    container.style.position = "absolute";
+    container.style.left = "0";
+    container.style.top = document.body.scrollHeight + "px";
+    container.style.width = "794px";
+    container.style.minHeight = "1123px";
+    container.style.background = "white";
+    container.style.overflow = "visible";
+    const styleTag = styleBlocks.length ? "<style>" + styleBlocks.join("\n") + "</style>" : "";
+    let processedBody = bodyContent;
+    processedBody = processedBody.replace(/display:\s*grid/gi, "display:flex;flex-wrap:wrap");
+    processedBody = processedBody.replace(/grid-template-columns:[^;"]+/gi, "");
+    container.innerHTML = styleTag + processedBody;
+    document.body.appendChild(container);
+    const defaultOpts = {
+      margin: [8, 8, 8, 8],
+      filename: filename || "report.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0, windowWidth: 794, windowHeight: 1123 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+    };
+    const mergedOpts = { ...defaultOpts, ...opts, filename: filename || defaultOpts.filename };
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        window.html2pdf().set(mergedOpts).from(container).save().then(() => {
+          document.body.removeChild(container);
+        }).catch((err) => {
+          console.error("PDF generation error:", err);
+          try { document.body.removeChild(container); } catch(e) {}
+        });
+      }, 500);
+    });
   };
-  const mergedOpts = { ...defaultOpts, ...opts, filename: filename || defaultOpts.filename };
-  window.html2pdf().set(mergedOpts).from(container).save().then(() => {
-    document.body.removeChild(container);
-  }).catch((err) => {
-    console.error("PDF generation error:", err);
-    try { document.body.removeChild(container); } catch(e) {}
-  });
-};
-
 const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
   // Get benchmark data for the sector
@@ -2575,7 +2581,7 @@ const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
     const pct = ts ? Math.round(ts.pct) : 0;
     const bench = BENCHMARK_PROFILES["M&A-Ready (PSF)"][t.id] || 65;
     const color = pct >= bench ? "#059669" : pct >= bench - 10 ? "#d97706" : "#dc2626";
-    return `<div style="border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:#64748b;margin-bottom:4px">${t.name}</div><div style="font-size:28px;font-weight:700;color:${color}">${pct}%</div><div style="font-size:9px;color:#94a3b8">Target: ${bench}%</div></div>`;
+    return `<div style="width:18%;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:#64748b;margin-bottom:4px">${t.name}</div><div style="font-size:28px;font-weight:700;color:${color}">${pct}%</div><div style="font-size:9px;color:#94a3b8">Target: ${bench}%</div></div>`;
   }).join("");
   const strengthsHtml = topStrengths.length ? topStrengths.map((m, i) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155;font-size:12px">${i + 1}. ${m.name}</td><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#64748b;font-size:11px">${m.theme}</td></tr>`).join("") : "<tr><td colspan=2 style=\"text-align:center;color:#94a3b8;padding:8px;font-size:12px\">No strong ratings yet</td></tr>";
   const gapsHtml = topGapsMetric.length ? topGapsMetric.map((m, i) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155;font-size:12px">${i + 1}. ${m.name}</td><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#64748b;font-size:11px">${m.theme}</td></tr>`).join("") : "<tr><td colspan=2 style=\"text-align:center;color:#94a3b8;padding:8px;font-size:12px\">No critical gaps identified</td></tr>";
@@ -2595,9 +2601,9 @@ const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
   </div>
   <div style="margin-bottom:24px">
     <h2 style="font-size:14px;color:#1f1f1f;border-bottom:2px solid #1f1f1f;padding-bottom:4px;margin-bottom:12px">Dimension Maturity Overview</h2>
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">${themeGridHtml}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">${themeGridHtml}</div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+  <div style="display:flex;gap:24px;margin-bottom:24px">
     <div>
       <h2 style="font-size:14px;color:#059669;border-bottom:2px solid #059669;padding-bottom:4px;margin-bottom:8px">Top Strengths</h2>
       <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${strengthsHtml}</tbody></table>
