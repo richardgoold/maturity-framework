@@ -904,13 +904,13 @@ function LogoCarousel() {
     const logos = [
       { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg", darken: true },
       { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
-      { name: "Public First", src: "/maturity-framework/logos/Public First.png" },
-      { name: "Roq", src: "/maturity-framework/logos/Roq.jpeg", big: true },
-      { name: "RQC Group", src: "/maturity-framework/logos/RQC Group.png" },
-      { name: "WeShape", src: "/maturity-framework/logos/WeShape.jpeg", big: true },
+      { name: "Public First", src: "/logos/Public First.png" },
+      { name: "Roq", src: "/logos/Roq.jpeg", big: true },
+      { name: "RQC Group", src: "/logos/RQC Group.png" },
+      { name: "WeShape", src: "/logos/WeShape.jpeg", big: true },
       { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", darken: true },
       { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: true, big: true, scale: 2.2 },
-      { name: "The ICS", src: "/maturity-framework/logos/The ICS.jpeg" },
+      { name: "The ICS", src: "/logos/The ICS.jpeg" },
     ];
 
     const activeLogos = logos.filter(l => l.src);
