@@ -841,11 +841,12 @@ function ContactSection() {
               <img
                 src="/portrait.png"
                 alt="Richard Goold"
-                className="w-32 h-32 rounded-full object-cover shadow-lg mb-6"
+                className="w-28 h-28 rounded-full object-cover ring-4 ring-amber-400 mb-6"
               />
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Let's Talk</h2>
               <p className="text-lg text-amber-600 font-medium mb-4">Richard Goold</p>
-              <p className="text-base text-gray-500 mb-6">The Growth Advisor&ensp;|&ensp;£250m+ in exits</p>
+              <p className="text-base text-gray-500 mb-2">The Growth Advisor&ensp;|&ensp;£250m+ in exits</p>
+              <p className="text-sm text-gray-400 mb-6 max-w-sm">Helping founders, CEOs and boards navigate the hard parts of Growth, Culture and Capital Events.</p>
               <p className="text-gray-600 mb-8 max-w-md">
                 Whether you have questions about the framework, want a walkthrough, or need help
                 interpreting your results — I'm here to help.
@@ -856,14 +857,18 @@ function ContactSection() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 hover:bg-gray-100 transition group"
               >
-                <div className="flex items-center justify-center w-10 h-10 bg-amber-100 rounded-lg">
-                  <Award className="w-5 h-5 text-amber-600" />
+                <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
+                  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none">
+                    <path d="M12 2L21.5 7.5V16.5L12 22L2.5 16.5V7.5L12 2Z" fill="#7C3AED" />
+                    <path d="M8.5 9.5L11 14L13.5 9.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="15.5" cy="9.5" r="1" fill="white" />
+                  </svg>
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-semibold text-gray-900">Top 20 UK Leadership Influencer</p>
                   <p className="text-xs text-gray-500">Favikon, 2026</p>
                 </div>
-                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-amber-600 transition" />
+                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition" />
               </a>
             </div>
           </div>
