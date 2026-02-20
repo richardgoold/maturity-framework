@@ -2002,8 +2002,7 @@ const generateCSV = (assessment) => {
       pagebreak: { mode: ["avoid-all", "css", "legacy"] }
     };
     const mergedOpts = { ...defaultOpts, ...opts, filename: filename || defaultOpts.filename };
-    requestAnimationFrame(() => {
-      setTimeout(() => {
+    setTimeout(() => {
         window.html2pdf().set(mergedOpts).from(container).save().then(() => {
           document.body.removeChild(container);
         }).catch((err) => {
@@ -2011,7 +2010,6 @@ const generateCSV = (assessment) => {
           try { document.body.removeChild(container); } catch(e) {}
         });
       }, 500);
-    });
   };
 const exportToPDF = (assessment, firmName, firmSector, scores) => {
 
