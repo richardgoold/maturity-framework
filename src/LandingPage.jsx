@@ -917,7 +917,7 @@ function LogoCarousel() {
     ];
 
     const activeLogos = logos.filter(l => l.src);
-    const doubled = [...activeLogos, ...activeLogos];
+    const tripled = [...logos, ...logos, ...logos];
 
     return (
       <section style={{ padding: '3rem 0', background: '#1a1a1a' }}>
@@ -925,11 +925,11 @@ function LogoCarousel() {
           Trusted by leading professional services firms including
         </p>
         <style>{`
-          @keyframes logo-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+          @keyframes logo-scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-33.333%,0,0); } }
         `}</style>
-        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 40s linear infinite' }}>
-            {doubled.map((logo, i) => (
+        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 25%, black 75%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 25%, black 75%, transparent)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 40s linear infinite', willChange: 'transform' }}>
+            {tripled.map((logo, i) => (
               <div key={i} style={{
                 flex: '0 0 auto', margin: '0 1rem',
                 display: 'flex',
