@@ -832,102 +832,121 @@ function ContactSection() {
 
   return (
     <section id="contact" className="py-16 sm:py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          
-          {/* Left column - About */}
-          <div className="text-center lg:text-left">
-            <div className="flex flex-col items-center lg:items-start">
-              <img
-                src="/portrait.png"
-                alt="Richard Goold"
-                className="w-28 h-28 rounded-full object-cover ring-4 ring-amber-400 mb-6"
-              />
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Let's Talk</h2>
-              <p className="text-lg text-amber-600 font-medium mb-4">Richard Goold</p>
-              <p className="text-base text-gray-500 mb-2">The Growth Advisor&ensp;|&ensp;£250m+ in exits</p>
-              <p className="text-sm text-gray-400 mb-6 max-w-sm">Helping founders, CEOs and boards navigate the hard parts of Growth, Culture and Capital Events.</p>
-              <p className="text-gray-600 mb-8 max-w-md">
-                Whether you have questions about the framework, want a walkthrough, or need help
-                interpreting your results — I'm here to help.
-              </p>
-              <a
-                href="https://www.favikon.com/blog/top-management-leadership-influencers-uk"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 hover:bg-gray-100 transition group"
-              >
-                <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
-                  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none">
-                    <path d="M12 2L21.5 7.5V16.5L12 22L2.5 16.5V7.5L12 2Z" fill="#7C3AED" />
-                    <path d="M8.5 9.5L11 14L13.5 9.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <circle cx="15.5" cy="9.5" r="1" fill="white" />
-                  </svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-gray-900">Top 20 UK Leadership Influencer</p>
-                  <p className="text-xs text-gray-500">Favikon, 2026</p>
-                </div>
-                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition" />
-              </a>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Advisory intro - mirrors in-app contact */}
+        <div className="text-center mb-10">
+          <div className="w-32 h-32 mx-auto mb-5 rounded-full border-4 border-amber-400 shadow-lg overflow-hidden">
+            <img
+              src="/portrait.png"
+              alt="Richard Goold"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: '55% 28%', transform: 'scale(1.65)' }}
+            />
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Richard Goold</h2>
+          <p className="text-amber-600 font-medium mb-1">The Growth Advisor&ensp;|&ensp;£250m+ in exits</p>
+          <p className="text-sm text-gray-400 mb-5">Helping founders, CEOs and boards navigate the hard parts of Growth, Culture and Capital Events.</p>
+          <p className="text-gray-600 max-w-lg mx-auto mb-5">
+            Helping professional services firms build value, strengthen culture, and prepare for successful exits through coaching, advisory, and M&A readiness support.
+          </p>
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <a
+              href="https://richardgoold.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:border-amber-400 hover:text-amber-600 transition"
+            >
+              <Globe size={16} />
+              Website
+            </a>
+            <a
+              href="https://www.linkedin.com/in/richardgooldofficial/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:border-amber-400 hover:text-amber-600 transition"
+            >
+              <Linkedin size={16} />
+              LinkedIn
+            </a>
+          </div>
+
+          {/* Favikon badge */}
+          <a
+            href="https://www.favikon.com/blog/top-management-leadership-influencers-uk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 hover:bg-gray-100 transition group"
+          >
+            <img src="/logos/Favikon.png" alt="Favikon" className="h-6 w-auto" />
+            <div className="text-left">
+              <p className="text-sm font-semibold text-gray-900">Top 20 UK Leadership Influencer</p>
+              <p className="text-xs text-gray-500">Favikon, 2026</p>
             </div>
-          </div>
-
-          {/* Right column - Form */}
-          <div>
-            {status === 'sent' ? (
-              <div className="text-center py-12 bg-green-50 rounded-2xl border border-green-200">
-                <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Message sent</h3>
-                <p className="text-gray-600">We'll get back to you within 24 hours.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5 bg-gray-50 rounded-2xl p-6 sm:p-8 border border-gray-100">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition bg-white"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition bg-white"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <textarea
-                    required
-                    rows={5}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition resize-none bg-white"
-                    placeholder="How can I help?"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={status === 'sending'}
-                  className="w-full py-3 px-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition disabled:opacity-50"
-                >
-                  {status === 'sending' ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
-            )}
-          </div>
-
+            <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition" />
+          </a>
         </div>
+
+        {/* Divider */}
+        <div className="border-t border-gray-200 my-8" />
+
+        {/* Contact form */}
+        <div className="text-center mb-8">
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Get in Touch</h3>
+          <p className="text-gray-600">
+            Have questions about the framework, need help interpreting your results, or want to discuss advisory support?
+          </p>
+        </div>
+
+        {status === 'sent' ? (
+          <div className="text-center py-12 bg-green-50 rounded-2xl border border-green-200">
+            <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Message sent</h3>
+            <p className="text-gray-600">We'll get back to you within 24 hours.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <input
+                type="text"
+                required
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+              <textarea
+                required
+                rows={5}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition resize-none"
+                placeholder="How can I help?"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={status === 'sending'}
+              className="w-full py-3 px-6 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition disabled:opacity-50"
+            >
+              {status === 'sending' ? 'Sending...' : 'Send Message'}
+            </button>
+          </form>
+        )}
       </div>
     </section>
   );
