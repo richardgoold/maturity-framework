@@ -838,9 +838,9 @@ function ContactSection() {
           {/* Left column - Bio */}
           <div className="text-center lg:text-left">
             <div className="flex flex-col items-center lg:items-start">
-              <div className="w-44 h-44 mb-5 rounded-full border-4 border-amber-400 shadow-xl overflow-hidden">
+              <div className="w-32 h-32 mx-auto lg:mx-0 mb-4 rounded-full border-4 border-amber-400 shadow-lg overflow-hidden">
                 <img
-                  src="/portrait.png"
+                  src="https://xbrywtjahuidaufcdvti.supabase.co/storage/v1/object/public/images/Portrait%20Photo.png"
                   alt="Richard Goold"
                   className="w-full h-full object-cover"
                 />
