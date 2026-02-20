@@ -927,11 +927,11 @@ function LogoCarousel() {
         <style>{`
           @keyframes logo-scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-33.333%,0,0); } }
         `}</style>
-        <div style={{ overflow: 'hidden', width: '100%', WebkitMaskImage: 'linear-gradient(to right, transparent, black 25%, black 75%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 25%, black 75%, transparent)' }}>
+        <div style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
           <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 40s linear infinite', willChange: 'transform' }}>
             {tripled.map((logo, i) => (
               <div key={i} style={{
-                flex: '0 0 auto', margin: '0 1rem',
+              flex: '0 0 auto', margin: '0 1rem', boxSizing: 'border-box',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -958,6 +958,8 @@ function LogoCarousel() {
               </div>
             ))}
           </div>
+          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '15%', background: 'linear-gradient(to right, #1a1a1a, transparent)', pointerEvents: 'none', zIndex: 2 }} />
+          <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '15%', background: 'linear-gradient(to left, #1a1a1a, transparent)', pointerEvents: 'none', zIndex: 2 }} />
         </div>
       </section>
     );
