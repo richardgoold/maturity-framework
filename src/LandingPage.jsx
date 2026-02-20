@@ -670,7 +670,7 @@ function AnimatedCounter({ target, suffix = '' }) {
 
 function StatsBar() {
   return (
-    <div className="bg-gray-900 py-8 border-b border-gray-700/40">
+    <div className="bg-gray-900 py-8 border-b-2 border-gray-600/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center">
@@ -907,14 +907,14 @@ function LogoCarousel() {
     { name: "Public First", src: "/logos/Public First.png" },
     { name: "Roq", src: "/logos/Roq.jpeg" },
     { name: "RQC Group", src: "/logos/RQC Group.png" },
-    { name: "WeShape", src: "/logos/WeShape.jpeg" },
+    { name: "WeShape", src: "/logos/WeShape.jpeg", scale: 1.3 },
     { name: "Wondrous", src: "/logos/Wondrous.png" },
     { name: "YLD", src: "/logos/yld_logo.jpeg" },
     { name: "The ICS", src: "/logos/The ICS.jpeg" }
   ];
 
   return (
-    <section className="bg-gray-900 pt-6 pb-12">
+    <section className="bg-gray-900 pt-10 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center text-sm font-semibold tracking-widest text-gray-500 uppercase mb-6">
           Trusted by forward-thinking consultancies including
@@ -928,6 +928,7 @@ function LogoCarousel() {
                     src={logo.src}
                     alt={logo.name}
                     className="max-w-full max-h-full w-auto h-auto object-contain"
+                    style={logo.scale ? { transform: `scale(${logo.scale})` } : {}}
                   />
                 </div>
               </div>
