@@ -916,51 +916,47 @@ function LogoCarousel() {
     const activeLogos = logos.filter(l => l.src);
     const tripled = [...logos, ...logos, ...logos];
 
-    return (
-      <section style={{ padding: '3rem 0', background: '#1a1a1a' }}>
-        <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '2rem' }}>
-          Trusted by leading professional services firms including
-        </p>
-        <style>{`
-          @keyframes logo-scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-33.333%,0,0); } }
-        `}</style>
-        <div style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
-          <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 40s linear infinite', willChange: 'transform' }}>
-            {tripled.map((logo, i) => (
-              <div key={i} style={{
-              flex: '0 0 auto', margin: '0 1rem', boxSizing: 'border-box',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'white',
-                borderRadius: 10,
-                    overflow: 'hidden',
-                width: 220,
-                height: 130,
-                padding: logo.big ? '0px' : '12px 20px',
-              }}>
-                <img
-                  src={logo.src}
-                  alt={logo.name}
-                  title={logo.name}
-                  style={{
-                    maxHeight: logo.big ? 130 : 95,
-                    maxWidth: logo.big ? 220 : 180,
-                    objectFit: 'contain',
-                    filter: logo.darken ? 'brightness(0)' : logo.invert ? 'invert(1)' : 'none',
-                        transform: logo.scale ? `scale(${logo.scale})` : 'none',
-                  }}
-                  onError={(e) => { e.target.parentElement.style.display = 'none'; }}
-                />
-              </div>
-            ))}
-          </div>
-          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '15%', background: 'linear-gradient(to right, #1a1a1a, transparent)', pointerEvents: 'none', zIndex: 2 }} />
-          <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '15%', background: 'linear-gradient(to left, #1a1a1a, transparent)', pointerEvents: 'none', zIndex: 2 }} />
+  const allLogos = [...logos, ...logos];
+  return (
+    <section style={{ padding: '3rem 0', background: '#1a1a1a' }}>
+      <style>{`
+        @keyframes logo-scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
+      `}</style>
+      <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '2rem' }}>
+        Trusted by forward-thinking consultancies
+      </p>
+      <div style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 45s linear infinite', willChange: 'transform', position: 'relative', zIndex: 1 }}>
+          {allLogos.map((logo, i) => (
+            <div key={`logo-${i}`} style={{
+              flex: '0 0 auto',
+              margin: '0 1.25rem',
+              boxSizing: 'border-box',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'white',
+              borderRadius: 10,
+              overflow: 'hidden',
+              width: 220,
+              height: 130,
+              padding: logo.big ? '0px' : '12px 20px',
+            }}>
+              <img
+                src={logo.src}
+                alt={logo.name}
+                loading="lazy"
+                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }}
+              />
+            </div>
+          ))}
         </div>
-      </section>
-    );
-  }
+        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '25%', background: 'linear-gradient(to right, #1a1a1a 0%, #1a1a1a 20%, transparent 100%)', pointerEvents: 'none', zIndex: 2 }} />
+        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '25%', background: 'linear-gradient(to left, #1a1a1a 0%, #1a1a1a 20%, transparent 100%)', pointerEvents: 'none', zIndex: 2 }} />
+      </div>
+    </section>
+  );
+}
 // ─── Policy Modal ────────────────────────────────────────────────
 function PolicyModal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
