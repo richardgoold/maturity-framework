@@ -590,10 +590,11 @@ function HowItWorksSection() {
           <p className="text-lg text-gray-500 max-w-xl mx-auto">From sign-up to strategic action in four simple steps</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-0">
+        <div className="grid grid-cols-2 gap-6 sm:flex sm:flex-row sm:items-start sm:justify-between sm:gap-0">
           {steps.map((step, i) => (
-            <div key={step.num} className="flex items-center gap-0 flex-1">
+            <div key={step.num} className="flex items-center gap-0 sm:flex-1">
               <div className="flex flex-col items-center text-center flex-1">
+                <span className={`sm:hidden inline-block text-[10px] font-semibold px-2.5 py-0.5 rounded-full mb-2 ${step.tier === 'free' ? 'text-amber-700 bg-amber-50 border border-amber-200' : 'text-gray-500 bg-gray-50 border border-gray-200'}`}>{step.tier === 'free' ? 'Included Free' : 'Premium'}</span>
                 <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-3 shadow-sm border-2 ${step.tier === 'premium' ? 'bg-gray-50 border-gray-200' : 'bg-amber-50 border-amber-200'}`}>
                   <step.icon className={`w-7 h-7 sm:w-8 sm:h-8 ${step.tier === 'premium' ? 'text-gray-500' : 'text-amber-600'}`} />
                 </div>
@@ -601,7 +602,7 @@ function HowItWorksSection() {
                   {step.num}
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">{step.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed max-w-[180px]">{step.desc}</p>
+                <p className="text-gray-500 text-sm leading-relaxed sm:max-w-[180px]">{step.desc}</p>
               </div>
               {/* Arrow connector */}
               {i < steps.length - 1 && (
@@ -625,10 +626,6 @@ function HowItWorksSection() {
         </div>
 
         {/* Mobile tier indicators */}
-        <div className="flex sm:hidden justify-center gap-4 mt-6">
-          <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">Steps 1–2: Free</span>
-          <span className="flex items-center gap-1 text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full"><Lock className="w-3 h-3" /> Steps 3–4: Premium</span>
-        </div>
       </div>
     </section>
   );
