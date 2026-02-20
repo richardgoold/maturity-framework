@@ -1974,877 +1974,281 @@ const generateCSV = (assessment) => {
 };
 
 // Shared PDF renderer using html2pdf.js
-  const renderPdfFromHtml = (html, filename, opts = {}) => {
-    const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-    const bodyContent = bodyMatch ? bodyMatch[1] : html;
-    const styleBlocks = [];
-    html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => { styleBlocks.push(css); });
-    const container = document.createElement("div");
-    container.style.position = "absolute";
-    container.style.left = "0";
-    container.style.top = document.body.scrollHeight + "px";
-    container.style.width = "794px";
-    container.style.minHeight = "1123px";
-    container.style.background = "white";
-    container.style.overflow = "visible";
-    const styleTag = styleBlocks.length ? "<style>" + styleBlocks.join("\n") + "</style>" : "";
-    let processedBody = bodyContent;
-    processedBody = processedBody.replace(/display:\s*grid/gi, "display:flex;flex-wrap:wrap");
-    processedBody = processedBody.replace(/grid-template-columns:[^;"]+/gi, "");
-    container.innerHTML = styleTag + processedBody;
-    document.body.appendChild(container);
-    const defaultOpts = {
-      margin: [8, 8, 8, 8],
-      filename: filename || "report.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0, windowWidth: 794, windowHeight: 1123 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["avoid-all", "css", "legacy"] }
-    };
-    const mergedOpts = { ...defaultOpts, ...opts, filename: filename || defaultOpts.filename };
-    setTimeout(() => {
-        window.html2pdf().set(mergedOpts).from(container).save().then(() => {
-          document.body.removeChild(container);
-        }).catch((err) => {
-          console.error("PDF generation error:", err);
-          try { document.body.removeChild(container); } catch(e) {}
-        });
-      }, 500);
-  };
-const exportToPDF = (assessment, firmName, firmSector, scores) => {
+  // ============= PDF EXPORT FUNCTIONS (jsPDF programmatic) =============
 
-  // Get benchmark data for the sector
-  const sectorKey = Object.keys(BENCHMARKS).find(
-    key => key.toLowerCase() === (firmSector || "").toLowerCase()
-  ) || Object.keys(BENCHMARKS)[0];
-  const benchmarkData = (BENCHMARK_PROFILES[sectorKey] || BENCHMARK_PROFILES["M&A-Ready (PSF)"]) || {};
-
-  // Format the assessment date
-  const assessmentDate = new Date(assessment.createdAt);
-  const dateStr = assessmentDate.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-
-  // Calculate strengths and weaknesses
-  const metricsWithScores = [];
-  FRAMEWORK.themes.forEach(theme => {
-    theme.metrics.forEach(metric => {
-      const rating = assessment.ratings[metric.id];
-      const level = rating ? rating.level : 0;
-      metricsWithScores.push({
-        metricId: metric.id,
-        metricName: metric.name,
-        themeName: theme.name,
-        weight: metric.weight,
-        level: level,
-        strengthScore: level > 0 ? level * metric.weight : 0,
-        weaknessScore: level < 3 ? metric.weight * (3 - level) : 0
-      });
+  const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("p", "mm", "a4");
+    const pw = 210, mg = 15, cw = pw - 2 * mg;
+    let y = mg;
+    const date = new Date(assessment.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
+    const { readinessScore, readinessLevel } = scores;
+    const overallPct = scores.pct;
+    const lr = readinessLevel === "M&A Ready" ? [5,150,105] : readinessLevel === "Nearly Ready" ? [242,167,27] : readinessLevel === "In Progress" ? [217,119,6] : [234,88,12];
+    const sc = (p, b) => p >= b ? [5,150,105] : p >= b - 10 ? [217,119,6] : [220,38,38];
+    doc.setFontSize(8); doc.setTextColor(107,114,128);
+    doc.text("GROWTH DRIVERS MATURITY FRAMEWORK", pw/2, y, { align: "center" }); y += 10;
+    doc.setFontSize(20); doc.setTextColor(31,31,31);
+    doc.text("M&A Readiness Executive Summary", pw/2, y, { align: "center" }); y += 7;
+    doc.setFontSize(11); doc.setTextColor(100,116,139);
+    doc.text(firmName + " | " + (firmSector || "Professional Services") + " | " + date, pw/2, y, { align: "center" }); y += 3;
+    doc.setDrawColor(31,31,31); doc.setLineWidth(0.5);
+    doc.line(mg, y, pw - mg, y); y += 10;
+    doc.setFillColor(255,252,209); doc.setDrawColor(31,31,31);
+    doc.roundedRect(mg, y, cw, 42, 3, 3, "FD");
+    doc.setFontSize(8); doc.setTextColor(100,116,139);
+    doc.text("M&A READINESS SCORE", pw/2, y + 8, { align: "center" });
+    doc.setFontSize(40); doc.setTextColor(...lr);
+    doc.text(readinessScore + "%", pw/2, y + 26, { align: "center" });
+    doc.setFontSize(13); doc.text(readinessLevel, pw/2, y + 34, { align: "center" });
+    doc.setFontSize(8); doc.setTextColor(148,163,184);
+    doc.text("Overall Maturity: " + overallPct + "%", pw/2, y + 40, { align: "center" }); y += 52;
+    doc.setFontSize(12); doc.setTextColor(31,31,31);
+    doc.text("Theme Maturity Overview", mg, y); y += 1;
+    doc.setDrawColor(31,31,31); doc.setLineWidth(0.3);
+    doc.line(mg, y, pw - mg, y); y += 6;
+    const colW = cw / 5;
+    FRAMEWORK.themes.forEach((t, i) => {
+      const col = i % 5, row = Math.floor(i / 5);
+      const x = mg + col * colW, yy = y + row * 26;
+      const ts = scores.themeScores[t.id];
+      const pct = ts ? Math.round(ts.pct) : 0;
+      const bench = BENCHMARK_PROFILES["M&A-Ready (PSF)"][t.id] || 65;
+      const rgb = sc(pct, bench);
+      doc.setDrawColor(226,232,240); doc.setFillColor(255,255,255);
+      doc.roundedRect(x + 1, yy, colW - 2, 24, 1.5, 1.5, "FD");
+      doc.setFontSize(6.5); doc.setTextColor(100,116,139);
+      doc.text(t.name, x + colW/2, yy + 5, { align: "center" });
+      doc.setFontSize(16); doc.setTextColor(...rgb);
+      doc.text(pct + "%", x + colW/2, yy + 16, { align: "center" });
+      doc.setFontSize(5.5); doc.setTextColor(148,163,184);
+      doc.text("Target: " + bench + "%", x + colW/2, yy + 21, { align: "center" });
     });
-  });
-
-  const strengths = metricsWithScores
-    .filter(m => m.level > 0)
-    .sort((a, b) => b.strengthScore - a.strengthScore)
-    .slice(0, 5);
-
-  const weaknesses = metricsWithScores
-    .filter(m => m.level < 3)
-    .sort((a, b) => b.weaknessScore - a.weaknessScore)
-    .slice(0, 5);
-
-  // Build theme score cards HTML
-  const themeCardsHtml = FRAMEWORK.themes.map(theme => {
-    const themeScore = scores.themeScores[theme.id];
-    const pct = themeScore ? Math.round(themeScore.pct) : 0;
-    let scoreColor = '#DC2626'; // red
-    if (pct >= 80) scoreColor = '#16A34A'; // green
-    else if (pct >= 40) scoreColor = '#D97706'; // amber
-
-    return `
-      <div style="display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; 
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 16px;
-        text-align: center;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      ">
-        <div style="font-size: 14px; color: #666; margin-bottom: 8px;">${theme.name}</div>
-        <div style="font-size: 32px; font-weight: bold; color: ${scoreColor};">${pct}%</div>
-      </div>
-    `;
-  }).join('');
-
-  // Build benchmark comparison table
-  const benchmarkRows = FRAMEWORK.themes.map(theme => {
-    const themeScore = scores.themeScores[theme.id];
-    const firmPct = themeScore ? Math.round(themeScore.pct) : 0;
-    const benchmarkPct = Math.round(benchmarkData[theme.id] || 0);
-
-    let scoreColor = '#DC2626';
-    if (firmPct >= 66) scoreColor = '#16A34A';
-    else if (firmPct >= 33) scoreColor = '#D97706';
-
-    return `
-      <tr>
-        <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: 500;">
-          ${theme.name}
-        </td>
-        <td style="padding: 12px; border-bottom: 1px solid #eee;">
-          <div style="background: #f5f5f5; height: 24px; border-radius: 4px; position: relative; overflow: hidden;">
-            <div style="
-              background: ${scoreColor};
-              height: 100%;
-              width: ${firmPct}%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              color: white;
-              font-size: 12px;
-              font-weight: 600;
-            ">
-              ${firmPct > 20 ? firmPct + '%' : ''}
-            </div>
-            ${firmPct <= 20 ? `<div style="display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid #eee;"><div style="width:160px;font-size:13px;font-weight:500;padding-top:4px;">${theme.name}</div><div style="flex:1;position:relative;height:48px;"><div style="position:absolute;top:14px;left:0;right:0;height:8px;background:#e5e7eb;border-radius:4px;"></div><div style="position:absolute;top:14px;left:0;width:${firmPct}%;height:8px;background:${scoreColor};border-radius:4px;opacity:0.3;"></div><div style="position:absolute;left:${firmPct}%;top:3px;transform:translateX(-50%);text-align:center;"><div style="width:22px;height:22px;border-radius:50%;background:${scoreColor};border:3px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.25);margin:0 auto;"></div><div style="font-size:10px;font-weight:bold;color:#333;margin-top:1px;">${firmPct}%</div></div><div style="position:absolute;left:${benchmarkPct}%;top:8px;transform:translateX(-50%);"><div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #1f1f1f;"></div><div style="width:2px;height:14px;background:#1f1f1f;margin:0 auto;"></div></div></div></div>` : ''}
-          </div>
-        </td>
-      </tr>`;
-  }).join('');
-
-  // Build strengths and weaknesses section
-  const strengthsHtml = strengths.map((m, idx) => `
-    <tr>
-      <td style="padding: 10px; border-bottom: 1px solid #eee;">${idx + 1}</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee;">${m.metricName}</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee; color: #666;">${m.themeName}</td>
-    </tr>
-  `).join('');
-
-  const weaknessesHtml = weaknesses.map((m, idx) => `
-    <tr>
-      <td style="padding: 10px; border-bottom: 1px solid #eee;">${idx + 1}</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee;">${m.metricName}</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee; color: #666;">${m.themeName}</td>
-    </tr>
-  `).join('');
-
-  // Build heatmap section
-  const heatmapHtml = FRAMEWORK.themes.map((theme, idx) => {
-    const metrics = theme.metrics.map(metric => {
-      const rating = assessment.ratings[metric.id];
-      const level = rating ? rating.level : 0;
-      let cellColor = '#ddd';
-      if (level === 3) cellColor = '#16A34A';
-      else if (level === 2) cellColor = '#D97706';
-      else if (level === 1) cellColor = '#D35400';
-
-      return `
-        <div style="
-          display: inline-block;
-          width: 30px;
-          height: 30px;
-          background: ${cellColor};
-          border: 1px solid #ccc;
-          margin: 4px;
-          border-radius: 4px;
-          text-align: center;
-          line-height: 30px;
-          font-size: 12px;
-          font-weight: bold;
-          color: white;
-        ">
-          ${level}
-        </div>
-      `;
-    }).join('');
-
-    return `
-      <div style="margin-bottom: 24px; page-break-inside: avoid;">
-        <h4 style="margin: 0 0 12px 0; color: #1f1f1f; font-size: 14px; font-weight: 600;">
-          ${theme.name}
-        </h4>
-        <div style="display: flex; flex-wrap: wrap;">
-          ${metrics}
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Get benchmark sector display name
-  const benchmarkSectorDisplay = sectorKey === 'Professional Services' ? 'M&A-Ready' : 'Peer';
-
-  // Build the complete HTML
-  const html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>${firmName} Maturity Assessment Report</title>
-      <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        @page {
-          size: A4;
-          margin: 0.5in;
-          margin-bottom: 0.75in;
-        }
-
-        @media print {
-          body {
-            margin: 0;
-            padding: 0;
-          }
-          .page-break {
-            page-break-before: always;
-          }
-          .no-break {
-            page-break-inside: avoid;
-          }
-        }
-
-
-        body {
-          font-family: 'Inter', 'Arial', sans-serif;
-          line-height: 1.6;
-          color: #333;
-          background: white;
-        }
-
-        .header {
-          border-bottom: 3px solid #1f1f1f;
-          padding-bottom: 24px;
-          margin-bottom: 32px;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-        }
-
-        .header-left h1 {
-          font-size: 28px;
-          color: #1f1f1f;
-          margin-bottom: 8px;
-          font-weight: 700;
-        }
-
-        .header-left p {
-          color: #666;
-          font-size: 14px;
-          margin: 4px 0;
-        }
-
-        .header-right {
-          text-align: right;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .overall-score {
-          width: 120px;
-          height: 120px;
-          border-radius: 50%;
-          background: #16A34A;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 48px;
-          font-weight: 700;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .overall-score.amber {
-          background: #D97706;
-        }
-
-        .overall-score.red {
-          background: #DC2626;
-        }
-
-        .header-right-text {
-          font-size: 12px;
-          color: #666;
-          font-weight: 500;
-        }
-
-        .section {
-          margin-bottom: 32px;
-          page-break-inside: avoid;
-        }
-
-        .section h2 {
-          font-size: 18px;
-          color: #1f1f1f;
-          border-bottom: 2px solid #1f1f1f;
-          padding-bottom: 8px;
-          margin-bottom: 16px;
-          font-weight: 700;
-        }
-
-        .section h3 {
-          font-size: 14px;
-          color: #1f1f1f;
-          margin-bottom: 12px;
-          font-weight: 600;
-          margin-top: 16px;
-        }
-
-        .theme-grid {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 12px;
-          margin-bottom: 24px;
-        }
-
-        .theme-grid-item {
-          background: white;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 16px;
-          text-align: center;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .theme-grid-item-name {
-          font-size: 13px;
-          color: #666;
-          margin-bottom: 8px;
-          font-weight: 500;
-        }
-
-        .theme-grid-item-score {
-          font-size: 32px;
-          font-weight: 700;
-        }
-
-        .benchmark-table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-top: 12px;
-        }
-
-        .benchmark-table thead tr {
-          background: #f9f9f9;
-        }
-
-        .benchmark-table th {
-          padding: 12px;
-          text-align: left;
-          font-weight: 600;
-          color: #1f1f1f;
-          font-size: 13px;
-          border-bottom: 2px solid #ddd;
-        }
-
-        .benchmark-table td {
-          padding: 12px;
-          border-bottom: 1px solid #eee;
-          font-size: 13px;
-        }
-
-        .two-column {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 24px;
-        }
-
-        .two-column-item {
-          page-break-inside: avoid;
-        }
-
-        .two-column-item table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        .two-column-item th {
-          background: #f9f9f9;
-          padding: 10px;
-          text-align: left;
-          font-weight: 600;
-          color: #1f1f1f;
-          font-size: 12px;
-          border-bottom: 2px solid #ddd;
-        }
-
-        .two-column-item td {
-          padding: 10px;
-          border-bottom: 1px solid #eee;
-          font-size: 12px;
-        }
-
-        .heatmap-container {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 24px;
-        }
-
-        .heatmap-item {
-          page-break-inside: avoid;
-        }
-
-        .heatmap-item h4 {
-          margin: 0 0 12px 0;
-          color: #1f1f1f;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .metric-cells {
-          display: flex;
-          flex-wrap: wrap;
-        }
-
-        .metric-cell {
-          display: inline-block;
-          width: 30px;
-          height: 30px;
-          margin: 4px;
-          border-radius: 4px;
-          border: 1px solid #ccc;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 12px;
-          font-weight: bold;
-          color: white;
-        }
-
-        .metric-cell.level0 {
-          background: #ddd;
-        }
-
-        .metric-cell.level1 {
-          background: #D35400;
-        }
-
-        .metric-cell.level2 {
-          background: #D97706;
-        }
-
-        .metric-cell.level3 {
-          background: #16A34A;
-        }
-
-        @media screen {
-          body {
-            padding: 20px;
-          }
-        }
-
-        @media print {
-          .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-          }
-
-          .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-          }
-
-          .heatmap-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-          }
-        }
-      </style>
-    </head>
-    <body>
-<div style="text-align:center;padding:12px 0;border-bottom:2px solid #f2a71b;margin-bottom:16px">
-  <div style="font-size:16px;font-weight:700;color:#1f2937;letter-spacing:0.5px">GROWTH DRIVERS MATURITY FRAMEWORK</div>
-  <div style="font-size:11px;color:#6b7280;margin-top:2px">Assessment Report &mdash; ${firmName} &mdash; ${dateStr}</div>
-</div>
-      <!-- Header -->
-      <div class="header no-break">
-        <div class="header-left">
-          <h1>${firmName}</h1>
-          <p><strong>Assessment Date:</strong> ${dateStr}</p>
-          <p><strong>Sector:</strong> ${firmSector}</p>
-          <p><strong>Status:</strong> ${scores.ratedCount} of ${scores.totalMetrics} metrics rated</p>
-        </div>
-        <div class="header-right">
-          <div class="overall-score ${
-            scores.pct >= 80 ? '' : scores.pct >= 40 ? 'amber' : 'red'
-          }">
-            ${Math.round(scores.pct)}%
-          </div>
-          <div class="header-right-text">Overall Score</div>
-          <div class="header-right-text">${Math.round(scores.totalScore)} / ${scores.totalMaxPossible}</div>
-        </div>
-      </div>
-
-      <!-- Theme Score Cards -->
-      <div class="section no-break">
-        <h2>Dimension Maturity Scores</h2>
-        <div class="theme-grid">
-          ${themeCardsHtml}
-        </div>
-      </div>
-
-      <!-- Benchmark Comparison -->
-      <div class="section no-break">
-        <h2>${benchmarkSectorDisplay} Benchmark Comparison</h2>
-        <div><div style="display:flex;align-items:flex-start;padding-bottom:4px;border-bottom:2px solid #1f1f1f;margin-bottom:4px;"><div style="width:160px;font-size:10px;color:#666;font-weight:600;">Dimension</div><div style="flex:1;display:flex;justify-content:space-between;font-size:10px;color:#999;"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div></div><div style="display:flex;align-items:center;gap:16px;padding:6px 0 2px 160px;font-size:10px;color:#666;"><span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f2a71b;border:2px solid white;box-shadow:0 1px 2px rgba(0,0,0,0.2);"></span> Your Score</span><span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #1f1f1f;"></span> ${benchmarkSectorDisplay}</span></div>${benchmarkRows}</div>
-      </div>
-
-      <!-- Strengths and Weaknesses -->
-      <div class="section no-break">
-        <h2>Strengths & Opportunities</h2>
-        <div class="two-column">
-          <div class="two-column-item">
-            <h3>Top 5 Strengths</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th style="width: 30px;">Rank</th>
-                  <th>Metric</th>
-                  <th>Dimension</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${strengthsHtml || '<tr><td colspan="3" style="text-align: center; color: #999;">No rated metrics</td></tr>'}
-              </tbody>
-            </table>
-          </div>
-          <div class="two-column-item">
-            <h3>Top 5 Improvement Areas</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th style="width: 30px;">Rank</th>
-                  <th>Metric</th>
-                  <th>Dimension</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${weaknessesHtml || '<tr><td colspan="3" style="text-align: center; color: #999;">No unrated metrics</td></tr>'}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Heatmap -->
-      <div class="section">
-        <h2>Maturity Heatmap</h2>
-        <div class="heatmap-container">
-          ${heatmapHtml}
-        </div>
-      </div>
-<div style="margin-top:30px;padding:16px 20px;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;page-break-inside:avoid">
-  <div style="font-size:13px;font-weight:600;color:#1f2937;margin-bottom:6px">Next Steps</div>
-  <div style="font-size:11px;color:#4b5563;line-height:1.5">This report was generated by the GrowthLens. For a detailed review of these findings and a tailored improvement roadmap, contact <strong>richard@richardgoold.com</strong></div>
-  <div style="font-size:10px;color:#9ca3af;margin-top:4px">https://growthlens.app/</div>
-</div>
-    </body>
-    </html>
-  `;
-
-  const safeFileName = (firmName || "assessment").replace(/[^a-zA-Z0-9-_ ]/g, "");
-  renderPdfFromHtml(html, `${safeFileName}-maturity-report.pdf`);
-};
-
-// -----------------------------------------------------------------------
-// -----------------------------------------------------------------------
-
-
-// ─── Executive Summary PDF Export ────────────────────────────────
-const exportExecutiveSummary = (assessment, firmName, firmSector, scores) => {
-  const date = new Date(assessment.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
-  const { readinessScore, readinessLevel, themeGaps } = scores;
-  const overallPct = scores.pct;
-  // Get top strengths and gaps at metric level
-  const metricScored = [];
-  FRAMEWORK.themes.forEach(t => t.metrics.forEach(m => {
-    const r = assessment.ratings[m.id];
-    if (r && r.level) metricScored.push({ name: m.name, theme: t.name, level: r.level, weight: m.weight || 100 });
-  }));
-  const topStrengths = metricScored.filter(m => m.level >= 2.5).sort((a,b) => b.level * b.weight - a.level * a.weight).slice(0, 3);
-  const topGapsMetric = metricScored.filter(m => m.level <= 1.5).sort((a,b) => a.level - b.level).slice(0, 3);
-  const themeGridHtml = FRAMEWORK.themes.map(t => {
-    const ts = scores.themeScores[t.id];
-    const pct = ts ? Math.round(ts.pct) : 0;
-    const bench = BENCHMARK_PROFILES["M&A-Ready (PSF)"][t.id] || 65;
-    const color = pct >= bench ? "#059669" : pct >= bench - 10 ? "#d97706" : "#dc2626";
-    return `<div style="width:18%;border:1px solid #e2e8f0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:#64748b;margin-bottom:4px">${t.name}</div><div style="font-size:28px;font-weight:700;color:${color}">${pct}%</div><div style="font-size:9px;color:#94a3b8">Target: ${bench}%</div></div>`;
-  }).join("");
-  const strengthsHtml = topStrengths.length ? topStrengths.map((m, i) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155;font-size:12px">${i + 1}. ${m.name}</td><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#64748b;font-size:11px">${m.theme}</td></tr>`).join("") : "<tr><td colspan=2 style=\"text-align:center;color:#94a3b8;padding:8px;font-size:12px\">No strong ratings yet</td></tr>";
-  const gapsHtml = topGapsMetric.length ? topGapsMetric.map((m, i) => `<tr><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155;font-size:12px">${i + 1}. ${m.name}</td><td style="padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#64748b;font-size:11px">${m.theme}</td></tr>`).join("") : "<tr><td colspan=2 style=\"text-align:center;color:#94a3b8;padding:8px;font-size:12px\">No critical gaps identified</td></tr>";
-  const levelColor = readinessLevel === "M&A Ready" ? "#059669" : readinessLevel === "Nearly Ready" ? "#f2a71b" : readinessLevel === "In Progress" ? "#d97706" : "#ea580c";
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${firmName} - M&A Readiness Summary</title>
-  <style>@page{size:A4;margin:0.6in}*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;color:#334155;background:#fff}</style></head><body>
-<div style="text-align:center;padding:8px 0;font-size:10px;color:#6b7280;letter-spacing:1px;text-transform:uppercase">GrowthLens &mdash; Assessment Report</div>
-  <div style="text-align:center;border-bottom:3px solid #1f1f1f;padding-bottom:16px;margin-bottom:24px">
-    <h1 style="font-size:22px;color:#1f1f1f;margin-bottom:4px">M&A Readiness Executive Summary</h1>
-    <p style="color:#64748b;font-size:12px">${firmName} | ${firmSector || "Professional Services"} | ${date}</p>
-  </div>
-  <div style="background:linear-gradient(135deg,#fffcd1,#fffcd1);border:2px solid #1f1f1f;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px">
-    <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px">M&A Readiness Score</div>
-    <div style="font-size:56px;font-weight:800;color:${levelColor};margin:8px 0">${readinessScore}%</div>
-    <div style="font-size:16px;font-weight:600;color:${levelColor}">${readinessLevel}</div>
-    <div style="font-size:11px;color:#94a3b8;margin-top:6px">Overall Maturity: ${overallPct}%</div>
-  </div>
-  <div style="margin-bottom:24px">
-    <h2 style="font-size:14px;color:#1f1f1f;border-bottom:2px solid #1f1f1f;padding-bottom:4px;margin-bottom:12px">Dimension Maturity Overview</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:8px">${themeGridHtml}</div>
-  </div>
-  <div style="display:flex;gap:24px;margin-bottom:24px">
-    <div>
-      <h2 style="font-size:14px;color:#059669;border-bottom:2px solid #059669;padding-bottom:4px;margin-bottom:8px">Top Strengths</h2>
-      <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${strengthsHtml}</tbody></table>
-    </div>
-    <div>
-      <h2 style="font-size:14px;color:#dc2626;border-bottom:2px solid #dc2626;padding-bottom:4px;margin-bottom:8px">Priority Gaps</h2>
-      <table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Metric</th><th style="text-align:left;padding:6px 8px;font-size:11px;color:#1f1f1f;border-bottom:2px solid #e2e8f0">Theme</th></tr></thead><tbody>${gapsHtml}</tbody></table>
-    </div>
-  </div>
-  <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e2e8f0;text-align:center;font-size:9px;color:#94a3b8">
-    <p>GrowthLens | Confidential | Generated ${new Date().toLocaleDateString("en-GB")}</p>
-    <p style="margin-top:2px">Benchmarks reflect professional assessment of best-in-class PSF performance</p>
-  </div>
-  <div style="margin-top:24px;padding:14px 18px;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:6px">
-  <div style="font-size:12px;font-weight:600;color:#1f2937;margin-bottom:4px">Next Steps</div>
-  <div style="font-size:10px;color:#4b5563;line-height:1.4">This report was generated by the GrowthLens. For a detailed review, contact <strong>richard@richardgoold.com</strong></div>
-  <div style="font-size:9px;color:#9ca3af;margin-top:3px">https://growthlens.app/</div>
-</div>
-</body></html>`;
-  const safeFileName = (firmName || "assessment").replace(/[^a-zA-Z0-9-_ ]/g, "");
-  renderPdfFromHtml(html, `${safeFileName}-executive-summary.pdf`);
-};
-
+    y += 58;
+    const ms = []; FRAMEWORK.themes.forEach(t => t.metrics.forEach(mt => {
+      const r = assessment.ratings[mt.id];
+      if (r && r.level) ms.push({ name: mt.name, theme: t.name, level: r.level, weight: mt.weight || 100 });
+    }));
+    const topS = ms.filter(x => x.level >= 2.5).sort((a,b) => b.level * b.weight - a.level * a.weight).slice(0, 3);
+    const topG = ms.filter(x => x.level <= 1.5).sort((a,b) => a.level - b.level).slice(0, 3);
+    const halfW = cw / 2 - 4;
+    doc.setFontSize(11); doc.setTextColor(5,150,105);
+    doc.text("Top Strengths", mg, y);
+    doc.setDrawColor(5,150,105); doc.setLineWidth(0.3);
+    doc.line(mg, y + 1, mg + halfW, y + 1); y += 6;
+    doc.setFontSize(8);
+    if (topS.length) { topS.forEach((s, i) => { doc.setTextColor(51,65,85); doc.text((i+1) + ". " + s.name, mg, y); doc.setTextColor(100,116,139); doc.text(s.theme, mg + halfW - 2, y, { align: "right" }); y += 5; }); }
+    else { doc.setTextColor(148,163,184); doc.text("No strong ratings yet", mg, y); y += 5; }
+    let gy = y - (topS.length ? topS.length * 5 : 5) - 6;
+    const gx = mg + halfW + 8;
+    doc.setFontSize(11); doc.setTextColor(220,38,38);
+    doc.text("Priority Gaps", gx, gy);
+    doc.setDrawColor(220,38,38); doc.setLineWidth(0.3);
+    doc.line(gx, gy + 1, gx + halfW, gy + 1); gy += 6;
+    doc.setFontSize(8);
+    if (topG.length) { topG.forEach((g, i) => { doc.setTextColor(51,65,85); doc.text((i+1) + ". " + g.name, gx, gy); doc.setTextColor(100,116,139); doc.text(g.theme, gx + halfW - 2, gy, { align: "right" }); gy += 5; }); }
+    else { doc.setTextColor(148,163,184); doc.text("No critical gaps identified", gx, gy); gy += 5; }
+    y = Math.max(y, gy) + 10;
+    doc.setDrawColor(226,232,240); doc.setLineWidth(0.2);
+    doc.line(mg, y, pw - mg, y); y += 5;
+    doc.setFontSize(7); doc.setTextColor(148,163,184);
+    doc.text("Growth Drivers Maturity Framework | Confidential | Generated " + new Date().toLocaleDateString("en-GB"), pw/2, y, { align: "center" }); y += 8;
+    doc.setFillColor(248,249,250); doc.setDrawColor(229,231,235);
+    doc.roundedRect(mg, y, cw, 14, 2, 2, "FD");
+    doc.setFontSize(9); doc.setTextColor(31,41,55);
+    doc.text("Next Steps", mg + 5, y + 5);
+    doc.setFontSize(7); doc.setTextColor(75,85,99);
+    doc.text("For a detailed review, contact richard@richardgoold.com | https://growthlens.app", mg + 5, y + 10);
+    const fn = (firmName || "assessment").replace(/[^a-zA-Z0-9\-_ ]/g, "");
+    doc.save(fn + "-executive-summary.pdf");
+  };
+
+const exportToPDF = (assessment, firmName, firmSector, scores) => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("p", "mm", "a4");
+    const pw = 210, mg = 12, cw = pw - 2 * mg;
+    let y = mg;
+    const sectorKey = Object.keys(BENCHMARKS).find(k => k.toLowerCase() === (firmSector || "").toLowerCase()) || Object.keys(BENCHMARKS)[0];
+    const benchmarkData = BENCHMARK_PROFILES[sectorKey] || BENCHMARK_PROFILES["M&A-Ready (PSF)"] || {};
+    const dateStr = new Date(assessment.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    const metricsWithScores = [];
+    FRAMEWORK.themes.forEach(theme => { theme.metrics.forEach(metric => {
+      const rating = assessment.ratings[metric.id]; const level = rating ? rating.level : 0;
+      metricsWithScores.push({ metricName: metric.name, themeName: theme.name, weight: metric.weight, level, strengthScore: level > 0 ? level * metric.weight : 0, weaknessScore: level < 3 ? metric.weight * (3 - level) : 0 });
+    }); });
+    const strengths = metricsWithScores.filter(m => m.level > 0).sort((a,b) => b.strengthScore - a.strengthScore).slice(0, 5);
+    const weaknesses = metricsWithScores.filter(m => m.level < 3).sort((a,b) => b.weaknessScore - a.weaknessScore).slice(0, 5);
+    doc.setFillColor(27,79,114); doc.rect(0, 0, pw, 45, "F");
+    doc.setFontSize(20); doc.setTextColor(255,255,255);
+    doc.text("Growth Drivers Maturity Framework", pw/2, 18, { align: "center" });
+    doc.setFontSize(12); doc.text(firmName + " \u2014 Maturity Report", pw/2, 28, { align: "center" });
+    doc.setFontSize(9); doc.text(dateStr + " | " + (firmSector || "Professional Services"), pw/2, 36, { align: "center" });
+    y = 55;
+    doc.setFontSize(10); doc.setTextColor(100,116,139);
+    doc.text("OVERALL MATURITY", pw/2, y, { align: "center" }); y += 8;
+    doc.setFontSize(36); doc.setTextColor(27,79,114);
+    doc.text(scores.pct + "%", pw/2, y, { align: "center" }); y += 12;
+    doc.setFontSize(12); doc.setTextColor(31,31,31);
+    doc.text("Theme Performance", mg, y); y += 2;
+    doc.setDrawColor(31,31,31); doc.setLineWidth(0.3); doc.line(mg, y, pw - mg, y); y += 6;
+    const colW = cw / 5;
+    FRAMEWORK.themes.forEach((t, i) => {
+      const col = i % 5, row = Math.floor(i / 5);
+      const x = mg + col * colW, yy = y + row * 24;
+      const ts = scores.themeScores[t.id]; const pct = ts ? Math.round(ts.pct) : 0;
+      const color = pct >= 66 ? [30,132,73] : pct >= 33 ? [183,149,11] : [146,43,33];
+      doc.setDrawColor(200,200,200); doc.setFillColor(255,255,255);
+      doc.roundedRect(x + 1, yy, colW - 2, 22, 1.5, 1.5, "FD");
+      doc.setFontSize(6); doc.setTextColor(100,116,139);
+      doc.text(t.name, x + colW/2, yy + 5, { align: "center" });
+      doc.setFontSize(16); doc.setTextColor(...color);
+      doc.text(pct + "%", x + colW/2, yy + 15, { align: "center" });
+      doc.setFontSize(5); doc.setTextColor(148,163,184);
+      doc.text("Benchmark: " + (benchmarkData[t.id] || 65) + "%", x + colW/2, yy + 20, { align: "center" });
+    });
+    y += 54;
+    doc.setFontSize(12); doc.setTextColor(31,31,31);
+    doc.text("Benchmark Comparison", mg, y); y += 2; doc.line(mg, y, pw - mg, y); y += 2;
+    const benchRows = FRAMEWORK.themes.map(t => {
+      const ts = scores.themeScores[t.id]; const pct = ts ? Math.round(ts.pct) : 0;
+      const bench = benchmarkData[t.id] || 65; const gap = pct - bench;
+      return [t.name, pct + "%", bench + "%", (gap >= 0 ? "+" : "") + gap + "%", gap >= 0 ? "Above" : gap >= -10 ? "Near" : "Below"];
+    });
+    doc.autoTable({ startY: y, head: [["Theme", "Your Score", "Benchmark", "Gap", "Status"]], body: benchRows, margin: { left: mg, right: mg }, styles: { fontSize: 8, cellPadding: 2 }, headStyles: { fillColor: [27,79,114], textColor: 255 }, columnStyles: { 0: { cellWidth: 50 }, 4: { cellWidth: 20 } },
+      didParseCell: function(data) { if (data.section === "body" && data.column.index === 4) { const v = data.cell.raw; if (v === "Above") data.cell.styles.textColor = [5,150,105]; else if (v === "Near") data.cell.styles.textColor = [217,119,6]; else data.cell.styles.textColor = [220,38,38]; } }
+    });
+    y = doc.lastAutoTable.finalY + 8;
+    if (y > 230) { doc.addPage(); y = mg; }
+    doc.setFontSize(12); doc.setTextColor(31,31,31); doc.text("Key Strengths", mg, y); y += 2;
+    doc.autoTable({ startY: y, head: [["#", "Metric", "Theme", "Rating"]], body: strengths.map((s, i) => [i+1, s.metricName, s.themeName, s.level >= 2.5 ? "Optimised" : s.level >= 1.5 ? "Evolving" : "Foundational"]),
+      margin: { left: mg, right: pw/2 + 2 }, styles: { fontSize: 7, cellPadding: 1.5 }, headStyles: { fillColor: [5,150,105] }, columnStyles: { 0: { cellWidth: 8 } } });
+    const sY = doc.lastAutoTable.finalY;
+    doc.setFontSize(12); doc.setTextColor(31,31,31); doc.text("Key Opportunities", pw/2 + 5, y - 2);
+    doc.autoTable({ startY: y, head: [["#", "Metric", "Theme", "Impact"]], body: weaknesses.map((w, i) => [i+1, w.metricName, w.themeName, w.level === 0 ? "Not Rated" : "Foundational"]),
+      margin: { left: pw/2 + 5, right: mg }, styles: { fontSize: 7, cellPadding: 1.5 }, headStyles: { fillColor: [217,119,6] }, columnStyles: { 0: { cellWidth: 8 } } });
+    y = Math.max(sY, doc.lastAutoTable.finalY) + 8;
+    if (y > 230) { doc.addPage(); y = mg; }
+    doc.setFontSize(12); doc.setTextColor(31,31,31);
+    doc.text("Maturity Heatmap", mg, y); y += 2; doc.line(mg, y, pw - mg, y); y += 2;
+    const heatRows = []; FRAMEWORK.themes.forEach(t => { t.metrics.forEach(mt => {
+      const r = assessment.ratings[mt.id]; const level = r ? r.level : 0;
+      heatRows.push([t.name, mt.name, level === 0 ? "Not Rated" : level <= 1 ? "Foundational" : level <= 2 ? "Evolving" : "Optimised"]);
+    }); });
+    doc.autoTable({ startY: y, head: [["Theme", "Metric", "Level"]], body: heatRows, margin: { left: mg, right: mg }, styles: { fontSize: 6.5, cellPadding: 1.5 }, headStyles: { fillColor: [27,79,114] }, columnStyles: { 0: { cellWidth: 40 }, 2: { cellWidth: 25 } },
+      didParseCell: function(data) { if (data.section === "body" && data.column.index === 2) { const v = data.cell.raw; if (v === "Optimised") { data.cell.styles.textColor = [5,150,105]; data.cell.styles.fontStyle = "bold"; } else if (v === "Evolving") data.cell.styles.textColor = [27,79,114]; else if (v === "Foundational") data.cell.styles.textColor = [217,119,6]; else data.cell.styles.textColor = [180,180,180]; } }
+    });
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) { doc.setPage(i); doc.setFontSize(7); doc.setTextColor(148,163,184); doc.text("Growth Drivers Maturity Framework | Confidential | " + firmName, pw/2, 290, { align: "center" }); doc.text("Page " + i + " of " + pageCount, pw - mg, 290, { align: "right" }); }
+    const fn = (firmName || "assessment").replace(/[^a-zA-Z0-9\-_ ]/g, "");
+    doc.save(fn + "-maturity-report.pdf");
+  };
 
 function exportDetailedReport(assessment, firmName, firmSector, scores, benchmarkProfile) {
-  const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
-  const dateStr = new Date(assessment.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-  const pct = scores.pct;
-  const readiness = scores.readinessScore;
-  const readinessLevel = scores.readinessLevel;
-
-  // Gather theme data
-  const themeData = FRAMEWORK.themes.map(theme => {
-    const ts = scores.themeScores[theme.id];
-    const bp = benchValues[theme.id] || 65;
-    const gap = ts ? ts.pct - bp : 0;
-    const metrics = theme.metrics.map(m => {
-      const r = assessment.ratings[m.id];
-      return { name: m.name, score: r ? r.level : 0, max: 3, comment: r ? r.comment || "" : "", confidence: r ? r.confidence || "" : "", evidence: r ? r.evidence || [] : [], weight: m.weight, action: m.improvementAction || "" };
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("p", "mm", "a4");
+    const pw = 210, mg = 12, cw = pw - 2 * mg;
+    const benchValues = BENCHMARK_PROFILES[benchmarkProfile] || BENCHMARK_PROFILES["M&A-Ready (PSF)"] || {};
+    const dateStr = new Date(assessment.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
+    const pct = scores.pct; const readiness = scores.readinessScore; const readinessLevel = scores.readinessLevel;
+    const lr = readinessLevel === "M&A Ready" ? [5,150,105] : readinessLevel === "Nearly Ready" ? [242,167,27] : readinessLevel === "In Progress" ? [217,119,6] : [234,88,12];
+    const themeData = FRAMEWORK.themes.map(theme => {
+      const ts = scores.themeScores[theme.id]; const bp = benchValues[theme.id] || 65;
+      const gap = ts ? Math.round(ts.pct) - bp : -bp;
+      const metrics = theme.metrics.map(m => { const r = assessment.ratings[m.id];
+        return { name: m.name, score: r ? r.level : 0, max: 3, comment: r ? r.comment || "" : "", confidence: r ? r.confidence || "" : "", weight: m.weight, action: m.improvementAction || "" };
+      });
+      return { id: theme.id, name: theme.name, color: theme.color, pct: ts ? Math.round(ts.pct) : 0, benchmark: bp, gap, metrics };
     });
-    return { id: theme.id, name: theme.name, color: theme.color, pct: ts ? ts.pct : 0, benchmark: bp, gap, metrics };
-  });
-
-  // Improvement items
-  const improvements = [];
-  themeData.forEach(td => {
-    td.metrics.forEach(m => {
-      const metricPct = Math.round((m.score / m.max) * 100);
-      const gapVal = td.benchmark - metricPct;
-      if (gapVal > 0) improvements.push({ theme: td.name, metric: m.name, pct: metricPct, target: td.benchmark, gap: gapVal, action: m.action });
+    const improvements = []; themeData.forEach(td => { td.metrics.forEach(m => {
+      const mPct = Math.round((m.score / m.max) * 100); const gapVal = td.benchmark - mPct;
+      if (gapVal > 0) improvements.push({ theme: td.name, metric: m.name, pct: mPct, target: td.benchmark, gap: gapVal, action: m.action });
+    }); }); improvements.sort((a,b) => b.gap - a.gap);
+    const sortedThemes = [...themeData].sort((a,b) => b.gap - a.gap);
+    const themeStrengths = sortedThemes.filter(t => t.gap >= 0).slice(0, 3);
+    const themeWeaknesses = sortedThemes.filter(t => t.gap < 0).sort((a,b) => a.gap - b.gap).slice(0, 3);
+    // PAGE 1: Cover
+    doc.setFillColor(27,79,114); doc.rect(0, 0, pw, 80, "F");
+    doc.setFontSize(28); doc.setTextColor(255,255,255);
+    doc.text("Detailed Assessment Report", pw/2, 35, { align: "center" });
+    doc.setFontSize(14); doc.text(firmName, pw/2, 50, { align: "center" });
+    doc.setFontSize(10); doc.text(dateStr + " | " + (firmSector || "Professional Services"), pw/2, 62, { align: "center" });
+    let y = 100;
+    doc.setFillColor(255,252,209); doc.setDrawColor(31,31,31);
+    doc.roundedRect(mg + 20, y, cw - 40, 50, 3, 3, "FD");
+    doc.setFontSize(9); doc.setTextColor(100,116,139);
+    doc.text("M&A READINESS SCORE", pw/2, y + 12, { align: "center" });
+    doc.setFontSize(44); doc.setTextColor(...lr);
+    doc.text(readiness + "%", pw/2, y + 32, { align: "center" });
+    doc.setFontSize(14); doc.text(readinessLevel, pw/2, y + 42, { align: "center" });
+    y = 170; doc.setFontSize(10); doc.setTextColor(51,65,85);
+    doc.text("Overall Maturity: " + pct + "%", pw/2, y, { align: "center" });
+    doc.text("Metrics Rated: " + scores.ratedCount + " of " + scores.totalMetrics, pw/2, y + 7, { align: "center" });
+    doc.text("Benchmark Profile: " + (benchmarkProfile || "M&A-Ready (PSF)"), pw/2, y + 14, { align: "center" });
+    // PAGE 2: Executive Summary
+    doc.addPage(); y = mg;
+    doc.setFontSize(16); doc.setTextColor(27,79,114);
+    doc.text("Executive Summary", mg, y); y += 2;
+    doc.setDrawColor(27,79,114); doc.setLineWidth(0.5); doc.line(mg, y, pw - mg, y); y += 8;
+    doc.autoTable({ startY: y, head: [["Theme", "Score", "Benchmark", "Gap", "Status"]], body: themeData.map(t => { const status = t.gap >= 0 ? "Above" : t.gap >= -10 ? "Near" : "Below"; return [t.name, t.pct + "%", t.benchmark + "%", (t.gap >= 0 ? "+" : "") + t.gap + "%", status]; }),
+      margin: { left: mg, right: mg }, styles: { fontSize: 8, cellPadding: 2.5 }, headStyles: { fillColor: [27,79,114] },
+      didParseCell: function(data) { if (data.section === "body" && data.column.index === 4) { const v = data.cell.raw; if (v === "Above") data.cell.styles.textColor = [5,150,105]; else if (v === "Near") data.cell.styles.textColor = [217,119,6]; else data.cell.styles.textColor = [220,38,38]; } }
     });
-  });
-  improvements.sort((a, b) => b.gap - a.gap);
-
-  // Top strengths and weaknesses
-  const sortedThemes = [...themeData].sort((a, b) => b.gap - a.gap);
-  const strengths = sortedThemes.filter(t => t.gap >= 0).slice(0, 3);
-  const weaknesses = sortedThemes.filter(t => t.gap < 0).sort((a, b) => a.gap - b.gap).slice(0, 3);
-
-  // Build HTML report
-  const levelColor = readiness >= 80 ? "#16a34a" : readiness >= 60 ? "#d97706" : "#dc2626";
-  let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Detailed Assessment Report - ${firmName}</title>
-  <style>
-    @page { size: A4; margin: 20mm; }
-    body { font-family: "Segoe UI", system-ui, sans-serif; color: #1f1f1f; line-height: 1.5; margin: 0; padding: 0; }
-    .page { page-break-after: always; padding: 40px; min-height: 900px; }
-    .page:last-child { page-break-after: auto; }
-    h1 { color: #1f1f1f; font-size: 28px; margin: 0 0 8px; }
-    h2 { color: #1f1f1f; font-size: 22px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin: 24px 0 16px; }
-    h3 { color: #334155; font-size: 16px; margin: 16px 0 8px; }
-    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-    th { background: #f1f5f9; text-align: left; padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: 600; }
-    td { padding: 8px 12px; border: 1px solid #e2e8f0; vertical-align: top; }
-    .score-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-weight: 600; font-size: 13px; }
-    .bar { height: 16px; border-radius: 4px; display: inline-block; vertical-align: middle; }
-    .priority-critical { color: #dc2626; font-weight: 600; }
-    .priority-important { color: #d97706; font-weight: 600; }
-    .priority-nice { color: #f2a71b; }
-    .footer { text-align: center; color: #94a3b8; font-size: 11px; margin-top: 24px; }
-  </style></head><body>`;
-
-  // Page 1: Cover
-  html += `<div class="page" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-    <div style="margin-bottom:40px;"><div style="width:80px;height:80px;background:#1f1f1f;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;"><span style="color:white;font-size:36px;">&#9678;</span></div>
-    <h1 style="font-size:36px;margin-bottom:4px;">GrowthLens</h1>
-    <p style="color:#64748b;font-size:16px;">M&amp;A Due Diligence Assessment Report</p></div>
-    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:40px;max-width:500px;width:100%;">
-    <h2 style="border:none;margin:0 0 16px;font-size:28px;">${firmName}</h2>
-    <p style="color:#64748b;margin:4px 0;">Sector: ${firmSector || "Professional Services"}</p>
-    <p style="color:#64748b;margin:4px 0 24px;">Assessment Date: ${dateStr}</p>
-    <div style="display:flex;gap:24px;justify-content:center;">
-    <div><div style="font-size:48px;font-weight:700;color:#1f1f1f;">${pct}%</div><div style="color:#64748b;">Overall Maturity</div></div>
-    <div><div style="font-size:48px;font-weight:700;color:${levelColor};">${readiness}%</div><div style="color:#64748b;">M&amp;A Readiness</div></div>
-    </div><div style="margin-top:16px;"><span class="score-badge" style="background:${levelColor}22;color:${levelColor};">${readinessLevel}</span></div>
-    </div>
-    <p style="color:#94a3b8;margin-top:40px;font-size:12px;">Benchmark Profile: ${benchmarkProfile}</p>
-  </div>`;
-
-  // Page 2: Executive Summary
-  html += `<div class="page">
-    <h1>Executive Summary</h1>
-    <p style="color:#64748b;">${firmName} | ${dateStr} | Benchmark: ${benchmarkProfile}</p>
-    <div style="display:flex;gap:24px;margin:20px 0;">
-    <div style="flex:1;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:#16a34a;font-weight:600;">OVERALL MATURITY</div><div style="font-size:36px;font-weight:700;color:#1f1f1f;">${pct}%</div><div style="color:#64748b;">${scores.ratedCount}/${scores.totalMetrics} metrics rated</div></div>
-    <div style="flex:1;background:${levelColor}11;border:1px solid ${levelColor}44;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:14px;color:${levelColor};font-weight:600;">M&amp;A READINESS</div><div style="font-size:36px;font-weight:700;color:${levelColor};">${readiness}%</div><div style="color:#64748b;">${readinessLevel}</div></div>
-    </div>
-
-    <div style="display:flex;gap:24px;margin:20px 0;">
-    <div style="flex:1;"><h3 style="color:#16a34a;">Top Strengths</h3>
-    ${strengths.map(s => `<div style="padding:6px 0;border-bottom:1px solid #f1f5f9;"><strong>${s.name}</strong> <span style="color:#16a34a;font-weight:600;">${s.pct}%</span> <span style="color:#94a3b8;">(+${s.gap}% vs benchmark)</span></div>`).join("")}
-    </div>
-    <div style="flex:1;"><h3 style="color:#dc2626;">Key Gaps</h3>
-    ${weaknesses.length > 0 ? weaknesses.map(w => `<div style="padding:6px 0;border-bottom:1px solid #f1f5f9;"><strong>${w.name}</strong> <span style="color:#dc2626;font-weight:600;">${w.pct}%</span> <span style="color:#94a3b8;">(${w.gap}% vs benchmark)</span></div>`).join("") : "<div style=\"padding:6px 0;color:#16a34a;\">All dimensions meet or exceed benchmarks!</div>"}
-    </div></div>
-
-    <h2>Dimension Overview</h2>
-    <table><thead><tr><th>Dimension</th><th>Score</th><th>Benchmark</th><th>Gap</th><th>Status</th></tr></thead><tbody>
-    ${themeData.map(t => `<tr><td><strong>${t.name}</strong></td><td>${t.pct}%</td><td>${t.benchmark}%</td><td style="color:${t.gap >= 0 ? "#16a34a" : "#dc2626"};font-weight:600;">${t.gap >= 0 ? "+" : ""}${t.gap}%</td><td>${t.gap >= 0 ? "&#10003; Above" : "&#9888; Below"}</td></tr>`).join("")}
-    </tbody></table>
-    <div class="footer">GrowthLens - Confidential</div>
-  </div>`;
-
-  // Pages 3-4: Theme Detail
-  for (let pageIdx = 0; pageIdx < 2; pageIdx++) {
-    const pageThemes = themeData.slice(pageIdx * 5, (pageIdx + 1) * 5);
-    html += `<div class="page">
-    <h1>Dimension Detail ${pageIdx === 0 ? "(1/2)" : "(2/2)"}</h1>
-    <p style="color:#64748b;">${firmName} | ${dateStr}</p>`;
-
-    pageThemes.forEach(td => {
-      html += `<div style="margin:16px 0 12px;border-left:4px solid ${td.color};padding-left:12px;">
-        <h3 style="margin:0;display:flex;justify-content:space-between;"><span>${td.name}</span><span style="color:${td.gap >= 0 ? "#16a34a" : "#dc2626"};font-size:14px;">${td.pct}% (${td.gap >= 0 ? "+" : ""}${td.gap}% vs ${td.benchmark}%)</span></h3>
-      </div>
-      <table><thead><tr><th style="width:35%;">Metric</th><th style="width:10%;">Score</th><th style="width:12%;">Confidence</th><th>Comments</th></tr></thead><tbody>
-      ${td.metrics.map(m => `<tr><td>${m.name}</td><td><span class="score-badge" style="background:${m.score === 3 ? "#dcfce7" : m.score === 2 ? "#fef3c7" : "#fee2e2"};color:${m.score === 3 ? "#16a34a" : m.score === 2 ? "#d97706" : "#dc2626"};">${m.score}/${m.max}</span></td><td>${m.confidence || "-"}</td><td style="font-size:12px;color:#475569;">${m.comment || "-"}</td></tr>`).join("")}
-      </tbody></table>`;
-
-      // Evidence if any
-      const withEvidence = td.metrics.filter(m => m.evidence && m.evidence.length > 0);
-      if (withEvidence.length > 0) {
-        html += `<div style="margin:4px 0 8px;font-size:12px;color:#64748b;"><strong>Evidence:</strong> `;
-        withEvidence.forEach(m => {
-          m.evidence.forEach(e => {
-            html += `<span style="margin-right:8px;">[${m.name}] ${e.label || e.content || ""}</span>`;
-          });
-        });
-        html += `</div>`;
-      }
+    y = doc.lastAutoTable.finalY + 10;
+    if (themeStrengths.length) { doc.setFontSize(11); doc.setTextColor(5,150,105); doc.text("Theme Strengths (Above Benchmark)", mg, y); y += 5;
+      themeStrengths.forEach(t => { doc.setFontSize(8); doc.setTextColor(51,65,85); doc.text("\u2022 " + t.name + " (" + t.pct + "% vs " + t.benchmark + "% benchmark, +" + t.gap + "%)", mg + 3, y); y += 5; }); y += 3; }
+    if (themeWeaknesses.length) { doc.setFontSize(11); doc.setTextColor(220,38,38); doc.text("Priority Gaps (Below Benchmark)", mg, y); y += 5;
+      themeWeaknesses.forEach(t => { doc.setFontSize(8); doc.setTextColor(51,65,85); doc.text("\u2022 " + t.name + " (" + t.pct + "% vs " + t.benchmark + "% benchmark, " + t.gap + "%)", mg + 3, y); y += 5; }); }
+    // PAGES 3+: Theme Details
+    doc.addPage(); y = mg;
+    doc.setFontSize(16); doc.setTextColor(27,79,114); doc.text("Theme Detail", mg, y); y += 2;
+    doc.setDrawColor(27,79,114); doc.setLineWidth(0.5); doc.line(mg, y, pw - mg, y); y += 8;
+    themeData.forEach((td) => {
+      if (y > 240) { doc.addPage(); y = mg; }
+      doc.setFontSize(11); doc.setTextColor(27,79,114); doc.text(td.name + " \u2014 " + td.pct + "%", mg, y);
+      doc.setFontSize(8); doc.setTextColor(148,163,184); doc.text("Benchmark: " + td.benchmark + "% | Gap: " + (td.gap >= 0 ? "+" : "") + td.gap + "%", pw - mg, y, { align: "right" }); y += 3;
+      const metricRows = td.metrics.map(m => { const label = m.score === 0 ? "Not Rated" : m.score <= 1 ? "Foundational" : m.score <= 2 ? "Evolving" : "Optimised"; return [m.name, label, m.comment || "-"]; });
+      doc.autoTable({ startY: y, head: [["Metric", "Level", "Notes"]], body: metricRows, margin: { left: mg, right: mg }, styles: { fontSize: 7, cellPadding: 1.5 }, headStyles: { fillColor: [100,116,139] }, columnStyles: { 0: { cellWidth: 55 }, 1: { cellWidth: 22 } },
+        didParseCell: function(data) { if (data.section === "body" && data.column.index === 1) { const v = data.cell.raw; if (v === "Optimised") data.cell.styles.textColor = [5,150,105]; else if (v === "Evolving") data.cell.styles.textColor = [27,79,114]; else if (v === "Foundational") data.cell.styles.textColor = [217,119,6]; else data.cell.styles.textColor = [180,180,180]; } }
+      }); y = doc.lastAutoTable.finalY + 6;
     });
-
-    html += `<div class="footer">GrowthLens - Confidential</div></div>`;
-  }
-
-  // Page 5: Benchmark Comparison
-  html += `<div class="page">
-    <h1>Benchmark Comparison</h1>
-    <p style="color:#64748b;">Comparing ${firmName} scores against all available benchmark profiles</p>
-    <table><thead><tr><th>Dimension</th><th>${firmName}</th>
-    ${Object.keys(BENCHMARK_PROFILES).map(k => `<th>${k}</th>`).join("")}
-    </tr></thead><tbody>
-    ${themeData.map(td => `<tr><td><strong>${td.name}</strong></td><td style="font-weight:600;">${td.pct}%</td>
-    ${Object.entries(BENCHMARK_PROFILES).map(([k, profile]) => {
-      const bv = profile[td.id] || 0;
-      const diff = td.pct - bv;
-      return `<td style="color:${diff >= 0 ? "#16a34a" : "#dc2626"};">${bv}% <span style="font-size:11px;">(${diff >= 0 ? "+" : ""}${diff})</span></td>`;
-    }).join("")}</tr>`).join("")}
-    </tbody></table>
-
-    <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;">
-    <strong>Reading this table:</strong> Each cell shows the benchmark target and the difference from ${firmName}'s score. 
-    <span style="color:#16a34a;">Green</span> indicates the firm meets or exceeds the benchmark. 
-    <span style="color:#dc2626;">Red</span> indicates a gap to close.
-    </div>
-    <div class="footer">GrowthLens - Confidential</div>
-  </div>`;
-
-  // Page 6: Improvement Roadmap
-  html += `<div class="page">
-    <h1>Improvement Roadmap</h1>
-    <p style="color:#64748b;">Prioritised actions to close gaps against ${benchmarkProfile} benchmarks</p>`;
-
-  if (improvements.length === 0) {
-    html += `<div style="padding:24px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;margin:24px 0;">
-    <div style="font-size:18px;color:#16a34a;font-weight:600;">All metrics meet or exceed benchmarks!</div>
-    <p style="color:#64748b;">No improvement actions required against the selected benchmark profile.</p></div>`;
-  } else {
+    // Benchmark Comparison page
+    doc.addPage(); y = mg;
+    doc.setFontSize(16); doc.setTextColor(27,79,114); doc.text("Benchmark Comparison", mg, y); y += 2;
+    doc.setDrawColor(27,79,114); doc.setLineWidth(0.5); doc.line(mg, y, pw - mg, y); y += 8;
+    const profileNames = Object.keys(BENCHMARK_PROFILES);
+    const benchHead = ["Theme", ...profileNames, "Your Score"];
+    const benchBody = themeData.map(t => { const row = [t.name]; profileNames.forEach(p => row.push((BENCHMARK_PROFILES[p][t.id] || "-") + "%")); row.push(t.pct + "%"); return row; });
+    doc.autoTable({ startY: y, head: [benchHead], body: benchBody, margin: { left: mg, right: mg }, styles: { fontSize: 7, cellPadding: 2 }, headStyles: { fillColor: [27,79,114] } });
+    // Improvement Roadmap page
+    doc.addPage(); y = mg;
+    doc.setFontSize(16); doc.setTextColor(27,79,114); doc.text("Improvement Roadmap", mg, y); y += 2;
+    doc.setDrawColor(27,79,114); doc.setLineWidth(0.5); doc.line(mg, y, pw - mg, y); y += 8;
     const critical = improvements.filter(i => i.gap >= 10);
     const important = improvements.filter(i => i.gap >= 5 && i.gap < 10);
     const nice = improvements.filter(i => i.gap > 0 && i.gap < 5);
-
-    if (critical.length > 0) {
-      html += `<h2 style="color:#dc2626;border-color:#fecaca;">Critical (Gap &ge; 10%)</h2>
-      <table><thead><tr><th>Dimension</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
-      ${critical.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-critical">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
-      </tbody></table>`;
-    }
-    if (important.length > 0) {
-      html += `<h2 style="color:#d97706;border-color:#fde68a;">Important (Gap 5-9%)</h2>
-      <table><thead><tr><th>Dimension</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
-      ${important.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-important">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
-      </tbody></table>`;
-    }
-    if (nice.length > 0) {
-      html += `<h2 style="color:#f2a71b;border-color:#bfdbfe;">Nice to Have (Gap 1-4%)</h2>
-      <table><thead><tr><th>Dimension</th><th>Metric</th><th>Current</th><th>Target</th><th>Gap</th><th>Recommended Action</th></tr></thead><tbody>
-      ${nice.map(i => `<tr><td>${i.theme}</td><td>${i.metric}</td><td>${i.pct}%</td><td>${i.target}%</td><td class="priority-nice">${i.gap}%</td><td style="font-size:12px;">${i.action}</td></tr>`).join("")}
-      </tbody></table>`;
-    }
-  }
-  html += `<div class="footer">GrowthLens - Confidential</div></div>`;
-
-  // Page 7: Appendix - Full Metric Scores
-  html += `<div class="page">
-    <h1>Appendix: Full Metric Scores</h1>
-    <p style="color:#64748b;">Complete assessment data for ${firmName} - ${dateStr}</p>
-    <table><thead><tr><th>Dimension</th><th>Metric</th><th>Score</th><th>Weight</th><th>Confidence</th></tr></thead><tbody>`;
-
-  themeData.forEach(td => {
-    td.metrics.forEach((m, idx) => {
-      html += `<tr${idx === 0 ? ` style="border-top:2px solid ${td.color};"` : ""}>
-        <td>${idx === 0 ? `<strong style="color:${td.color};">${td.name}</strong>` : ""}</td>
-        <td>${m.name}</td>
-        <td><span class="score-badge" style="background:${m.score === 3 ? "#dcfce7" : m.score === 2 ? "#fef3c7" : "#fee2e2"};color:${m.score === 3 ? "#16a34a" : m.score === 2 ? "#d97706" : "#dc2626"};">${m.score}/${m.max}</span></td>
-        <td>${m.weight}</td>
-        <td>${m.confidence || "-"}</td></tr>`;
+    const sections = [{ title: "Critical Improvements (10%+ Gap)", items: critical, color: [220,38,38] }, { title: "Important Improvements (5-9% Gap)", items: important, color: [217,119,6] }, { title: "Nice to Have (1-4% Gap)", items: nice, color: [100,116,139] }];
+    sections.forEach(s => { if (!s.items.length) return; if (y > 250) { doc.addPage(); y = mg; }
+      doc.setFontSize(10); doc.setTextColor(...s.color); doc.text(s.title, mg, y); y += 3;
+      doc.autoTable({ startY: y, head: [["Theme", "Metric", "Current", "Target", "Gap"]], body: s.items.map(i => [i.theme, i.metric, i.pct + "%", i.target + "%", i.gap + "%"]),
+        margin: { left: mg, right: mg }, styles: { fontSize: 7, cellPadding: 1.5 }, headStyles: { fillColor: s.color }, columnStyles: { 0: { cellWidth: 38 }, 1: { cellWidth: 55 } } });
+      y = doc.lastAutoTable.finalY + 6;
     });
-  });
+    // Appendix page
+    doc.addPage(); y = mg;
+    doc.setFontSize(16); doc.setTextColor(27,79,114); doc.text("Appendix: Full Metric Scores", mg, y); y += 2;
+    doc.setDrawColor(27,79,114); doc.setLineWidth(0.5); doc.line(mg, y, pw - mg, y); y += 5;
+    const allMetricRows = []; themeData.forEach(td => { td.metrics.forEach(m => {
+      const mPct = Math.round((m.score / m.max) * 100);
+      allMetricRows.push([td.name, m.name, m.score + "/" + m.max, mPct + "%", m.weight]);
+    }); });
+    doc.autoTable({ startY: y, head: [["Theme", "Metric", "Score", "%", "Weight"]], body: allMetricRows, margin: { left: mg, right: mg }, styles: { fontSize: 6.5, cellPadding: 1.5 }, headStyles: { fillColor: [27,79,114] }, columnStyles: { 0: { cellWidth: 35 }, 1: { cellWidth: 55 }, 2: { cellWidth: 15 }, 3: { cellWidth: 15 } } });
+    // Footer on all pages
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) { doc.setPage(i); doc.setFontSize(7); doc.setTextColor(148,163,184); doc.text("Growth Drivers Maturity Framework | Confidential | " + firmName, pw/2, 290, { align: "center" }); doc.text("Page " + i + " of " + pageCount, pw - mg, 290, { align: "right" }); }
+    const fn = (firmName || "assessment").replace(/[^a-zA-Z0-9\-_ ]/g, "");
+    doc.save(fn + "-detailed-report.pdf");
+  }
 
-  html += `</tbody></table>
-    <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;">
-    <strong>Scoring:</strong> 1 = Foundational, 2 = Evolving, 3 = Optimised. Weight determines impact on dimension score.
-    </div>
-    <div class="footer" style="margin-top:32px;">
-    <div>GrowthLens - Confidential</div>
-    <div style="margin-top:8px;">Generated on ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</div>
-    </div>
-  </div>`;
-
-  html += `</body></html>`;
-
-  const safeFileName = (firmName || "assessment").replace(/[^a-zA-Z0-9-_ ]/g, "");
-  renderPdfFromHtml(html, `${safeFileName}-detailed-report.pdf`);
-}
 
 function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfile }) {
   return (
