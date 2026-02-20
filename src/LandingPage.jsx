@@ -901,62 +901,58 @@ function ContactSection() {
 
 // ─── Logo Carousel ───────────────────────────────────────
 function LogoCarousel() {
-    const logos = [
-      { name: "Moorhouse", src: "https://www.moorhouseconsulting.com/wp-content/uploads/2022/03/MoorhouseLogo.svg", darken: true },
-      { name: "Project One", src: "https://projectone.com/wp-content/uploads/2022/11/project-one-logo.svg" },
-      { name: "Public First", src: "/logos/Public First.png" },
-      { name: "Roq", src: "/logos/Roq.jpeg", big: true },
-      { name: "RQC Group", src: "/logos/RQC Group.png" },
-      { name: "WeShape", src: "/logos/WeShape.jpeg", big: true },
-      { name: "Wondrous", src: "https://wondrouspeople.com/wp-content/themes/boshanka-wondrous/img/logo.png.webp", darken: true },
-      { name: "YLD", src: "https://cdn.prod.website-files.com/6512e5cf3d7ea305319e38a2/65ae9921ba7f7fa51e214923_Background%20Colour%3DDark%20Background.svg", invert: true, big: true, scale: 2.2 },
-      { name: "The ICS", src: "/logos/The ICS.jpeg" },
-    ];
+  const logos = [
+    { name: "Moorhouse", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMjAgNTUiPjx0ZXh0IHg9IjExMCIgeT0iMjYiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFhMmI0YSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjQiPk1PT1JIT1VTRTwvdGV4dD48dGV4dCB4PSIxMTAiIHk9IjQ0IiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNy41IiBmaWxsPSIjN2E4NDk0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMi41Ij5BTiBNSFAgR1JPVVAgQ09NUEFOWTwvdGV4dD48L3N2Zz4=" },
+    { name: "Project One", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNjAgNTUiPjx0ZXh0IHg9IjAiIHk9IjI4IiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiMxZTNhNWYiIGxldHRlci1zcGFjaW5nPSIxLjUiPlBST0pFQ1Q8L3RleHQ+PGNpcmNsZSBjeD0iMTcwIiBjeT0iMjIiIHI9IjE0IiBmaWxsPSIjZTg3NzIyIi8+PHRleHQgeD0iMTcwIiB5PSIyNy41IiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC1zdHlsZT0iaXRhbGljIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5vbmU8L3RleHQ+PHRleHQgeD0iMCIgeT0iNDYiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4LjUiIGZpbGw9IiM3YTg0OTQiIGxldHRlci1zcGFjaW5nPSIxIj5yZWFsIGNoYW5nZSDCtyByZWFsIGRpZmZlcmVuY2U8L3RleHQ+PC9zdmc+" },
+    { name: "Public First", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzUgNDUiPjx0ZXh0IHg9IjAiIHk9IjMwIiBmb250LWZhbWlseT0iR2VvcmdpYSxUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMxYTFhMWEiIGxldHRlci1zcGFjaW5nPSIwLjMiPlB1YmxpYyBGaXJzdDwvdGV4dD48Y2lyY2xlIGN4PSIxNjIiIGN5PSIyNiIgcj0iMy41IiBmaWxsPSIjZTg3NzIyIi8+PC9zdmc+" },
+    { name: "Roq", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgNTAiPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjQiIHI9IjE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNlNjM5NDYiIHN0cm9rZS13aWR0aD0iMy41Ii8+PGxpbmUgeDE9IjI5IiB5MT0iMzIiIHgyPSIzNyIgeTI9IjQyIiBzdHJva2U9IiNlNjM5NDYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48dGV4dCB4PSI0NiIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzIyMiI+Um9xPC90ZXh0Pjwvc3ZnPg==" },
+    { name: "RQC Group", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzAgNTAiPjxjaXJjbGUgY3g9IjExIiBjeT0iMTYiIHI9IjciIGZpbGw9IiM0YTkwZDkiLz48Y2lyY2xlIGN4PSIyNyIgY3k9IjE2IiByPSI3IiBmaWxsPSIjODliZGU2Ii8+PGNpcmNsZSBjeD0iMTEiIGN5PSIzMiIgcj0iNyIgZmlsbD0iI2I4ZDhlYSIvPjxjaXJjbGUgY3g9IjI3IiBjeT0iMzIiIHI9IjciIGZpbGw9IiNkNGE1NzQiLz48dGV4dCB4PSI0NCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzNkNmI4ZSIgbGV0dGVyLXNwYWNpbmc9IjIiPlJRQzwvdGV4dD48dGV4dCB4PSI0NCIgeT0iNDIiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2Q5N2E1YSIgbGV0dGVyLXNwYWNpbmc9IjIiPkdST1VQPC90ZXh0Pjwvc3ZnPg==" },
+    { name: "WeShape", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgNDAiPjx0ZXh0IHg9IjkwIiB5PSIyNyIgZm9udC1mYW1pbHk9IkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNmI3Zjk2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iNSI+V0UgU0hBUEU8L3RleHQ+PC9zdmc+" },
+    { name: "Wondrous", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTUgNTAiPjxwYXRoIGQ9Ik02IDEwIEwxNSA0MCBMMjIgMjAgTDI5IDQwIEwzOCAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDk3NzA2IiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHRleHQgeD0iNTAiIHk9IjMyIiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMzNzQxNTEiIGxldHRlci1zcGFjaW5nPSIxLjUiPldPTkRST1VTPC90ZXh0Pjwvc3ZnPg==" },
+    { name: "YLD", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MCA0NSI+PHRleHQgeD0iNDUiIHk9IjMzIiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiMxNDE0MjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIxIj55bGQ8L3RleHQ+PC9zdmc+" },
+    { name: "The ICS", src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMTAgNTAiPjxjaXJjbGUgY3g9IjE4IiBjeT0iMjIiIHI9IjE0IiBmaWxsPSIjMjU2M2ViIi8+PHRleHQgeD0iMTgiIHk9IjI4IiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+aTwvdGV4dD48dGV4dCB4PSI0MiIgeT0iMTgiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzRiNTU2MyIgbGV0dGVyLXNwYWNpbmc9IjAuOCI+VGhlIEluc3RpdHV0ZSBvZjwvdGV4dD48dGV4dCB4PSI0MiIgeT0iMzQiIGZvbnQtZmFtaWx5PSJBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFlM2E1ZiIgbGV0dGVyLXNwYWNpbmc9IjAuOCI+Q2xldmVyIFN0dWZmPC90ZXh0Pjwvc3ZnPg==" }
+  ];
 
-    const activeLogos = logos.filter(l => l.src);
-    const tripled = [...logos, ...logos, ...logos];
-
-  const allLogos = [...logos, ...logos];
   return (
-    <section style={{ padding: '3rem 0', background: '#1a1a1a' }}>
-      <style>{`
-        @keyframes logo-scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-50%,0,0); } }
-      `}</style>
-      <p style={{ textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '2rem' }}>
-        Trusted by forward-thinking consultancies
-      </p>
-      <div style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: 'max-content', animation: 'logo-scroll 45s linear infinite', willChange: 'transform', position: 'relative', zIndex: 1 }}>
-          {allLogos.map((logo, i) => (
-            <div key={`logo-${i}`} style={{
-              flex: '0 0 auto',
-              margin: '0 1.25rem',
-              boxSizing: 'border-box',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'white',
-              borderRadius: 10,
-              overflow: 'hidden',
-              width: 220,
-              height: 130,
-              padding: logo.big ? '0px' : '12px 20px',
-            }}>
-              <img
-                src={logo.src}
-                alt={logo.name}
-                loading="lazy"
-                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }}
-              />
-            </div>
-          ))}
+    <section className="py-12 bg-gray-50 border-y border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p className="text-center text-sm font-semibold tracking-widest text-gray-400 uppercase mb-8">
+          Trusted by forward-thinking consultancies including
+        </p>
+        <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+          <div className="flex animate-scroll">
+            {[...logos, ...logos].map((logo, i) => (
+              <div key={i} className="flex-shrink-0 mx-6 sm:mx-10 flex items-center justify-center" style={{ height: '56px', minWidth: '100px' }}>
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                  style={{ maxHeight: '48px', filter: 'grayscale(80%)', transition: 'filter 0.3s, opacity 0.3s' }}
+                  onMouseEnter={(e) => { e.target.style.filter = 'grayscale(0%)'; }}
+                  onMouseLeave={(e) => { e.target.style.filter = 'grayscale(80%)'; }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '25%', background: 'linear-gradient(to right, #1a1a1a 0%, #1a1a1a 20%, transparent 100%)', pointerEvents: 'none', zIndex: 2 }} />
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '25%', background: 'linear-gradient(to left, #1a1a1a 0%, #1a1a1a 20%, transparent 100%)', pointerEvents: 'none', zIndex: 2 }} />
       </div>
+      <style>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 35s linear infinite;
+          width: max-content;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 }
+
 // ─── Policy Modal ────────────────────────────────────────────────
 function PolicyModal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
