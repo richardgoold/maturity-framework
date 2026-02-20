@@ -899,7 +899,7 @@ function ContactSection() {
   );
 }
 
-// ─── Logo Carousel ───────────────────────────────────────
+// ─── Logo Carousel ──────────────────────────────────────────────
 function LogoCarousel() {
   const logos = [
     { name: "Moorhouse", src: "/logos/Moorhouse.jpg" },
@@ -911,41 +911,40 @@ function LogoCarousel() {
     { name: "Wondrous", src: "/logos/Wondrous.png" },
     { name: "YLD", src: "/logos/yld_logo.jpeg" },
     { name: "The ICS", src: "/logos/The ICS.jpeg" }
-  ]
+  ];
 
   return (
-    <section className="py-12 bg-gray-50 border-y border-gray-100">
+    <section className="bg-gray-900 pt-2 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-sm font-semibold tracking-widest text-gray-400 uppercase mb-8">
+        <p className="text-center text-sm font-semibold tracking-widest text-gray-500 uppercase mb-6">
           Trusted by forward-thinking consultancies including
         </p>
-        <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
-          <div className="flex animate-scroll">
+        <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
+          <div className="flex logo-scroll">
             {[...logos, ...logos].map((logo, i) => (
-              <div key={i} className="flex-shrink-0 mx-6 sm:mx-10 flex items-center justify-center" style={{ height: '56px', minWidth: '100px' }}>
-                <img
-                  src={logo.src}
-                  alt={logo.name}
-                  className="w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                  style={{ maxHeight: '48px', filter: 'grayscale(80%)', transition: 'filter 0.3s, opacity 0.3s' }}
-                  onMouseEnter={(e) => { e.target.style.filter = 'grayscale(0%)'; }}
-                  onMouseLeave={(e) => { e.target.style.filter = 'grayscale(80%)'; }}
-                />
+              <div key={i} className="flex-shrink-0 mx-2 sm:mx-3">
+                <div className="bg-white rounded-lg flex items-center justify-center" style={{ width: '140px', height: '80px', padding: '12px' }}>
+                  <img
+                    src={logo.src}
+                    alt={logo.name}
+                    className="max-w-full max-h-full w-auto h-auto object-contain"
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
       <style>{`
-        @keyframes scroll {
+        @keyframes logoScroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .animate-scroll {
-          animation: scroll 35s linear infinite;
+        .logo-scroll {
+          animation: logoScroll 40s linear infinite;
           width: max-content;
         }
-        .animate-scroll:hover {
+        .logo-scroll:hover {
           animation-play-state: paused;
         }
       `}</style>
