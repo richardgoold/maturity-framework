@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #405] — 21 February 2026
+### Changes
+- Redesign hero to white background with amber accents, move stats into hero
+
+---
+
+
 ## [Build #404] — 21 February 2026
 ### Changes
 - Add auto-changelog GitHub Actions workflow
