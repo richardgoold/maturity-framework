@@ -145,7 +145,7 @@ function HeroSection() {
               </div>
               <div className="w-px h-10 bg-gray-200"></div>
               <div className="text-center">
-                <p className="text-3xl sm:text-4xl font-black text-amber-500">20+</p>
+                <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
                 <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
               </div>
             </div>
@@ -158,6 +158,7 @@ function HeroSection() {
       {/* Dashboard illustration — white background */}
       <section className="pt-16 sm:pt-24 pb-16 sm:pb-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12"><h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Your dashboard at a glance</h2><p className="text-gray-500 mt-3 text-sm sm:text-base">Everything you need to assess, benchmark, and improve — in one place.</p></div>
         <div className="max-w-5xl mx-auto">
           <div className="relative">
             <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
