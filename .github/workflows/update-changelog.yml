@@ -1,0 +1,101 @@
+name: Update Changelog
+
+on:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if changelog was just updated
+        id: check
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%s)
+          if [[ "$LAST_COMMIT_MSG" == *"[changelog]"* ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "Skipping — last commit was a changelog update"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get build number and commits
+        if: steps.check.outputs.skip != 'true'
+        id: info
+        run: |
+          BUILD_NUM=${{ github.event.workflow_run.run_number }}
+          echo "build_num=$BUILD_NUM" >> $GITHUB_OUTPUT
+
+          LAST_CL_SHA=$(git log --all --oneline --grep="\[changelog\]" -1 --format="%H" 2>/dev/null || echo "")
+
+          if [ -z "$LAST_CL_SHA" ]; then
+            COMMITS=$(git log --oneline -20 --pretty="format:- %s" | grep -v "\[changelog\]" | head -15)
+          else
+            COMMITS=$(git log "$LAST_CL_SHA"..HEAD --oneline --pretty="format:- %s" | grep -v "\[changelog\]")
+          fi
+
+          if [ -z "$COMMITS" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "No new commits to log"
+            exit 0
+          fi
+
+          echo "skip=false" >> $GITHUB_OUTPUT
+          echo "$COMMITS" > /tmp/commits.txt
+          echo "Found commits to log:"
+          cat /tmp/commits.txt
+
+      - name: Generate changelog entry
+        if: steps.check.outputs.skip != 'true' && steps.info.outputs.skip != 'true'
+        run: |
+          BUILD_NUM=${{ steps.info.outputs.build_num }}
+          TODAY=$(date -u +"%d %B %Y")
+
+          NEW_ENTRY="## [Build #${BUILD_NUM}] — ${TODAY}"
+          NEW_ENTRY="${NEW_ENTRY}\n### Changes"
+
+          while IFS= read -r line; do
+            NEW_ENTRY="${NEW_ENTRY}\n${line}"
+          done < /tmp/commits.txt
+
+          NEW_ENTRY="${NEW_ENTRY}\n\n---\n"
+
+          if [ -f CHANGELOG.md ]; then
+            FIRST_HR=$(grep -n "^---$" CHANGELOG.md | head -1 | cut -d: -f1)
+
+            if [ -n "$FIRST_HR" ]; then
+              head -n "$FIRST_HR" CHANGELOG.md > /tmp/changelog_new.md
+              echo "" >> /tmp/changelog_new.md
+              echo -e "$NEW_ENTRY" >> /tmp/changelog_new.md
+              tail -n +"$((FIRST_HR + 1))" CHANGELOG.md >> /tmp/changelog_new.md
+              mv /tmp/changelog_new.md CHANGELOG.md
+            else
+              echo -e "# GrowthLens Changelog\n\nAll notable changes to the GrowthLens platform are documented here.\n\n---\n\n${NEW_ENTRY}" > /tmp/changelog_new.md
+              mv /tmp/changelog_new.md CHANGELOG.md
+            fi
+          else
+            echo -e "# GrowthLens Changelog\n\nAll notable changes to the GrowthLens platform are documented here.\n\n---\n\n${NEW_ENTRY}" > CHANGELOG.md
+          fi
+
+          echo "Updated CHANGELOG.md with Build #${BUILD_NUM}"
+          head -30 CHANGELOG.md
+
+      - name: Commit and push
+        if: steps.check.outputs.skip != 'true' && steps.info.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Update CHANGELOG.md with Build #${{ steps.info.outputs.build_num }} [changelog]"
+          git push
