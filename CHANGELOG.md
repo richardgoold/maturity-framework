@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #407] — 21 February 2026
+### Changes
+- Match dashboard heading font size to other section headings
+
+---
+
+
 ## [Build #406] — 21 February 2026
 ### Changes
 - Animate 20+ counter and add dashboard section heading
