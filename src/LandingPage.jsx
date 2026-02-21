@@ -87,70 +87,70 @@ function NavBar() {
 function HeroSection() {
   return (
     <>
-      <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-[#1A202C] border-t-[3px] border-amber-400">
+      <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
-
-            {/* Logo */}
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <div className="w-14 h-14 rounded-lg flex items-center justify-center overflow-hidden">
-                <svg viewBox="0 0 200 200" className="w-14 h-14"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
+            {/* Logo + wordmark */}
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div className="w-11 h-11 rounded-lg flex items-center justify-center overflow-hidden">
+                <svg viewBox="0 0 200 200" className="w-11 h-11"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
               </div>
-              <span className="text-4xl font-bold text-white">GrowthLens</span>
+              <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">GrowthLens</span>
             </div>
 
             {/* Badge */}
-            <div className="mb-10 inline-block">
-              <div className="bg-gray-900 px-10 py-5 sm:px-14 sm:py-6 rounded-2xl shadow-2xl border border-gray-800">
-                <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
-                  Professional Services
-                </div>
-                <div className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-wide text-amber-400">
-                  Growth Platform
-                </div>
-              </div>
+            <div className="mb-8 inline-block">
+              <span className="inline-block px-5 py-2 text-sm sm:text-base font-bold text-amber-700 tracking-wide uppercase bg-amber-50 border-2 border-amber-200 rounded-full">
+                Professional Services Growth Platform
+              </span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-1">
-              How strong is
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-8">
+              How strong is your firm, <span className="text-amber-500">really?</span>
             </h1>
-            <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-10">
-              <span className="text-white">your firm, </span><span className="text-amber-400">really?</span>
-            </p>
 
-            {/* Stats */}
-            <div className="flex items-start justify-center gap-6 sm:gap-10 mb-6 max-w-3xl mx-auto">
-              <div className="flex-1 text-center">
-                <div className="text-4xl sm:text-5xl font-black text-amber-400">10</div>
-                <div className="text-xs sm:text-sm text-gray-400 mt-1">Growth Dimensions</div>
-              </div>
-              <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
-              <div className="flex-1 text-center">
-                <div className="text-4xl sm:text-5xl font-black text-amber-400">57</div>
-                <div className="text-xs sm:text-sm text-gray-400 mt-1">Metrics</div>
-              </div>
-              <div className="w-px bg-gray-600 self-stretch min-h-[48px]"></div>
-              <div className="flex-1 text-center">
-                <div className="text-4xl sm:text-5xl font-black text-amber-400">20+</div>
-                <div className="text-xs sm:text-sm text-gray-400 mt-1">Industry Benchmark Sources</div>
-              </div>
-            </div>
-
-            <p className="text-sm text-gray-500 mb-8">
-              Benchmarks grounded in industry research spanning 1,000+ professional services firms.
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
+              Assess your firm across the 10 growth themes that drive sustainable growth in professional services.
+              Benchmark against industry standards and get a clear roadmap to maximise value.
             </p>
 
             {/* Tagline */}
-            <p className="text-xl sm:text-2xl font-extrabold text-amber-400 tracking-[0.2em] uppercase mb-10">
+            <p className="text-sm sm:text-base font-extrabold text-amber-500 tracking-[0.2em] uppercase mb-10">
               Baseline. Blueprint. Navigate.
             </p>
 
-            {/* CTA */}
-            <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-full shadow-lg transition-all duration-200 gap-2">
-              Sign Up Free
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
+                Sign Up Free
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
+                See How It Works
+              </button>
+            </div>
+
+            {/* Stats bar */}
+            <div className="flex items-center justify-center gap-8 sm:gap-12 mt-12 pt-10 border-t border-gray-100">
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Growth Themes</p>
+              </div>
+              <div className="w-px h-10 bg-gray-200"></div>
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Metrics</p>
+              </div>
+              <div className="w-px h-10 bg-gray-200"></div>
+              <div className="text-center">
+                <p className="text-3xl sm:text-4xl font-black text-amber-500">20+</p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
+              </div>
+            </div>
+            <p className="text-xs sm:text-sm text-gray-400 mt-4">Benchmarks grounded in industry research spanning 1,000+ professional services firms.</p>
+
           </div>
         </div>
       </section>
@@ -1098,7 +1098,6 @@ export default function LandingPage() {
       <HeroSection />
       <PreviewsSection />
       <HowItWorksSection />
-      <StatsBar />
       <LogoCarousel />
       <FeaturesSection />
       <ContactSection />
