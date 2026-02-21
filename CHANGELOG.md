@@ -1,0 +1,94 @@
+# GrowthLens Changelog
+
+All notable changes to the GrowthLens platform are documented here.
+
+---
+
+## [Build #401] — 21 February 2026
+### QA Polish & Metric Audit
+- **Fixed 10 metric audit issues** across Financial Performance, People, Services & Pricing, Sales & Pipeline, Clients & Relationships, and Market Profile themes — corrected question wording, rating labels, and descriptions to match assessment framework
+- **Fixed 9 metric question errors** identified in QA review — ensured all 57 metrics have accurate, unambiguous question text
+- **Updated firm limit messaging** — free plan badge and banner now clearly state "Free plan — 1 firm of your own" with explanation of demo firms
+- **Improved nav responsiveness** — changed breakpoint from `md` to `lg` so hamburger menu activates on medium-width screens, preventing nav wrapping
+- **Enhanced premium tab tooltips** — gated dashboard tabs (Roadmap, Scenarios, Export & Reports) now show "available with Premium" on hover
+- **Tightened FirmDetailView spacing** — reduced padding, margins, and button sizes for a more compact layout
+
+---
+
+## [Build #395] — 20 February 2026
+### Carousel Redesign & Visual Polish
+- **Redesigned partner carousel** — dark background, larger logos, improved separator gap between carousel and hero section
+- **Added Favikon badge** to landing page social proof section
+- **Updated contact section layout** — improved spacing and alignment
+- **Portrait photo matching** — refined portrait circle crop and positioning to match site branding
+
+---
+
+## [Build #380] — 19 February 2026
+### Email Infrastructure & Account Management
+- **Configured custom SMTP** via Resend for all auth emails (verification, password reset) from `noreply@growthlens.app`
+- **Built welcome email Edge Function** — sends branded HTML welcome email to new users on verification, plus admin notification to site owner
+- **Added Change Password feature** — accessible from user profile dropdown, modal with validation and show/hide toggle
+- **Admin account email updated** from `admin@growthlens.app` to `richard@gooldy.com` to enable password recovery
+- **3C Filled Glass logo** — replaced previous logo throughout the app with refined version
+- **Benchmark tagline** added to dashboard header
+- **Landing page counter** — added live user/assessment count to landing page
+- **ISS-013 pricing structure** integrated into premium tier configuration
+
+---
+
+## [Build #350] — 18 February 2026
+### Supabase Integration & Custom Domain
+- **Wired up Supabase data layer** — all firms, assessments, and profiles now persist to Supabase (PostgreSQL) with Row Level Security
+- **Custom domain live** — `growthlens.app` configured via GoDaddy DNS → GitHub Pages, replacing `richardgoold.github.io/maturity-framework`
+- **Password reset flow** — implemented via Supabase Auth with recovery link emails
+- **Email verification** — new signups require email confirmation before access
+- **Profile dropdown** — user avatar, name, email, plan badge, and sign-out in top-right header
+- **Contact view** built — in-app contact form with message submission
+- **How It Works** section added to landing page
+- **Score thresholds** — colour-coded readiness levels (green ≥90%, amber ≥70%, red <70%)
+- **GrowthLens rebrand** — renamed from "Maturity Framework" throughout the codebase and UI
+
+---
+
+## [Build #320] — 17 February 2026
+### Landing Page & Public-Facing Features
+- **Landing page redesigned** with hero section, feature highlights, and call-to-action
+- **Lead capture form** — email collection on landing page for interested prospects
+- **Favicon & PWA manifest** — app icon and Progressive Web App support added
+- **Free tier firm limit** — free accounts limited to 1 user-created firm plus 3 demo firms
+- **Demo firms pre-populated** — Apex Consulting Partners (72%), TechBridge Solutions (61%), Phoenix Advisory Group (40%)
+- **PDF export** — generate downloadable PDF assessment reports
+- **Carousel partner logos** — rotating logo display on landing page
+
+---
+
+## [Build #290] — 16 February 2026
+### Admin Dashboard & Phase 3
+- **Admin Dashboard (Phase 3)** — full admin panel with Overview, Users, Firms, Contacts, Settings, and Audit Log sections
+- **AdminRoute guard** — route protection for admin-only pages
+- **useAdminData hook** — centralised data fetching for admin views
+- **Contact tab** — in-app messaging system between users and admin
+- **Supabase data layer foundations** — `useSupabaseData.js` hook for firm and assessment CRUD operations
+- **Portrait and carousel** initial implementation on landing page
+
+---
+
+## [Build #250] — 15 February 2026
+### Freemium Gating & Phase 2
+- **Freemium gating system (Phase 2)** — `gating.js` with `GATED_TABS`, `TIER_LIMITS`, and `PREMIUM_FEATURES` constants
+- **Upgrade prompts** — `UpgradePrompt.jsx` modal shown when free users access premium features
+- **Nav badges** — visual indicators for premium-only sections
+- **Contact modal** — `ContactModal.jsx` for user inquiries
+- **Language unification** — standardised terminology across all 57 metrics and 10 themes
+
+---
+
+## [Initial Release] — 14 February 2026
+### Core Platform
+- **10 growth themes, 57 metrics** — comprehensive M&A readiness assessment framework for professional services firms
+- **Assessment workflow** — theme-by-theme metric rating with 3-level scale (Foundational, Evolving, Optimised)
+- **Dashboard views** — radar chart, bar chart, heatmap, gap analysis, improvement roadmap, scenario modelling
+- **M&A-Ready benchmarks** — evidence-based benchmark percentages across all themes (overall average 67%)
+- **React SPA** with Vite, Tailwind CSS, Recharts, and Lucide icons
+- **GitHub Pages deployment** via GitHub Actions CI/CD pipeline
