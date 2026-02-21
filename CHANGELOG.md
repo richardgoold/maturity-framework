@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #406] — 21 February 2026
+### Changes
+- Animate 20+ counter and add dashboard section heading
+
+---
+
+
 ## [Build #405] — 21 February 2026
 ### Changes
 - Redesign hero to white background with amber accents, move stats into hero
