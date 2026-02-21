@@ -2674,7 +2674,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
         </div>
         <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxFirms; if (firms.filter(f => !f.id.startsWith('demo_')).length >= limit) { setShowLimitModal(true); return; } setShowCreate(true); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
         {atFirmLimit ? (
-          <div className="flex items-center gap-2 bg-gray-100 text-gray-500 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 cursor-default" title="Free plan allows 1 firm. Upgrade for unlimited firms.">
+          <div className="flex items-center gap-2 bg-gray-100 text-gray-500 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 cursor-default" title="Free plan includes 1 firm of your own. Upgrade for unlimited.">
             <Shield size={16} /> Firm Limit Reached
           </div>
         ) : (
@@ -2690,8 +2690,8 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <div className="flex items-start gap-3">
             <Shield size={20} className="text-amber-600 mt-0.5 flex-shrink-0" />
             <div>
-              <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 firm included</h4>
-              <p className="text-xs text-gray-600 mt-1">Your free account includes one firm assessment. Upgrade to Premium for unlimited firms, advanced benchmarking, and detailed reporting.</p>
+              <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 firm of your own</h4>
+              <p className="text-xs text-gray-600 mt-1">The demo firms are there to explore — your free account also lets you create one firm of your own. Upgrade to Premium for unlimited firms and full reporting.</p>
               <a href="mailto:richard@richardgoold.com?subject=GrowthLens%20Premium%20Enquiry" className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
                 <Mail size={12} /> Contact us about upgrading
               </a>
@@ -2814,15 +2814,15 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-4 sm:p-6">
       
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
           <p className="text-sm text-gray-500">{firm.sector || "Professional Services"}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button onClick={() => setShowTemplates(!showTemplates)} title="Create a new assessment from a pre-built template" className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
+          <button onClick={() => setShowTemplates(!showTemplates)} title="Create a new assessment from a pre-built template" className="flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-gray-200">
             <Copy size={16} /> From Template
           </button>
           <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxAssessmentsPerFirm; if (firmAssessments.length >= limit) { setShowAssessLimitModal(true); return; } setOnboardingFirmId(firm.id); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
@@ -2850,7 +2850,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         const latest = firmAssessments[0];
         const s = calcScores(latest.ratings, BENCHMARK_PROFILES["M&A-Ready (PSF)"]);
         return (
-          <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-4 mb-4 flex items-center gap-6">
+          <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-3 mb-3 flex items-center gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: s.pct >= 80 ? "#16A34A" : s.pct >= 40 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
               <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and dimensions" /></div>
@@ -2878,12 +2878,12 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
       )}
 
       {firmAssessments.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+        <div className="text-center py-10 bg-white rounded-lg border border-gray-200">
           <ClipboardCheck size={48} className="mx-auto text-gray-300 mb-3" />
           <p className="text-gray-500">No assessments yet. Start one to begin evaluating this firm.</p>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {firmAssessments.map(a => {
             const scores = calcScores(a.ratings);
             return (
@@ -3550,7 +3550,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       {/* Section Navigation */}
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
         {[["scores","Scores","Overall maturity scores by dimension"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"],["export","Export & Reports","Export and download reports"]].map(([id,label,tip]) => (
-            <button title={tip} key={id} onClick={() => setActiveTab(id)}
+            <button title={(!isPremium && !isDemoFirm && GATED_TABS.includes(id)) ? `${tip} \u2014 available with Premium` : tip} key={id} onClick={() => setActiveTab(id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"} ${(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) ? "opacity-60" : ""}`}>{label}{(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) && <Lock className="w-3 h-3 ml-1 inline opacity-50" />}</button>
         ))}
       </div>
@@ -4470,7 +4470,7 @@ export default function App() {
             </div>
           </>)}
         </div>
-        <nav className="hidden md:flex flex-wrap items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1">
           {navItems.map(n => (
             <button key={n.id}  disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
               if (n.locked) { setShowUpgradeFor(n.label); return; }
@@ -4484,12 +4484,12 @@ export default function App() {
             </button>
           ))}
         </nav>
-        <button className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" onClick={() => setMobileMenuOpen(m => !m)}>
+        <button className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" onClick={() => setMobileMenuOpen(m => !m)}>
           {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </header>
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 px-4 py-2 flex flex-col gap-1">
+        <div className="lg:hidden bg-white border-t border-gray-200 px-4 py-2 flex flex-col gap-1">
           {navItems.map(n => (
             <button key={n.id}  disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
               if (n.locked) { setShowUpgradeFor(n.label); return; }
