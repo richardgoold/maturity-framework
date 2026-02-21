@@ -4,6 +4,27 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #404] — 21 February 2026
+### Changes
+- Add auto-changelog GitHub Actions workflow
+- Add Changelog tab to Admin Dashboard
+- Add CHANGELOG.md with backfilled milestones (Feb 14-21)
+- QA polish: firm limit messaging, nav breakpoint, premium tab tooltips, tighter FirmDetail spacing
+- Fix 10 metric audit issues: levels, questions, actions, currency
+- Fix 9 metric questions: correct 5 mismatched, add 2 missing, align 2 minor
+- Contact: match portrait exactly to in-app contact page (w-32, same image)
+- Contact: Favikon badge inline with buttons, enlarge portrait
+- Contact: two-column layout, fix portrait crop, bio left form right
+- Contact: match in-app layout with portrait, bio, Website/LinkedIn buttons, Favikon badge
+- Add files via upload
+- Contact: amber ring portrait, strapline, Favikon purple hexagon badge
+- Contact section: split layout with portrait, credentials and Favikon badge
+- Carousel: bigger gap below stats, scale up WeShape logo
+- Carousel: add separator gap, enlarge logo cards to 170x95
+
+---
+
+
 ## [Build #401] — 21 February 2026
 ### QA Polish & Metric Audit
 - **Fixed 10 metric audit issues** across Financial Performance, People, Services & Pricing, Sales & Pipeline, Clients & Relationships, and Market Profile themes — corrected question wording, rating labels, and descriptions to match assessment framework
