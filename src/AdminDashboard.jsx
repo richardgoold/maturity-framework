@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
-import { Users, Building2, ClipboardCheck, Mail, Settings, Shield, LayoutDashboard, ChevronRight, ChevronDown, ChevronUp, Search, X, Check, AlertCircle, Eye, Edit3, ArrowLeft, LogOut, BarChart3, TrendingUp, Clock, RefreshCw, Trash2 } from "lucide-react";
+import { Users, Building2, ClipboardCheck, Mail, Settings, Shield, LayoutDashboard, ChevronRight, ChevronDown, ChevronUp, Search, X, Check, AlertCircle, Eye, Edit3, ArrowLeft, LogOut, BarChart3, TrendingUp, Clock, RefreshCw, Trash2, FileText } from "lucide-react";
 import { useAuth } from "./AuthContext";
 import { useAdminData } from "./useAdminData";
 import { FRAMEWORK, BENCHMARK_PROFILES, calcScores } from "./App";
+import changelogRaw from "../CHANGELOG.md?raw";
 
 // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // HELPER FUNCTIONS
@@ -1453,6 +1454,71 @@ function AdminAuditLog({ auditLog, users }) {
   );
 }
 
+// ════════════════════════════════════════════════════════════
+// CHANGELOG COMPONENT
+// ════════════════════════════════════════════════════════════
+
+function AdminChangelog() {
+  const lines = changelogRaw.split("\n");
+  const elements = [];
+  let key = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (line.startsWith("# ")) {
+      elements.push(<h1 key={key++} className="text-2xl font-bold text-gray-900 mb-6">{line.slice(2)}</h1>);
+    } else if (line.startsWith("## ")) {
+      const text = line.slice(3);
+      const match = text.match(/^\[(.+?)\]\s*\u2014\s*(.+)$/);
+      if (match) {
+        elements.push(
+          <div key={key++} className="mt-8 mb-2 flex items-center gap-3">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">{match[1]}</span>
+            <span className="text-sm text-gray-500">{match[2]}</span>
+          </div>
+        );
+      } else {
+        elements.push(<h2 key={key++} className="text-xl font-semibold text-gray-800 mt-8 mb-2">{text}</h2>);
+      }
+    } else if (line.startsWith("### ")) {
+      elements.push(<h3 key={key++} className="text-base font-semibold text-gray-700 mb-3">{line.slice(4)}</h3>);
+    } else if (line.startsWith("- ")) {
+      const content = line.slice(2);
+      const parts = content.split(/(\*\*.+?\*\*)/g);
+      elements.push(
+        <div key={key++} className="flex gap-2 mb-2 ml-1">
+          <span className="text-blue-400 mt-1 flex-shrink-0">•</span>
+          <span className="text-sm text-gray-600 leading-relaxed">
+            {parts.map((part, pi) =>
+              part.startsWith("**") && part.endsWith("**")
+                ? <strong key={pi} className="text-gray-800 font-medium">{part.slice(2, -2)}</strong>
+                : part
+            )}
+          </span>
+        </div>
+      );
+    } else if (line.startsWith("---")) {
+      elements.push(<hr key={key++} className="my-6 border-gray-200" />);
+    } else if (line.trim() && !line.startsWith("All notable")) {
+      elements.push(<p key={key++} className="text-sm text-gray-500 mb-4">{line}</p>);
+    }
+  }
+
+  return (
+    <div className="p-6 max-w-3xl mx-auto">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        {elements}
+        <div className="mt-8 pt-4 border-t border-gray-100">
+          <p className="text-xs text-gray-400 text-center">
+            Source: <code className="bg-gray-50 px-1 py-0.5 rounded text-xs">CHANGELOG.md</code> in repository root
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // MAIN ADMIN DASHBOARD COMPONENT
 // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
@@ -1464,6 +1530,7 @@ const NAV_ITEMS = [
   { id: "contacts", label: "Contacts", icon: Mail },
   { id: "settings", label: "Settings", icon: Settings },
   { id: "audit", label: "Audit Log", icon: Shield },
+  { id: "changelog", label: "Changelog", icon: FileText },
 ];
 
 export default function AdminDashboard() {
@@ -1619,6 +1686,8 @@ export default function AdminDashboard() {
         return <AdminSettings appConfig={appConfig} onUpdateConfig={updateAppConfig} onLogAudit={logAudit} />;
       case "audit":
         return <AdminAuditLog auditLog={auditLog} users={users} />;
+      case "changelog":
+        return <AdminChangelog />;
       default:
         return <AdminOverview users={users} firms={firms} assessments={assessments} contacts={contacts} stats={stats} />;
     }
