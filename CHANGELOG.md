@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #420] — 22 February 2026
+### Changes
+- Fix dropdown: use fixed positioning with inline styles to escape stacking context
+
+---
+
+
 ## [Build #419] — 22 February 2026
 ### Changes
 - Fix header z-index stacking so dropdown paints above content area
