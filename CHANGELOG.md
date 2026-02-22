@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #412] — 22 February 2026
+### Changes
+- Add detailed overhead cost categories to Overhead Ratio guidance
+
+---
+
+
 ## [Build #411] — 22 February 2026
 ### Changes
 - Fix firm limit gating: exclude demo firms by name for Supabase UUIDs
