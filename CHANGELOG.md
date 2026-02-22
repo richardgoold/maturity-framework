@@ -4,6 +4,14 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #414] — 22 February 2026
+### Changes
+- Fix JSX fragment close in FirmDetailView assessment limit
+- Fix firm creation UUID, add free tier assessment limits and locking
+
+---
+
+
 ## [Build #412] — 22 February 2026
 ### Changes
 - Add detailed overhead cost categories to Overhead Ratio guidance
