@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #419] — 22 February 2026
+### Changes
+- Fix header z-index stacking so dropdown paints above content area
+
+---
+
+
 ## [Build #418] — 22 February 2026
 ### Changes
 - Fix profile dropdown translucent background for better readability
