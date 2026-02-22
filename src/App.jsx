@@ -4469,7 +4469,7 @@ export default function App() {
         </div>
       )}
       {/* Header */}
-      <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0 bg-white border-b border-gray-200 relative z-30">
+      <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0 bg-white border-b border-gray-200" style={{position:"relative",zIndex:99997}}>
               <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>
           <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
                 <svg viewBox="0 0 200 200" className="w-8 h-8"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
@@ -4486,8 +4486,8 @@ export default function App() {
               </button>
               {showProfileMenu && (
                 <>
-                <div style={{position:"fixed",inset:0,zIndex:99998,backgroundColor:"rgba(0,0,0,0.1)"}} onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); }} />
-                <div className="rounded-lg py-1" style={{position:"fixed",top:"48px",right:"16px",zIndex:99999,backgroundColor:"#ffffff",width:"14rem",boxShadow:"0 20px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1)",border:"1px solid #e5e7eb"}} onClick={(e) => e.stopPropagation()}>
+                <div style={{position:"fixed",inset:0,zIndex:99998,backgroundColor:"rgba(0,0,0,0.08)"}} onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); }} />
+                <div className="absolute right-0 top-full mt-1 w-56 rounded-lg py-1" style={{backgroundColor:"#ffffff",zIndex:99999,boxShadow:"0 20px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1)",border:"1px solid #e5e7eb"}} onClick={(e) => e.stopPropagation()}>
                   <div className="px-4 py-2 border-b border-gray-100">
                     <p className="text-sm font-medium text-gray-800">{profile?.full_name || 'User'}</p>
                     <p className="text-xs text-gray-500">{user?.email}</p>
