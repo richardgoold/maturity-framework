@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #408] — 22 February 2026
+### Changes
+- Add files via upload
+
+---
+
+
 ## [Build #407] — 21 February 2026
 ### Changes
 - Match dashboard heading font size to other section headings
