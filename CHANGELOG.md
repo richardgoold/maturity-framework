@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #409] — 22 February 2026
+### Changes
+- Add cache-busting ?v=2 to OG image URLs
+
+---
+
+
 ## [Build #408] — 22 February 2026
 ### Changes
 - Add files via upload
