@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #411] — 22 February 2026
+### Changes
+- Fix firm limit gating: exclude demo firms by name for Supabase UUIDs
+
+---
+
+
 ## [Build #410] — 22 February 2026
 ### Changes
 - Update CLAUDE.md with 22 Feb session changes
