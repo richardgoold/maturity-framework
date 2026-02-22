@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #418] — 22 February 2026
+### Changes
+- Fix profile dropdown translucent background for better readability
+
+---
+
+
 ## [Build #417] — 22 February 2026
 ### Changes
 - Fix mismatched closing tag in locked banner upgrade button
