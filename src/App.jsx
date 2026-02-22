@@ -4486,8 +4486,8 @@ export default function App() {
               </button>
               {showProfileMenu && (
                 <>
-                <div className="fixed inset-0 z-40 bg-black/10" onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); }} />
-                <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-lg shadow-xl ring-1 ring-black/5 border border-gray-200 py-1 z-50" style={{backgroundColor: "#ffffff"}} onClick={(e) => e.stopPropagation()}>
+                <div style={{position:"fixed",inset:0,zIndex:99998,backgroundColor:"rgba(0,0,0,0.1)"}} onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); }} />
+                <div className="rounded-lg py-1" style={{position:"fixed",top:"48px",right:"16px",zIndex:99999,backgroundColor:"#ffffff",width:"14rem",boxShadow:"0 20px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1)",border:"1px solid #e5e7eb"}} onClick={(e) => e.stopPropagation()}>
                   <div className="px-4 py-2 border-b border-gray-100">
                     <p className="text-sm font-medium text-gray-800">{profile?.full_name || 'User'}</p>
                     <p className="text-xs text-gray-500">{user?.email}</p>
