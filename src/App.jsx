@@ -2858,7 +2858,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <div className="flex items-start gap-3">
             <Shield size={20} className="text-amber-600 mt-0.5 flex-shrink-0" />
             <div>
-              <h4 className="text-sm font-semibold text-gray-800">Free plan \u2014 1 assessment per firm</h4>
+              <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 assessment per firm</h4>
               <p className="text-xs text-gray-600 mt-1">Your baseline assessment is locked once complete. Upgrade to Premium to create additional assessments and track progress over time.</p>
               <a href="mailto:richard@richardgoold.com?subject=GrowthLens%20Premium%20Enquiry" className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
                 <Mail size={12} /> Contact us about upgrading
