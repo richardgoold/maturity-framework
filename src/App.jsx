@@ -3001,7 +3001,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
                 <span className="text-sm font-semibold text-gray-800">Assessment Locked</span>
        <span className="text-xs text-gray-500 ml-2">{isTimeLocked && !isComplete ? "Your 7-day free editing window has expired." : "Your completed assessment is saved as a read-only baseline."} Upgrade to Premium to edit, create new assessments, and track progress.</span>
               </div>
-              <button onClick={openContactModal} className="ml-auto text-xs font-medium text-amber-700 hover:text-amber-900 whitespace-nowrap">Upgrade</a>
+              <button onClick={openContactModal} className="ml-auto text-xs font-medium text-amber-700 hover:text-amber-900 whitespace-nowrap">Upgrade</button>
             </div>
           </div>
         )}
