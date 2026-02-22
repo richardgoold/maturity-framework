@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #415] — 22 February 2026
+### Changes
+- Fix em dash rendering in free plan assessment limit banner
+
+---
+
+
 ## [Build #414] — 22 February 2026
 ### Changes
 - Fix JSX fragment close in FirmDetailView assessment limit
