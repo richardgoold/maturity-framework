@@ -2834,6 +2834,8 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxAssessmentsPerFirm; if (firmAssessments.length >= limit) { setShowAssessLimitModal(true); return; } setOnboardingFirmId(firm.id); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
             <Plus size={16} /> New Assessment
           </button>
+            </>
+          )}
         </div>
         {onboardingFirmId === firm.id && (
           <div style={{marginTop: "16px", padding: "20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.2)", borderRadius: "12px"}}>
