@@ -4,6 +4,14 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #417] — 22 February 2026
+### Changes
+- Fix mismatched closing tag in locked banner upgrade button
+- Wire upgrade links to contact form, add 7-day time-based lock
+
+---
+
+
 ## [Build #415] — 22 February 2026
 ### Changes
 - Fix em dash rendering in free plan assessment limit banner
