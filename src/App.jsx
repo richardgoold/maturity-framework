@@ -2694,9 +2694,9 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             <div>
               <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 firm of your own</h4>
               <p className="text-xs text-gray-600 mt-1">The demo firms are there to explore — your free account also lets you create one firm of your own. Upgrade to Premium for unlimited firms and full reporting.</p>
-              <a href="mailto:richard@richardgoold.com?subject=GrowthLens%20Premium%20Enquiry" className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
+              <button onClick={openContactModal} className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
                 <Mail size={12} /> Contact us about upgrading
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -2860,9 +2860,9 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
             <div>
               <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 assessment per firm</h4>
               <p className="text-xs text-gray-600 mt-1">Your baseline assessment is locked once complete. Upgrade to Premium to create additional assessments and track progress over time.</p>
-              <a href="mailto:richard@richardgoold.com?subject=GrowthLens%20Premium%20Enquiry" className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
+              <button onClick={openContactModal} className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
                 <Mail size={12} /> Contact us about upgrading
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -2940,13 +2940,16 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
 }
 
 function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence, onGuidance, userTier }) {
+  const { openContactModal } = useContactModal();
   useEffect(() => { track("Assessment Started"); }, []);
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
   const scores = calcScores(assessment.ratings);
   const scrollRef = useRef(null);
   const isFree = userTier !== "premium";
   const isComplete = scores.ratedCount === scores.totalMetrics && scores.totalMetrics > 0;
-  const isLocked = isFree && isComplete;
+  const daysSinceCreation = assessment.createdAt ? Math.floor((Date.now() - new Date(assessment.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0;
+  const isTimeLocked = isFree && daysSinceCreation >= 7;
+  const isLocked = isFree && (isComplete || isTimeLocked);
   const isScrollingRef = useRef(false);
   const [assessBannerDismissed, setAssessBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_assess_banner') === '1');
 
@@ -2995,10 +2998,10 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
             <div className="flex items-center gap-3">
               <Lock size={16} className="text-amber-600 flex-shrink-0" />
               <div>
-                <span className="text-sm font-semibold text-gray-800">Baseline Assessment Locked</span>
-                <span className="text-xs text-gray-500 ml-2">Your completed assessment is saved as a read-only baseline. Upgrade to Premium to create new assessments and track progress.</span>
+                <span className="text-sm font-semibold text-gray-800">Assessment Locked</span>
+       <span className="text-xs text-gray-500 ml-2">{isTimeLocked && !isComplete ? "Your 7-day free editing window has expired." : "Your completed assessment is saved as a read-only baseline."} Upgrade to Premium to edit, create new assessments, and track progress.</span>
               </div>
-              <a href="mailto:richard@richardgoold.com?subject=GrowthLens%20Premium%20Enquiry" className="ml-auto text-xs font-medium text-amber-700 hover:text-amber-900 whitespace-nowrap">Upgrade</a>
+              <button onClick={openContactModal} className="ml-auto text-xs font-medium text-amber-700 hover:text-amber-900 whitespace-nowrap">Upgrade</a>
             </div>
           </div>
         )}
