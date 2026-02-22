@@ -7,8 +7,8 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 58ed78f - "Add change password option to user profile menu"
-- **Last updated:** 19 February 2026
+- **Latest commit:** 3d7c405 - "Add cache-busting ?v=2 to OG image URLs"
+- **Last updated:** 22 February 2026
 
 ## Tech Stack
 
@@ -26,8 +26,9 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 
 ### File Structure
 ```
-.github/workflows/deploy.yml   # GitHub Actions: build + deploy to Pages
-index.html                     # Entry point (loads Tailwind CDN)
+.github/workflows/deploy.yml      # GitHub Actions: build + deploy to Pages
+.github/workflows/changelog.yml   # Auto-update CHANGELOG.md on push to main
+index.html                        # Entry point (loads Tailwind CDN)
 vite.config.js                 # Vite config with base path
 package.json
 src/
@@ -48,7 +49,8 @@ src/
   LandingPage.jsx               # Public landing page (growthlens.app)
   App.css                       # Minimal styles
   index.css                     # Global styles
-CLAUDE.md                       # This file
+CHANGELOG.md                      # Auto-generated changelog
+CLAUDE.md                         # This file
 ```
 
 ## Authentication & Accounts
@@ -235,14 +237,14 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+3d7c405  Add cache-busting ?v=2 to OG image URLs (Build #409, 22 Feb 2026)
+42e9ca7  Add OG image to public folder (new white hero design, 22 Feb 2026)
+         Hero redesign, StatsBar removal, AnimatedCounter fix (Builds #405-#407)
+         Dashboard heading, auto-changelog system
 58ed78f  Add change password option to user profile menu (Build #341, 19 Feb 2026)
 5b67999  Remove misleading backup reminder banner (data is in Supabase)
 d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 3ff4ac6  Update old GitHub Pages URLs to growthlens.app in PDF export and Share
-445a490  Add early module-level recovery detection before Supabase processes URL
-080e588  Fix recovery redirect: use URL param detection instead of hash
-4850a46  Update AuthContext.jsx: fix password reset, persist recovery state
-bbc943a  Update homepage URL to growthlens.app
 --- Previous sessions ---
 3916fd3  Tighter crop and recentre face in portrait circle (13 Feb 2026)
          Portrait photo, Let's Talk redesign, chart improvements
@@ -250,6 +252,27 @@ bbc943a  Update homepage URL to growthlens.app
          ENHANCED_GUIDANCE data, guidance page, mobile responsive
 2aaba7a  Dashboard improvements: donut score, roadmap fix, export buttons
 ```
+
+### Session Changes (22 Feb 2026)
+
+**OG Image:**
+- New OG image matching white hero design (1200x630, palette-optimised PNG in public/)
+- Cache-busting ?v=2 added to og:image and twitter:image URLs in index.html
+- OG image verified on LinkedIn Post Inspector
+
+**Landing Page redesign (Builds #405-#407):**
+- Hero section: dark background replaced with white, amber accents
+- StatsBar component removed from hero
+- AnimatedCounter fixed (20+ counter)
+- Dashboard heading font size matched to other sections
+
+**Changelog system:**
+- CHANGELOG.md added to repo root
+- Auto-changelog GitHub Actions workflow (.github/workflows/changelog.yml)
+- Changelog tab added to Admin Dashboard
+
+**Repo metadata:**
+- GitHub repo description, website URL, and topic tags added
 
 ### Session Changes (19 Feb 2026)
 
