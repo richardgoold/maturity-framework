@@ -2351,7 +2351,8 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
       firm,
       benchmark: bench,
       firmFill,
-      color: t.color
+      color: t.color,
+      icon: t.icon
     };
   });
 
