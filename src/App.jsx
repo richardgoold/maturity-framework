@@ -4148,19 +4148,6 @@ export default function App() {
     }
     prevTierRef.current = next;
   }, [profile?.tier]);
-
-  const [upgradeToast, setUpgradeToast] = useState(false);
-  const prevTierRef = useRef(profile?.tier);
-
-  useEffect(() => {
-    const prev = prevTierRef.current;
-    const next = profile?.tier;
-    if (prev === 'free' && next === 'premium') {
-      setUpgradeToast(true);
-      setTimeout(() => setUpgradeToast(false), 10000);
-    }
-    prevTierRef.current = next;
-  }, [profile?.tier]);
   useEffect(() => { saveState(state); }, [state]);
   // Debounced Supabase sync for assessment ratings
   useEffect(() => {
