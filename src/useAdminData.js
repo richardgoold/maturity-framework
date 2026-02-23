@@ -37,15 +37,10 @@ export function useAdminData() {
       if (contactsRes.error) throw contactsRes.error;
       // audit_log and app_config might not exist yet â graceful fallback
 
-      // Filter out system/demo accounts from admin views
-      const SYSTEM_EMAILS = ['admin@growthlens.app', 'demo@growthlens.app', 'richard@gooldy.com'];
-      const allUsers = usersRes.data || [];
-      const systemIds = new Set(
-        allUsers.filter(u => SYSTEM_EMAILS.includes(u.email)).map(u => u.id)
-      );
-      setUsers(allUsers.filter(u => !SYSTEM_EMAILS.includes(u.email)));
-      setFirms((firmsRes.data || []).filter(f => !systemIds.has(f.user_id)));
-      setAssessments((assessmentsRes.data || []).filter(a => !systemIds.has(a.user_id)));
+      // Show all users, firms, and assessments in admin views
+      setUsers(usersRes.data || []);
+      setFirms(firmsRes.data || []);
+      setAssessments(assessmentsRes.data || []);
       setContacts(contactsRes.data || []);
       setAuditLog(auditRes.data || []);
 
