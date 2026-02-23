@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #463] — 23 February 2026
+### Changes
+- Fix demo banner: use selectedFirm?.isDemo for FirmDetailView prop
+
+---
+
+
 ## [Build #462] — 23 February 2026
 ### Changes
 - Fix demo banner: pass isDemo prop to FirmDetailView
