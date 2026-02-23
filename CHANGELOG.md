@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #459] — 23 February 2026
+### Changes
+- Standardise terminology: dimension to theme in gating.js
+
+---
+
+
 ## [Build #458] — 23 February 2026
 ### Changes
 - Standardise terminology: dimensions to themes in index.html meta tags
