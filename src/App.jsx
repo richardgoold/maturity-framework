@@ -3124,7 +3124,6 @@ function GapAnalysisPanel({ themeGaps }) {
         ))}
       </div>
     </div>
-    </div>
   );
 }
 
