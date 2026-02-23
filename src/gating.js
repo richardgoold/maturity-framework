@@ -26,7 +26,7 @@ export const PREMIUM_FEATURES = {
   },
   comparison: {
     label: 'Assessment Comparison',
-    desc: 'Compare multiple assessments over time to track your firm\'s progress and see trends across every dimension.',
+    desc: 'Compare multiple assessments over time to track your firm\'s progress and see trends across every theme.',
   },
 };
 
