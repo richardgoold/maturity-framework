@@ -4114,6 +4114,18 @@ export default function App() {
   const [pwSuccess, setPwSuccess] = useState(false);
   const [pwLoading, setPwLoading] = useState(false);
   const [pwShowNew, setPwShowNew] = useState(false);
+  const [upgradeToast, setUpgradeToast] = useState(false);
+  const prevTierRef = useRef(profile?.tier);
+
+  useEffect(() => {
+    const prev = prevTierRef.current;
+    const next = profile?.tier;
+    if (prev === 'free' && next === 'premium') {
+      setUpgradeToast(true);
+      setTimeout(() => setUpgradeToast(false), 10000);
+    }
+    prevTierRef.current = next;
+  }, [profile?.tier]);
   useEffect(() => { saveState(state); }, [state]);
   // Debounced Supabase sync for assessment ratings
   useEffect(() => {
@@ -4389,6 +4401,16 @@ export default function App() {
 
   return (
     <div className="h-screen flex flex-col bg-[#f9f9f9]" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
+      {upgradeToast && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-6 py-4 rounded-xl shadow-2xl max-w-lg animate-bounce-once">
+          <span className="text-2xl flex-shrink-0">&#11088;</span>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-sm">You've been upgraded to Premium!</p>
+            <p className="text-xs opacity-90 mt-0.5">All features are now unlocked — no need to log out.</p>
+          </div>
+          <button onClick={() => setUpgradeToast(false)} className="flex-shrink-0 ml-2 text-white/80 hover:text-white text-lg font-bold leading-none">&times;</button>
+        </div>
+      )}
       {showChangePassword && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50" onClick={() => { setShowChangePassword(false); setPwForm({ current: "", new_pw: "", confirm: "" }); setPwError(""); setPwSuccess(false); }}>
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6" onClick={e => e.stopPropagation()}>
