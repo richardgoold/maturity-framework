@@ -4,6 +4,14 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #446] — 23 February 2026
+### Changes
+- Fix duplicate upgrade toast declaration
+- Add premium upgrade in-app toast notification
+
+---
+
+
 ## [Build #444] — 23 February 2026
 ### Changes
 - Add demo banners, fix garbled chars in Explore Demo Firms
