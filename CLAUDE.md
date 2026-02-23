@@ -7,7 +7,7 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 848e847 - "Hide Legal & Compliance and Financial Advisory benchmark profiles"
+- **Latest commit:** 7ae6c45 - "Add theme icon to ScenarioPanel slider labels"
 - **Last updated:** 23 February 2026
 
 ## Tech Stack
@@ -249,6 +249,7 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+7ae6c45  Add theme icon to ScenarioPanel slider labels (Build #451, 23 Feb 2026)
 848e847  Hide Legal & Compliance and Financial Advisory benchmark profiles (Build #449, 23 Feb 2026)
 0c4ae66  Add metric-level benchmarks, theme trend lines, gap analysis enhancements (Build #447, 23 Feb 2026)
          Fix duplicate upgrade toast declaration (Build #446)
@@ -382,15 +383,8 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 
 ## Known Issues and Deferred Items
 
-- **Theme icons throughout the app** — FRAMEWORK data has icon properties but not rendered everywhere
-- **Continuous scrolling assess tab** — Currently discrete theme-by-theme navigation
-- **Export button layout** — Third button spans full width on second row
-- **Consistent theme colours** — Not applied throughout all views
+(No current known issues — all previously tracked items resolved as of 23 Feb 2026)
 
 ## Potential Future Enhancements
 
-- Render theme icons in heatmap, gap analysis, and theme headers
-- Continuous scrolling assessment tab
-- Consistent theme-specific accent colours
-- Equalise all export buttons on a single row
 - Sector-specific benchmark adjustments (Legal & Compliance, Financial Advisory profiles hidden, ready to unhide; metric-level benchmarks for sector profiles deferred)
