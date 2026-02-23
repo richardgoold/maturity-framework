@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #441] — 23 February 2026
+### Changes
+- Show demo firms to all authenticated users
+
+---
+
+
 ## [Build #440] — 23 February 2026
 ### Changes
 - Fix garbled UTF-8 characters in score legend
