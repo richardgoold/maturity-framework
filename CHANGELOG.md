@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #464] — 23 February 2026
+### Changes
+- Update CLAUDE.md: terminology standardisation, demo banner fix, commit history
+
+---
+
+
 ## [Build #463] — 23 February 2026
 ### Changes
 - Fix demo banner: use selectedFirm?.isDemo for FirmDetailView prop
