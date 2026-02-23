@@ -2753,7 +2753,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <button onClick={() => setShowDemos(!showDemos)} className="flex items-center gap-2 w-full text-left px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors">
             <Eye size={16} className="text-gray-400" />
             <span className="text-sm font-medium text-gray-600">Explore Demo Firms</span>
-            <span className="text-xs text-gray-400 ml-1">â see example assessments</span>
+            <span className="text-xs text-gray-400 ml-1">- see example assessments</span>
             <ChevronDown size={16} className={`text-gray-400 ml-auto transition-transform ${showDemos ? "rotate-180" : ""}`} />
           </button>
           {showDemos && (
@@ -2789,7 +2789,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
 }
 
 
-function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack, userTier }) {
+function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack, userTier, isDemo }) {
   const { isPremium } = useAuth();
   const { openContactModal } = useContactModal();
   const [showAssessLimitModal, setShowAssessLimitModal] = useState(false);
@@ -2799,7 +2799,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   const isFree = userTier !== "premium";
   const FREE_ASSESSMENT_LIMIT = 1;
-  const atAssessmentLimit = isFree && firmAssessments.length >= FREE_ASSESSMENT_LIMIT;
+  const atAssessmentLimit = !isDemo && isFree && firmAssessments.length >= FREE_ASSESSMENT_LIMIT;
 
   const handleCreateWithTemplate = (templateRatings) => {
     onCreateAssessment(firm.id, templateRatings);
@@ -2837,6 +2837,17 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         )}
       </div>
 
+      {isDemo && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
+          <div className="flex items-start gap-3">
+            <Eye size={20} className="text-blue-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <h4 className="text-sm font-semibold text-gray-800">Demo Firm</h4>
+              <p className="text-xs text-gray-600 mt-1">This is a sample firm for demonstration purposes. Explore the assessment and dashboard to see how GrowthLens works. Create your own firm to get started with your assessment.</p>
+            </div>
+          </div>
+        </div>
+      )}
       {atAssessmentLimit && (
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-3">
           <div className="flex items-start gap-3">
@@ -2923,7 +2934,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   );
 }
 
-function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence, onGuidance, userTier }) {
+function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, onEvidence, onGuidance, userTier, isDemo }) {
   const { openContactModal } = useContactModal();
   useEffect(() => { track("Assessment Started"); }, []);
   const [selectedTheme, setSelectedTheme] = useState(FRAMEWORK.themes[0].id);
@@ -2933,7 +2944,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
   const isComplete = scores.ratedCount === scores.totalMetrics && scores.totalMetrics > 0;
   const daysSinceCreation = assessment.createdAt ? Math.floor((Date.now() - new Date(assessment.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0;
   const isTimeLocked = isFree && daysSinceCreation >= 7;
-  const isLocked = isFree && (isComplete || isTimeLocked);
+  const isLocked = isDemo || (isFree && (isComplete || isTimeLocked));
   const isScrollingRef = useRef(false);
   const [assessBannerDismissed, setAssessBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_assess_banner') === '1');
 
@@ -2977,7 +2988,16 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
           </div>
         </div>
         
-        {isLocked && (
+        {isDemo && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 flex items-center gap-3">
+            <Eye size={18} className="text-blue-500 flex-shrink-0" />
+            <div>
+              <span className="text-sm font-semibold text-gray-800">Demo Assessment</span>
+              <p className="text-xs text-gray-500 mt-0.5">This is a sample assessment for demonstration purposes. Ratings are read-only.</p>
+            </div>
+          </div>
+        )}
+        {isLocked && !isDemo && (
           <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
             <div className="flex items-center gap-3">
               <Lock size={16} className="text-amber-600 flex-shrink-0" />
@@ -4572,13 +4592,13 @@ export default function App() {
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
       {view === "firms" && !selectedFirmId && (
-          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} userTier={profile?.tier} />
+          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} isDemo={selectedFirm?.isDemo} userTier={profile?.tier} />
         )}
         {view === "firmDetail" && selectedFirm && (
           <FirmDetailView firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} userTier={profile?.tier} />
         )}
         {view === "assess" && selectedAssessment && (
-          <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} onEvidence={handleEvidence} onGuidance={() => setView("guidance")} userTier={profile?.tier} />
+          <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} onEvidence={handleEvidence} onGuidance={() => setView("guidance")} isDemo={selectedFirm?.isDemo} userTier={profile?.tier} />
         )}
         {view === "dashboard" && (dashboardAssessment || selectedAssessment) && (
           <DashboardView
