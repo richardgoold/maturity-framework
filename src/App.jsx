@@ -3083,7 +3083,10 @@ function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
             </div>
             <div className="text-center sm:text-left">
               <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">M&A Readiness Score</div>
-              <p className="text-xs text-gray-500 max-w-xs">Weighted composite of all 57 metric scores across 10 growth themes"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+              <p className="text-xs text-gray-500 max-w-xs">Weighted composite of all 57 metric scores across 10 growth themes</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <div className="flex items-center gap-2 mb-1">
         <Target size={18} className="text-amber-600" />
         <h3 className="text-lg font-semibold text-slate-900">Readiness Gap Analysis</h3>
