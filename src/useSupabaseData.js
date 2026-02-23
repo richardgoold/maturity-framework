@@ -49,6 +49,7 @@ export function useSupabaseData() {
         name: f.name,
         sector: f.sector,
         createdAt: f.created_at,
+        isDemo: f.is_demo || false,
       }));
 
       const assessments = {};
