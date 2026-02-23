@@ -7,7 +7,7 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 0c4ae66 - "Add metric-level benchmarks, theme trend lines, gap analysis enhancements"
+- **Latest commit:** 848e847 - "Hide Legal & Compliance and Financial Advisory benchmark profiles"
 - **Last updated:** 23 February 2026
 
 ## Tech Stack
@@ -127,7 +127,7 @@ WHERE email = 'demo@growthlens.app';
 
 - **Imports:** React, Recharts, Lucide icons (including Lock, Eye, EyeOff)
 - **FRAMEWORK constant (~lines 16-400):** All 10 themes with 57 metrics (each metric has a `benchmark` property — M&A-Ready target %)
-- **BENCHMARK_PROFILES constant:** M&A-Ready benchmark percentages per theme (7 profiles: M&A-Ready, Top Decile, Industry Average, Consulting, Technology Services, Legal & Compliance, Financial Advisory)
+- **BENCHMARK_PROFILES constant:** M&A-Ready benchmark percentages per theme (7 profiles defined, 5 visible via VISIBLE_PROFILES: M&A-Ready, Top Decile, Industry Average, Consulting, Technology Services; Legal & Compliance and Financial Advisory hidden for future use)
 - **Helper functions:** calculateScores, getStrengths, getImprovements, etc.
 - **UI Components:** MetricCard, ThemeSidebar, HeatmapGrid, StrengthsWeaknesses, ExportPanel, RadarOverview, BenchmarkComparison, ImprovementRoadmap, TrendAnalysisPanel, ScoreChangePanel, TemplateSelector, Breadcrumbs
 - **Views:** FirmListView, FirmDetailView, AssessmentView, DashboardView, InsightsView, ConnectView, GuidancePage
@@ -249,6 +249,7 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+848e847  Hide Legal & Compliance and Financial Advisory benchmark profiles (Build #449, 23 Feb 2026)
 0c4ae66  Add metric-level benchmarks, theme trend lines, gap analysis enhancements (Build #447, 23 Feb 2026)
          Fix duplicate upgrade toast declaration (Build #446)
          Add premium upgrade toast notification (Build #445)
@@ -392,4 +393,4 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 - Continuous scrolling assessment tab
 - Consistent theme-specific accent colours
 - Equalise all export buttons on a single row
-- Sector-specific benchmark adjustments
+- Sector-specific benchmark adjustments (Legal & Compliance, Financial Advisory profiles hidden, ready to unhide; metric-level benchmarks for sector profiles deferred)
