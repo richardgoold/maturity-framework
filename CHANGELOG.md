@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #439] — 23 February 2026
+### Changes
+- Fix AnimatedCounter: use ref instead of state to prevent re-render loop
+
+---
+
+
 ## [Build #438] — 23 February 2026
 ### Changes
 - Update upgrade email: features now active in real-time
