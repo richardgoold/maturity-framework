@@ -3086,6 +3086,7 @@ function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
       <p className="text-xs text-gray-500 max-w-xs">Weighted composite of all 57 metric scores across 10 growth themes.</p>
     </div>
   </div>
+    </div>
   );
 }
 
@@ -3122,6 +3123,7 @@ function GapAnalysisPanel({ themeGaps }) {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }
