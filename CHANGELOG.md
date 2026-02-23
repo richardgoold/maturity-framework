@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #461] — 23 February 2026
+### Changes
+- Hide Free plan banner on demo firms: add !isDemo guard
+
+---
+
+
 ## [Build #460] — 23 February 2026
 ### Changes
 - Standardise terminology: Dimension to Theme in AdminDashboard.jsx
