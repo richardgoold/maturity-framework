@@ -2710,8 +2710,8 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
       {/* Score Legend */}
       <div className="flex items-center gap-4 mb-4 px-1">
         <span className="text-xs text-gray-400 font-medium">Score:</span>
-        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>â¥66% On Track</span>
-        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>33â65% Developing</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>>=66% On Track</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>33-65% Developing</span>
         <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;33% Early Stage</span>
       </div>
 
