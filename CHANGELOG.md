@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #453] — 23 February 2026
+### Changes
+- Add icon data to BenchmarkComparison chart
+
+---
+
+
 ## [Build #452] — 23 February 2026
 ### Changes
 - Update CLAUDE.md: clear resolved issues, update commit history
