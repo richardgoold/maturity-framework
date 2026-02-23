@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #460] — 23 February 2026
+### Changes
+- Standardise terminology: Dimension to Theme in AdminDashboard.jsx
+
+---
+
+
 ## [Build #459] — 23 February 2026
 ### Changes
 - Standardise terminology: dimension to theme in gating.js
