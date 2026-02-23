@@ -3354,7 +3354,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
               return (
                 <div key={theme.id} className="p-2 bg-gray-50 rounded-lg">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs font-medium truncate" style={{color: theme.color}}>{theme.name}</span>
+                    <span className="text-xs font-medium truncate flex items-center gap-1" style={{color: theme.color}}>{getThemeIcon(theme.icon, 11)}{theme.name}</span>
                     <span className="text-xs font-bold" style={{color: sliders[theme.id] !== current ? "#2563EB" : "#6B7280"}}>{sliders[theme.id]}%</span>
                   </div>
                   <input type="range" min="0" max="100" value={sliders[theme.id]} onChange={e => { setHasInteracted(true); setSliders(p => ({...p, [theme.id]: parseInt(e.target.value)})); }} className="w-full h-1.5 bg-gray-300 rounded-lg appearance-none cursor-pointer" style={{accentColor: theme.color}}/>
