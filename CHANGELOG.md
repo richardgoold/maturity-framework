@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #423] — 23 February 2026
+### Changes
+- Filter out demo firms and assessments from admin dashboard
+
+---
+
+
 ## [Build #422] — 23 February 2026
 ### Changes
 - Remove system email filter that was hiding all firms from admin
