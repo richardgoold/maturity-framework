@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #442] — 23 February 2026
+### Changes
+- Add theme icons and accent colours to StrengthsWeaknesses and ImprovementRoadmap
+
+---
+
+
 ## [Build #441] — 23 February 2026
 ### Changes
 - Show demo firms to all authenticated users
