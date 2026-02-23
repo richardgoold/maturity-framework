@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #447] — 23 February 2026
+### Changes
+- Add metric-level benchmarks, theme trend lines, gap analysis enhancements
+
+---
+
+
 ## [Build #446] — 23 February 2026
 ### Changes
 - Fix duplicate upgrade toast declaration
