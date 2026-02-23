@@ -140,9 +140,9 @@ function buildUpgradeHtml(greeting: string): string {
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px; background-color:#fef9f0; border-radius:8px; border-left:4px solid #f2a71b;">
                 <tr>
                   <td style="padding:20px 24px;">
-                    <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#1a1a2e;">To activate your Premium access:</p>
+                    <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#1a1a2e;">Your Premium features are already active!</p>
                     <p style="margin:0; font-size:14px; color:#4a5568; line-height:1.6;">
-                      Please <strong>log out</strong> of GrowthLens and <strong>log back in</strong>. Your Premium features will be available immediately on your next login.
+                      If you have GrowthLens open, you’ll see a notification confirming the upgrade. Otherwise, just <strong>log in as usual</strong> — everything is ready.
                     </p>
                   </td>
                 </tr>
