@@ -1923,7 +1923,7 @@ function StrengthsWeaknesses({ ratings }) {
   const scored = [];
   FRAMEWORK.themes.forEach(t => t.metrics.forEach(m => {
     const r = ratings[m.id];
-    if (r?.level && m.weight > 0) scored.push({ ...m, level: r.level, theme: t.name, themeColor: t.color, weightedScore: r.level * m.weight });
+    if (r?.level && m.weight > 0) scored.push({ ...m, level: r.level, theme: t.name, themeColor: t.color, themeIcon: t.icon, weightedScore: r.level * m.weight });
   }));
   scored.sort((a, b) => b.weightedScore - a.weightedScore);
   const strengths = scored.filter(m => m.level >= 2.5).slice(0, 5);
@@ -1935,8 +1935,8 @@ function StrengthsWeaknesses({ ratings }) {
         <h3 className="text-sm font-bold text-green-700 mb-2 flex items-center gap-1"><Award size={14} /> Top Strengths</h3>
         <p className="text-xs text-green-600 opacity-70 mb-1 -mt-1">Ranked by weighted contribution (score × importance)</p>
         {strengths.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see strengths</p> : strengths.map((m, i) => (
-          <div key={i} className="flex items-center justify-between py-1.5 border-b border-green-50 last:border-0">
-            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1 inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
+          <div key={i} className="flex items-center justify-between py-1.5 border-b border-green-50 last:border-0 pl-2 border-l-2" style={{borderLeftColor: m.themeColor + "40"}}>
+            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1 inline-flex items-center gap-1">{getThemeIcon(m.themeIcon, 11, "shrink-0")} <span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
             <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
@@ -1945,8 +1945,8 @@ function StrengthsWeaknesses({ ratings }) {
         <h3 className="text-sm font-bold text-red-700 mb-2 flex items-center gap-1"><AlertCircle size={14} /> Key Improvement Areas</h3>
         <p className="text-xs text-red-600 opacity-70 mb-1 -mt-1">Ranked by improvement potential — highest impact first</p>
         {weaknesses.length === 0 ? <p className="text-xs text-gray-400 italic">Rate metrics to see areas for improvement</p> : weaknesses.map((m, i) => (
-          <div key={i} className="flex items-center justify-between py-1.5 border-b border-red-50 last:border-0">
-            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1 inline-flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
+          <div key={i} className="flex items-center justify-between py-1.5 border-b border-red-50 last:border-0 pl-2 border-l-2" style={{borderLeftColor: m.themeColor + "40"}}>
+            <div><span className="text-xs font-medium text-gray-700">{m.name}</span><span className="text-xs text-gray-400 ml-1 inline-flex items-center gap-1">{getThemeIcon(m.themeIcon, 11, "shrink-0")} <span className="w-1.5 h-1.5 rounded-full inline-block shrink-0" style={{backgroundColor: m.themeColor}} />{m.theme}</span></div>
             <div className="flex items-center gap-1.5 shrink-0"><span className="text-xs font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded-full">{m.level}/3</span><span className="text-xs text-gray-400 font-medium">wt ×{m.weight}</span></div>
           </div>
         ))}
@@ -3201,7 +3201,7 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
       if (val === null || val === undefined) return;
       const pct = Math.round((val / 3) * 100);
       const gap = benchmark - pct;
-      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), level: val, action: metric.improvementAction, evolving: metric.evolving, optimised: metric.optimised, themeColor: theme.color });
+      if (gap > 0) items.push({ metric, theme: theme.name, pct: Math.round(pct), benchmark, gap: Math.round(gap), level: val, action: metric.improvementAction, evolving: metric.evolving, optimised: metric.optimised, themeColor: theme.color, themeIcon: theme.icon });
     });
   });
     // Weighted priority: gap * metric weight for smarter prioritisation
@@ -3228,9 +3228,9 @@ function ImprovementRoadmap({ assessment, benchmarkProfile }) {
       {expandedGroup === id && groupItems.length > 0 && (
         <div className="p-3 space-y-3 bg-gray-50">
           {groupItems.map((item, idx) => (
-            <div key={idx} className="bg-white p-4 rounded-lg border border-gray-200">
+            <div key={idx} className="bg-white p-4 rounded-lg border border-gray-200 border-l-3" style={{borderLeftColor: item.themeColor}}>
               <div className="flex justify-between items-start mb-2">
-                <div><p className="font-medium">{item.metric.name}</p><p className="text-xs text-gray-500 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{backgroundColor: item.themeColor}} />{item.theme} · wt ×{item.metric.weight}</p></div>
+                <div><p className="font-medium">{item.metric.name}</p><p className="text-xs text-gray-500 flex items-center gap-1">{getThemeIcon(item.themeIcon, 11, "shrink-0")} <span className="w-1.5 h-1.5 rounded-full inline-block" style={{backgroundColor: item.themeColor}} />{item.theme} · wt ×{item.metric.weight}</p></div>
                 <span className="text-lg font-bold" style={{color: borderColor}}>{item.pct}%</span>
               </div>
               <div className="mb-2"><div className="flex justify-between text-xs text-gray-500 mb-1"><span>Current</span><span>Target: {item.benchmark}%</span></div>
