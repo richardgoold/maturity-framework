@@ -1279,12 +1279,14 @@ export const calcScores = (ratings, benchmarkObj) => {
       const benchPct = bm[theme.id] || 65;
       const tw = theme.metrics.reduce((s, m) => s + (m.weight || 100), 0);
       const currentPct = ts ? ts.pct : 0;
-      readyWeightedSum += Math.min(currentPct / benchPct, 1) * 100 * tw;
+      readyWeightedSum += Math.min(currentPct / benchPct, 1) * tw;
       readyTotalWeight += tw;
       themeGaps.push({ themeId: theme.id, themeName: theme.name, color: theme.color, current: currentPct, target: benchPct, gap: benchPct - currentPct });
     });
-    const readinessScore = readyTotalWeight > 0 ? Math.round(readyWeightedSum / readyTotalWeight) : 0;
-    const readinessLevel = readinessScore >= 95 ? "M&A Ready" : readinessScore >= 80 ? "Nearly Ready" : readinessScore >= 60 ? "In Progress" : readinessScore >= 40 ? "Early Stage" : "Foundational";
+    const benchmarkAlignment = readyTotalWeight > 0 ? Math.round((readyWeightedSum / readyTotalWeight) * 100) : 0;
+    // M&A Readiness Score uses the raw overall percentage (not benchmark-relative)
+    const readinessScore = totalMaxPossible > 0 ? Math.round((totalScore / totalMaxPossible) * 100) : 0;
+    const readinessLevel = readinessScore >= 90 ? "M&A Ready" : readinessScore >= 75 ? "Nearly Ready" : readinessScore >= 55 ? "In Progress" : readinessScore >= 35 ? "Early Stage" : "Foundational";
     themeGaps.sort((a, b) => b.gap - a.gap);
 
   return {
@@ -1296,6 +1298,7 @@ export const calcScores = (ratings, benchmarkObj) => {
       totalMetrics,
       readinessScore,
       readinessLevel,
+      benchmarkAlignment,
       themeGaps
   };
 };
@@ -1600,7 +1603,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
 
 function ScoreGauge({ score, max, label }) {
   const pct = max > 0 ? (score / max) * 100 : 0;
-  const color = pct >= 80 ? "#16A34A" : pct >= 40 ? "#D97706" : "#DC2626";
+  const color = pct >= 66 ? "#16A34A" : pct >= 33 ? "#D97706" : "#DC2626";
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-36 h-36">
@@ -2647,135 +2650,121 @@ function LandingPage({ onGetStarted }) {
   );
 }
 function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem, userTier }) {
-  const { isPremium , isAdmin } = useAuth();
-  const navigate = useNavigate();
-  const { openContactModal } = useContactModal();
-  const [showLimitModal, setShowLimitModal] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-    const [sortBy, setSortBy] = useState("date");
+  const [showDemos, setShowDemos] = useState(false);
   const [name, setName] = useState("");
   const [sector, setSector] = useState("");
 
-  const FREE_FIRM_LIMIT = 1;
-  const userFirms = firms.filter(f => !f.isDemo);
-  const isFree = userTier !== "premium";
-  const atFirmLimit = isFree && userFirms.length >= FREE_FIRM_LIMIT;
+  // Split user firms from demo firms
+  const userFirm = firms.find(f => !f.isDemo);
+  const demoFirms = firms.filter(f => f.isDemo);
+  const hasFirm = !!userFirm;
+
   const handleCreate = () => {
     if (!name.trim()) return;
     onCreateFirm({ id: genId(), name: name.trim(), sector: sector.trim(), createdAt: new Date().toISOString() });
     setName(""); setSector(""); setShowCreate(false);
   };
 
+  // Render a firm card (shared between user firm and demo firms)
+  const renderFirmCard = (firm, isDemo = false) => {
+    const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id);
+    const latest = firmAssessments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+    const latestScores = latest ? calcScores(latest.ratings) : null;
+    return (
+      <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 33 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
+              {firm.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">{firm.name}</h3>
+              <p className="text-xs text-gray-400">{firm.sector || "Professional Services"}{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            {latestScores && (
+              <div className="text-right">
+                <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 33 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
+                <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
+              </div>
+            )}
+            {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
+            {!isDemo && <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm"><Trash2 size={14} /></button>}
+            <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Firms</h1>
-          <p className="text-sm text-gray-500 mt-1">Select a firm to assess or create a new one</p>
-        </div>
-        <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxFirms; if (firms.filter(f => !f.id.startsWith('demo_')).length >= limit) { setShowLimitModal(true); return; } setShowCreate(true); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
-        {atFirmLimit ? (
-          <div className="flex items-center gap-2 bg-gray-100 text-gray-500 px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 cursor-default" title="Free plan includes 1 firm of your own. Upgrade for unlimited.">
-            <Shield size={16} /> Firm Limit Reached
-          </div>
-        ) : (
-          <button onClick={() => setShowCreate(true)} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] transition-colors">
-            <Plus size={16} /> New Firm
-          </button>
-        )}
-        </button>
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Your Firm</h1>
+        <p className="text-sm text-gray-500 mt-1">Assess your firm's M&A readiness across 57 metrics</p>
       </div>
 
-      {atFirmLimit && (
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
-          <div className="flex items-start gap-3">
-            <Shield size={20} className="text-amber-600 mt-0.5 flex-shrink-0" />
-            <div>
-              <h4 className="text-sm font-semibold text-gray-800">Free plan — 1 firm of your own</h4>
-              <p className="text-xs text-gray-600 mt-1">The demo firms are there to explore — your free account also lets you create one firm of your own. Upgrade to Premium for unlimited firms and full reporting.</p>
-              <button onClick={openContactModal} className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-700 hover:text-amber-900 transition-colors">
-                <Mail size={12} /> Contact us about upgrading
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Score Legend */}
+      <div className="flex items-center gap-4 mb-4 px-1">
+        <span className="text-xs text-gray-400 font-medium">Score:</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>â¥66% On Track</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>33â65% Developing</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;33% Early Stage</span>
+      </div>
 
-      {showCreate && !atFirmLimit && (
-        <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-4 mb-4 shadow-sm">
-          <h3 className="text-sm font-bold text-gray-700 mb-3">Create New Firm</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-            <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" autoFocus />
-            <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" />
-          </div>
-          <div className="flex gap-2">
-            <button onClick={handleCreate} className="bg-[#f2a71b] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-[#d9950f]">Create</button>
-            <button onClick={() => setShowCreate(false)} className="text-gray-500 px-4 py-1.5 rounded text-sm hover:bg-gray-100">Cancel</button>
-          </div>
-        </div>
-      )}
-
-      {firms.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
-          <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Welcome to GrowthLens</h3>
-          <p className="text-gray-500 mb-6">Create your first firm to begin an M&A readiness assessment.</p>
-          <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
-            <Plus size={16} /> Create Your First Firm
-          </button>
+      {/* Your Firm Section */}
+      {hasFirm ? (
+        <div className="mb-6">
+          {renderFirmCard(userFirm, false)}
         </div>
       ) : (
-        <>
-        <div className="flex items-center gap-4 mb-3 px-1">
-          <span className="text-xs text-gray-400 font-medium">Score:</span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#16A34A"}}></span>≥80% On Track</span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#D97706"}}></span>40–79% Developing</span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#DC2626"}}></span>&lt;40% Early Stage</span>
-        </div>
-        <div className="flex items-center justify-end mb-2">
-              <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-600 bg-white focus:outline-none focus:ring-1 focus:ring-amber-400">
-                <option value="date">Date added</option>
-                <option value="name">Name A\u2013Z</option>
-                <option value="sector">Sector</option>
-                <option value="recent">Recently updated</option>
-              </select>
-            </div>
-          <div className="space-y-2">
-          {[...firms].sort((a, b) => { if (sortBy === "name") return a.name.localeCompare(b.name); if (sortBy === "sector") return (a.sector || "").localeCompare(b.sector || ""); if (sortBy === "recent") { const aDate = Object.values(assessments).filter(x => x.firmId === a.id).map(x => x.date).sort().pop() || ""; const bDate = Object.values(assessments).filter(x => x.firmId === b.id).map(x => x.date).sort().pop() || ""; return bDate.localeCompare(aDate); } return 0; }).map(firm => {
-            const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id);
-            const latest = firmAssessments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-            const latestScores = latest ? calcScores(latest.ratings) : null;
-            return (
-              <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 80 ? "#16A34A" : latestScores.pct >= 40 ? "#D97706" : "#DC2626") : "#4e5b73" }}>
-                      {firm.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-800">{firm.name}{firm.id.startsWith("demo_") && <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">DEMO</span>}</h3>
-                      <p className="text-xs text-gray-400">{firm.id.startsWith("demo_") ? <span className="text-amber-600 font-medium">Explore all Pro features with this demo firm</span> : <>{firm.sector || "No sector"} &middot; {firmAssessments.length} assessment{firmAssessments.length !== 1 ? "s" : ""}{latest ? ` \u00B7 ${new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""}</>}{latestScores ? ` · ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : ""}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    {latestScores && (
-                      <div className="text-right">
-                        <div className="text-lg font-bold" style={{ color: latestScores.pct >= 80 ? "#16A34A" : latestScores.pct >= 40 ? "#D97706" : "#DC2626" }}>{latestScores.pct}%</div>
-                      </div>
-                    )}
-                    {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
-{!firm.id.startsWith("demo_") &&                     <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm">
-                      <Trash2 size={14} />
-                    </button>}
-                    <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
-                  </div>
-                </div>
+        <div className="mb-6">
+          {showCreate ? (
+            <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-5 shadow-sm">
+              <h3 className="text-sm font-bold text-gray-700 mb-3">Create Your Firm</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" autoFocus />
+                <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" />
               </div>
-            );
-          })}
+              <div className="flex gap-2">
+                <button onClick={handleCreate} className="bg-[#f2a71b] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-[#d9950f]">Create</button>
+                <button onClick={() => setShowCreate(false)} className="text-gray-500 px-4 py-1.5 rounded text-sm hover:bg-gray-100">Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+              <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Get started</h3>
+              <p className="text-gray-500 mb-6">Create your firm to begin an M&A readiness assessment.</p>
+              <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
+                <Plus size={16} /> Create Your Firm
+              </button>
+            </div>
+          )}
         </div>
-        </>
       )}
+
+      {/* Demo Firms Section */}
+      {demoFirms.length > 0 && (
+        <div className="mt-2">
+          <button onClick={() => setShowDemos(!showDemos)} className="flex items-center gap-2 w-full text-left px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors">
+            <Eye size={16} className="text-gray-400" />
+            <span className="text-sm font-medium text-gray-600">Explore Demo Firms</span>
+            <span className="text-xs text-gray-400 ml-1">â see example assessments</span>
+            <ChevronDown size={16} className={`text-gray-400 ml-auto transition-transform ${showDemos ? "rotate-180" : ""}`} />
+          </button>
+          {showDemos && (
+            <div className="mt-2 space-y-2">
+              {demoFirms.map(firm => renderFirmCard(firm, true))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Recently Deleted */}
       {recentlyDeleted.length > 0 && (
         <details className="mt-6">
           <summary className="flex items-center gap-2 cursor-pointer text-sm text-gray-500 hover:text-gray-700">
@@ -2795,10 +2784,10 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           </div>
         </details>
       )}
-      <LimitModal isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} onUpgrade={openContactModal} type="firm" />
     </div>
   );
 }
+
 
 function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack, userTier }) {
   const { isPremium } = useAuth();
@@ -2826,15 +2815,11 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <p className="text-sm text-gray-500">{firm.sector || "Professional Services"}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {!atAssessmentLimit && (<>
-          <button onClick={() => setShowTemplates(!showTemplates)} title="Create a new assessment from a pre-built template" className="flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-gray-200">
-            <Copy size={16} /> From Template
-          </button>
-          <button onClick={() => { const tier = isPremium ? "premium" : "free"; const limit = TIER_LIMITS[tier].maxAssessmentsPerFirm; if (firmAssessments.length >= limit) { setShowAssessLimitModal(true); return; } setOnboardingFirmId(firm.id); }} className="flex items-center gap-2 bg-[#f2a71b] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#d9950f] whitespace-nowrap">
-            <Plus size={16} /> New Assessment
-          </button>
-            </>
-          )}
+          {!atAssessmentLimit && firmAssessments.length === 0 && (
+                  <button onClick={() => setOnboardingFirmId(firm.id)} className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600 transition-colors shadow-sm">
+                    <Plus size={14} /> Start Assessment
+                  </button>
+                )}
         </div>
         {onboardingFirmId === firm.id && (
           <div style={{marginTop: "16px", padding: "20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.2)", borderRadius: "12px"}}>
@@ -2874,7 +2859,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         return (
           <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-3 mb-3 flex items-center gap-6">
             <div className="text-center">
-              <div className="text-2xl font-bold" style={{ color: s.pct >= 80 ? "#16A34A" : s.pct >= 40 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
+              <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
               <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and dimensions" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
@@ -2917,7 +2902,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <div className="text-lg font-bold" style={{ color: scores.pct >= 80 ? "#16A34A" : scores.pct >= 40 ? "#D97706" : "#DC2626" }}>{scores.pct}%</div>
+                      <div className="text-lg font-bold" style={{ color: scores.pct >= 66 ? "#16A34A" : scores.pct >= 33 ? "#D97706" : "#DC2626" }}>{scores.pct}%</div>
                       <div className="text-xs text-gray-400">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
                   <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
@@ -3098,17 +3083,7 @@ function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
             </div>
             <div className="text-center sm:text-left">
               <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">M&A Readiness Score</div>
-              <p className="text-xs text-gray-500 max-w-xs">Weighted composite of all dimension scores measured against M&A-Ready benchmarks.</p>
-            </div>
-          </div>
-    </div>
-  );
-}
-
-// ─── Gap Analysis Panel ─────────────────────────────────────────
-function GapAnalysisPanel({ themeGaps }) {
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+              <p className="text-xs text-gray-500 max-w-xs">Weighted composite of all 57 metric scores across 10 growth themes"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <div className="flex items-center gap-2 mb-1">
         <Target size={18} className="text-amber-600" />
         <h3 className="text-lg font-semibold text-slate-900">Readiness Gap Analysis</h3>
@@ -3475,8 +3450,8 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   {assessData.map((ad, i) => (
                     <div key={ad.id} className="text-center p-4 rounded-xl border-2 border-gray-200">
                       <div className="text-xs text-gray-500 mb-1 font-medium">{ad.date}</div>
-                      <div className="text-3xl font-bold" style={{color: ad.scores.readinessScore >= 80 ? "#059669" : ad.scores.readinessScore >= 60 ? "#D97706" : "#DC2626"}}>{ad.scores.readinessScore}%</div>
-                      <div className="text-xs text-gray-400 mt-1">Overall: {ad.scores.pct}%</div>
+                      <div className="text-3xl font-bold" style={{color: ad.scores.readinessScore >= 66 ? "#059669" : ad.scores.readinessScore >= 60 ? "#D97706" : "#DC2626"}}>{ad.scores.readinessScore}%</div>
+                      <div className="text-xs text-gray-400 mt-1">{ad.scores.readinessLevel}</div>
                       {i > 0 && (() => { const ch = ad.scores.readinessScore - assessData[i-1].scores.readinessScore; return <div className={`text-xs mt-1 font-medium ${ch >= 0 ? "text-green-600" : "text-red-600"}`}>{ch >= 0 ? "↑" : "↓"} {Math.abs(ch)}% from previous</div>; })()}
                     </div>
                   ))}
@@ -3582,7 +3557,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
         <label className="text-sm font-medium text-gray-600 whitespace-nowrap">Benchmark Profile:</label>
         <select value={benchmarkProfile || "M&A-Ready (PSF)"} onChange={e => onBenchmarkChange(e.target.value)} className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-[#f2a71b] focus:border-[#f2a71b]">
-          {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}{SECTOR_BENCHMARK_MAP[firmSector] === k ? " (auto-detected)" : ""}</option>)}
+          {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}</option>)}
         </select>
       </div>
       <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
@@ -3753,7 +3728,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           return (
             <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-2 text-center border-t-2 hover:shadow-md transition-all" style={{ borderTopColor: t.color }}>
               <div className="text-xs font-medium truncate" style={{ color: t.color }}>{t.name}</div>
-              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 80 ? "#16A34A" : pct >= 50 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%</div>
+              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 66 ? "#16A34A" : pct >= 33 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%</div>
             </div>
           );
         })}
