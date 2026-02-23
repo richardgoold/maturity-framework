@@ -903,8 +903,10 @@ const ENHANCED_GUIDANCE = {
 
 // Default benchmark for backward compatibility
 const BENCHMARKS = { "Professional Services": BENCHMARK_PROFILES["M&A-Ready (PSF)"] };
+// Profiles visible in UI (Legal & Compliance, Financial Advisory hidden for now)
+const VISIBLE_PROFILES = ["M&A-Ready (PSF)", "Top Decile", "Industry Average", "Consulting", "Technology Services"];
 // Map firm sectors to benchmark profile keys
-const SECTOR_BENCHMARK_MAP = { "Consulting": "Consulting", "Technology Services": "Technology Services", "Legal": "Legal & Compliance", "Legal & Compliance": "Legal & Compliance", "Financial Advisory": "Financial Advisory", "Financial Services": "Financial Advisory" };
+const SECTOR_BENCHMARK_MAP = { "Consulting": "Consulting", "Technology Services": "Technology Services" };
 
 // -----------------------------------------------------------------------
 // ASSESSMENT TEMPLATES - Pre-configured starting points
@@ -2220,7 +2222,7 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
     doc.addPage(); y = mg;
     doc.setFontSize(16); doc.setTextColor(27,79,114); doc.text("Benchmark Comparison", mg, y); y += 2;
     doc.setDrawColor(27,79,114); doc.setLineWidth(0.5); doc.line(mg, y, pw - mg, y); y += 8;
-    const profileNames = Object.keys(BENCHMARK_PROFILES);
+    const profileNames = VISIBLE_PROFILES;
     const benchHead = ["Theme", ...profileNames, "Your Score"];
     const benchBody = themeData.map(t => { const row = [t.name]; profileNames.forEach(p => row.push((BENCHMARK_PROFILES[p][t.id] || "-") + "%")); row.push(t.pct + "%"); return row; });
     doc.autoTable({ startY: y, head: [benchHead], body: benchBody, margin: { left: mg, right: mg }, styles: { fontSize: 7, cellPadding: 2 }, headStyles: { fillColor: [27,79,114] } });
@@ -3383,7 +3385,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
     ratings: a.ratings
   }));
   const latest = assessData[assessData.length - 1];
-  const profileNames = Object.keys(BENCHMARK_PROFILES);
+  const profileNames = VISIBLE_PROFILES;
   const benchCards = latest ? profileNames.map(name => {
     const s = calcScores(latest.ratings, BENCHMARK_PROFILES[name]);
     return { name, readiness: s.readinessScore, level: s.readinessLevel, pct: s.pct };
@@ -3602,7 +3604,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
         <label className="text-sm font-medium text-gray-600 whitespace-nowrap">Benchmark Profile:</label>
         <select value={benchmarkProfile || "M&A-Ready (PSF)"} onChange={e => onBenchmarkChange(e.target.value)} className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-[#f2a71b] focus:border-[#f2a71b]">
-          {Object.keys(BENCHMARK_PROFILES).map(k => <option key={k} value={k}>{k}</option>)}
+          {VISIBLE_PROFILES.map(k => <option key={k} value={k}>{k}</option>)}
         </select>
       </div>
       <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
