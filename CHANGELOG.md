@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #444] — 23 February 2026
+### Changes
+- Add demo banners, fix garbled chars in Explore Demo Firms
+
+---
+
+
 ## [Build #443] — 23 February 2026
 ### Changes
 - Responsive export buttons + smooth scroll improvements
