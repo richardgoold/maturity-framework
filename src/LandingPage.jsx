@@ -736,7 +736,7 @@ function FeaturesSection() {
               {[
                 'Full assessment across all 10 dimensions and 57 metrics',
                 'Dashboard with scores and gap analysis',
-                'Benchmark comparison against 7 profiles',
+                'Benchmark comparison against 5 profiles',
                 'Maturity heatmap across all growth dimensions',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
