@@ -3117,6 +3117,8 @@ function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
         ))}
       </div>
     </div>
+    </div>
+  </div>
   );
 }
 
