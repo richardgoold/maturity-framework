@@ -2260,7 +2260,7 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
       <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
         <Download size={14} /> Export Assessment
       </h3>
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <button onClick={() => { track("Export Exec Summary"); exportExecutiveSummary(assessment, firmName, firmSector, scores); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <ClipboardCheck size={20} />
@@ -2942,7 +2942,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
     isScrollingRef.current = true;
     const el = document.getElementById('theme-section-' + themeId);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(() => { isScrollingRef.current = false; }, 800);
+    setTimeout(() => { isScrollingRef.current = false; }, 1200);
   };
 
   useEffect(() => {
@@ -2962,8 +2962,8 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
   return (
     <div className="flex h-full">
       <ThemeSidebar themes={FRAMEWORK.themes} selectedTheme={selectedTheme} onSelect={handleJumpToTheme} scores={scores} />
-      <div ref={scrollRef} className="flex-1 overflow-y-auto min-w-0">
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto min-w-0" style={{scrollBehavior: "smooth"}}>
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3">
             <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={18} /></button>
             <h2 className="text-sm font-bold text-gray-800">Assessment</h2>
