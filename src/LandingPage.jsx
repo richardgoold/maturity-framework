@@ -388,7 +388,7 @@ function HeroSection() {
                         <span className="text-amber-400 text-[8px] font-bold">80% — Nearly Ready</span>
                       </div>
                       <div className="flex items-center justify-between mt-0.5">
-                        <span className="text-gray-500 text-[7px]">Dimensions above benchmark</span>
+                        <span className="text-gray-500 text-[7px]">Themes above benchmark</span>
                         <span className="text-green-400 text-[8px] font-bold">6 of 10</span>
                       </div>
                     </div>
@@ -464,11 +464,11 @@ function PreviewsSection() {
                     </div>
                   ))}
                 </div>
-                <p className="text-gray-400 text-[9px] mt-2">+ 5 more dimensions assessed</p>
+                <p className="text-gray-400 text-[9px] mt-2">+ 5 more themes assessed</p>
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              See exactly where your firm stands with scores across all 10 growth dimensions, benchmarked to industry standards
+              See exactly where your firm stands with scores across all 10 growth themes, benchmarked to industry standards
             </p>
           </div>
 
@@ -565,7 +565,7 @@ function PreviewsSection() {
               </div>
             </div>
             <p className="mt-4 text-center text-gray-500 text-sm leading-relaxed flex-1">
-              10 dimensions and 57 growth metrics with clear maturity level definitions and practical guidance
+              10 themes and 57 growth metrics with clear maturity level definitions and practical guidance
             </p>
           </div>
         </div>
@@ -578,7 +578,7 @@ function PreviewsSection() {
 function HowItWorksSection() {
   const steps = [
     { num: 1, title: 'Sign Up', desc: 'Create your free account in 30 seconds', icon: Users, tier: 'free' },
-    { num: 2, title: 'Baseline', desc: 'Rate your firm across 10 dimensions and 57 metrics', icon: Target, tier: 'free' },
+    { num: 2, title: 'Baseline', desc: 'Rate your firm across 10 themes and 57 metrics', icon: Target, tier: 'free' },
     { num: 3, title: 'Blueprint', desc: 'Compare against M&A-ready benchmarks and identify gaps', icon: BarChart3, tier: 'premium' },
     { num: 4, title: 'Navigate', desc: 'Expert-guided roadmap with strategic mentoring and quarterly recalibration', icon: TrendingUp, tier: 'premium' },
   ];
@@ -688,7 +688,7 @@ function StatsBar() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center">
             <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="10" /></p>
-       <p className="text-sm text-gray-400 mt-1">Growth Dimensions</p>
+       <p className="text-sm text-gray-400 mt-1">Growth Themes</p>
           </div>
           <div className="text-center">
             <p className="text-3xl sm:text-4xl font-bold text-amber-400"><AnimatedCounter target="57" /></p>
@@ -734,10 +734,10 @@ function FeaturesSection() {
             <p className="text-gray-600 mb-6">Everything you need to assess your firm's growth maturity</p>
             <ul className="space-y-3 mb-8">
               {[
-                'Full assessment across all 10 dimensions and 57 metrics',
+                'Full assessment across all 10 themes and 57 metrics',
                 'Dashboard with scores and gap analysis',
                 'Benchmark comparison against 5 profiles',
-                'Maturity heatmap across all growth dimensions',
+                'Maturity heatmap across all growth themes',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -1087,7 +1087,7 @@ function Footer() {
         <p><strong>Last updated:</strong> February 2026</p>
         <p>These terms govern your use of the GrowthLens platform. By accessing or using GrowthLens, you agree to be bound by these terms.</p>
         <p><strong>Service Description</strong></p>
-        <p>GrowthLens provides a maturity assessment framework for professional services firms. The platform enables firms to assess their growth readiness across multiple growth dimensions and benchmark against industry standards.</p>
+        <p>GrowthLens provides a maturity assessment framework for professional services firms. The platform enables firms to assess their growth readiness across multiple growth themes and benchmark against industry standards.</p>
         <p><strong>Account Responsibilities</strong></p>
         <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to provide accurate and complete information when creating your account.</p>
         <p><strong>Acceptable Use</strong></p>
