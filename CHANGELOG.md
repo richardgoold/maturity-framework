@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #455] — 23 February 2026
+### Changes
+- Update CLAUDE.md: hidden profiles, theme icons, landing page changes
+
+---
+
+
 ## [Build #454] — 23 February 2026
 ### Changes
 - Update landing page: 7 benchmark profiles to 5
