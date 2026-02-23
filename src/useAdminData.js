@@ -38,9 +38,10 @@ export function useAdminData() {
       // audit_log and app_config might not exist yet â graceful fallback
 
       // Show all users, firms, and assessments in admin views
+      // Filter out demo firms and assessments (is_demo = true in DB)
       setUsers(usersRes.data || []);
-      setFirms(firmsRes.data || []);
-      setAssessments(assessmentsRes.data || []);
+      setFirms((firmsRes.data || []).filter(f => !f.is_demo));
+      setAssessments((assessmentsRes.data || []).filter(a => !a.is_demo));
       setContacts(contactsRes.data || []);
       setAuditLog(auditRes.data || []);
 
