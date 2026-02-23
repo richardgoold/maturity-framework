@@ -2852,7 +2852,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           </div>
         </div>
       )}
-      {atAssessmentLimit && (
+      {atAssessmentLimit && !isDemo && (
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-3">
           <div className="flex items-start gap-3">
             <Shield size={20} className="text-amber-600 mt-0.5 flex-shrink-0" />
