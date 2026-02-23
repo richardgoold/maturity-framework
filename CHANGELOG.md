@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #425] — 23 February 2026
+### Changes
+- Use isDemo DB flag instead of hardcoded name matching for firm limit
+
+---
+
+
 ## [Build #424] — 23 February 2026
 ### Changes
 - Include is_demo flag in firm data mapping
