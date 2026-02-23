@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #454] — 23 February 2026
+### Changes
+- Update landing page: 7 benchmark profiles to 5
+
+---
+
+
 ## [Build #453] — 23 February 2026
 ### Changes
 - Add icon data to BenchmarkComparison chart
