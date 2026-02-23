@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #451] — 23 February 2026
+### Changes
+- Add theme icon to ScenarioPanel slider labels
+
+---
+
+
 ## [Build #450] — 23 February 2026
 ### Changes
 - Update CLAUDE.md: hidden benchmark profiles, latest commit
