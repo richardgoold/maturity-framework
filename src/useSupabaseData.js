@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from './supabase';
 import { useAuth } from './AuthContext';
 
+// Demo account user ID - demo firms are always visible to all users (read-only)
+const DEMO_USER_ID = '45b175ff-37c1-4b75-a78e-fba01680dff2';
+
 /**
  * useSupabaseData — replaces the localStorage layer in App.jsx.
  * Returns the same state shape: { firms: [...], assessments: {...} }
@@ -29,7 +32,7 @@ export function useSupabaseData() {
       const { data: firmsData, error: firmsError } = await supabase
         .from('firms')
         .select('*')
-        .eq('user_id', user.id)
+        .or(`user_id.eq.${user.id},user_id.eq.${DEMO_USER_ID}`)
         .order('created_at', { ascending: false });
 
       if (firmsError) throw firmsError;
@@ -38,7 +41,7 @@ export function useSupabaseData() {
       const { data: assessmentsData, error: assessmentsError } = await supabase
         .from('assessments')
         .select('*')
-        .eq('user_id', user.id)
+        .or(`user_id.eq.${user.id},user_id.eq.${DEMO_USER_ID}`)
         .order('created_at', { ascending: false });
 
       if (assessmentsError) throw assessmentsError;
@@ -49,7 +52,7 @@ export function useSupabaseData() {
         name: f.name,
         sector: f.sector,
         createdAt: f.created_at,
-        isDemo: f.is_demo || false,
+        isDemo: f.user_id === DEMO_USER_ID,
       }));
 
       const assessments = {};
