@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #456] — 23 February 2026
+### Changes
+- Standardise terminology: dimensions to themes throughout App.jsx
+
+---
+
+
 ## [Build #455] — 23 February 2026
 ### Changes
 - Update CLAUDE.md: hidden profiles, theme icons, landing page changes
