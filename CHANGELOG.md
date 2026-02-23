@@ -4,6 +4,18 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #433] — 23 February 2026
+### Changes
+- Revert App.jsx to last working build (afc4fa2) to fix broken deploy
+- Add 2 missing closing div tags in ReadinessScoreBanner
+- Fix unclosed p tag and div structure in ReadinessScoreBanner
+- Add multi-user firm access implementation plan
+- Add upgrade-notification Edge Function for premium tier emails
+- Fix scoring algorithm, single-firm model, UI improvements from user feedback
+
+---
+
+
 ## [Build #427] — 23 February 2026
 ### Changes
 - Add upgrade notification email trigger on tier change to premium
