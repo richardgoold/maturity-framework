@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #438] — 23 February 2026
+### Changes
+- Update upgrade email: features now active in real-time
+
+---
+
+
 ## [Build #437] — 23 February 2026
 ### Changes
 - Add in-app toast notification for premium upgrade via realtime
