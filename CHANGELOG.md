@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #448] — 23 February 2026
+### Changes
+- Update CLAUDE.md: 23 Feb session changes, email forwarding, benchmarks
+
+---
+
+
 ## [Build #447] — 23 February 2026
 ### Changes
 - Add metric-level benchmarks, theme trend lines, gap analysis enhancements
