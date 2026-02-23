@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #449] — 23 February 2026
+### Changes
+- Hide Legal & Compliance and Financial Advisory benchmark profiles
+
+---
+
+
 ## [Build #448] — 23 February 2026
 ### Changes
 - Update CLAUDE.md: 23 Feb session changes, email forwarding, benchmarks
