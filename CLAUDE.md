@@ -7,7 +7,7 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** Update landing page: 7 benchmark profiles to 5 (Build #454)
+- **Latest commit:** Fix demo banner: use selectedFirm?.isDemo for FirmDetailView prop (Build #463)
 - **Last updated:** 23 February 2026
 
 ## Tech Stack
@@ -253,6 +253,17 @@ editor.executeEdits('edit-name', [{
          Add icon data to BenchmarkComparison chart (Build #453, 23 Feb 2026)
 7ae6c45  Add theme icon to ScenarioPanel slider labels (Build #451, 23 Feb 2026)
 848e847  Hide Legal & Compliance and Financial Advisory benchmark profiles (Build #449, 23 Feb 2026)
+9b0d3d2  Fix demo banner: use selectedFirm?.isDemo for FirmDetailView prop (Build #463)
+898fd61  Fix demo banner: pass isDemo prop to FirmDetailView (Build #462)
+2b0e424  Hide Free plan banner on demo firms: add !isDemo guard (Build #461)
+994c915  Standardise terminology: Dimension to Theme in AdminDashboard.jsx (Build #460)
+822db18  Standardise terminology: dimension to theme in gating.js (Build #459)
+         Standardise terminology: dimensions to themes in index.html meta tags (Build #458)
+         Standardise terminology: dimensions to themes in LandingPage.jsx (Build #457)
+         Standardise terminology: dimensions to themes throughout App.jsx (Build #456)
+         Update CLAUDE.md: hidden profiles, theme icons, landing page changes (Build #455)
+         Update landing page: 7 benchmark profiles to 5 (Build #454)
+         Add icon data to BenchmarkComparison chart (Build #453)
 0c4ae66  Add metric-level benchmarks, theme trend lines, gap analysis enhancements (Build #447, 23 Feb 2026)
          Fix duplicate upgrade toast declaration (Build #446)
          Add premium upgrade toast notification (Build #445)
@@ -275,6 +286,19 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 ```
 
 ### Session Changes (23 Feb 2026)
+
+**Terminology standardisation (dimensions → themes):**
+- All "dimensions" renamed to "themes" across 5 files (App.jsx, LandingPage.jsx, index.html, gating.js, AdminDashboard.jsx)
+- 30+ occurrences replaced; sidebar heading now "GROWTH THEMES", assessment header "10 themes · 57 metrics"
+- One exception preserved: line 848 "competitors on dimensions that matter to clients" (generic English)
+- Builds #456-#460
+
+**Demo firm "Free plan" banner fix:**
+- FirmDetailView was missing `isDemo` prop — `<FirmDetailView>` call in App component didn't pass `isDemo={selectedFirm?.isDemo}`
+- Root cause: `atAssessmentLimit` in FirmDetailView computed with `!isDemo` but `isDemo` was always `undefined` (never passed as prop)
+- Also added redundant `!isDemo &&` guard to rendering condition at line 2855
+- Builds #461-#463
+
 
 **Email forwarding (hello@growthlens.app → richard@richardgoold.com):**
 - Resend inbound email receiving enabled on growthlens.app domain
