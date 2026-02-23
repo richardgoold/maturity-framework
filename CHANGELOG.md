@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #440] — 23 February 2026
+### Changes
+- Fix garbled UTF-8 characters in score legend
+
+---
+
+
 ## [Build #439] — 23 February 2026
 ### Changes
 - Fix AnimatedCounter: use ref instead of state to prevent re-render loop
