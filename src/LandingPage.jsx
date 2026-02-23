@@ -634,16 +634,19 @@ function HowItWorksSection() {
 
 // ─── Animated Stats Bar ──────────────────────────────────────────
 function AnimatedCounter({ target, suffix = '' }) {
+  const numTarget = parseInt(target);
   const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimatedRef = useRef(false);
   const ref = useRef(null);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          const numTarget = parseInt(target);
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
           const duration = 1500;
           const steps = 40;
           const increment = numTarget / steps;
@@ -662,9 +665,18 @@ function AnimatedCounter({ target, suffix = '' }) {
       { threshold: 0.1 }
     );
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, hasAnimated]);
+    observer.observe(el);
+
+    // Fallback: if counter hasn't animated within 3s, show target
+    const fallback = setTimeout(() => {
+      if (!hasAnimatedRef.current) {
+        hasAnimatedRef.current = true;
+        setCount(numTarget);
+      }
+    }, 3000);
+
+    return () => { observer.disconnect(); clearTimeout(fallback); };
+  }, [numTarget]);
 
   return <span ref={ref}>{count}{suffix}</span>;
 }
