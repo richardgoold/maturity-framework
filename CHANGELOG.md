@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #424] — 23 February 2026
+### Changes
+- Include is_demo flag in firm data mapping
+
+---
+
+
 ## [Build #423] — 23 February 2026
 ### Changes
 - Filter out demo firms and assessments from admin dashboard
