@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #426] — 23 February 2026
+### Changes
+- Add real-time tier sync via Supabase Realtime subscription
+
+---
+
+
 ## [Build #425] — 23 February 2026
 ### Changes
 - Use isDemo DB flag instead of hardcoded name matching for firm limit
