@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #427] — 23 February 2026
+### Changes
+- Add upgrade notification email trigger on tier change to premium
+
+---
+
+
 ## [Build #426] — 23 February 2026
 ### Changes
 - Add real-time tier sync via Supabase Realtime subscription
