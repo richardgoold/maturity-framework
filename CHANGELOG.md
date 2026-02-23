@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #422] — 23 February 2026
+### Changes
+- Remove system email filter that was hiding all firms from admin
+
+---
+
+
 ## [Build #421] — 22 February 2026
 ### Changes
 - Revert dropdown to absolute positioning, use inline z-index on header for stacking
