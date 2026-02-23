@@ -4134,6 +4134,21 @@ export default function App() {
   const [pwSuccess, setPwSuccess] = useState(false);
   const [pwLoading, setPwLoading] = useState(false);
   const [pwShowNew, setPwShowNew] = useState(false);
+
+  // ── Premium upgrade toast ──
+  const [upgradeToast, setUpgradeToast] = useState(false);
+  const prevTierRef = useRef(profile?.tier);
+
+  useEffect(() => {
+    const prev = prevTierRef.current;
+    const next = profile?.tier;
+    if (prev === 'free' && next === 'premium') {
+      setUpgradeToast(true);
+      setTimeout(() => setUpgradeToast(false), 10000);
+    }
+    prevTierRef.current = next;
+  }, [profile?.tier]);
+
   const [upgradeToast, setUpgradeToast] = useState(false);
   const prevTierRef = useRef(profile?.tier);
 
@@ -4471,6 +4486,20 @@ export default function App() {
       {showOnboarding && <OnboardingOverlay onComplete={() => setShowOnboarding(false)} />}
       {confirmDialog && <ConfirmDialog {...confirmDialog} />}
       {undoToast && <UndoToast message={undoToast.message} seconds={8} onUndo={undoToast.onUndo} onExpire={undoToast.onExpire} />}
+
+      {/* Premium Upgrade Toast */}
+      {upgradeToast && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[200] animate-fade-in">
+          <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white rounded-xl shadow-2xl px-6 py-4 flex items-center gap-4 max-w-lg">
+            <div className="text-3xl">&#10024;</div>
+            <div className="flex-1">
+              <div className="font-bold text-lg">You've been upgraded to Premium!</div>
+              <div className="text-sm text-amber-100 mt-0.5">All features are now unlocked.</div>
+            </div>
+            <button onClick={() => setUpgradeToast(false)} className="text-white/80 hover:text-white text-xl font-bold ml-2">&times;</button>
+          </div>
+        </div>
+      )}
       {showUpgradeFor && (
         <>
           <div className="fixed inset-0 bg-black/50 z-50" onClick={() => setShowUpgradeFor(null)} />
