@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #450] — 23 February 2026
+### Changes
+- Update CLAUDE.md: hidden benchmark profiles, latest commit
+
+---
+
+
 ## [Build #449] — 23 February 2026
 ### Changes
 - Hide Legal & Compliance and Financial Advisory benchmark profiles
