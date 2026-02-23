@@ -1849,7 +1849,7 @@ function ThemeSidebar({ themes, selectedTheme, onSelect, scores }) {
   return (
     <div className="hidden md:block w-52 min-w-52 bg-white border-r border-gray-200 overflow-y-auto">
       <div className="p-3 border-b border-gray-200 bg-gray-50">
-        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Growth Dimensions</h3>
+        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Growth Themes</h3>
       </div>
       {themes.map(theme => {
         const s = scores?.themeScores?.[theme.id];
@@ -1962,7 +1962,7 @@ function StrengthsWeaknesses({ ratings }) {
 // -----------------------------------------------------------------------
 const generateCSV = (assessment) => {
   const levelLabel = (l) => l === 3 ? "Optimised" : l === 2 ? "Evolving" : l === 1 ? "Foundational" : "Not Rated";
-  const rows = [["Dimension", "Metric", "Weight", "Level", "Maturity", "Comment"]];
+  const rows = [["Theme", "Metric", "Weight", "Level", "Maturity", "Comment"]];
   FRAMEWORK.themes.forEach(t => {
     t.metrics.forEach(m => {
       const r = assessment.ratings[m.id];
@@ -2388,7 +2388,7 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
         </BarChart>
       </ResponsiveContainer>
       <div className="flex items-center justify-center gap-6 mt-2 pt-2 border-t border-gray-100">
-        <div className="flex items-center gap-1.5"><div className="flex gap-px">{comparisonData.slice(0,4).map((d,i) => <div key={i} className="w-1.5 h-3 rounded-sm" style={{backgroundColor:d.color}} />)}</div><span className="text-xs text-gray-500">Your Firm (dimension colours)</span></div>
+        <div className="flex items-center gap-1.5"><div className="flex gap-px">{comparisonData.slice(0,4).map((d,i) => <div key={i} className="w-1.5 h-3 rounded-sm" style={{backgroundColor:d.color}} />)}</div><span className="text-xs text-gray-500">Your Firm (theme colours)</span></div>
         <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{backgroundColor:'#c4b5a5'}} /><span className="text-xs text-gray-500">M&A-Ready Benchmark</span></div>
       </div>
     </div>
@@ -2485,7 +2485,7 @@ function OnboardingOverlay({ onComplete }) {
   const [step, setStep] = useState(0);
   const steps = [
     { title: "Welcome to GrowthLens", desc: "This tool evaluates your firm\u2019s M&A readiness across 10 key growth themes, each with detailed metrics based on industry best practice.", icon: "\ud83c\udfaf" },
-    { title: "10 Growth Dimensions", desc: "From Financial Performance and People to Market Profile — each theme groups related metrics that acquirers and investors evaluate during due diligence.", icon: "\ud83d\udcca" },
+    { title: "10 Growth Themes", desc: "From Financial Performance and People to Market Profile — each theme groups related metrics that acquirers and investors evaluate during due diligence.", icon: "\ud83d\udcca" },
     { title: "Simple 1\u20133 Scoring", desc: "Rate each metric: Level 1 (Foundational), Level 2 (Evolving), or Level 3 (Optimised). Use fine-tune adjustments for nuance. Add notes to explain your rationale.", icon: "\u2b50" },
     { title: "M&A-Ready Benchmarks", desc: "Your scores are compared against M&A-Ready benchmarks — top-quartile performance levels that command premium valuations. Synthesised from 20+ industry sources.", icon: "\ud83d\udcc8" },
     { title: "Actionable Insights", desc: "The dashboard shows your readiness score, gap analysis, trends over time, and an exportable executive summary for board presentations.", icon: "\ud83d\udca1" }
@@ -2571,7 +2571,7 @@ function LandingPage({ onGetStarted }) {
             Assess. Benchmark.<br /><span style={{ color: "#f2a71b" }}>Maximise Value.</span>
           </h1>
           <p className="text-sm sm:text-base leading-relaxed" style={{ color: "#c5c5c5", maxWidth: 480, margin: "0 auto" }}>
-            A structured framework that evaluates professional services firms across 10 growth dimensions and 57 metrics — benchmarked against M&A-ready standards.
+            A structured framework that evaluates professional services firms across 10 growth themes and 57 metrics — benchmarked against M&A-ready standards.
           </p>
         </div>
         {/* GROWTH THEMES */}
@@ -2634,7 +2634,7 @@ function LandingPage({ onGetStarted }) {
       <div style={{background: "#23272b", padding: "48px 24px", textAlign: "center"}}>
         <h2 style={{fontSize: "1.5rem", fontWeight: "bold", color: "#f5f5f5", marginBottom: "12px"}}>Built on Industry Research</h2>
         <p style={{color: "#9ca3af", maxWidth: "600px", margin: "0 auto 24px", fontSize: "0.95rem"}}>
-          Our framework synthesises 20+ benchmarking studies and industry-standard methodologies to assess M&A readiness across five critical dimensions.
+          Our framework synthesises 20+ benchmarking studies and industry-standard methodologies to assess M&A readiness across five critical themes.
         </p>
         <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", maxWidth: "700px", margin: "0 auto"}}>
           {["Hinge Research", "Deltek", "SPI Research", "Mercer", "IBIS", "Kennedy"].map(s => (
@@ -2875,7 +2875,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-3 mb-3 flex items-center gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
-              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and dimensions" /></div>
+              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and themes" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
@@ -2982,7 +2982,7 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
           <div className="flex items-center gap-3">
             <button onClick={onBack} className="text-gray-400 hover:text-gray-600 transition-colors"><ArrowLeft size={18} /></button>
             <h2 className="text-sm font-bold text-gray-800">Assessment</h2>
-            <span className="text-xs text-gray-400">{FRAMEWORK.themes.length} dimensions · {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</span>
+            <span className="text-xs text-gray-400">{FRAMEWORK.themes.length} themes · {FRAMEWORK.themes.reduce((s, t) => s + t.metrics.length, 0)} metrics</span>
               {onGuidance && <button onClick={onGuidance} className="text-xs text-gray-400 hover:text-amber-500 flex items-center gap-1 transition-colors ml-2"><HelpCircle size={13} /> Guidance</button>}
           </div>
           <div className="flex items-center gap-3">
@@ -3122,7 +3122,7 @@ function GapAnalysisPanel({ themeGaps }) {
         <Target size={18} className="text-amber-600" />
         <h3 className="text-lg font-semibold text-slate-900">Readiness Gap Analysis</h3>
       </div>
-      <p className="text-xs text-gray-500 mb-5">Dimensions ranked by largest gap to M&A-Ready benchmark. Focus improvement efforts on the top gaps.</p>
+      <p className="text-xs text-gray-500 mb-5">Themes ranked by largest gap to M&A-Ready benchmark. Focus improvement efforts on the top gaps.</p>
       <div className="space-y-3">
         {themeGaps.map((g, idx) => (
           <div key={g.themeId} className="group">
@@ -3337,7 +3337,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-[#f2a71b]"/> Scenario Modelling</h3>
-      <p className="text-xs text-gray-500 mb-4">Drag the sliders to model how improving individual dimension scores would impact your overall M&A Readiness. Changes are for modelling only and do not affect your saved assessment.</p>
+      <p className="text-xs text-gray-500 mb-4">Drag the sliders to model how improving individual theme scores would impact your overall M&A Readiness. Changes are for modelling only and do not affect your saved assessment.</p>
       <div className="flex items-center justify-between p-4 bg-amber-900/10 rounded-lg mb-4">
         <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{currentScores.readinessScore}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
@@ -3345,7 +3345,7 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
       </div>
       <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors mb-3">
         {isExpanded ? <ChevronUp size={16}/> : <ChevronDown size={16}/>}
-        {isExpanded ? "Hide sliders" : "Adjust dimensions"}
+        {isExpanded ? "Hide sliders" : "Adjust themes"}
       </button>
       {isExpanded && (
         <>
@@ -3423,7 +3423,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
             </div>
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="font-semibold text-lg mb-4">Dimension-Level Benchmark Gaps</h3>
+            <h3 className="font-semibold text-lg mb-4">Theme-Level Benchmark Gaps</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -3480,7 +3480,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
           ) : (
             <>
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 className="font-semibold text-lg mb-4">Dimension Scores Across Assessments</h3>
+                <h3 className="font-semibold text-lg mb-4">Theme Scores Across Assessments</h3>
                 <ResponsiveContainer width="100%" height={400}>
                   <BarChart data={FRAMEWORK.themes.map(theme => { const entry = { theme: theme.name }; assessData.forEach(ad => { entry[ad.date] = ad.scores.themeScores[theme.id]?.pct || 0; }); return entry; })}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -3613,7 +3613,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
       </div>
       {/* Section Navigation */}
       <div className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 -mx-6 px-6 py-2 mb-4 flex flex-wrap sm:flex-nowrap gap-1 overflow-x-auto">
-        {[["scores","Scores","Overall maturity scores by dimension"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"],["export","Export & Reports","Export and download reports"]].map(([id,label,tip]) => (
+        {[["scores","Scores","Overall maturity scores by theme"],["gaps","Gap Analysis","Priority gaps and improvement areas"],["roadmap","Roadmap","Improvement action roadmap"],["scenario","Scenarios","What-if scenario modeling"],["charts","Charts","Visual charts and radar plots"],["heatmap","Heatmap","Driver-level heatmap view"],["export","Export & Reports","Export and download reports"]].map(([id,label,tip]) => (
             <button title={(!isPremium && !isDemoFirm && GATED_TABS.includes(id)) ? `${tip} \u2014 available with Premium` : tip} key={id} onClick={() => setActiveTab(id)}
               className={`px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors ${activeTab === id ? "bg-[#f2a71b] text-white shadow-sm" : "text-gray-600 hover:text-[#f2a71b] hover:bg-amber-50"} ${(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) ? "opacity-60" : ""}`}>{label}{(!isPremium && !isDemoFirm) && GATED_TABS.includes(id) && <Lock className="w-3 h-3 ml-1 inline opacity-50" />}</button>
         ))}
@@ -3718,13 +3718,13 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                       <span className="text-xs font-bold text-red-500 ml-auto">-{Math.round(g.gap)}%</span>
                     </div>
                   ))}
-                  {gaps.length === 0 && <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg"><CheckCircle2 size={14} className="text-green-600 flex-shrink-0" /><span className="text-xs text-green-700 font-medium">All dimensions exceeding M&A benchmarks</span></div>}
+                  {gaps.length === 0 && <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg"><CheckCircle2 size={14} className="text-green-600 flex-shrink-0" /><span className="text-xs text-green-700 font-medium">All themes exceeding M&A benchmarks</span></div>}
                 </div>
                 <div className="p-4">
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Actions Needed</div>
                   <div className="text-2xl font-bold text-gray-800">{critCount}</div>
                   <div className="text-xs text-gray-500">critical priorities</div>
-                  <div className="text-xs text-gray-400 mt-1">{themeArr.filter(t => t.gap > 0).length} of {themeArr.length} dimensions below benchmark</div>
+                  <div className="text-xs text-gray-400 mt-1">{themeArr.filter(t => t.gap > 0).length} of {themeArr.length} themes below benchmark</div>
                 </div>
                 <div className="p-4">
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Completion</div>
@@ -3801,9 +3801,9 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
 const GuidancePage = ({ onBack }) => {
   const sections = [
     { title: "What is the GrowthLens?", image: "guide-firms.jpg", content: "The GrowthLens is an M&A due diligence assessment platform designed for professional services firms (PSFs). It evaluates your firm across 10 growth themes and 57 metrics, benchmarked against M&A-ready industry standards. The framework helps you understand where your firm stands relative to what acquirers look for when pricing transactions." },
-    { title: "How the Assessment Works", image: "guide-assessment.jpg", content: "Each of the 57 metrics is rated on a 3-point maturity scale: Level 1 (Foundational) means basic or informal processes are in place. Level 2 (Evolving) means structured processes exist with some consistency. Level 3 (Optimised) means best-in-class, systematic, and measurable practices are embedded. Your scores are aggregated by dimension and compared against M&A-Ready benchmarks based on professional assessment of best-in-class performance standards for professional services firms." },
-    { title: "Understanding the Dashboard", image: "guide-dashboard.jpg", content: "The dashboard provides multiple views of your assessment: the M&A Readiness Score shows your overall readiness as a percentage inside a donut chart. The Radar Overview compares your dimension scores against M&A-Ready benchmarks. The Readiness Gap Analysis ranks dimensions by their gap to benchmark. The Improvement Roadmap shows where focused effort will have the most impact. The Scenario Modelling tool lets you drag sliders to project how improvements would affect your overall score." },
-    { title: "Benchmark Profiles", image: "guide-benchmark.jpg", content: "Benchmarks represent top-quartile PSF performance — the level that acquirers price for at M&A transaction events. The default M&A-Ready (PSF) benchmark averages 67% across all dimensions. You can compare against different benchmark profiles including Top Decile, Industry Average, and sector-specific standards via the Benchmark Profile selector on the dashboard." },
+    { title: "How the Assessment Works", image: "guide-assessment.jpg", content: "Each of the 57 metrics is rated on a 3-point maturity scale: Level 1 (Foundational) means basic or informal processes are in place. Level 2 (Evolving) means structured processes exist with some consistency. Level 3 (Optimised) means best-in-class, systematic, and measurable practices are embedded. Your scores are aggregated by theme and compared against M&A-Ready benchmarks based on professional assessment of best-in-class performance standards for professional services firms." },
+    { title: "Understanding the Dashboard", image: "guide-dashboard.jpg", content: "The dashboard provides multiple views of your assessment: the M&A Readiness Score shows your overall readiness as a percentage inside a donut chart. The Radar Overview compares your theme scores against M&A-Ready benchmarks. The Readiness Gap Analysis ranks themes by their gap to benchmark. The Improvement Roadmap shows where focused effort will have the most impact. The Scenario Modelling tool lets you drag sliders to project how improvements would affect your overall score." },
+    { title: "Benchmark Profiles", image: "guide-benchmark.jpg", content: "Benchmarks represent top-quartile PSF performance — the level that acquirers price for at M&A transaction events. The default M&A-Ready (PSF) benchmark averages 67% across all themes. You can compare against different benchmark profiles including Top Decile, Industry Average, and sector-specific standards via the Benchmark Profile selector on the dashboard." },
     { title: "Using the Insights Tab", image: "guide-insights.jpg", content: "The Insights tab (accessible from the dashboard) shows how your firm measures against all available benchmark profiles simultaneously. Green indicates M&A Ready (\u226590%), amber indicates Nearly Ready (\u226570%), and scores below 70% indicate areas needing focused improvement. Use Assessment Comparison to track progress over time once you have multiple assessments." },
     { title: "Exporting Your Results", image: "guide-export.jpg", content: "Three export options are available from the dashboard: Executive Summary (1 Page) provides a concise overview suitable for board presentations. Export PDF Report generates a comprehensive document with all charts and data. Detailed Assessment Report includes the full metric-level breakdown. You can also download raw data as CSV for further analysis." }
   ];
@@ -3834,7 +3834,7 @@ const GuidancePage = ({ onBack }) => {
             ))}
               <a href="#guidance-deepdives" onClick={e => { e.preventDefault(); document.getElementById("guidance-deepdives").scrollIntoView({behavior: "smooth"}) }}
                 className="text-xs px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors cursor-pointer border border-amber-200"
-              >Dimension Deep Dives</a>
+              >Theme Deep Dives</a>
           </div>
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm" id="guidance-quickstart">
@@ -3844,11 +3844,11 @@ const GuidancePage = ({ onBack }) => {
           <div className="space-y-3">
             {[
               ["1. Create a Firm", "Navigate to the Firms tab and click '+ New Firm'. Enter the firm name and select its sector for automatic benchmark matching."],
-              ["2. Start Assessment", "Click the firm, then '+ New Assessment'. Work through each dimension, rating metrics on the 3-point scale (Foundational / Evolving / Optimised)."],
+              ["2. Start Assessment", "Click the firm, then '+ New Assessment'. Work through each theme, rating metrics on the 3-point scale (Foundational / Evolving / Optimised)."],
               ["3. Add Evidence", "For each rating, expand the Evidence section to attach supporting links or notes. This builds credibility for due diligence reviews."],
               ["4. Set Confidence", "Rate your confidence (Low / Medium / High) for each metric. Low confidence flags areas needing further investigation."],
               ["5. Review Dashboard", "Once rated, open the Dashboard to see your M&A Readiness Score, gap analysis, and improvement roadmap."],
-              ["6. Model Scenarios", "Use Scenario Modelling to see how improving specific dimensions would change your overall readiness score."]
+              ["6. Model Scenarios", "Use Scenario Modelling to see how improving specific themes would change your overall readiness score."]
             ].map(([step, desc], i) => (
               <div key={i} className="flex gap-3 items-start">
                 <div className="w-6 h-6 rounded-full bg-[#f2a71b] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i+1}</div>
@@ -3871,9 +3871,9 @@ const GuidancePage = ({ onBack }) => {
         <div className="bg-white rounded-2xl shadow p-6 mb-6" id="guidance-deepdives">
           <h2 className="text-xl font-bold text-[#1f1f1f] mb-2 flex items-center gap-2">
             <TrendingUp size={22} className="text-[#f2a71b]" />
-            Dimension Deep Dives
+            Theme Deep Dives
           </h2>
-          <p className="text-sm text-gray-600 mb-4">Explore each growth dimension in detail with industry benchmarks, real-world case studies, and maturity progression insights for professional services firms.</p>
+          <p className="text-sm text-gray-600 mb-4">Explore each growth theme in detail with industry benchmarks, real-world case studies, and maturity progression insights for professional services firms.</p>
           <div className="space-y-3">
             {FRAMEWORK.themes.map(theme => {
               const eg = ENHANCED_GUIDANCE.themes[theme.id];
