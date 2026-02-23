@@ -7,8 +7,8 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 3d7c405 - "Add cache-busting ?v=2 to OG image URLs"
-- **Last updated:** 22 February 2026
+- **Latest commit:** 0c4ae66 - "Add metric-level benchmarks, theme trend lines, gap analysis enhancements"
+- **Last updated:** 23 February 2026
 
 ## Tech Stack
 
@@ -18,8 +18,8 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - Recharts (radar charts, bar charts)
 - Lucide React (icons)
 - GitHub Pages deployment via GitHub Actions
-- Custom domain: growthlens.app (GoDaddy DNS â GitHub Pages)
-- Resend (transactional email via SMTP)
+- Custom domain: growthlens.app (GoDaddy DNS → GitHub Pages)
+- Resend (transactional email via SMTP + inbound email receiving via webhook)
 - Plausible Analytics (privacy-friendly, at plausible.io/growthlens.app)
 
 ## Architecture
@@ -63,23 +63,23 @@ CLAUDE.md                         # This file
 
 ### User Accounts
 ```
-richard@richardgoold.com  â Personal account (created 17 Feb 2026)
-richard@gooldy.com        â Admin account (originally admin@growthlens.app, email changed 19 Feb)
-demo@growthlens.app       â Demo account (shared demo, no real email)
+richard@richardgoold.com  — Personal account (created 17 Feb 2026)
+richard@gooldy.com        — Admin account (originally admin@growthlens.app, email changed 19 Feb)
+demo@growthlens.app       — Demo account (shared demo, no real email)
 ```
 
 ### Change Password Feature (added 19 Feb 2026)
 - Located in the user profile dropdown menu (top-right), above "Sign Out"
 - Opens a modal with: New Password field (with show/hide toggle), Confirm Password field
 - Validates: minimum 8 characters, passwords must match
-- Uses `supabase.auth.updateUser({ password })` â works for all users, no email required
+- Uses `supabase.auth.updateUser({ password })` — works for all users, no email required
 - Shows green success checkmark on completion, auto-closes after 2 seconds
 - State variables: `showChangePassword`, `pwForm`, `pwError`, `pwSuccess`, `pwLoading`, `pwShowNew`
 - Handler: `handleChangePassword` (async function in App.jsx, just before main return)
 - Icons used: Lock, Eye, EyeOff (from lucide-react)
 
 ### Password Reset via SQL (for accounts without real email)
-Use Supabase SQL Editor â run:
+Use Supabase SQL Editor → run:
 ```sql
 UPDATE auth.users
 SET encrypted_password = crypt('new-password-here', gen_salt('bf'))
@@ -94,8 +94,8 @@ WHERE email = 'demo@growthlens.app';
 - **Host:** smtp.resend.com
 - **Port:** 465
 - **Username:** resend
-- **Password:** Resend API key ("Supabase SMTP" â sending access, growthlens.app domain)
-- Configured at: Supabase Dashboard â Authentication â SMTP Settings
+- **Password:** Resend API key ("Supabase SMTP" — sending access, growthlens.app domain)
+- Configured at: Supabase Dashboard → Authentication → SMTP Settings
 
 ### Welcome Email (Edge Function)
 - **Function:** `welcome-email` (Supabase Edge Function)
@@ -105,10 +105,20 @@ WHERE email = 'demo@growthlens.app';
 - **Admin notification:** Sends to richard@richardgoold.com on each new signup
 - Sends branded HTML welcome email via Resend API
 
-### DNS (GoDaddy â growthlens.app)
+### Email Forwarding (added 23 Feb 2026)
+- **hello@growthlens.app → richard@richardgoold.com**
+- Resend inbound email receiving enabled on growthlens.app domain
+- MX record: `inbound-smtp.eu-west-1.amazonaws.com` (priority 10) added to GoDaddy DNS
+- Resend webhook (ID: ffd512e3-2894-410b-83b2-5ebd1b33574c) listens for `email.received` events
+- Webhook calls Supabase Edge Function `forward-email` which re-sends via Resend API
+- Edge Function JWT verification disabled (public webhook endpoint)
+- `RESEND_API_KEY` secret shared with `welcome-email` function
+
+### DNS (GoDaddy → growthlens.app)
 - A records: 185.199.108-111.153 (GitHub Pages IPs)
-- CNAME: www â richardgoold.github.io
-- MX: Resend MX records for email sending
+- CNAME: www → richardgoold.github.io
+- MX (sending): `send.growthlens.app` → Resend feedback SMTP
+- MX (receiving): `@` → `inbound-smtp.eu-west-1.amazonaws.com` (priority 10)
 - TXT: Resend SPF record
 - DKIM: 3 Resend DKIM CNAME records (resend._domainkey etc.)
 - Resend domain ID: 875ddf04-69ac-4231-916b-24bd68ea06d8
@@ -116,10 +126,10 @@ WHERE email = 'demo@growthlens.app';
 ## App.jsx Structure (top to bottom)
 
 - **Imports:** React, Recharts, Lucide icons (including Lock, Eye, EyeOff)
-- **FRAMEWORK constant (~lines 16-400):** All 10 themes with 57 metrics
-- **BENCHMARKS constant:** M&A-Ready benchmark percentages per theme
+- **FRAMEWORK constant (~lines 16-400):** All 10 themes with 57 metrics (each metric has a `benchmark` property — M&A-Ready target %)
+- **BENCHMARK_PROFILES constant:** M&A-Ready benchmark percentages per theme (7 profiles: M&A-Ready, Top Decile, Industry Average, Consulting, Technology Services, Legal & Compliance, Financial Advisory)
 - **Helper functions:** calculateScores, getStrengths, getImprovements, etc.
-- **UI Components:** MetricCard, ThemeSidebar, HeatmapGrid, StrengthsWeaknesses, ExportPanel, RadarOverview, BenchmarkComparison, ImprovementRoadmap, TemplateSelector, Breadcrumbs
+- **UI Components:** MetricCard, ThemeSidebar, HeatmapGrid, StrengthsWeaknesses, ExportPanel, RadarOverview, BenchmarkComparison, ImprovementRoadmap, TrendAnalysisPanel, ScoreChangePanel, TemplateSelector, Breadcrumbs
 - **Views:** FirmListView, FirmDetailView, AssessmentView, DashboardView, InsightsView, ConnectView, GuidancePage
 - **App component (~line 4644):** Main component with auth, state management, navigation
   - useAuth destructure includes `updatePassword`
@@ -129,13 +139,15 @@ WHERE email = 'demo@growthlens.app';
 
 ### Key Constants
 
-**BENCHMARKS** (M&A-Ready values, evidence-based from 20+ industry sources):
+**BENCHMARK_PROFILES** (M&A-Ready theme-level values, evidence-based from 20+ industry sources):
 ```
 financial: 70, people: 68, services: 66, vision: 64,
 sales: 65, clients: 68, leadership: 67, cost: 65,
 delivery: 70, market: 65
 Overall average: 67%
 ```
+
+**Metric-level benchmarks** (added 23 Feb 2026): Each of the 57 metrics has a `benchmark` property (M&A-Ready target %). Used in gap analysis and ImprovementRoadmap for more granular prioritisation. Falls back to theme-level benchmark if metric benchmark is not set.
 
 ## Dashboard Features
 
@@ -186,12 +198,12 @@ Located top-right of the header:
 ## Data Persistence
 
 All data stored in Supabase (PostgreSQL):
-- **auth.users** â User accounts and authentication
-- **profiles** â User profiles (full_name, company_name, role, tier)
-- **firms** â Firm records linked to users
-- **assessments** â Assessment data with ratings (JSONB)
+- **auth.users** — User accounts and authentication
+- **profiles** — User profiles (full_name, company_name, role, tier)
+- **firms** — Firm records linked to users
+- **assessments** — Assessment data with ratings (JSONB)
 
-Demo firms pre-populated: Apex Consulting Partners (72%), TechBridge Solutions (61%), Phoenix Advisory Group (40%).
+Demo firms pre-populated: Apex Consulting Partners (72.5%), TechBridge Solutions (49.1%), Phoenix Advisory Group (14.6%).
 
 ## Deployment
 
@@ -237,6 +249,11 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+0c4ae66  Add metric-level benchmarks, theme trend lines, gap analysis enhancements (Build #447, 23 Feb 2026)
+         Fix duplicate upgrade toast declaration (Build #446)
+         Add premium upgrade toast notification (Build #445)
+         Demo banner improvements, demo firm score recalibration (Build #444)
+         Email forwarding: forward-email Edge Function, Resend webhook, MX record
 3d7c405  Add cache-busting ?v=2 to OG image URLs (Build #409, 22 Feb 2026)
 42e9ca7  Add OG image to public folder (new white hero design, 22 Feb 2026)
          Hero redesign, StatsBar removal, AnimatedCounter fix (Builds #405-#407)
@@ -252,6 +269,38 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
          ENHANCED_GUIDANCE data, guidance page, mobile responsive
 2aaba7a  Dashboard improvements: donut score, roadmap fix, export buttons
 ```
+
+### Session Changes (23 Feb 2026)
+
+**Email forwarding (hello@growthlens.app → richard@richardgoold.com):**
+- Resend inbound email receiving enabled on growthlens.app domain
+- MX record: `inbound-smtp.eu-west-1.amazonaws.com` (priority 10) added to GoDaddy DNS
+- Resend webhook (ID: ffd512e3-2894-410b-83b2-5ebd1b33574c) listens for `email.received` events
+- Webhook calls Supabase Edge Function `forward-email` which re-sends via Resend API
+- Edge Function JWT verification disabled (public webhook endpoint)
+- `RESEND_API_KEY` secret shared with `welcome-email` function
+
+**Premium upgrade toast notification:**
+- In-app toast when admin upgrades user from free → premium
+- Uses `useRef` to track previous tier, `useEffect` on `profile?.tier`
+- Amber/gold gradient banner, auto-dismisses after 10 seconds
+- Works via existing Supabase Realtime subscription in AuthContext
+
+**Demo banners & firm scores:**
+- Demo account login shows amber banner: "Demo Mode — Explore freely, changes auto-reset"
+- Demo firm scores recalibrated: Apex 72.5%, TechBridge 49.1%, Phoenix 14.6%
+
+**Multi-assessment trend tracking enhancement:**
+- TrendAnalysisPanel: added per-theme trend lines as toggleable overlays
+- "Show Theme Lines" / "Hide Theme Lines" toggle button
+- Clickable theme cards to toggle individual theme visibility
+- Active theme indicator (colored bar + ring highlight)
+
+**Metric-level benchmarks (57 metrics):**
+- Each metric in FRAMEWORK now has a `benchmark` property (M&A-Ready target %)
+- Gap analysis (ExportPanel) uses `metric.benchmark || theme.benchmark` for fallback
+- ImprovementRoadmap uses metric-level benchmarks for more granular prioritisation
+- Values calibrated to align with theme-level averages
 
 ### Session Changes (22 Feb 2026)
 
@@ -285,7 +334,7 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 **Change Password feature:**
 - Added to user profile dropdown menu in App.jsx
 - Modal with new password + confirm fields, show/hide toggle
-- Uses supabase.auth.updateUser() â no email required
+- Uses supabase.auth.updateUser() — no email required
 - Amber-themed buttons matching app design
 
 **Account management:**
@@ -302,8 +351,8 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 - **Project:** xbrywtjahuidaufcdvti
 - **Region:** (check dashboard)
 - **Auth:** Email/password, custom SMTP via Resend
-- **Edge Functions:** welcome-email
-- **Webhooks:** welcome_email_on_confirm (auth.users UPDATE â welcome-email)
+- **Edge Functions:** welcome-email, forward-email, upgrade-notification
+- **Webhooks:** welcome_email_on_confirm (auth.users UPDATE → welcome-email), Resend inbound webhook → forward-email
 - **RLS:** Enabled on all tables
 
 ### Key Supabase IDs
@@ -318,7 +367,7 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 
 1. **Check commits:** https://github.com/richardgoold/maturity-framework/commits/main
 2. **Read this CLAUDE.md** for current state
-3. **Verify live site:** https://growthlens.app â login should work, change password in dropdown
+3. **Verify live site:** https://growthlens.app — login should work, change password in dropdown
 4. **Resume editing:** Use GitHub web editor (github.com/.../edit/...)
 
 ### Common pitfalls
@@ -326,16 +375,16 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 - **Content filter blocking code:** Extract data points (line numbers, booleans) rather than raw code from JS execution
 - **CodeMirror access:** `document.querySelector('.cm-content').cmTile.view`
 - **Monaco access (Supabase):** `window.monaco.editor.getEditors()[0]`
-- **github.dev corruption:** Never use github.dev â use regular edit page only
-- **Supabase email unique constraint:** Each account needs a unique email â can't share emails between accounts
+- **github.dev corruption:** Never use github.dev — use regular edit page only
+- **Supabase email unique constraint:** Each account needs a unique email — can't share emails between accounts
 - **Typing newlines in web editors:** Use JavaScript API (executeEdits/dispatch) rather than keyboard typing for multi-line content
 
 ## Known Issues and Deferred Items
 
-- **Theme icons throughout the app** â FRAMEWORK data has icon properties but not rendered everywhere
-- **Continuous scrolling assess tab** â Currently discrete theme-by-theme navigation
-- **Export button layout** â Third button spans full width on second row
-- **Consistent theme colours** â Not applied throughout all views
+- **Theme icons throughout the app** — FRAMEWORK data has icon properties but not rendered everywhere
+- **Continuous scrolling assess tab** — Currently discrete theme-by-theme navigation
+- **Export button layout** — Third button spans full width on second row
+- **Consistent theme colours** — Not applied throughout all views
 
 ## Potential Future Enhancements
 
@@ -343,7 +392,4 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 - Continuous scrolling assessment tab
 - Consistent theme-specific accent colours
 - Equalise all export buttons on a single row
-- Add metric-level benchmarks
-- Multi-assessment trend tracking
 - Sector-specific benchmark adjustments
-- Email forwarding for hello@growthlens.app (currently sending-only via Resend)
