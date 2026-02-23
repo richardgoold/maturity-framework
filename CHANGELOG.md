@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #443] — 23 February 2026
+### Changes
+- Responsive export buttons + smooth scroll improvements
+
+---
+
+
 ## [Build #442] — 23 February 2026
 ### Changes
 - Add theme icons and accent colours to StrengthsWeaknesses and ImprovementRoadmap
