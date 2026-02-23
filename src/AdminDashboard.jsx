@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { Users, Building2, ClipboardCheck, Mail, Settings, Shield, LayoutDashboard, ChevronRight, ChevronDown, ChevronUp, Search, X, Check, AlertCircle, Eye, Edit3, ArrowLeft, LogOut, BarChart3, TrendingUp, Clock, RefreshCw, Trash2, FileText } from "lucide-react";
 import { useAuth } from "./AuthContext";
+import { supabase } from "./supabase";
 import { useAdminData } from "./useAdminData";
 import { FRAMEWORK, BENCHMARK_PROFILES, calcScores } from "./App";
 import changelogRaw from "../CHANGELOG.md?raw";
@@ -450,6 +451,22 @@ function AdminUserDetail({ user: selectedUser, firms, assessments, onBack, onSav
           if (role !== selectedUser.role) changes.role = role;
 
           await onSave(selectedUser.id, changes);
+
+          // Send upgrade notification email if tier changed to premium
+          if (changes.tier === "premium" && selectedUser.tier !== "premium") {
+            try {
+              const { error: fnError } = await supabase.functions.invoke("upgrade-notification", {
+                body: {
+                  userId: selectedUser.id,
+                  email: selectedUser.email,
+                  fullName: selectedUser.full_name || selectedUser.email,
+                },
+              });
+              if (fnError) console.error("Upgrade notification failed:", fnError);
+            } catch (e) {
+              console.warn("Could not send upgrade notification:", e);
+            }
+          }
 
           // Log each change
           for (const [field, newValue] of Object.entries(changes)) {
