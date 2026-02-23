@@ -4,6 +4,15 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #436] — 23 February 2026
+### Changes
+- Remove extra closing div from GapAnalysisPanel
+- Fix missing closing div tags in ReadinessScoreBanner and GapAnalysisPanel
+- Fix scoring algorithm, single-firm model, UI improvements (fixed JSX)
+
+---
+
+
 ## [Build #433] — 23 February 2026
 ### Changes
 - Revert App.jsx to last working build (afc4fa2) to fix broken deploy
