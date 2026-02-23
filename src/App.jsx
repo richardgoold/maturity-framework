@@ -2657,8 +2657,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
   const [sector, setSector] = useState("");
 
   const FREE_FIRM_LIMIT = 1;
-  const DEMO_FIRM_NAMES = ["Apex Consulting Partners", "TechBridge Solutions", "Phoenix Advisory Group"];
-  const userFirms = firms.filter(f => !f.id?.startsWith("demo_") && !DEMO_FIRM_NAMES.includes(f.name));
+  const userFirms = firms.filter(f => !f.isDemo);
   const isFree = userTier !== "premium";
   const atFirmLimit = isFree && userFirms.length >= FREE_FIRM_LIMIT;
   const handleCreate = () => {
