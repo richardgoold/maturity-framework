@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #462] — 23 February 2026
+### Changes
+- Fix demo banner: pass isDemo prop to FirmDetailView
+
+---
+
+
 ## [Build #461] — 23 February 2026
 ### Changes
 - Hide Free plan banner on demo firms: add !isDemo guard
