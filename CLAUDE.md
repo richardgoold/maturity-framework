@@ -7,7 +7,7 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 7ae6c45 - "Add theme icon to ScenarioPanel slider labels"
+- **Latest commit:** Update landing page: 7 benchmark profiles to 5 (Build #454)
 - **Last updated:** 23 February 2026
 
 ## Tech Stack
@@ -249,6 +249,8 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+         Update landing page: 7 benchmark profiles to 5 (Build #454, 23 Feb 2026)
+         Add icon data to BenchmarkComparison chart (Build #453, 23 Feb 2026)
 7ae6c45  Add theme icon to ScenarioPanel slider labels (Build #451, 23 Feb 2026)
 848e847  Hide Legal & Compliance and Financial Advisory benchmark profiles (Build #449, 23 Feb 2026)
 0c4ae66  Add metric-level benchmarks, theme trend lines, gap analysis enhancements (Build #447, 23 Feb 2026)
@@ -303,6 +305,15 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 - Gap analysis (ExportPanel) uses `metric.benchmark || theme.benchmark` for fallback
 - ImprovementRoadmap uses metric-level benchmarks for more granular prioritisation
 - Values calibrated to align with theme-level averages
+
+**Hidden benchmark profiles (VISIBLE_PROFILES):**
+- Added VISIBLE_PROFILES constant limiting UI to 5 profiles (M&A-Ready, Top Decile, Industry Average, Consulting, Technology Services)
+- Legal & Compliance and Financial Advisory profiles hidden but data retained
+- SECTOR_BENCHMARK_MAP trimmed to only visible profile sectors
+- Landing page updated: "Benchmark comparison against 5 profiles"
+
+**Theme icons across all components:**
+- getThemeIcon added to all 8 theme-displaying components: ThemeSidebar, HeatmapGrid, AssessmentView, GapAnalysisPanel, ImprovementRoadmap, StrengthsWeaknesses, ScenarioPanel, BenchmarkComparison (data only — SVG chart limitation)
 
 ### Session Changes (22 Feb 2026)
 
