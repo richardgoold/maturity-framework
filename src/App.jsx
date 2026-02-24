@@ -4552,10 +4552,10 @@ export default function App() {
                     <p className="text-xs text-gray-400 uppercase tracking-wide">Current Plan</p>
                     <div className="flex items-center justify-between mt-1">
                       <span className="text-sm font-medium text-gray-700">{isPremium ? 'Premium' : 'Free Plan'}</span>
-                      {!isPremium && <button onClick={() => { setShowProfileMenu(false); openContactModal({ subject: 'Premium Upgrade Enquiry' }); }} className="text-xs text-amber-600 hover:text-amber-700 font-medium">Upgrade</button>}
+                      {!isPremium && <button onClick={() => { setShowProfileMenu(false); openContactModal('Premium Upgrade Enquiry'); }} className="text-xs text-amber-600 hover:text-amber-700 font-medium">Upgrade</button>}
                     </div>
                   </div>
-                    <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); setShowChangePassword(true); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-white/5 transition-colors">
+                    <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); setShowChangePassword(true); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-100 hover:bg-white/5 transition-colors">
                       <Lock size={14} /> Change Password
                     </button>
                   <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); signOut(); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
