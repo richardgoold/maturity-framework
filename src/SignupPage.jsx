@@ -94,7 +94,7 @@ export default function SignupPage() {
           </div>
         ) : (
         <>
-        /* Card */
+        {/* Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Create your free account</h1>
           <p className="text-gray-500 text-sm mb-6">Start assessing and growing your firm's value today</p>
