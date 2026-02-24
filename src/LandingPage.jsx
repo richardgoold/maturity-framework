@@ -87,76 +87,63 @@ function NavBar() {
 // \u2500\u2500\u2500 Hero Section \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function HeroSection() {
   return (
-    <>
-      {/* Hero */}
-      <section className="min-h-screen flex items-center justify-center bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section className="min-h-screen flex items-center justify-center bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-          {/* Brand lockup - amber card */}
-          <div className="inline-flex flex-col items-center mb-16">
-            <div className="bg-amber-400 rounded-2xl px-10 py-8 inline-flex flex-col items-center">
-              <div className="flex items-center gap-4 mb-3">
-                <svg viewBox="0 0 200 200" className="w-14 h-14 flex-shrink-0"><rect width="200" height="200" rx="32" fill="none"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.15)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
-                <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">GrowthLens</span>
-              </div>
-              <p className="text-white/90 text-sm sm:text-base italic tracking-wide">Clarity at every stage of growth</p>
-            </div>
-          </div>
-
-          {/* Headline */}
-          <div className="mb-12">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-3">
-              Whether you\u2019re driving growth,<br />
-              building enterprise value,<br />
-              or preparing for what\u2019s next -
-            </h1>
-            <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
-            <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto mt-6"></div>
-          </div>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
-              Sign Up Free
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
-              See How It Works
-            </button>
-          </div>
-
+        {/* Brand lockup - actual logo image */}
+        <div className="mb-12">
+          <img
+            src="/logo-lockup.png"
+            alt="GrowthLens - Clarity at every stage of growth"
+            className="mx-auto h-20 sm:h-24 w-auto rounded-xl"
+          />
         </div>
-      </section>
 
-      {/* Stats bar - below fold */}
-      <section className="py-12 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-8 sm:gap-12">
-            <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
-              <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Growth Themes</p>
-            </div>
-            <div className="w-px h-10 bg-gray-200"></div>
-            <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
-              <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Metrics</p>
-            </div>
-            <div className="w-px h-10 bg-gray-200"></div>
-            <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-black text-amber-500">20+</p>
-              <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
-            </div>
-          </div>
-          <p className="text-center text-xs text-gray-300 mt-4">Benchmarks grounded in industry research spanning 1,000+ professional services firms.</p>
+        {/* Headline */}
+        <div className="mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-3">
+            Whether you're driving growth,<br />
+            building enterprise value,<br />
+            or preparing for what's next -
+          </h1>
+          <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
+          <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto mt-6"></div>
         </div>
-      </section>
 
-      {/* Dashboard illustration \u2014 white background */}
-    </>
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+          <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
+            Sign Up Free
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+          <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
+            See How It Works
+          </button>
+        </div>
+
+        {/* Stats counter */}
+        <div className="flex items-center justify-center gap-8 sm:gap-12 pt-8 border-t border-gray-100">
+          <div className="text-center">
+            <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Growth Themes</p>
+          </div>
+          <div className="w-px h-10 bg-gray-200"></div>
+          <div className="text-center">
+            <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Metrics</p>
+          </div>
+          <div className="w-px h-10 bg-gray-200"></div>
+          <div className="text-center">
+            <p className="text-3xl sm:text-4xl font-black text-amber-500">20+</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
+          </div>
+        </div>
+        <p className="text-center text-xs text-gray-300 mt-4">Benchmarks grounded in industry research spanning 1,000+ professional services firms.</p>
+
+      </div>
+    </section>
   );
 }
-
-// ─── Previews Section ────────────────────────────────────────────
 function PreviewsSection() {
   return (
     <section className="py-16 sm:py-24 bg-white">
