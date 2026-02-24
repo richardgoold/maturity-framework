@@ -4530,15 +4530,9 @@ export default function App() {
       )}
       {/* Header */}
       <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0 bg-white border-b border-gray-200" style={{position:"relative",zIndex:99997}}>
-              <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => { setView("firms"); setSelectedFirmId(null); setSelectedAssessmentId(null); }}>
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-                <svg viewBox="0 0 200 200" className="w-8 h-8"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
+              <div className="cursor-pointer" onClick={() => { navigate('/'); }}>
+                <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-8 w-auto" />
               </div>
-          <div>
-                  <h1 className="text-sm font-bold text-gray-900 leading-tight">GrowthLens</h1>
-            <p className="text-xs text-gray-500">M&A Due Diligence Assessment Platform</p>
-          </div>
-          {user && (<>
             <div className="relative" style={{ zIndex: 50 }}>
               <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(!showProfileMenu); }} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors">
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${isPremium ? 'bg-amber-100 text-amber-800' : 'bg-gray-200 text-gray-600'}`}>{isPremium ? 'Premium' : 'Free'}</span>
