@@ -124,18 +124,18 @@ function HeroSection() {
         {/* Stats counter */}
         <div className="flex items-center justify-center gap-8 sm:gap-12 pt-8 border-t border-gray-100">
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
-            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Growth Themes</p>
+            <p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
+            <p className="text-sm sm:text-base text-gray-400 mt-1 font-medium">Growth Themes</p>
           </div>
-          <div className="w-px h-10 bg-gray-200"></div>
+          <div className="w-px h-12 bg-gray-200"></div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
-            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Metrics</p>
+            <p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
+            <p className="text-sm sm:text-base text-gray-400 mt-1 font-medium">Metrics</p>
           </div>
-          <div className="w-px h-10 bg-gray-200"></div>
+          <div className="w-px h-12 bg-gray-200"></div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
-            <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
+            <p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
+            <p className="text-sm sm:text-base text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
           </div>
         </div>
         <p className="text-center text-xs text-gray-300 mt-4">Benchmarks grounded in industry research spanning 1,000+ professional services firms.</p>
@@ -146,7 +146,7 @@ function HeroSection() {
 }
 function PreviewsSection() {
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section className="py-16 sm:py-24 bg-white border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 max-w-2xl mx-auto leading-tight">
