@@ -93,7 +93,7 @@ function HeroSection() {
         {/* Brand lockup - actual logo image */}
         <div className="mb-12">
           <img
-            src="/logo-lockup.png"
+            src="/GrowthLens%20Logo.png"
             alt="GrowthLens - Clarity at every stage of growth"
             className="mx-auto h-20 sm:h-24 w-auto rounded-xl"
           />
