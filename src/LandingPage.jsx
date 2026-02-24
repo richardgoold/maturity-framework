@@ -776,7 +776,7 @@ function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-7 w-auto" />
+              <img src="/GrowthLens%20Logo_transparent.png" alt="GrowthLens" className="h-7 w-auto" />
             </div>
 
             {/* Links */}
