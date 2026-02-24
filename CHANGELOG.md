@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #478] — 24 February 2026
+### Changes
+- Add files via upload
+
+---
+
+
 ## [Build #477] — 24 February 2026
 ### Changes
 - Mobile responsive: fix logo cutoff, tighter spacing, aligned stats
