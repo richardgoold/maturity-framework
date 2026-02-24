@@ -68,7 +68,7 @@ export default function SignupPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">
-            <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-10 w-auto" />
+            <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-16 w-auto" />
           </Link>
         </div>
 
