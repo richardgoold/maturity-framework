@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #489] — 24 February 2026
+### Changes
+- Use transparent logo in footer for dark background
+
+---
+
+
 ## [Build #488] — 24 February 2026
 ### Changes
 - Add files via upload
