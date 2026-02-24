@@ -84,107 +84,47 @@ function NavBar() {
 }
 
 // ─── Hero Section ────────────────────────────────────────────────
+// \u2500\u2500\u2500 Hero Section \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function HeroSection() {
   return (
     <>
-      <section className="min-h-screen flex items-center bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left column - Content */}
-            <div className="text-center lg:text-left">
-              {/* Logo + wordmark */}
-              <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden">
-                  <svg viewBox="0 0 200 200" className="w-14 h-14"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
-                </div>
-                <span className="text-3xl font-extrabold text-gray-900">GrowthLens</span>
-              </div>
+      {/* Hero */}
+      <section className="min-h-screen flex items-center justify-center bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-              {/* Tagline */}
-              <p className="text-sm font-semibold tracking-widest uppercase text-gray-400 mb-10">Clarity at every stage of growth</p>
-
-              {/* Headline */}
-              <div className="mb-8">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-2">
-                  Whether you're driving growth,<br />
-                  building enterprise value,<br />
-                  or preparing for what's next -
-                </h1>
-                <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
-                <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto lg:mx-0 mt-5"></div>
+          {/* Brand lockup - amber card */}
+          <div className="inline-flex flex-col items-center mb-16">
+            <div className="bg-amber-400 rounded-2xl px-10 py-8 inline-flex flex-col items-center">
+              <div className="flex items-center gap-4 mb-3">
+                <svg viewBox="0 0 200 200" className="w-14 h-14 flex-shrink-0"><rect width="200" height="200" rx="32" fill="none"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.15)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
+                <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">GrowthLens</span>
               </div>
-
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
-                  Sign Up Free
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-                <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
-                  See How It Works
-                </button>
-              </div>
-            </div>
-
-            {/* Right column - Dashboard illustration */}
-            <div className="hidden lg:block relative">
-              <div className="relative transform perspective-1000 rotate-y-[-4deg] rotate-x-[2deg]" style={{transform: 'perspective(1200px) rotateY(-4deg) rotateX(2deg)'}}>
-                <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-4">
-                  {/* Browser chrome */}
-                  <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
-                    <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                    </div>
-                    <div className="flex-1 bg-gray-100 rounded-md py-1 px-3 text-xs text-gray-400 text-center">growthlens.app/dashboard</div>
-                  </div>
-                  {/* Dashboard grid */}
-                  <div className="grid grid-cols-3 gap-3">
-                    {/* M&A Readiness */}
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-bold text-gray-700 mb-2">M&A Readiness</p>
-                      <div className="flex items-center justify-center">
-                        <svg viewBox="0 0 80 80" className="w-16 h-16">
-                          <circle cx="40" cy="40" r="30" fill="none" stroke="#e5e7eb" strokeWidth="6"/>
-                          <circle cx="40" cy="40" r="30" fill="none" stroke="#f59e0b" strokeWidth="6" strokeDasharray="151" strokeDashoffset="30" strokeLinecap="round" transform="rotate(-90 40 40)"/>
-                          <text x="40" y="44" textAnchor="middle" className="text-xs font-bold" fill="#111" fontSize="14">80%</text>
-                        </svg>
-                      </div>
-                    </div>
-                    {/* Radar chart placeholder */}
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-bold text-gray-700 mb-2">Maturity Overview</p>
-                      <svg viewBox="0 0 80 80" className="w-full h-16">
-                        <polygon points="40,12 65,30 58,58 22,58 15,30" fill="none" stroke="#e5e7eb" strokeWidth="1"/>
-                        <polygon points="40,20 58,32 53,52 27,52 22,32" fill="none" stroke="#e5e7eb" strokeWidth="1"/>
-                        <polygon points="40,22 55,34 50,50 30,50 25,34" fill="rgba(27,79,114,0.2)" stroke="#1B4F72" strokeWidth="1.5"/>
-                      </svg>
-                    </div>
-                    {/* Benchmark */}
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-bold text-gray-700 mb-2">Benchmark</p>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">Financial</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width:'80%'}}></div></div></div>
-                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">People</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width:'70%'}}></div></div></div>
-                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">Services</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-amber-400 h-2 rounded-full" style={{width:'55%'}}></div></div></div>
-                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">Sales</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-red-400 h-2 rounded-full" style={{width:'35%'}}></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Heatmap row */}
-                  <div className="bg-gray-50 rounded-lg p-3">
-                    <p className="text-xs font-bold text-gray-700 mb-2">57 Metric Maturity Heatmap</p>
-                    <div className="flex gap-1 flex-wrap">
-                      {['#A5D6A7','#A5D6A7','#BBDEFB','#FFE0B2','#A5D6A7','#BBDEFB','#A5D6A7','#FFE0B2','#BBDEFB','#A5D6A7','#F0F0F0','#A5D6A7','#BBDEFB','#FFE0B2','#A5D6A7','#BBDEFB','#FFE0B2','#A5D6A7','#A5D6A7','#BBDEFB','#FFE0B2','#F0F0F0','#A5D6A7','#BBDEFB'].map((c, i) => (
-                        <div key={i} className="w-4 h-4 rounded-sm" style={{backgroundColor: c}}></div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p className="text-white/90 text-sm sm:text-base italic tracking-wide">Clarity at every stage of growth</p>
             </div>
           </div>
+
+          {/* Headline */}
+          <div className="mb-12">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-3">
+              Whether you\u2019re driving growth,<br />
+              building enterprise value,<br />
+              or preparing for what\u2019s next -
+            </h1>
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
+            <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto mt-6"></div>
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
+              Sign Up Free
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
+              See How It Works
+            </button>
+          </div>
+
         </div>
       </section>
 
@@ -203,7 +143,7 @@ function HeroSection() {
             </div>
             <div className="w-px h-10 bg-gray-200"></div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
+              <p className="text-3xl sm:text-4xl font-black text-amber-500">20+</p>
               <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
             </div>
           </div>
@@ -211,253 +151,7 @@ function HeroSection() {
         </div>
       </section>
 
-      {/* Dashboard illustration — white background */}
-      <section className="pt-16 sm:pt-24 pb-16 sm:pb-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12"><h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">Your dashboard at a glance</h2><p className="text-gray-500 mt-3 text-sm sm:text-base">Everything you need to assess, benchmark, and improve — in one place.</p></div>
-        <div className="max-w-5xl mx-auto">
-          <div className="relative">
-            <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
-              {/* Browser bar */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-gray-100 border-b border-gray-200">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                </div>
-                <div className="flex-1 mx-4">
-                  <div className="bg-white rounded-md px-3 py-1 text-gray-500 text-xs border border-gray-200">
-                    growthlens.app/dashboard
-                  </div>
-                </div>
-              </div>
-              {/* Rich dashboard mockup */}
-              <div className="p-3 sm:p-4 bg-gray-50">
-                {/* Top row: Score + Radar + Benchmark */}
-                <div className="grid grid-cols-12 gap-2 sm:gap-3">
-                  {/* Readiness score donut */}
-                  <div className="col-span-3 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
-                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1">M&A Readiness</p>
-                    <div className="flex items-center justify-center">
-                      <svg viewBox="0 0 80 80" className="w-12 h-12 sm:w-14 sm:h-14">
-                        <circle cx="40" cy="40" r="32" fill="none" stroke="#d1d5db" strokeWidth="6" />
-                        <circle cx="40" cy="40" r="32" fill="none" stroke="#f59e0b" strokeWidth="6" strokeDasharray="161" strokeDashoffset="32" strokeLinecap="round" transform="rotate(-90 40 40)" />
-                        <text x="40" y="38" textAnchor="middle" fill="#1f2937" fontSize="16" fontWeight="bold">80%</text>
-                        <text x="40" y="50" textAnchor="middle" fill="#9ca3af" fontSize="7">Nearly Ready</text>
-                      </svg>
-                    </div>
-                    {/* All 10 theme scores */}
-                    <div className="mt-1 space-y-0.5">
-                      {[
-                        { name: 'Financial', pct: 85, color: '#22c55e' },
-                        { name: 'People', pct: 72, color: '#22c55e' },
-                        { name: 'Services', pct: 78, color: '#22c55e' },
-                        { name: 'Vision', pct: 60, color: '#ef4444' },
-                        { name: 'Sales', pct: 55, color: '#ef4444' },
-                        { name: 'Clients', pct: 82, color: '#22c55e' },
-                        { name: 'Leadership', pct: 75, color: '#f59e0b' },
-                        { name: 'Cost', pct: 62, color: '#f59e0b' },
-                        { name: 'Delivery', pct: 88, color: '#22c55e' },
-                        { name: 'Market', pct: 58, color: '#ef4444' },
-                      ].map((t) => (
-                        <div key={t.name} className="flex items-center gap-1">
-                          <span className="text-gray-500 text-[6px] w-12 text-right">{t.name}</span>
-                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full">
-                            <div className="h-full rounded-full" style={{ width: `${t.pct}%`, backgroundColor: t.color }}></div>
-                          </div>
-                          <span className="text-gray-500 text-[6px] w-5">{t.pct}%</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Radar chart — 10-axis */}
-                  <div className="col-span-5 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
-                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1">Maturity Overview</p>
-                    <svg viewBox="0 0 240 190" className="w-full">
-                      {/* 10-point radar grid — 3 concentric rings */}
-                      {[1, 0.67, 0.33].map((scale, ring) => {
-                        const cx = 120, cy = 90, r = 65 * scale;
-                        const pts = Array.from({length: 10}, (_, i) => {
-                          const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
-                          return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
-                        }).join(' ');
-                        return <polygon key={ring} points={pts} fill="none" stroke="#d1d5db" strokeWidth="0.5" />;
-                      })}
-                      {/* Axis lines */}
-                      {Array.from({length: 10}, (_, i) => {
-                        const cx = 120, cy = 90, r = 65;
-                        const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
-                        return <line key={i} x1={cx} y1={cy} x2={cx + r * Math.cos(angle)} y2={cy + r * Math.sin(angle)} stroke="#d1d5db" strokeWidth="0.3" />;
-                      })}
-                      {/* Your Firm — varied shape */}
-                      {(() => {
-                        const cx = 120, cy = 90, r = 65;
-                        const scores = [0.85, 0.72, 0.78, 0.60, 0.55, 0.82, 0.75, 0.62, 0.88, 0.58];
-                        const pts = scores.map((s, i) => {
-                          const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
-                          return `${cx + r * s * Math.cos(angle)},${cy + r * s * Math.sin(angle)}`;
-                        }).join(' ');
-                        return <polygon points={pts} fill="#1B4F72" fillOpacity="0.35" stroke="#1B4F72" strokeWidth="2" />;
-                      })()}
-                      {/* M&A-Ready benchmark — smoother, rounder */}
-                      {(() => {
-                        const cx = 120, cy = 90, r = 65;
-                        const bench = [0.70, 0.68, 0.66, 0.64, 0.65, 0.68, 0.67, 0.65, 0.70, 0.65];
-                        const pts = bench.map((s, i) => {
-                          const angle = (Math.PI * 2 * i / 10) - Math.PI / 2;
-                          return `${cx + r * s * Math.cos(angle)},${cy + r * s * Math.sin(angle)}`;
-                        }).join(' ');
-                        return <polygon points={pts} fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="4,3" />;
-                      })()}
-                      {/* 10 labels */}
-                      {[
-                        { name: 'Financial', angle: 0 },
-                        { name: 'People', angle: 1 },
-                        { name: 'Services', angle: 2 },
-                        { name: 'Vision', angle: 3 },
-                        { name: 'Sales', angle: 4 },
-                        { name: 'Clients', angle: 5 },
-                        { name: 'Leadership', angle: 6 },
-                        { name: 'Cost', angle: 7 },
-                        { name: 'Delivery', angle: 8 },
-                        { name: 'Market', angle: 9 },
-                      ].map((label) => {
-                        const cx = 120, cy = 90, r = 78;
-                        const a = (Math.PI * 2 * label.angle / 10) - Math.PI / 2;
-                        const x = cx + r * Math.cos(a);
-                        const y = cy + r * Math.sin(a);
-                        const anchor = x < 110 ? 'end' : x > 130 ? 'start' : 'middle';
-                        return <text key={label.name} x={x} y={y + 3} textAnchor={anchor} fill="#9ca3af" fontSize="6.5">{label.name}</text>;
-                      })}
-                    </svg>
-                    <div className="flex items-center justify-center gap-4 -mt-1">
-                      <div className="flex items-center gap-1"><div className="w-3 h-1 bg-blue-800 rounded"></div><span className="text-gray-500 text-[8px]">Your Firm</span></div>
-                      <div className="flex items-center gap-1"><div className="w-3 h-1 border-t border-dashed border-amber-500"></div><span className="text-gray-500 text-[8px]">M&A-Ready</span></div>
-                    </div>
-                  </div>
-                  {/* Benchmark bars — all 10 themes */}
-                  <div className="col-span-4 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
-                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1">Benchmark Comparison</p>
-                    <div className="space-y-1">
-                      {[
-                        { name: 'Financial', score: 85, bench: 70 },
-                        { name: 'People', score: 72, bench: 68 },
-                        { name: 'Services', score: 78, bench: 66 },
-                        { name: 'Vision', score: 60, bench: 64 },
-                        { name: 'Sales', score: 55, bench: 65 },
-                        { name: 'Clients', score: 82, bench: 68 },
-                        { name: 'Leadership', score: 75, bench: 67 },
-                        { name: 'Cost', score: 62, bench: 65 },
-                        { name: 'Delivery', score: 88, bench: 70 },
-                        { name: 'Market', score: 58, bench: 65 },
-                      ].map((d) => (
-                        <div key={d.name} className="flex items-center gap-1.5">
-                          <span className="text-gray-500 text-[6px] sm:text-[7px] w-12 text-right">{d.name}</span>
-                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full relative overflow-hidden">
-                            <div className="h-full rounded-full" style={{ width: `${d.score}%`, backgroundColor: d.score >= d.bench ? '#22c55e' : d.score >= d.bench - 5 ? '#f59e0b' : '#ef4444' }}></div>
-                            <div className="absolute top-0 h-full w-0.5 bg-gray-400" style={{ left: `${d.bench}%` }}></div>
-                          </div>
-                          <span className="text-gray-500 text-[6px] w-5">{d.score}%</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom row: Heatmap (labelled grid) + Key Insights (data-rich) */}
-                <div className="grid grid-cols-12 gap-2 sm:gap-3 mt-2 sm:mt-3">
-                  {/* 2-column heatmap matching the real app layout */}
-                  <div className="col-span-7 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
-                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1.5">57-Metric Maturity Heatmap</p>
-                    <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                      {[
-                        { theme: 'Financial Performance', cells: [3,2,3,3,2,3] },
-                        { theme: 'Clients & Relationships', cells: [3,3,2,3] },
-                        { theme: 'People', cells: [2,3,1,2,3] },
-                        { theme: 'Leadership & Governance', cells: [2,3,2] },
-                        { theme: 'Services & Pricing', cells: [3,2,3,2,3] },
-                        { theme: 'Cost Optimisation', cells: [2,1,2,1,2,1,2] },
-                        { theme: 'Vision & Strategy', cells: [2,1,2,2,1] },
-                        { theme: 'Delivery', cells: [3,3,2] },
-                        { theme: 'Sales & Pipeline', cells: [1,2,1,2] },
-                        { theme: 'Market Profile', cells: [2,1,2,2,1] },
-                      ].map((row) => (
-                        <div key={row.theme}>
-                          <p className="text-gray-500 text-[5px] sm:text-[6px] mb-0.5 truncate">{row.theme}</p>
-                          <div className="flex gap-0.5">
-                            {row.cells.map((v, i) => (
-                              <div key={i} className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-sm flex items-center justify-center text-[5px] font-bold" style={{
-                                backgroundColor: v === 3 ? '#A5D6A7' : v === 2 ? '#BBDEFB' : '#FFE0B2',
-                                color: v === 3 ? '#1E8449' : v === 2 ? '#7D6608' : '#922B21',
-                              }}>{v}</div>
-                            ))}
-                          </div>
-                        </div>            ))}
-                    </div>
-                    <div className="flex items-center gap-2 mt-1.5">
-                      <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#FFE0B2'}}></div><span className="text-gray-500 text-[5px]">Foundational</span></div>
-                      <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#BBDEFB'}}></div><span className="text-gray-500 text-[5px]">Evolving</span></div>
-                      <div className="flex items-center gap-0.5"><div className="w-2 h-2 rounded-sm" style={{backgroundColor:'#A5D6A7'}}></div><span className="text-gray-500 text-[5px]">Optimised</span></div>
-                    </div>
-                  </div>
-                  {/* Key Insights — data-rich panel */}
-                  <div className="col-span-5 bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200 flex flex-col">
-                    <p className="text-gray-500 text-[10px] sm:text-xs mb-1.5">Key Insights</p>
-                    <div className="space-y-1.5 flex-1">
-                      <div>
-                        <p className="text-green-400 text-[7px] sm:text-[8px] font-semibold mb-0.5">Top Strengths</p>
-                        {[
-                          { name: 'Financial Performance', score: '85%' },
-                          { name: 'Delivery Excellence', score: '88%' },
-                          { name: 'Client Relationships', score: '82%' },
-                        ].map((s) => (
-                          <div key={s.name} className="flex items-center justify-between mb-0.5">
-                            <div className="flex items-center gap-1">
-                              <div className="w-1 h-1 rounded-full bg-green-400"></div>
-                              <span className="text-gray-500 text-[7px]">{s.name}</span>
-                            </div>
-                            <span className="text-green-400 text-[7px] font-semibold">{s.score}</span>
-                          </div>
-                        ))}
-                      </div>
-                      <div>
-                        <p className="text-amber-400 text-[7px] sm:text-[8px] font-semibold mb-0.5">Priority Improvements</p>
-                        {[
-                          { name: 'Sales & Pipeline', gap: '+10%' },
-                          { name: 'Vision & Strategy', gap: '+8%' },
-                          { name: 'Market Profile', gap: '+7%' },
-                        ].map((s) => (
-                          <div key={s.name} className="flex items-center justify-between mb-0.5">
-                            <div className="flex items-center gap-1">
-                              <div className="w-1 h-1 rounded-full bg-amber-400"></div>
-                              <span className="text-gray-500 text-[7px]">{s.name}</span>
-                            </div>
-                            <span className="text-amber-400 text-[7px] font-semibold">{s.gap}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    {/* Summary stat */}
-                    <div className="mt-1.5 pt-1.5 border-t border-gray-200/50">
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[7px]">M&A Readiness</span>
-                        <span className="text-amber-400 text-[8px] font-bold">80% — Nearly Ready</span>
-                      </div>
-                      <div className="flex items-center justify-between mt-0.5">
-                        <span className="text-gray-500 text-[7px]">Themes above benchmark</span>
-                        <span className="text-green-400 text-[8px] font-bold">6 of 10</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Decorative glow */}
-            <div className="absolute -inset-4 bg-gray-200/50 rounded-2xl blur-2xl -z-10"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+      {/* Dashboard illustration \u2014 white background */}
     </>
   );
 }
