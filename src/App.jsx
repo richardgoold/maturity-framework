@@ -4555,7 +4555,7 @@ export default function App() {
                       {!isPremium && <button onClick={() => { setShowProfileMenu(false); openContactModal('Premium Upgrade Enquiry'); }} className="text-xs text-amber-600 hover:text-amber-700 font-medium">Upgrade</button>}
                     </div>
                   </div>
-                    <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); setShowChangePassword(true); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-100 hover:bg-white/5 transition-colors">
+                    <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); setShowChangePassword(true); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                       <Lock size={14} /> Change Password
                     </button>
                   <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(false); signOut(); }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
