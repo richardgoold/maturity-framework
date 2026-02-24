@@ -101,12 +101,12 @@ function HeroSection() {
 
         {/* Headline */}
         <div className="mb-10">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-snug mb-3">
             Whether you're driving growth,<br />
             building enterprise value,<br />
             or preparing for what's next -
           </h1>
-          <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
+          <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
           <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto mt-6"></div>
         </div>
 
@@ -134,7 +134,7 @@ function HeroSection() {
           </div>
           <div className="w-px h-10 bg-gray-200"></div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-black text-amber-500">20+</p>
+            <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
             <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
           </div>
         </div>
