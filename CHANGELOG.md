@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #486] — 24 February 2026
+### Changes
+- Fix JSX comment syntax on signup page
+
+---
+
+
 ## [Build #485] — 24 February 2026
 ### Changes
 - Fix header JSX structure - remove orphaned fragment closers
