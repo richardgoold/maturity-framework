@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #468] — 24 February 2026
+### Changes
+- Headline: add line breaks between phrases and reduce font size
+
+---
+
+
 ## [Build #467] — 24 February 2026
 ### Changes
 - Fix stray span> and div> JSX artifacts in landing page headline
