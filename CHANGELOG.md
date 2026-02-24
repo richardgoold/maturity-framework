@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #488] — 24 February 2026
+### Changes
+- Add files via upload
+
+---
+
+
 ## [Build #487] — 24 February 2026
 ### Changes
 - Replace footer logo with brand image
