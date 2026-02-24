@@ -87,20 +87,20 @@ function NavBar() {
 // \u2500\u2500\u2500 Hero Section \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-white">
+    <section className="min-h-screen flex items-center justify-center bg-white pt-20 sm:pt-24 pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
         {/* Brand lockup - actual logo image */}
-        <div className="mb-12">
+        <div className="mb-6 sm:mb-12">
           <img
             src="/GrowthLens%20Logo.png"
             alt="GrowthLens - Clarity at every stage of growth"
-            className="mx-auto h-20 sm:h-24 w-auto rounded-xl"
+            className="mx-auto h-14 sm:h-20 lg:h-24 w-auto rounded-xl"
           />
         </div>
 
         {/* Headline */}
-        <div className="mb-10">
+        <div className="mb-6 sm:mb-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-snug mb-3">
             Whether you're driving growth,<br />
             building enterprise value,<br />
@@ -111,7 +111,7 @@ function HeroSection() {
         </div>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-14">
           <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
             Sign Up Free
             <ArrowRight className="w-5 h-5" />
@@ -122,19 +122,16 @@ function HeroSection() {
         </div>
 
         {/* Stats counter */}
-        <div className="flex items-center justify-center gap-8 sm:gap-12 pt-8 border-t border-gray-100">
-          <div className="text-center">
-            <p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
+        <div className="flex items-start justify-center gap-6 sm:gap-12 pt-8 border-t border-gray-100">
+          <div className="text-center flex-1 min-w-0"><p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
             <p className="text-sm sm:text-base text-gray-400 mt-1 font-medium">Growth Themes</p>
           </div>
-          <div className="w-px h-12 bg-gray-200"></div>
-          <div className="text-center">
-            <p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
+          <div className="w-px h-16 bg-gray-200 mt-2"></div>
+          <div className="text-center flex-1 min-w-0"><p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
             <p className="text-sm sm:text-base text-gray-400 mt-1 font-medium">Metrics</p>
           </div>
-          <div className="w-px h-12 bg-gray-200"></div>
-          <div className="text-center">
-            <p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
+          <div className="w-px h-16 bg-gray-200 mt-2"></div>
+          <div className="text-center flex-1 min-w-0"><p className="text-4xl sm:text-5xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
             <p className="text-sm sm:text-base text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
           </div>
         </div>
