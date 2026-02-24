@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #492] — 24 February 2026
+### Changes
+- Increase logo size on login and password reset pages
+
+---
+
+
 ## [Build #491] — 24 February 2026
 ### Changes
 - Fix Change Password dropdown styling to match Sign Out button
