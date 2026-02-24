@@ -87,42 +87,103 @@ function NavBar() {
 function HeroSection() {
   return (
     <>
-      <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Logo + wordmark */}
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden">
-                <svg viewBox="0 0 200 200" className="w-14 h-14"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="86"/><line x1="130" y1="158" x2="130" y2="66"/><circle cx="135" cy="52" r="16" fill="white" stroke="none"/><path d="M 128,52 L 133,57 L 143,47" strokeWidth="5"/></g></svg>
+      <section className="min-h-screen flex items-center bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left column - Content */}
+            <div className="text-center lg:text-left">
+              {/* Logo + wordmark */}
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden">
+                  <svg viewBox="0 0 200 200" className="w-14 h-14"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5" strokeLinecap="round"/><path d="M 90,50 Q 96,42 106,44" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinecap="round"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
+                </div>
+                <span className="text-3xl font-extrabold text-gray-900">GrowthLens</span>
               </div>
-              <span className="text-3xl font-extrabold text-gray-900">GrowthLens</span>
+
+              {/* Tagline */}
+              <p className="text-sm font-semibold tracking-widest uppercase text-gray-400 mb-10">Clarity at every stage of growth</p>
+
+              {/* Headline */}
+              <div className="mb-8">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-2">
+                  Whether you're driving growth,<br />
+                  building enterprise value,<br />
+                  or preparing for what's next -
+                </h1>
+                <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
+                <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto lg:mx-0 mt-5"></div>
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
+                  Sign Up Free
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
+                  See How It Works
+                </button>
+              </div>
             </div>
 
-            {/* Tagline */}
-            <p className="text-gray-400 text-base font-medium mb-10">Clarity at every stage of growth</p>
-
-            {/* Headline - Option B: Two-tone with amber payoff */}
-            <div className="max-w-2xl mx-auto mb-6">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-2">
-                Whether you're driving growth,<br />
-                building enterprise value,<br />
-                or preparing for what's next -
-              </h1>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
-              <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto mt-5"></div>
+            {/* Right column - Dashboard illustration */}
+            <div className="hidden lg:block relative">
+              <div className="relative transform perspective-1000 rotate-y-[-4deg] rotate-x-[2deg]" style={{transform: 'perspective(1200px) rotateY(-4deg) rotateX(2deg)'}}>
+                <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-4">
+                  {/* Browser chrome */}
+                  <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                    </div>
+                    <div className="flex-1 bg-gray-100 rounded-md py-1 px-3 text-xs text-gray-400 text-center">growthlens.app/dashboard</div>
+                  </div>
+                  {/* Dashboard grid */}
+                  <div className="grid grid-cols-3 gap-3">
+                    {/* M&A Readiness */}
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-bold text-gray-700 mb-2">M&A Readiness</p>
+                      <div className="flex items-center justify-center">
+                        <svg viewBox="0 0 80 80" className="w-16 h-16">
+                          <circle cx="40" cy="40" r="30" fill="none" stroke="#e5e7eb" strokeWidth="6"/>
+                          <circle cx="40" cy="40" r="30" fill="none" stroke="#f59e0b" strokeWidth="6" strokeDasharray="151" strokeDashoffset="30" strokeLinecap="round" transform="rotate(-90 40 40)"/>
+                          <text x="40" y="44" textAnchor="middle" className="text-xs font-bold" fill="#111" fontSize="14">80%</text>
+                        </svg>
+                      </div>
+                    </div>
+                    {/* Radar chart placeholder */}
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-bold text-gray-700 mb-2">Maturity Overview</p>
+                      <svg viewBox="0 0 80 80" className="w-full h-16">
+                        <polygon points="40,12 65,30 58,58 22,58 15,30" fill="none" stroke="#e5e7eb" strokeWidth="1"/>
+                        <polygon points="40,20 58,32 53,52 27,52 22,32" fill="none" stroke="#e5e7eb" strokeWidth="1"/>
+                        <polygon points="40,22 55,34 50,50 30,50 25,34" fill="rgba(27,79,114,0.2)" stroke="#1B4F72" strokeWidth="1.5"/>
+                      </svg>
+                    </div>
+                    {/* Benchmark */}
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-bold text-gray-700 mb-2">Benchmark</p>
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">Financial</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width:'80%'}}></div></div></div>
+                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">People</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width:'70%'}}></div></div></div>
+                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">Services</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-amber-400 h-2 rounded-full" style={{width:'55%'}}></div></div></div>
+                        <div className="flex items-center gap-1"><span className="text-[8px] text-gray-400 w-12 truncate">Sales</span><div className="flex-1 bg-gray-200 rounded-full h-2"><div className="bg-red-400 h-2 rounded-full" style={{width:'35%'}}></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Heatmap row */}
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs font-bold text-gray-700 mb-2">57 Metric Maturity Heatmap</p>
+                    <div className="flex gap-1 flex-wrap">
+                      {['#A5D6A7','#A5D6A7','#BBDEFB','#FFE0B2','#A5D6A7','#BBDEFB','#A5D6A7','#FFE0B2','#BBDEFB','#A5D6A7','#F0F0F0','#A5D6A7','#BBDEFB','#FFE0B2','#A5D6A7','#BBDEFB','#FFE0B2','#A5D6A7','#A5D6A7','#BBDEFB','#FFE0B2','#F0F0F0','#A5D6A7','#BBDEFB'].map((c, i) => (
+                        <div key={i} className="w-4 h-4 rounded-sm" style={{backgroundColor: c}}></div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
-                Sign Up Free
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <button onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); } }} className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 gap-2">
-                See How It Works
-              </button>
-            </div>
-
           </div>
         </div>
       </section>
