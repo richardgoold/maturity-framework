@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #487] — 24 February 2026
+### Changes
+- Replace footer logo with brand image
+
+---
+
+
 ## [Build #486] — 24 February 2026
 ### Changes
 - Fix JSX comment syntax on signup page
