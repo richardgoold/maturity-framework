@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #490] — 24 February 2026
+### Changes
+- Fix contact modal subject bug and Change Password text colour
+
+---
+
+
 ## [Build #489] — 24 February 2026
 ### Changes
 - Use transparent logo in footer for dark background
