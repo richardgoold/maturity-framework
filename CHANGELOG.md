@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #473] — 24 February 2026
+### Changes
+- Add files via upload
+
+---
+
+
 ## [Build #472] — 24 February 2026
 ### Changes
 - Hero: use img tag for logo, fix apostrophes, move stats into hero
