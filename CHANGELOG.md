@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #491] — 24 February 2026
+### Changes
+- Fix Change Password dropdown styling to match Sign Out button
+
+---
+
+
 ## [Build #490] — 24 February 2026
 ### Changes
 - Fix contact modal subject bug and Change Password text colour
