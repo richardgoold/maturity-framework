@@ -4530,11 +4530,11 @@ export default function App() {
       )}
       {/* Header */}
       <header className="px-4 py-2.5 flex items-center justify-between flex-shrink-0 bg-white border-b border-gray-200" style={{position:"relative",zIndex:99997}}>
-          <div className="flex items-center gap-3">
-              <div className="cursor-pointer" onClick={() => { navigate('/'); }}>
-                <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-8 w-auto" />
-              </div>
+        <div className="flex items-center gap-3">
+          <div className="cursor-pointer" onClick={() => { navigate('/'); }}>
+            <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-8 w-auto" />
           </div>
+        </div>
             <div className="relative" style={{ zIndex: 50 }}>
               <button onClick={(e) => { e.stopPropagation(); setShowProfileMenu(!showProfileMenu); }} className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-700 transition-colors">
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${isPremium ? 'bg-amber-100 text-amber-800' : 'bg-gray-200 text-gray-600'}`}>{isPremium ? 'Premium' : 'Free'}</span>
@@ -4566,8 +4566,6 @@ export default function App() {
                 </>
               )}
             </div>
-          </>)}
-        </div>
         <nav className="hidden lg:flex items-center gap-1">
           {navItems.map(n => (
             <button key={n.id}  disabled={n.disabled && !n.locked} title={n.disabled ? "Please select an assessment first" : ""} onClick={() => {
