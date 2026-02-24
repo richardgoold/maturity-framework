@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #470] — 24 February 2026
+### Changes
+- Hero: two-column layout with dashboard visual, fix logo, sharpen tagline
+
+---
+
+
 ## [Build #469] — 24 February 2026
 ### Changes
 - Hero redesign: new tagline, Option B headline, bigger logo, stats below fold
