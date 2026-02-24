@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #474] — 24 February 2026
+### Changes
+- Update LandingPage.jsxPoint hero logo img to uploaded GrowthLens Logo.png
+
+---
+
+
 ## [Build #473] — 24 February 2026
 ### Changes
 - Add files via upload
