@@ -4,6 +4,19 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #485] — 24 February 2026
+### Changes
+- Fix header JSX structure - remove orphaned fragment closers
+- Fix dashboard header logo wrapper structure
+- Fix navbar logo onClick syntax error
+- Replace dashboard header logo with brand image
+- Replace signup page logo with brand image
+- Replace login page logos with brand image
+- Replace navbar logo with brand image
+
+---
+
+
 ## [Build #478] — 24 February 2026
 ### Changes
 - Add files via upload
