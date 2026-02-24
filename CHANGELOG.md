@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #467] — 24 February 2026
+### Changes
+- Fix stray span> and div> JSX artifacts in landing page headline
+
+---
+
+
 ## [Build #466] — 24 February 2026
 ### Changes
 - Fix JSX corruption in landing page headline section
