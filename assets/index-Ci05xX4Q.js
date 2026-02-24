@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #477] — 24 February 2026
+### Changes
+- Mobile responsive: fix logo cutoff, tighter spacing, aligned stats
+
+---
+
+
 ## [Build #476] — 24 February 2026
 ### Changes
 - Bigger stats counters, add section divider line before Previews
