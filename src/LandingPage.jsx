@@ -91,35 +91,28 @@ function HeroSection() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             {/* Logo + wordmark */}
-            <div className="flex items-center justify-center gap-3 mb-8">
-              <div className="w-11 h-11 rounded-lg flex items-center justify-center overflow-hidden">
-                <svg viewBox="0 0 200 200" className="w-11 h-11"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="76"/><line x1="130" y1="158" x2="130" y2="50"/></g><circle cx="116" cy="78" r="44" fill="rgba(255,255,255,0.1)" stroke="white" strokeWidth="5"/><line x1="146" y1="108" x2="170" y2="132" stroke="white" strokeWidth="6.5" strokeLinecap="round"/></svg>
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden">
+                <svg viewBox="0 0 200 200" className="w-14 h-14"><rect width="200" height="200" rx="32" fill="#f2a71b"/><g stroke="white" strokeWidth="6" strokeLinecap="round" fill="none"><path d="M 30,50 L 30,148 Q 30,158 40,158 L 148,158" strokeLinejoin="round"/><line x1="50" y1="158" x2="50" y2="142"/><line x1="70" y1="158" x2="70" y2="124"/><line x1="90" y1="158" x2="90" y2="102"/><line x1="110" y1="158" x2="110" y2="86"/><line x1="130" y1="158" x2="130" y2="66"/><circle cx="135" cy="52" r="16" fill="white" stroke="none"/><path d="M 128,52 L 133,57 L 143,47" strokeWidth="5"/></g></svg>
               </div>
-              <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">GrowthLens</span>
+              <span className="text-3xl font-extrabold text-gray-900">GrowthLens</span>
             </div>
 
-            {/* Badge */}
-            <div className="mb-8 inline-block">
-              <span className="inline-block px-5 py-2 text-sm sm:text-base font-bold text-amber-700 tracking-wide uppercase bg-amber-50 border-2 border-amber-200 rounded-full">
-                Professional Services Growth Platform
-              </span>
-            </div>
+            {/* Tagline */}
+            <p className="text-gray-400 text-base font-medium mb-10">Clarity at every stage of growth</p>
 
-            {/* Headline - Option 3: Full-width with accent tail */}
-            <div className="max-w-3xl mx-auto mb-6">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight mb-4">
+            {/* Headline - Option B: Two-tone with amber payoff */}
+            <div className="max-w-2xl mx-auto mb-6">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-snug mb-2">
                 Whether you're driving growth,<br />
                 building enterprise value,<br />
-                or preparing for what's next -<br />
-                <span className="text-amber-500">know exactly where your firm stands.</span>
+                or preparing for what's next -
               </h1>
-              <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto"></div>
-            </div>          
-            {/* Subtitle */}
-                    <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
-                                Assess your firm across the 10 growth themes that drive sustainable growth in professional services.
-                                Benchmark against industry standards and get a clear roadmap to maximise value.
-                    </p>            {/* CTAs */}
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-500 leading-snug">move forward with confidence.</p>
+              <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto mt-5"></div>
+            </div>
+
+            {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/signup" className="inline-flex items-center px-10 py-4 bg-amber-400 hover:bg-amber-500 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg shadow-amber-300/30 hover:shadow-xl hover:scale-[1.02] transform gap-2">
                 Sign Up Free
@@ -130,26 +123,30 @@ function HeroSection() {
               </button>
             </div>
 
-            {/* Stats bar */}
-            <div className="flex items-center justify-center gap-8 sm:gap-12 mt-12 pt-10 border-t border-gray-100">
-              <div className="text-center">
-                <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
-                <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Growth Themes</p>
-              </div>
-              <div className="w-px h-10 bg-gray-200"></div>
-              <div className="text-center">
-                <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
-                <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Metrics</p>
-              </div>
-              <div className="w-px h-10 bg-gray-200"></div>
-              <div className="text-center">
-                <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
-                <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-gray-400 mt-4">Benchmarks grounded in industry research spanning 1,000+ professional services firms.</p>
-
           </div>
+        </div>
+      </section>
+
+      {/* Stats bar - below fold */}
+      <section className="py-12 bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center gap-8 sm:gap-12">
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="10" /></p>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Growth Themes</p>
+            </div>
+            <div className="w-px h-10 bg-gray-200"></div>
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="57" /></p>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Metrics</p>
+            </div>
+            <div className="w-px h-10 bg-gray-200"></div>
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-black text-amber-500"><AnimatedCounter target="20" suffix="+" /></p>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1 font-medium">Industry Benchmark Sources</p>
+            </div>
+          </div>
+          <p className="text-center text-xs text-gray-300 mt-4">Benchmarks grounded in industry research spanning 1,000+ professional services firms.</p>
         </div>
       </section>
 
