@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #476] — 24 February 2026
+### Changes
+- Bigger stats counters, add section divider line before Previews
+
+---
+
+
 ## [Build #475] — 24 February 2026
 ### Changes
 - Animate 20+ counter, increase headline font size
