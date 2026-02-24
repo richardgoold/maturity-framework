@@ -106,10 +106,12 @@ function HeroSection() {
             </div>
 
             {/* Headline - Option 3: Full-width with accent tail */}
-            <div className="max-w-3xl mx-auto mb-8">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight tracking-tight mb-4">
-                Whether you're driving growth, building enterprise value, or preparing for what's next -
-                <span className="text-amber-500"> know exactly where your firm stands.</span>
+            <div className="max-w-3xl mx-auto mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight mb-4">
+                Whether you're driving growth,<br />
+                building enterprise value,<br />
+                or preparing for what's next -<br />
+                <span className="text-amber-500">know exactly where your firm stands.</span>
               </h1>
               <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto"></div>
             </div>          
