@@ -105,21 +105,20 @@ function HeroSection() {
               </span>
             </div>
 
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-8">
-              How strong is your firm, <span className="text-amber-500">really?</span>
-            </h1>
-
+            {/* Headline - Option 3: Full-width with accent tail */}
+                      <div className="max-w-3xl mx-auto mb-8">
+                                  <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-tight tracking-tight mb-4">
+                                                Whether you're driving growth, building enterprise value, or preparing for what's next -
+                                                <span className="text-amber-500"> know exactly where your firm stands.</span>span>
+                                  </h1>h1>
+                                  <div className="h-1 w-16 bg-amber-400 rounded-full mx-auto"></div>div>
+                      </div>div>
+          
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
-              Assess your firm across the 10 growth themes that drive sustainable growth in professional services.
-              Benchmark against industry standards and get a clear roadmap to maximise value.
-            </p>
-
-            {/* Tagline */}
-            <p className="text-sm sm:text-base font-extrabold text-amber-500 tracking-[0.2em] uppercase mb-10">
-              Baseline. Blueprint. Navigate.
-            </p>
+                    <p className="text-base sm:text-lg text-gray-500 mb-5 max-w-2xl mx-auto leading-relaxed">
+                                Assess your firm across the 10 growth themes that drive sustainable growth in professional services.
+                                Benchmark against industry standards and get a clear roadmap to maximise value.
+                    </p>p></div>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
