@@ -4,6 +4,14 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #466] — 24 February 2026
+### Changes
+- Fix JSX corruption in landing page headline section
+- Update landing page headline to Option 3 format
+
+---
+
+
 ## [Build #464] — 23 February 2026
 ### Changes
 - Update CLAUDE.md: terminology standardisation, demo banner fix, commit history
