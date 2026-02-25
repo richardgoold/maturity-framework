@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #524] — 25 February 2026
+### Changes
+- Add theme icons, colours and export layout improvements
+
+---
+
+
 ## [Build #523] — 25 February 2026
 ### Changes
 - Fix CSP img-src to allow Supabase storage images (portrait photo)
