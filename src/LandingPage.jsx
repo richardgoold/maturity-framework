@@ -829,6 +829,17 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
       <NavBar />
       <HeroSection />
+      {/* Dashboard Preview Image */}
+      <div className="relative -mt-8 sm:-mt-16 mb-8 sm:mb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div className="rounded-xl shadow-2xl overflow-hidden border border-gray-200">
+          <img
+            src="/screenshots/Dashboard%20Image_Apex%20Consulting%20Partners.png"
+            alt="GrowthLens Dashboard - M&A Readiness Assessment showing maturity overview, benchmark comparison, strengths and improvement areas"
+            className="w-full h-auto"
+            loading="lazy"
+          />
+        </div>
+      </div>
       <PreviewsSection />
       <HowItWorksSection />
       <LogoCarousel />
