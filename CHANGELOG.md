@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #506] — 25 February 2026
+### Changes
+- Remove hero logo, use full logo with strapline in header
+
+---
+
+
 ## [Build #505] — 25 February 2026
 ### Changes
 - Move Free/Premium dropdown next to logo in header
