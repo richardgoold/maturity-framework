@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #511] — 25 February 2026
+### Changes
+- Update CLAUDE.md with landing page and header session changes
+
+---
+
+
 ## [Build #510] — 25 February 2026
 ### Changes
 - Update subtitle text and restore PreviewsSection
