@@ -4,6 +4,21 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #536] — 25 February 2026
+### Changes
+- Remove duplicate variable declarations
+- Add files via upload
+- Update App.jsx
+- Fix: Remove duplicate variable declarations blocking build
+- Update LandingPage.jsx
+- Fix contact form placeholder message
+- Document session changes: firm tier gating, 6 UX improvements, CLAUDE.md update
+- UX improvements: contact form message, remove redundant button, darker text, Not Tracked completion counting, Share tooltip, Compare Assessments button
+- Remove sector field and enforce free tier firm limit (max 1 firm until Premium)
+
+---
+
+
 ## [Build #527] — 25 February 2026
 ### Changes
 - Update CLAUDE.md with Team Assessment feature scoping
