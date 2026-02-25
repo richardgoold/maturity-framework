@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/maturity-framework/',
+  base: '/',
   // SEC-19: Strip console.log and console.warn from production builds
   esbuild: {
     drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
