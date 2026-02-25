@@ -1253,8 +1253,10 @@ export const calcScores = (ratings, benchmarkObj) => {
       // Skip metrics marked as "Not Tracked"
       if (r && r.notTracked) return;
 
-      if (r && r.level) {
-        themeScore += r.level * m.weight;
+      if (r && (r.level || r.notTracked)) {
+        if (r.level) {
+          themeScore += r.level * m.weight;
+        }
         ratedCount++;
         themeRated++;
 
@@ -2851,17 +2853,11 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
           <p className="text-sm text-gray-500">"Professional Services"</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {!atAssessmentLimit && firmAssessments.length === 0 && (
-                  <button onClick={() => setOnboardingFirmId(firm.id)} className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600 transition-colors shadow-sm">
-                    <Plus size={14} /> Start Assessment
-                  </button>
-                )}
-        </div>
+
         {onboardingFirmId === firm.id && (
           <div style={{marginTop: "16px", padding: "20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.2)", borderRadius: "12px"}}>
             <h4 style={{fontSize: "1rem", fontWeight: "600", color: "#f5f5f5", marginBottom: "12px"}}>About This Assessment</h4>
-            <div style={{display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px", fontSize: "0.9rem", color: "#d1d5db"}}>
+            <div style={{display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px", fontSize: "0.9rem", color: "#9ca3af"}}>
               <div><span style={{color: "#f2a71b", fontWeight: "600"}}>Duration:</span> ~10–15 minutes</div>
               <div><span style={{color: "#f2a71b", fontWeight: "600"}}>You'll get:</span> M&A Readiness Score, Gap Analysis & Improvement Roadmap</div>
               <div><span style={{color: "#f2a71b", fontWeight: "600"}}>Tip:</span> Have your firm's financial and operational metrics to hand</div>
@@ -3627,7 +3623,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         </div>
       <div className="flex flex-wrap items-center gap-2">
       <div style={{display: "flex", justifyContent: "flex-end", marginTop: "-8px", marginBottom: "8px"}}>
-        <button onClick={(e) => { navigator.clipboard.writeText("I just assessed my firm's M&A readiness using the GrowthLens framework — try it: https://growthlens.app/"); const b = e.currentTarget; b.textContent = "✓ Copied!"; setTimeout(() => { b.textContent = "Share"; }, 2000); }} style={{background: "transparent", color: "#9ca3af", padding: "4px 12px", borderRadius: "6px", fontSize: "0.8rem", border: "1px solid #374151", cursor: "pointer"}}>Share</button>
+        <button onClick={(e) => { title="Copy a social sharing message to clipboard" onClick={(e) => { navigator.clipboard.writeText("I just assessed my firm's M&A readiness using the GrowthLens framework — try it: https://growthlens.app/"); const b = e.currentTarget; b.textContent = "✓ Copied!"; setTimeout(() => { b.textContent = "Share"; }, 2000); }} style={{background: "transparent", color: "#9ca3af", padding: "4px 12px", borderRadius: "6px", fontSize: "0.8rem", border: "1px solid #374151", cursor: "pointer"}}>Share</button>
       </div>
       {/* Benchmark Profile Selector */}
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
@@ -3636,7 +3632,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           {VISIBLE_PROFILES.map(k => <option key={k} value={k}>{k}</option>)}
         </select>
       </div>
-      <button onClick={onCompare} className="px-4 py-2 text-sm font-medium text-[#f2a71b] bg-amber-900/10 border border-[#f2a71b]/30 rounded-lg hover:bg-[#f2a71b]/10">Insights</button>
+      <button onClick={onCompare} title="Compare multiple assessments over time to track progress" className="px-4 py-2 text-sm font-medium text-white bg-[#f2a71b] border border-[#f2a71b] rounded-lg hover:bg-amber-500 font-semibold">Compare Assessments</button>
       </div>
       </div>
       {/* Section Navigation */}
@@ -4172,7 +4168,7 @@ function ContactView() {
               <textarea required rows={4} value={formData.message}
                 onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition-colors resize-none"
-                placeholder="How can Richard help?" />
+                placeholder="How can we help?" />
             </div>
             {error && <p className="text-red-600 text-sm">{error}</p>}
             <button type="submit" disabled={submitting}
