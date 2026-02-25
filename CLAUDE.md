@@ -7,8 +7,8 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** (25 Feb 2026) - Security hardening: all 22 audit findings implemented
-- **Last updated:** 25 February 2026 (security fixes deployed)
+- **Latest commit:** (25 Feb 2026) - Landing page: dashboard preview image, header/logo changes, password resets
+- **Last updated:** 25 February 2026 (landing page and header updates)
 
 ## Tech Stack
 
@@ -33,7 +33,7 @@ vite.config.js                 # Vite config with base path
 package.json
 src/
   main.jsx                     # React DOM root, routes
-  App.jsx                      # Main application (~4667 lines, deployed version)
+  App.jsx                      # Main application (~4708 lines, deployed version)
   AuthContext.jsx               # Supabase auth provider (signUp, signIn, signOut, updatePassword, resetPassword)
   LoginPage.jsx                 # Login form (h-16 logo)
   SignupPage.jsx                # Signup form (h-16 logo)
@@ -46,13 +46,16 @@ src/
   gating.js                     # Feature gating (GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES)
   UpgradePrompt.jsx             # Premium upgrade prompts (separate from App.jsx)
   ContactModal.jsx              # Contact form modal (separate from App.jsx, uses openContactModal/useContactModal)
-  LandingPage.jsx               # Public landing page (growthlens.app)
+  LandingPage.jsx               # Public landing page (growthlens.app, ~860 lines)
   App.css                       # Minimal styles
   index.css                     # Global styles
 public/
   GrowthLens Logo.png                  # Full logo with amber background
   GrowthLens Logo_no strapline.png     # Without strapline (used on login/signup pages)
   GrowthLens Logo_transparent.png      # Transparent background (used in footer)
+  screenshots/
+    Dashboard Image_Apex Consulting Partners.png  # Dashboard preview for landing page (420KB)
+    assessment-view.svg, dashboard-charts.svg, dashboard-scores.svg, gap-analysis.svg
 CHANGELOG.md                      # Auto-generated changelog
 CLAUDE.md                         # This file
 SECURITY.md                       # Vulnerability disclosure policy (SEC-20)
@@ -139,13 +142,14 @@ WHERE email = 'demo@growthlens.app';
 - **UI Components:** MetricCard, ThemeSidebar, HeatmapGrid, StrengthsWeaknesses, ExportPanel, RadarOverview, BenchmarkComparison, ImprovementRoadmap, TrendAnalysisPanel, ScoreChangePanel, TemplateSelector, Breadcrumbs
 - **Views:** FirmListView, FirmDetailView, AssessmentView, DashboardView, InsightsView, ConnectView, GuidancePage
 - **App component:** Main component with auth, state management, navigation
+  - **Header layout:** Free/Premium dropdown sits inside the logo's left flex group (next to logo, not floating)
   - Upgrade button (~line 4555): `openContactModal('Premium Upgrade Enquiry')`
   - Change Password button (~line 4558): `text-gray-700 hover:bg-gray-50` (matching Sign Out)
   - Sign Out button (~line 4561): `text-gray-700 hover:bg-gray-50`
   - Change password modal (~line 4455): overlay with z-[100]
 
-**Workspace sync status (updated 24 Feb 2026):**
-The workspace files were synced from GitHub on 24 Feb 2026. The following files are now in sync: App.jsx (~4667 lines), LandingPage.jsx (~848 lines), ContactModal.jsx, UpgradePrompt.jsx, LoginPage.jsx, SignupPage.jsx, gating.js. The GitHub repository (github.com/richardgoold/maturity-framework) remains the source of truth â if any code changes are made via the GitHub web editor, the workspace will need re-syncing.
+**Workspace sync status (updated 25 Feb 2026):**
+The workspace files were synced from GitHub on 24 Feb 2026 but are now BEHIND GitHub again due to edits made via the GitHub web editor on 25 Feb 2026 (header layout, landing page, security fixes). The GitHub repository (github.com/richardgoold/maturity-framework) remains the source of truth. Key deployed versions: App.jsx (~4708 lines), LandingPage.jsx (~860 lines).
 
 ### Key Constants
 
@@ -261,6 +265,16 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+         Update subtitle text and restore PreviewsSection (Build #510, 25 Feb 2026)
+         Add heading and subtitle to dashboard preview section (Build #509)
+         Add dashboard preview image to landing page (Build #508)
+06d909e  Add dashboard screenshot via upload (Build #507, 25 Feb 2026)
+660b147  Remove hero logo, use full logo with strapline in header (Build #506)
+         Move Free/Premium dropdown next to logo in header (Build #505)
+         Simplify browser tab title to "GrowthLens" (Build #504)
+         Fix vite base path for custom domain (Build #503)
+         Fix App.jsx syntax error from header edit (Build #502)
+215f986  Update CLAUDE.md with security fix session details (25 Feb 2026)
          Create supabase-security-fixes.sql (25 Feb 2026)
          Create SECURITY.md (SEC-20)
          Add CSV injection protection, JSON validation, localStorage migration (SEC-05, SEC-10, SEC-14, SEC-21)
@@ -346,7 +360,42 @@ A comprehensive security audit was conducted covering all source files, Supabase
 | app_config | â Auth users | â Admin | â Admin | â None | Immutable by design |
 | audit_log | â Admin | â Admin | â None | â None | Immutable by design |
 
-### Session Changes (25 Feb 2026)
+### Session Changes (25 Feb 2026, continued — landing page & header updates)
+
+**Site recovery (Builds #502-#504):**
+- Fixed App.jsx syntax error introduced during header layout edit (missing closing tag)
+- Fixed Vite base path: changed from `'/maturity-framework/'` to `'/'` for custom domain (growthlens.app)
+- Simplified browser tab title from "GrowthLens — M&A Growth Readiness" to just "GrowthLens"
+
+**Header layout — dropdown repositioned (Build #505):**
+- Moved the Free/Premium dropdown from floating between the logo and nav into the logo's left flex group
+- Dropdown now sits directly next to the GrowthLens logo on the left side of the header
+- Structure change in App.jsx: removed premature `</div>` after logo, moved it to after the dropdown (before nav)
+
+**Landing page logo changes (Build #506):**
+- Header logo changed from `GrowthLens Logo_no strapline.png` to `GrowthLens Logo.png` (full logo with strapline "Clarity at every stage of growth"), size increased from `h-8` to `h-10 w-auto rounded-lg`
+- Hero section logo block removed entirely (was redundant with header logo)
+- App header (logged-in pages) kept with no-strapline version — more compact for the app interface
+
+**Password resets (via Supabase SQL Editor):**
+- Reset demo account password: `demo@growthlens.app`
+- Reset admin account password: `richard@gooldy.com`
+- Both accounts confirmed working after reset
+
+**Dashboard preview image on landing page (Builds #507-#510):**
+- Captured fresh dashboard screenshot from demo account (Apex Consulting Partners, Dashboard view) using html2canvas
+- Screenshot uploaded to `public/screenshots/Dashboard Image_Apex Consulting Partners.png` (420KB) via GitHub file upload
+- Added dashboard image section to LandingPage.jsx between `<HeroSection />` and `<PreviewsSection />`
+- Added heading: "Your M&A readiness, at a glance"
+- Added subtitle: "Benchmark your firm across 10 growth themes, 57 metrics and over 20 industry benchmark sources."
+- Image wrapped in `rounded-xl shadow-2xl overflow-hidden border border-gray-200` container
+- Heading/subtitle styled to match other section headings (text-3xl sm:text-4xl font-extrabold)
+- Fixed accidentally removed `<PreviewsSection />` component (was dropped during dashboard section insertion)
+
+**Landing page section order (final):**
+NavBar → HeroSection → Dashboard Preview (with heading) → PreviewsSection → HowItWorksSection → LogoCarousel → FeaturesSection → ContactSection → Footer
+
+### Session Changes (25 Feb 2026, earlier — security fixes)
 
 **Security hardening â all 22 audit findings implemented:**
 
@@ -543,6 +592,7 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 ## Known Issues and Deferred Items
 
 - **Security audit findings (2 remaining)** â SEC-19 (strip console.log in prod) and SEC-22 (verify .env git history) deferred to Phase 4. All other 20 findings resolved on 25 Feb 2026.
+- **App header logo** — Uses no-strapline logo intentionally (more compact for app interface); landing page uses full logo with strapline
 - **Theme icons throughout the app** â FRAMEWORK data has icon properties but not rendered everywhere
 - **Continuous scrolling assess tab** â Currently discrete theme-by-theme navigation
 - **Export button layout** â Third button spans full width on second row
