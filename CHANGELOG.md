@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #495] — 25 February 2026
+### Changes
+- Strip console.log from production builds (SEC-19)
+
+---
+
+
 ## [Build #494] — 25 February 2026
 ### Changes
 - Add CSP, SRI, and security headers (SEC-03, SEC-04, SEC-15)
