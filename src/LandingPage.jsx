@@ -662,7 +662,7 @@ function ContactSection() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     className="w-full pwwe4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition resize-none weg-white"
-                    placeholder="How can I help?"
+                    placeholder="How can we help?"
                   />
                 </div>
                 <button
