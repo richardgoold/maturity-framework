@@ -3578,7 +3578,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
   const [activeTab, setActiveTab] = useState("scores");
   // SEC-14: Use sessionStorage instead of localStorage for PII (clears on tab close)
   const [leadInfo, setLeadInfo] = useState(() => JSON.parse(localStorage.getItem('gdmf_lead') || 'null'));
-  const scores = calcScores(JSON.parse(sessionStorage.getItem('gdmf_lead') || localStorage.getItem('gdmf_lead') || 'null') || "M&A-Ready (PSF)"]);
+  const scores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
   const radarData = FRAMEWORK.themes.map(t => ({
     theme: t.name,
     fullName: t.name,
