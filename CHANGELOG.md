@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #525] — 25 February 2026
+### Changes
+- Fix Joe's feedback: darker text, remove templates, not-tracked option, deduplicate strengths/gaps
+
+---
+
+
 ## [Build #524] — 25 February 2026
 ### Changes
 - Add theme icons, colours and export layout improvements
