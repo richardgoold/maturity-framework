@@ -830,17 +830,26 @@ export default function LandingPage() {
       <NavBar />
       <HeroSection />
       {/* Dashboard Preview Image */}
-      <div className="relative -mt-8 sm:-mt-16 mb-8 sm:mb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="rounded-xl shadow-2xl overflow-hidden border border-gray-200">
-          <img
-            src="/screenshots/Dashboard%20Image_Apex%20Consulting%20Partners.png"
-            alt="GrowthLens Dashboard - M&A Readiness Assessment showing maturity overview, benchmark comparison, strengths and improvement areas"
-            className="w-full h-auto"
-            loading="lazy"
-          />
+      <div className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 max-w-2xl mx-auto leading-tight">
+              Your M&A readiness,<br className="hidden sm:block" /> at a glance
+            </h2>
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+              Benchmark your firm across 10 growth themes against M&A-ready industry standards.
+            </p>
+          </div>
+          <div className="rounded-xl shadow-2xl overflow-hidden border border-gray-200">
+            <img
+              src="/screenshots/Dashboard%20Image_Apex%20Consulting%20Partners.png"
+              alt="GrowthLens Dashboard showing maturity overview, benchmark comparison, strengths and improvement areas"
+              className="w-full h-auto"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
-      <PreviewsSection />
       <HowItWorksSection />
       <LogoCarousel />
       <FeaturesSection />
