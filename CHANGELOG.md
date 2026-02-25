@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #504] — 25 February 2026
+### Changes
+- Simplify browser tab title to just GrowthLens
+
+---
+
+
 ## [Build #503] — 25 February 2026
 ### Changes
 - Fix base path: use root for custom domain growthlens.app
