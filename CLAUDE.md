@@ -7,8 +7,9 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 5f6d39b (25 Feb 2026) - Joe's feedback fixes, Not Tracked option, demo data overhaul
-- **Last updated:** 25 February 2026 (Team Assessment feature scoping, CLAUDE.md update)
+- **Latest commit:** 255a128 (25 Feb 2026) - UX improvements: contact form message, remove redundant button, darker text, Not Tracked completion counting, Share tooltip, Compare Assessments button
+- **Previous commit:** a6a15ba (25 Feb 2026) - Remove sector field and enforce free tier firm limit (max 1 firm until Premium)
+- **Last updated:** 25 February 2026 (UX improvements, firm tier gating, CLAUDE.md update)
 
 ## Tech Stack
 
