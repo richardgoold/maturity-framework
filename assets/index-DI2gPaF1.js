@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #503] — 25 February 2026
+### Changes
+- Fix base path: use root for custom domain growthlens.app
+
+---
+
+
 ## [Build #502] — 25 February 2026
 ### Changes
 - Fix build: restore calcScores line corrupted by SEC-14 edit
