@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #509] — 25 February 2026
+### Changes
+- Add heading and subtitle to dashboard preview section
+
+---
+
+
 ## [Build #508] — 25 February 2026
 ### Changes
 - Add dashboard preview image to landing page
