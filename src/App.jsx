@@ -1250,6 +1250,9 @@ export const calcScores = (ratings, benchmarkObj) => {
       totalMetrics++;
       const r = ratings[m.id];
 
+      // Skip metrics marked as "Not Tracked"
+      if (r && r.notTracked) return;
+
       if (r && r.level) {
         themeScore += r.level * m.weight;
         ratedCount++;
@@ -1640,7 +1643,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
     { level: 2, label: "Evolving", text: metric.evolving, color: "#7D6608", bg: "#BBDEFB", border: "#F9E79F" },
     { level: 3, label: "Optimised", text: metric.optimised, color: "#16A34A", bg: "#A5D6A7", border: "#A9DFBF" },
   ];
-  const currentLevel = rating?.level;
+  const currentLevel = rating?.notTracked ? null : rating?.level;
 
   const handleRate = (level) => {
     if (locked) return;
@@ -1665,7 +1668,7 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
                 {showGuidance ? "Hide" : "Guidance"}
               </button>
             )}
-            {currentLevel && !locked && (
+            {(currentLevel || rating?.notTracked) && !locked && (
               <button onClick={() => onRate(metric.id, null)} className="text-xs text-gray-400 hover:text-red-500 hover:scale-110 transition-all p-3" title="Clear rating">
                 <X size={14} />
               </button>
@@ -1747,6 +1750,19 @@ function MetricCard({ metric, rating, onRate, onComment, onConfidence, evidence,
             </button>
           );
         })}
+      {/* Not Tracked option */}
+      <button
+        onClick={() => { if (!locked) onRate(metric.id, { level: 0, notTracked: true }); }}
+        className={`w-full text-left px-4 py-2 border-t border-gray-200 transition-all duration-200 hover:bg-gray-100 ${rating?.notTracked ? 'bg-gray-100 border-l-4 border-l-gray-400' : 'border-l-4 border-l-transparent'}`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="flex-shrink-0">
+            {rating?.notTracked ? <CheckCircle2 size={16} className="text-gray-500" /> : <HelpCircle size={16} className="text-gray-300" />}
+          </div>
+          <span className="text-xs font-bold uppercase tracking-wide flex-shrink-0 w-24 text-gray-500">Not tracked</span>
+          <p className="text-xs leading-relaxed text-gray-400">We don't track / have this information</p>
+        </div>
+      </button>
       </div>
 
       {/* Half-level selector with animations */}
@@ -2627,7 +2643,7 @@ function LandingPage({ onGetStarted }) {
       <div id="how-it-works" className="py-16 px-6" style={{ background: "linear-gradient(to bottom, #23272b, #f9f9f9)" }}>
         <div className="max-w-sm sm:max-w-2xl md:max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-1 uppercase" style={{ color: "#ffffff", letterSpacing: "-0.02em" }}>How It Works</h2>
-          <p className="text-center text-sm mb-10" style={{ color: "#d1d5db" }}>Four steps from assessment to actionable insight</p>
+          <p className="text-center text-sm mb-10" style={{ color: "#4b5563" }}>Four steps from assessment to actionable insight</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
             {steps.map((s, i) => (
               <div key={i} className="text-center p-5 rounded-xl relative" style={{ background: "#f9f9f9", border: "1px solid #e5e5e5" }}>
@@ -2643,7 +2659,7 @@ function LandingPage({ onGetStarted }) {
 
       {/* METHODOLOGY / SOCIAL PROOF */}
       <div style={{background: "#23272b", padding: "48px 24px", textAlign: "center"}}>
-        <h2 style={{fontSize: "1.5rem", fontWeight: "bold", color: "#f5f5f5", marginBottom: "12px"}}>Built on Industry Research</h2>
+        <h2 style={{fontSize: "1.5rem", fontWeight: "bold", color: "#1f2937", marginBottom: "12px"}}>Built on Industry Research</h2>
         <p style={{color: "#9ca3af", maxWidth: "600px", margin: "0 auto 24px", fontSize: "0.95rem"}}>
           Our framework synthesises 20+ benchmarking studies and industry-standard methodologies to assess M&A readiness across five critical themes.
         </p>
@@ -2808,7 +2824,6 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   const { isPremium } = useAuth();
   const { openContactModal } = useContactModal();
   const [showAssessLimitModal, setShowAssessLimitModal] = useState(false);
-  const [showTemplates, setShowTemplates] = useState(false);
   const [onboardingFirmId, setOnboardingFirmId] = useState(null);
   const [showUpgradeFor, setShowUpgradeFor] = useState(null);
   const firmAssessments = Object.values(assessments).filter(a => a.firmId === firm.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -2816,10 +2831,6 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   const FREE_ASSESSMENT_LIMIT = 1;
   const atAssessmentLimit = !isDemo && isFree && firmAssessments.length >= FREE_ASSESSMENT_LIMIT;
 
-  const handleCreateWithTemplate = (templateRatings) => {
-    onCreateAssessment(firm.id, templateRatings);
-    setShowTemplates(false);
-  };
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-6">
@@ -2886,29 +2897,23 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-3 mb-3 flex items-center gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
-              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and themes" /></div>
+              <div className="text-[10px] text-gray-500 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and themes" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
               <div className="text-2xl font-bold text-[#f2a71b]">{s.readinessScore}%</div>
-              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">M&A Ready<InfoTooltip text="Weighted readiness — each metric is weighted by its importance to M&A readiness based on the selected benchmark" /></div>
+              <div className="text-[10px] text-gray-500 uppercase flex items-center justify-center gap-1">M&A Ready<InfoTooltip text="Weighted readiness — each metric is weighted by its importance to M&A readiness based on the selected benchmark" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-700">{s.ratedCount}/{s.totalMetrics}</div>
-              <div className="text-[10px] text-gray-400 uppercase flex items-center justify-center gap-1">Rated<InfoTooltip text="Number of metrics rated out of the total available" /></div>
+              <div className="text-[10px] text-gray-500 uppercase flex items-center justify-center gap-1">Rated<InfoTooltip text="Number of metrics rated out of the total available" /></div>
             </div>
-            <div className="flex-1 text-right text-xs text-gray-400">Latest: {new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</div>
+            <div className="flex-1 text-right text-xs text-gray-500">Latest: {new Date(latest.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</div>
           </div>
         );
       })()}
 
-      {showTemplates && (
-        <TemplateSelector
-          onSelect={handleCreateWithTemplate}
-          onClose={() => setShowTemplates(false)}
-        />
-      )}
 
       {firmAssessments.length === 0 ? (
         <div className="text-center py-10 bg-white rounded-lg border border-gray-200">
@@ -2924,16 +2929,16 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-semibold text-gray-800">Assessment - {new Date(a.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</h3>
-                    <p className="text-xs text-gray-400 mt-0.5">{scores.ratedCount}/{scores.totalMetrics} metrics rated</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{scores.ratedCount}/{scores.totalMetrics} metrics rated</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
                       <div className="text-lg font-bold" style={{ color: scores.pct >= 66 ? "#16A34A" : scores.pct >= 33 ? "#D97706" : "#DC2626" }}>{scores.pct}%</div>
-                      <div className="text-xs text-gray-400">{scores.totalScore} / {scores.totalMaxPossible}</div>
+                      <div className="text-xs text-gray-500">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
-                  <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-400 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
-                  <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
-                    <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
+                  <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-500 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
+                  <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-500 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
+                    <ChevronRight size={20} className="text-gray-500 group-hover:text-amber-500 transition-colors" />
                   </div>
                 </div>
                 <div className="mt-2 bg-gray-100 rounded-full h-1.5">
@@ -3648,7 +3653,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         {(() => {
           const themeArr = FRAMEWORK.themes.map(t => ({name: t.name, color: t.color, icon: t.icon, pct: scores.themeScores[t.id]?.pct || 0, gap: (activeBenchmark[t.id] || 65) - (scores.themeScores[t.id]?.pct || 0)}));
           const strengths = [...themeArr].sort((a,b) => b.pct - a.pct).slice(0,3);
-          const gaps = [...themeArr].filter(t => t.gap > 0).sort((a,b) => b.gap - a.gap).slice(0,3);
+      const strengthNames = new Set(strengths.map(s => s.name));
+      const gaps = [...themeArr].filter(t => t.gap > 0 && !strengthNames.has(t.name)).sort((a,b) => b.gap - a.gap).slice(0,3);
           const critCount = themeArr.filter(t => t.gap > 20).length;
           const totalMetrics = FRAMEWORK.themes.reduce((s,t) => s + t.metrics.length, 0);
           return (
@@ -3748,6 +3754,48 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                 </div>
               </div>
             </div>
+          );
+        })()}
+
+        {/* Information Gaps - metrics marked as Not Tracked */}
+        {(() => {
+          const notTrackedMetrics = [];
+          FRAMEWORK.themes.forEach(theme => {
+            theme.metrics.forEach(m => {
+              if (assessment.ratings[m.id]?.notTracked) {
+                notTrackedMetrics.push({ metric: m, theme: theme });
+              }
+            });
+          });
+          if (notTrackedMetrics.length === 0) return null;
+          const grouped = {};
+          notTrackedMetrics.forEach(({ metric, theme }) => {
+            if (!grouped[theme.name]) grouped[theme.name] = [];
+            grouped[theme.name].push(metric.name);
+          });
+          return (
+            <details className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mt-4">
+              <summary className="p-4 cursor-pointer hover:bg-gray-50 flex items-center gap-2">
+                <HelpCircle size={16} className="text-gray-400" />
+                <span className="text-sm font-semibold text-gray-700">Information Gaps</span>
+                <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full ml-1">{notTrackedMetrics.length} metrics</span>
+                <span className="text-xs text-gray-400 ml-auto">Consider gathering data on these metrics</span>
+              </summary>
+              <div className="px-4 pb-4 border-t border-gray-100">
+                {Object.entries(grouped).map(([themeName, metrics]) => (
+                  <div key={themeName} className="mt-3">
+                    <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">{themeName}</div>
+                    {metrics.map((name, i) => (
+                      <div key={i} className="flex items-center gap-2 py-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
+                        <span className="text-xs text-gray-600">{name}</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                <p className="text-xs text-gray-400 mt-3 italic">These metrics were marked as &quot;Not Tracked&quot; and are excluded from your readiness score.</p>
+              </div>
+            </details>
           );
         })()}
         {(!isPremium && !isDemoFirm) && <UpgradeBanner bannerKey="scores" onUpgrade={openContactModal} />}
@@ -4390,7 +4438,8 @@ export default function App() {
       if (!a) return s;
       const ratings = { ...a.ratings };
       if (level === null) { delete ratings[metricId]; }
-      else { ratings[metricId] = { ...ratings[metricId], level, updatedAt: new Date().toISOString() }; }
+      else if (typeof level === 'object' && level.notTracked) { ratings[metricId] = { notTracked: true, level: 0, updatedAt: new Date().toISOString() }; }
+      else { ratings[metricId] = { ...ratings[metricId], notTracked: false, level, updatedAt: new Date().toISOString() }; }
       return { ...s, assessments: { ...s.assessments, [selectedAssessmentId]: { ...a, ratings } } };
     });
   }, [selectedAssessmentId]);
