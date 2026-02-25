@@ -7,6 +7,7 @@ import { GATED_TABS, TIER_LIMITS, PREMIUM_FEATURES } from "./gating";
 import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
 import { ContactModalProvider, useContactModal } from "./ContactModal";
 import { supabase } from './supabase';
+import MfaSetup from "./MfaSetup";
 import { useSupabaseData } from './useSupabaseData';
 // ─── Plausible Analytics Helper ─────────────────
 const track = (name, props) => { try { window.plausible?.(name, props ? { props } : undefined); } catch(e) {} };
@@ -4156,6 +4157,7 @@ export default function App() {
   const [showUpgradeFor, setShowUpgradeFor] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showMfaSetup, setShowMfaSetup] = useState(false);
   const [pwForm, setPwForm] = useState({ current: "", new_pw: "", confirm: "" });
   const [pwError, setPwError] = useState("");
   const [pwSuccess, setPwSuccess] = useState(false);
@@ -4488,6 +4490,15 @@ export default function App() {
             <p className="font-bold text-sm">You've been upgraded to Premium!</p>
             <p className="text-xs opacity-90 mt-0.5">All features are now unlocked — no need to log out.</p>
           </div>
+                    {isAdmin && (
+                      <button
+                        onClick={() => { setShowMfaSetup(true); setShowProfileDropdown(false); }}
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                        Two-Factor Auth
+                      </button>
+                    )}
           <button onClick={() => setUpgradeToast(false)} className="flex-shrink-0 ml-2 text-white/80 hover:text-white text-lg font-bold leading-none">&times;</button>
         </div>
       )}
@@ -4525,6 +4536,9 @@ export default function App() {
                 </div>
               </>
             )}
+
+      {/* MFA Setup Modal */}
+      <MfaSetup isOpen={showMfaSetup} onClose={() => setShowMfaSetup(false)} />
           </div>
         </div>
       )}
