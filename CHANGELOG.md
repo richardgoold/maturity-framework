@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #521] — 25 February 2026
+### Changes
+- Add Tailwind CSS v4 import to index.css for build-time compilation
+
+---
+
+
 ## [Build #520] — 25 February 2026
 ### Changes
 - Add Tailwind CSS v4 Vite plugin for build-time compilation
