@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #518] — 25 February 2026
+### Changes
+- Add server-side rate limiting to login and password reset
+
+---
+
+
 ## [Build #517] — 25 February 2026
 ### Changes
 - Add server-side rate limiting SQL functions
