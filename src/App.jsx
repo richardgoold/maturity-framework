@@ -2684,6 +2684,15 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
   const [showCreate, setShowCreate] = useState(false);
   const [showDemos, setShowDemos] = useState(false);
   const [name, setName] = useState("");
+
+  // Split user firms from demo firms
+  const userFirm = firms.find(f => !f.isDemo);
+  const demoFirms = firms.filter(f => f.isDemo);
+  const hasFirm = !!userFirm;
+
+  // Check if user can create a new firm (free tier: max 1 firm)
+  const isPremium = userTier === 'premium';
+  const canCreateFirm = isPremium || !hasFirm;
   const [sector, setSector] = useState("");
 
   // Split user firms from demo firms
@@ -2693,6 +2702,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
 
   const handleCreate = () => {
     if (!name.trim()) return;
+    if (!canCreateFirm) return;
     onCreateFirm({ id: genId(), name: name.trim(), sector: sector.trim(), createdAt: new Date().toISOString() });
     setName(""); setSector(""); setShowCreate(false);
   };
@@ -2711,7 +2721,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             </div>
             <div>
               <h3 className="font-semibold text-gray-800">{firm.name}</h3>
-              <p className="text-xs text-gray-400">{firm.sector || "Professional Services"}{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
+              <p className="text-xs text-gray-400">"Professional Services"{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -2764,6 +2774,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
                 <button onClick={handleCreate} className="bg-[#f2a71b] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-[#d9950f]">Create</button>
                 <button onClick={() => setShowCreate(false)} className="text-gray-500 px-4 py-1.5 rounded text-sm hover:bg-gray-100">Cancel</button>
               </div>
+              {!canCreateFirm && <p className="text-xs text-red-600 mt-2">Upgrade to Premium to add multiple firms.</p>}
             </div>
           ) : (
             <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
@@ -2838,7 +2849,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
       <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
-          <p className="text-sm text-gray-500">{firm.sector || "Professional Services"}</p>
+          <p className="text-sm text-gray-500">"Professional Services"</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {!atAssessmentLimit && firmAssessments.length === 0 && (
