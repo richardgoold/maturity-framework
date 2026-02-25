@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#f2a71b" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- SEC-03: Content Security Policy (unsafe-eval removed via Tailwind build-time migration) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://plausible.io 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://growthlens.app; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://plausible.io 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://growthlens.app https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
     <!-- SEC-15: Security headers via meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
