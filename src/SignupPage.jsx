@@ -4,12 +4,12 @@ import { useAuth } from './AuthContext';
 import { Eye, EyeOff, ArrowLeft, Mail } from 'lucide-react';
 
 const REVENUE_BANDS = [
-  'Under £1m',
-  '£1m – £5m',
-  '£5m – £10m',
-  '£10m – £25m',
-  '£25m – £50m',
-  '£50m+',
+  'Under Â£1m',
+  'Â£1m â Â£5m',
+  'Â£5m â Â£10m',
+  'Â£10m â Â£25m',
+  'Â£25m â Â£50m',
+  'Â£50m+',
   'Prefer not to say',
 ];
 
@@ -29,30 +29,50 @@ export default function SignupPage() {
     revenueBand: '',
   });
 
-  const passwordValid = form.password.length >= 8;
+  // SEC-07: Strengthened password policy
+  const passwordValid = form.password.length >= 8 && /[A-Z]/.test(form.password) && /[a-z]/.test(form.password) && /[0-9]/.test(form.password);
+
+  // SEC-13: Input sanitisation â strip leading/trailing whitespace, limit lengths
+  const sanitise = (str, maxLen = 200) => str.trim().slice(0, maxLen);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!passwordValid) {
-      setError('Password must be at least 8 characters.');
+      setError('Password must be at least 8 characters with uppercase, lowercase, and a number.');
       return;
     }
+
+    // SEC-13: Validate and sanitise all inputs
+    const cleanName = sanitise(form.fullName, 100);
+    const cleanCompany = sanitise(form.companyName, 150);
+    const cleanJob = sanitise(form.jobTitle, 100);
+    const cleanEmail = form.email.trim().toLowerCase().slice(0, 254);
+
+    if (!cleanName || !cleanCompany || !cleanJob) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     const { error: signUpError } = await signUp({
-      email: form.email,
+      email: cleanEmail,
       password: form.password,
-      fullName: form.fullName,
-      companyName: form.companyName,
-      jobTitle: form.jobTitle,
+      fullName: cleanName,
+      companyName: cleanCompany,
+      jobTitle: cleanJob,
       revenueBand: form.revenueBand,
     });
 
     setLoading(false);
-
     if (signUpError) {
-      setError(signUpError.message || 'Sign up failed. Please try again.');
+      // SEC-12: Generic error to prevent user enumeration
+      setError('Sign up failed. Please check your details and try again.');
     } else {
       setSubmitted(true);
     }
@@ -85,7 +105,10 @@ export default function SignupPage() {
             <p className="text-gray-400 text-xs mb-6">
               Didn't receive it? Check your spam folder or try signing up again.
             </p>
-            <Link to="/login" className="inline-flex items-center px-6 py-3 bg-amber-400 hover:bg-amber-500 text-white font-bold rounded-lg transition shadow-sm">
+            <Link
+              to="/login"
+              className="inline-flex items-center px-6 py-3 bg-amber-400 hover:bg-amber-500 text-white font-bold rounded-lg transition shadow-sm"
+            >
               Go to Log In
             </Link>
             <p className="text-gray-400 text-xs mt-6">
@@ -93,132 +116,135 @@ export default function SignupPage() {
             </p>
           </div>
         ) : (
-        <>
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Create your free account</h1>
-          <p className="text-gray-500 text-sm mb-6">Start assessing and growing your firm's value today</p>
+          <>
+            {/* Card */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+              <h1 className="text-2xl font-bold text-gray-900 mb-1">Create your free account</h1>
+              <p className="text-gray-500 text-sm mb-6">Start assessing and growing your firm's value today</p>
 
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">
-              {error}
-            </div>
-          )}
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">
+                  {error}
+                </div>
+              )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Full Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
-              <input
-                type="text"
-                required
-                value={form.fullName}
-                onChange={(e) => updateField('fullName', e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
-                placeholder="Jane Smith"
-              />
-            </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={100}
+                    value={form.fullName}
+                    onChange={(e) => updateField('fullName', e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
+                    placeholder="Jane Smith"
+                  />
+                </div>
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-              <input
-                type="email"
-                required
-                value={form.email}
-                onChange={(e) => updateField('email', e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
-                placeholder="jane@yourfirm.com"
-              />
-            </div>
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => updateField('email', e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
+                    placeholder="jane@yourfirm.com"
+                  />
+                </div>
 
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={form.password}
-                  onChange={(e) => updateField('password', e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm pr-10"
-                  placeholder="Minimum 8 characters"
-                />
+                {/* Password */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={form.password}
+                      onChange={(e) => updateField('password', e.target.value)}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm pr-10"
+                      placeholder="Minimum 8 characters"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  {form.password && !passwordValid && (
+                    <p className="text-xs text-red-500 mt-1">Must be 8+ chars with uppercase, lowercase, and a number</p>
+                  )}
+                  {form.password && passwordValid && (
+                    <p className="text-xs text-green-600 mt-1">Password strength: good</p>
+                  )}
+                </div>
+
+                {/* Company name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Company / firm name</label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={150}
+                    value={form.companyName}
+                    onChange={(e) => updateField('companyName', e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
+                    placeholder="Acme Consulting"
+                  />
+                </div>
+
+                {/* Job title */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Job title</label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={100}
+                    value={form.jobTitle}
+                    onChange={(e) => updateField('jobTitle', e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
+                    placeholder="Managing Partner"
+                  />
+                </div>
+
+                {/* Revenue band */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Firm revenue band</label>
+                  <select
+                    required
+                    value={form.revenueBand}
+                    onChange={(e) => updateField('revenueBand', e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm bg-white"
+                  >
+                    <option value="">Select revenue band</option>
+                    {REVENUE_BANDS.map((band) => (
+                      <option key={band} value={band}>{band}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Submit */}
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  type="submit"
+                  disabled={loading}
+                  className="w-full px-6 py-3 bg-amber-400 hover:bg-amber-500 disabled:bg-amber-300 text-white font-bold rounded-lg transition shadow-sm mt-2"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {loading ? 'Creating account...' : 'Sign Up'}
                 </button>
-              </div>
-              {form.password && !passwordValid && (
-                <p className="text-xs text-red-500 mt-1">Password must be at least 8 characters</p>
-              )}
-              {form.password && passwordValid && (
-                <p className="text-xs text-green-600 mt-1">Password strength: good</p>
-              )}
+              </form>
             </div>
 
-            {/* Company name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Company / firm name</label>
-              <input
-                type="text"
-                required
-                value={form.companyName}
-                onChange={(e) => updateField('companyName', e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
-                placeholder="Acme Consulting"
-              />
-            </div>
-
-            {/* Job title */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Job title</label>
-              <input
-                type="text"
-                required
-                value={form.jobTitle}
-                onChange={(e) => updateField('jobTitle', e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm"
-                placeholder="Managing Partner"
-              />
-            </div>
-
-            {/* Revenue band */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Firm revenue band</label>
-              <select
-                required
-                value={form.revenueBand}
-                onChange={(e) => updateField('revenueBand', e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition text-sm bg-white"
-              >
-                <option value="">Select revenue band</option>
-                {REVENUE_BANDS.map((band) => (
-                  <option key={band} value={band}>{band}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full px-6 py-3 bg-amber-400 hover:bg-amber-500 disabled:bg-amber-300 text-white font-bold rounded-lg transition shadow-sm mt-2"
-            >
-              {loading ? 'Creating account...' : 'Sign Up'}
-            </button>
-          </form>
-        </div>
-
-        {/* Login link */}
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Already have an account?{' '}
-          <Link to="/login" className="text-amber-600 hover:text-amber-700 font-medium">Log in</Link>
-        </p>
-        </>
+            {/* Login link */}
+            <p className="text-center text-sm text-gray-500 mt-6">
+              Already have an account?{' '}
+              <Link to="/login" className="text-amber-600 hover:text-amber-700 font-medium">Log in</Link>
+            </p>
+          </>
         )}
 
         {/* Back to home */}
