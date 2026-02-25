@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #522] — 25 February 2026
+### Changes
+- Remove Tailwind CDN, tighten CSP to remove unsafe-eval
+
+---
+
+
 ## [Build #521] — 25 February 2026
 ### Changes
 - Add Tailwind CSS v4 import to index.css for build-time compilation
