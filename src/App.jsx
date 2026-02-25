@@ -1962,17 +1962,24 @@ function StrengthsWeaknesses({ ratings }) {
 // -----------------------------------------------------------------------
 const generateCSV = (assessment) => {
   const levelLabel = (l) => l === 3 ? "Optimised" : l === 2 ? "Evolving" : l === 1 ? "Foundational" : "Not Rated";
+  // SEC-10: Sanitise cell values to prevent formula injection
+  const sanitiseCell = (val) => {
+    const s = String(val ?? "").replace(/"/g, '\"\"\"');
+    // Prefix formula-triggering characters with a single quote
+    if (/^[=+\-@\t\r]/.test(s)) return "'" + s;
+    return s;
+  };
   const rows = [["Theme", "Metric", "Weight", "Level", "Maturity", "Comment"]];
   FRAMEWORK.themes.forEach(t => {
     t.metrics.forEach(m => {
       const r = assessment.ratings[m.id];
       rows.push([
-        t.name,
-        m.name,
+        sanitiseCell(t.name),
+        sanitiseCell(m.name),
         m.weight,
         r?.level || "",
-        levelLabel(r?.level),
-        (r?.comment || "").replace(/"/g, '""')
+        sanitiseCell(levelLabel(r?.level)),
+        (sanitiseCell(r?.comment || "")).replace(/"/g, '""')
       ]);
     });
   });
@@ -2064,7 +2071,8 @@ const generateCSV = (assessment) => {
     doc.setFontSize(9); doc.setTextColor(31,41,55);
     doc.text("Next Steps", mg + 5, y + 5);
     doc.setFontSize(7); doc.setTextColor(75,85,99);
-    doc.text("For a detailed review, contact richard@richardgoold.com | https://growthlens.app", mg + 5, y + 10);
+    // SEC-21: Use generic contact reference instead of hardcoded email
+    doc.text("For a detailed review, visit https://growthlens.app or use the Contact form in-app", mg + 5, y + 10);
     const fn = (firmName || "assessment").replace(/[^a-zA-Z0-9\-_ ]/g, "");
     doc.save(fn + "-executive-summary.pdf");
   };
@@ -3568,8 +3576,9 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
   const { openContactModal } = useContactModal();
   const [dashBannerDismissed, setDashBannerDismissed] = useState(() => localStorage.getItem('gdmf_dismiss_dash_banner') === '1');
   const [activeTab, setActiveTab] = useState("scores");
+  // SEC-14: Use sessionStorage instead of localStorage for PII (clears on tab close)
   const [leadInfo, setLeadInfo] = useState(() => JSON.parse(localStorage.getItem('gdmf_lead') || 'null'));
-  const scores = calcScores(assessment.ratings, BENCHMARK_PROFILES[benchmarkProfile || "M&A-Ready (PSF)"]);
+  const scores = calcScores(JSON.parse(sessionStorage.getItem('gdmf_lead') || localStorage.getItem('gdmf_lead') || 'null') || "M&A-Ready (PSF)"]);
   const radarData = FRAMEWORK.themes.map(t => ({
     theme: t.name,
     fullName: t.name,
@@ -3756,7 +3765,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           <div style={{background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.25)", borderRadius: "12px", padding: "24px", marginBottom: "16px", textAlign: "center"}}>
             <h3 style={{fontSize: "1.1rem", fontWeight: "700", color: "#f5f5f5", margin: "0 0 4px"}}>Get Your Assessment Report</h3>
             <p style={{fontSize: "0.85rem", color: "#9ca3af", margin: "0 0 16px"}}>Enter your details to unlock PDF and executive summary exports</p>
-            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.target); const info = {name: fd.get("leadName"), email: fd.get("leadEmail"), company: fd.get("leadCompany")}; localStorage.setItem("gdmf_lead", JSON.stringify(info)); setLeadInfo(info); track("Lead Captured", { email: info.email }); supabase.from("leads").insert({ name: info.name, email: info.email, company: info.company || null, source_context: "dashboard_export" }).then(() => {}); }} style={{display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "500px", margin: "0 auto"}}>
+            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.target); const info = {name: fd.get("leadName"), email: fd.get("leadEmail"), company: fd.get("leadCompany")}; sessionStorage.setItem("gdmf_lead", JSON.stringify(info)); localStorage.removeItem("gdmf_lead"); setLeadInfo(info); track("Lead Captured", { email: info.email }); supabase.from("leads").insert({ name: info.name, email: info.email, company: info.company || null, source_context: "dashboard_export" }).then(() => {}); }} style={{display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", maxWidth: "500px", margin: "0 auto"}}>
               <input name="leadName" required placeholder="Your name" style={{flex: "1 1 140px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
               <input name="leadEmail" type="email" required placeholder="Email address" style={{flex: "1 1 180px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
               <input name="leadCompany" placeholder="Company (optional)" style={{flex: "1 1 140px", padding: "8px 12px", borderRadius: "6px", border: "1px solid #374151", background: "#1f2937", color: "#f5f5f5", fontSize: "0.85rem"}} />
@@ -4301,11 +4310,42 @@ export default function App() {
     input.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
+      // SEC-05: Enforce file size limit (5 MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File too large. Maximum import size is 5 MB.");
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (ev) => {
         try {
           const data = JSON.parse(ev.target.result);
           const importState = data.state || data;
+          // SEC-05: Schema validation — verify expected structure and types
+          if (!importState.firms || !Array.isArray(importState.firms)) {
+            alert("Invalid backup file: 'firms' must be an array.");
+            return;
+          }
+          if (!importState.assessments || typeof importState.assessments !== 'object') {
+            alert("Invalid backup file: 'assessments' must be an object.");
+            return;
+          }
+          // Validate each firm has required fields
+          const validFirm = importState.firms.every(f => f && typeof f.id === 'string' && typeof f.name === 'string');
+          if (!validFirm) {
+            alert("Invalid backup file: each firm must have an 'id' and 'name' string.");
+            return;
+          }
+          // Validate assessments have ratings objects
+          const validAssessments = Object.values(importState.assessments).every(a => a && typeof a.ratings === 'object');
+          if (!validAssessments) {
+            alert("Invalid backup file: each assessment must have a 'ratings' object.");
+            return;
+          }
+          // Limit number of firms and assessments to prevent abuse
+          if (importState.firms.length > 100 || Object.keys(importState.assessments).length > 500) {
+            alert("Backup file exceeds maximum limits (100 firms, 500 assessments).");
+            return;
+          }
           if (!importState.firms || !importState.assessments) {
             alert("Invalid backup file: missing firms or assessments data.");
             return;
