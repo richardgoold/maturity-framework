@@ -31,7 +31,7 @@ function NavBar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <img src="/GrowthLens%20Logo_no%20strapline.png" alt="GrowthLens" className="h-8 w-auto" />
+            <img src="/GrowthLens%20Logo.png" alt="GrowthLens" className="h-10 w-auto rounded-lg" />
           </div>
 
           {/* Desktop nav */}
@@ -87,14 +87,6 @@ function HeroSection() {
     <section className="min-h-screen flex items-center justify-center bg-white pt-20 sm:pt-24 pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-        {/* Brand lockup - actual logo image */}
-        <div className="mb-6 sm:mb-12">
-          <img
-            src="/GrowthLens%20Logo.png"
-            alt="GrowthLens - Clarity at every stage of growth"
-            className="mx-auto h-14 sm:h-20 lg:h-24 w-auto rounded-xl"
-          />
-        </div>
 
         {/* Headline */}
         <div className="mb-6 sm:mb-10">
