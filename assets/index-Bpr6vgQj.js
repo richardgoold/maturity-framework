@@ -114,6 +114,17 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #516] — 25 February 2026
+### Changes
+- Fix npm audit to warn on non-critical vulnerabilities
+- Add MFA enrollment UI and Two-Factor Auth button for admin accounts
+- Add MFA challenge flow to login page
+- Create MfaSetup.jsxAdd MFA setup component for admin 2FA enrollment
+- Add npm audit security check to CI pipeline
+
+---
+
+
 ## [Build #511] — 25 February 2026
 ### Changes
 - Update CLAUDE.md with landing page and header session changes
