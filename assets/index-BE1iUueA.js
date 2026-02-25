@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #526] — 25 February 2026
+### Changes
+- Update CLAUDE.md with Joe's feedback, demo data overhaul, and session documentation
+
+---
+
+
 ## [Build #525] — 25 February 2026
 ### Changes
 - Fix Joe's feedback: darker text, remove templates, not-tracked option, deduplicate strengths/gaps
