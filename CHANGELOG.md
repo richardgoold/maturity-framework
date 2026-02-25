@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #517] — 25 February 2026
+### Changes
+- Add server-side rate limiting SQL functions
+
+---
+
+
 ## [Build #516] — 25 February 2026
 ### Changes
 - Fix npm audit to warn on non-critical vulnerabilities
