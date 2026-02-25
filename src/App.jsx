@@ -3620,7 +3620,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
         </div>
       <div className="flex flex-wrap items-center gap-2">
       <div style={{display: "flex", justifyContent: "flex-end", marginTop: "-8px", marginBottom: "8px"}}>
-        <button onClick={(e) => { title="Copy a social sharing message to clipboard" onClick={(e) => { navigator.clipboard.writeText("I just assessed my firm's M&A readiness using the GrowthLens framework — try it: https://growthlens.app/"); const b = e.currentTarget; b.textContent = "✓ Copied!"; setTimeout(() => { b.textContent = "Share"; }, 2000); }} style={{background: "transparent", color: "#9ca3af", padding: "4px 12px", borderRadius: "6px", fontSize: "0.8rem", border: "1px solid #374151", cursor: "pointer"}}>Share</button>
+        <button title="Copy a social sharing message to clipboard" onClick={(e) => {"Copy a social sharing message to clipboard" onClick={(e) => { navigator.clipboard.writeText("I just assessed my firm's M&A readiness using the GrowthLens framework — try it: https://growthlens.app/"); const b = e.currentTarget; b.textContent = "✓ Copied!"; setTimeout(() => { b.textContent = "Share"; }, 2000); }} style={{background: "transparent", color: "#9ca3af", padding: "4px 12px", borderRadius: "6px", fontSize: "0.8rem", border: "1px solid #374151", cursor: "pointer"}}>Share</button>
       </div>
       {/* Benchmark Profile Selector */}
       <div className="flex items-center gap-3 mb-4 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
