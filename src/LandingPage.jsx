@@ -837,7 +837,7 @@ export default function LandingPage() {
               Your M&A readiness,<br className="hidden sm:block" /> at a glance
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-              Benchmark your firm across 10 growth themes against M&A-ready industry standards.
+              Benchmark your firm across 10 growth themes, 57 metrics and over 20 industry benchmark sources.
             </p>
           </div>
           <div className="rounded-xl shadow-2xl overflow-hidden border border-gray-200">
@@ -850,6 +850,7 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
+      <PreviewsSection />
       <HowItWorksSection />
       <LogoCarousel />
       <FeaturesSection />
