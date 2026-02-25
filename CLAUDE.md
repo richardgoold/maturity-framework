@@ -8,7 +8,7 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
 - **Latest commit:** 5f6d39b (25 Feb 2026) - Joe's feedback fixes, Not Tracked option, demo data overhaul
-- **Last updated:** 25 February 2026 (Joe's feedback fixes, demo data redesign)
+- **Last updated:** 25 February 2026 (Team Assessment feature scoping, CLAUDE.md update)
 
 ## Tech Stack
 
@@ -18,7 +18,7 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - Recharts (radar charts, bar charts)
 - Lucide React (icons)
 - GitHub Pages deployment via GitHub Actions
-- Custom domain: growthlens.app (GoDaddy DNS → GitHub Pages)
+- Custom domain: growthlens.app (GoDaddy DNS â GitHub Pages)
 - Resend (transactional email via SMTP + inbound email receiving via webhook)
 - Plausible Analytics (privacy-friendly, at plausible.io/growthlens.app)
 
@@ -60,6 +60,7 @@ CHANGELOG.md                      # Auto-generated changelog
 CLAUDE.md                         # This file
 SECURITY.md                       # Vulnerability disclosure policy (SEC-20)
 GrowthLens_Security_Audit_Report.docx  # Security audit report (24 Feb 2026)
+GrowthLens_Team_Assessment_Scoping.docx  # Team Assessment feature scoping document (25 Feb 2026)
 supabase-security-fixes.sql       # Reference SQL for database-level security fixes
 ```
 
@@ -73,23 +74,23 @@ supabase-security-fixes.sql       # Reference SQL for database-level security fi
 
 ### User Accounts
 ```
-richard@richardgoold.com  — Personal account (created 17 Feb 2026)
-richard@gooldy.com        — Admin account (originally admin@growthlens.app, email changed 19 Feb)
-demo@growthlens.app       — Demo account (shared demo, no real email)
+richard@richardgoold.com  â Personal account (created 17 Feb 2026)
+richard@gooldy.com        â Admin account (originally admin@growthlens.app, email changed 19 Feb)
+demo@growthlens.app       â Demo account (shared demo, no real email)
 ```
 
 ### Change Password Feature (added 19 Feb 2026)
 - Located in the user profile dropdown menu (top-right), above "Sign Out"
 - Opens a modal with: New Password field (with show/hide toggle), Confirm Password field
 - Validates: minimum 8 characters, passwords must match
-- Uses `supabase.auth.updateUser({ password })` — works for all users, no email required
+- Uses `supabase.auth.updateUser({ password })` â works for all users, no email required
 - Shows green success checkmark on completion, auto-closes after 2 seconds
 - State variables: `showChangePassword`, `pwForm`, `pwError`, `pwSuccess`, `pwLoading`, `pwShowNew`
 - Handler: `handleChangePassword` (async function in App.jsx, just before main return)
 - Icons used: Lock, Eye, EyeOff (from lucide-react)
 
 ### Password Reset via SQL (for accounts without real email)
-Use Supabase SQL Editor → run:
+Use Supabase SQL Editor â run:
 ```sql
 UPDATE auth.users
 SET encrypted_password = crypt('new-password-here', gen_salt('bf'))
@@ -104,8 +105,8 @@ WHERE email = 'demo@growthlens.app';
 - **Host:** smtp.resend.com
 - **Port:** 465
 - **Username:** resend
-- **Password:** Resend API key ("Supabase SMTP" — sending access, growthlens.app domain)
-- Configured at: Supabase Dashboard → Authentication → SMTP Settings
+- **Password:** Resend API key ("Supabase SMTP" â sending access, growthlens.app domain)
+- Configured at: Supabase Dashboard â Authentication â SMTP Settings
 
 ### Welcome Email (Edge Function)
 - **Function:** `welcome-email` (Supabase Edge Function)
@@ -116,7 +117,7 @@ WHERE email = 'demo@growthlens.app';
 - Sends branded HTML welcome email via Resend API
 
 ### Email Forwarding (added 23 Feb 2026)
-- **hello@growthlens.app → richard@richardgoold.com**
+- **hello@growthlens.app â richard@richardgoold.com**
 - Resend inbound email receiving enabled on growthlens.app domain
 - MX record: `inbound-smtp.eu-west-1.amazonaws.com` (priority 10) added to GoDaddy DNS
 - Resend webhook (ID: ffd512e3-2894-410b-83b2-5ebd1b33574c) listens for `email.received` events
@@ -124,11 +125,11 @@ WHERE email = 'demo@growthlens.app';
 - Edge Function JWT verification disabled (public webhook endpoint)
 - `RESEND_API_KEY` secret shared with `welcome-email` function
 
-### DNS (GoDaddy → growthlens.app)
+### DNS (GoDaddy â growthlens.app)
 - A records: 185.199.108-111.153 (GitHub Pages IPs)
-- CNAME: www → richardgoold.github.io
-- MX (sending): `send.growthlens.app` → Resend feedback SMTP
-- MX (receiving): `@` → `inbound-smtp.eu-west-1.amazonaws.com` (priority 10)
+- CNAME: www â richardgoold.github.io
+- MX (sending): `send.growthlens.app` â Resend feedback SMTP
+- MX (receiving): `@` â `inbound-smtp.eu-west-1.amazonaws.com` (priority 10)
 - TXT: Resend SPF record
 - DKIM: 3 Resend DKIM CNAME records (resend._domainkey etc.)
 - Resend domain ID: 875ddf04-69ac-4231-916b-24bd68ea06d8
@@ -136,7 +137,7 @@ WHERE email = 'demo@growthlens.app';
 ## App.jsx Structure (top to bottom, deployed version ~4750+ lines)
 
 - **Imports (lines 1-10):** React, Recharts, Lucide icons (including Lock, Eye, EyeOff), ContactModalProvider/useContactModal, UpgradePrompt/LimitModal/UpgradeBanner, gating, AuthContext, supabase, useSupabaseData
-- **FRAMEWORK constant (~lines 16-400):** All 10 themes with 57 metrics (each metric has a `benchmark` property — M&A-Ready target %)
+- **FRAMEWORK constant (~lines 16-400):** All 10 themes with 57 metrics (each metric has a `benchmark` property â M&A-Ready target %)
 - **BENCHMARK_PROFILES constant:** M&A-Ready benchmark percentages per theme (7 profiles: M&A-Ready, Top Decile, Industry Average, Consulting, Technology Services, Legal & Compliance, Financial Advisory)
 - **Helper functions:** calculateScores (with notTracked exclusion), getStrengths, getImprovements, etc.
 - **UI Components:** MetricCard (with Not Tracked option), ThemeSidebar, HeatmapGrid, StrengthsWeaknesses (deduplicated), ExportPanel, RadarOverview, BenchmarkComparison, ImprovementRoadmap, TrendAnalysisPanel, ScoreChangePanel, Breadcrumbs
@@ -185,7 +186,7 @@ Three-column grid layout: Executive Summary, Export PDF Report, Detailed Assessm
 Located top-right of the header:
 - User avatar (amber icon) + name/email + plan badge (Premium/Free)
 - Dropdown contains: user info, plan details, Upgrade button, Change Password button, Sign Out button
-- Upgrade button calls `openContactModal('Premium Upgrade Enquiry')` — passes a string (not an object)
+- Upgrade button calls `openContactModal('Premium Upgrade Enquiry')` â passes a string (not an object)
 - Change Password and Sign Out buttons both styled with `text-gray-700 hover:bg-gray-50` for white dropdown background
 - Change Password opens a modal overlay (z-[100])
 
@@ -214,15 +215,15 @@ Located top-right of the header:
 ## Data Persistence
 
 All data stored in Supabase (PostgreSQL):
-- **auth.users** — User accounts and authentication
-- **profiles** — User profiles (full_name, company_name, role, tier)
-- **firms** — Firm records linked to users
-- **assessments** — Assessment data with ratings (JSONB)
+- **auth.users** â User accounts and authentication
+- **profiles** â User profiles (full_name, company_name, role, tier)
+- **firms** â Firm records linked to users
+- **assessments** â Assessment data with ratings (JSONB)
 
 Demo firms pre-populated with realistic story-driven profiles (updated 25 Feb 2026):
-- **Apex Consulting Partners (75% Nearly Ready)** — Well-established 15-year mid-market consulting firm. Strong financials & client relationships, weak on market profile, ESG, data/analytics. L1=3, L1.5=7, L2=26, L2.5=12, L3=9.
-- **TechBridge Solutions (60% In Progress)** — 5-year-old tech boutique. Brilliant at technology/innovation but commercially immature. Poor margins, weak governance. L1=9, L1.5=22, L2=15, L2.5=8, L3=3.
-- **Phoenix Advisory Group (37% Early Stage)** — 20-year-old founder-led advisory in decline. Fully assessed (57/57, no unrated). Mostly L1 with 10 metrics at L1.5 (vestiges of former success). L1=47, L1.5=10.
+- **Apex Consulting Partners (75% Nearly Ready)** â Well-established 15-year mid-market consulting firm. Strong financials & client relationships, weak on market profile, ESG, data/analytics. L1=3, L1.5=7, L2=26, L2.5=12, L3=9.
+- **TechBridge Solutions (60% In Progress)** â 5-year-old tech boutique. Brilliant at technology/innovation but commercially immature. Poor margins, weak governance. L1=9, L1.5=22, L2=15, L2.5=8, L3=3.
+- **Phoenix Advisory Group (37% Early Stage)** â 20-year-old founder-led advisory in decline. Fully assessed (57/57, no unrated). Mostly L1 with 10 metrics at L1.5 (vestiges of former success). L1=47, L1.5=10.
 
 Demo assessment IDs: `a1000001-0000-0000-0000-000000000001` (Apex), `a1000001-0000-0000-0000-000000000002` (TechBridge), `a1000001-0000-0000-0000-000000000003` (Phoenix).
 
@@ -315,7 +316,7 @@ d30f4b6  Update CLAUDE.md: replace old GitHub Pages URLs with growthlens.app
 2aaba7a  Dashboard improvements: donut score, roadmap fix, export buttons
 ```
 
-## Security Audit (24 Feb 2026) — FIXES IMPLEMENTED (25 Feb 2026)
+## Security Audit (24 Feb 2026) â FIXES IMPLEMENTED (25 Feb 2026)
 
 A comprehensive security audit was conducted covering all source files, Supabase RLS policies, Edge Functions, and deployment configuration. Full report: `GrowthLens_Security_Audit_Report.docx` in repo root.
 
@@ -324,15 +325,15 @@ A comprehensive security audit was conducted covering all source files, Supabase
 ### Summary: 22 findings (4 Critical, 7 High, 7 Medium, 4 Low)
 
 **CRITICAL findings:**
-- **SEC-01:** Client-side-only premium tier enforcement — gating.js and App.jsx check `isPremium` from React state only. Users can bypass via browser dev tools or direct Supabase API calls. **Mitigation:** Add server-side tier validation via Supabase RLS policies or Edge Function middleware.
-- **SEC-02:** Client-side-only admin role check — AdminRoute.jsx checks `isAdmin` from AuthContext (client state). Any user could potentially access admin functions. **Mitigation:** Add JWT custom claims for admin role via Supabase auth hook; enforce in RLS policies.
-- **SEC-03:** No Content Security Policy — index.html has no CSP meta tag or headers, allowing XSS payload execution. **Mitigation:** Add CSP meta tag to index.html restricting script/style sources.
-- **SEC-04:** CDN scripts without Subresource Integrity — Tailwind and html2pdf loaded from CDN without SRI hashes. Supply-chain attack risk. **Mitigation:** Add integrity attributes or bundle at build time.
+- **SEC-01:** Client-side-only premium tier enforcement â gating.js and App.jsx check `isPremium` from React state only. Users can bypass via browser dev tools or direct Supabase API calls. **Mitigation:** Add server-side tier validation via Supabase RLS policies or Edge Function middleware.
+- **SEC-02:** Client-side-only admin role check â AdminRoute.jsx checks `isAdmin` from AuthContext (client state). Any user could potentially access admin functions. **Mitigation:** Add JWT custom claims for admin role via Supabase auth hook; enforce in RLS policies.
+- **SEC-03:** No Content Security Policy â index.html has no CSP meta tag or headers, allowing XSS payload execution. **Mitigation:** Add CSP meta tag to index.html restricting script/style sources.
+- **SEC-04:** CDN scripts without Subresource Integrity â Tailwind and html2pdf loaded from CDN without SRI hashes. Supply-chain attack risk. **Mitigation:** Add integrity attributes or bundle at build time.
 
 **HIGH findings:**
-- **SEC-05:** Unvalidated JSON import — `JSON.parse()` + `setState()` with no schema validation
+- **SEC-05:** Unvalidated JSON import â `JSON.parse()` + `setState()` with no schema validation
 - **SEC-06:** No rate limiting on auth endpoints (login, signup, password reset)
-- **SEC-07:** Weak password policy — LoginPage allows 6-char minimum on reset; signup requires 8 but no complexity
+- **SEC-07:** Weak password policy â LoginPage allows 6-char minimum on reset; signup requires 8 but no complexity
 - **SEC-08:** upgrade-notification Edge Function has CORS `*` and no JWT verification
 - **SEC-09:** Missing DELETE RLS policy on contact_submissions table
 - **SEC-10:** CSV export lacks formula injection protection (=, +, -, @ prefixes)
@@ -346,7 +347,7 @@ A comprehensive security audit was conducted covering all source files, Supabase
 - **Phase 1 (Week 1):** CSP headers, SRI hashes, server-side tier validation, JWT admin claims
 - **Phase 2 (Weeks 2-3):** JSON schema validation, rate limiting, password policy, Edge Function JWT, RLS gaps, CSV protection, audit log schema
 - **Phase 3 (Month 1):** Generic auth errors, input validation, localStorage migration, security headers, server-side tier limits, admin edit notifications, transactional audit writes
-- **Phase 4 (Months 2-3):** ~~Strip console.log in production~~ ✓, ~~SECURITY.md~~ ✓, ~~move hardcoded email to app_config~~ ✓, ~~verify .env history~~ ✓, add MFA for admins, npm audit in CI, quarterly reviews
+- **Phase 4 (Months 2-3):** ~~Strip console.log in production~~ â, ~~SECURITY.md~~ â, ~~move hardcoded email to app_config~~ â, ~~verify .env history~~ â, add MFA for admins, npm audit in CI, quarterly reviews
 
 ### Positive Security Findings
 - RLS enabled on all 6 tables with well-structured user isolation
@@ -359,14 +360,14 @@ A comprehensive security audit was conducted covering all source files, Supabase
 ### Supabase RLS Policy Coverage
 | Table | SELECT | INSERT | UPDATE | DELETE | Notes |
 |-------|--------|--------|--------|--------|-------|
-| profiles | ✓ User+Admin | ✓ User | ✓ User+Admin | ✗ None | Cascades from auth.users |
-| firms | ✓ User+Admin | ✓ User | ✓ User | ✓ User | Admin UPDATE/DELETE missing |
-| assessments | ✓ User+Admin | ✓ User | ✓ User+Admin | ✓ User | Admin DELETE missing |
-| contact_submissions | ✓ Admin | ✓ Public | ✓ Admin | ✗ None | SEC-09: Add admin DELETE |
-| app_config | ✓ Auth users | ✓ Admin | ✓ Admin | ✗ None | Immutable by design |
-| audit_log | ✓ Admin | ✓ Admin | ✗ None | ✗ None | Immutable by design |
+| profiles | â User+Admin | â User | â User+Admin | â None | Cascades from auth.users |
+| firms | â User+Admin | â User | â User | â User | Admin UPDATE/DELETE missing |
+| assessments | â User+Admin | â User | â User+Admin | â User | Admin DELETE missing |
+| contact_submissions | â Admin | â Public | â Admin | â None | SEC-09: Add admin DELETE |
+| app_config | â Auth users | â Admin | â Admin | â None | Immutable by design |
+| audit_log | â Admin | â Admin | â None | â None | Immutable by design |
 
-### Session Changes (25 Feb 2026, continued — Joe's feedback & demo data overhaul)
+### Session Changes (25 Feb 2026, continued â Joe's feedback & demo data overhaul)
 
 **Joe's feedback review (13 items from docx):**
 Joe Sherlock reviewed the app and provided 13 feedback items. 9 were already implemented or design choices. 4 required code changes:
@@ -385,12 +386,12 @@ Joe Sherlock reviewed the app and provided 13 feedback items. 9 were already imp
 - Strengths shows top 3 themes; Gaps shows bottom themes that aren't already in Strengths
 
 **Fix #3: "Not Tracked" rating option (Build #525):**
-- New button below the 3 maturity levels in MetricCard: "Not tracked — We don't track / have this information"
+- New button below the 3 maturity levels in MetricCard: "Not tracked â We don't track / have this information"
 - When selected: metric excluded from BOTH totalScore AND totalMaxPossible in calcScores
 - Rating stored as `{ notTracked: true, level: 0, updatedAt: ... }`
 - calcScores: `if (r && r.notTracked) return;` before the level check
-- currentLevel: `rating?.notTracked ? null : rating?.level` — shows as unselected
-- Clear button: `(currentLevel || rating?.notTracked) && !locked` — allows clearing Not Tracked
+- currentLevel: `rating?.notTracked ? null : rating?.level` â shows as unselected
+- Clear button: `(currentLevel || rating?.notTracked) && !locked` â allows clearing Not Tracked
 - Rate handler: `typeof level === 'object' && level.notTracked` branch for object-type level
 - Information Gaps section: collapsible `<details>` on dashboard showing Not Tracked metrics grouped by theme
 - Icons: CheckCircle2 (selected), HelpCircle (unselected)
@@ -401,13 +402,13 @@ Complete redesign of all 3 demo firm rating profiles. Previous data had credibil
 - Phoenix had 32/57 metrics UNRATED (looked incomplete)
 - TechBridge had zero L3 ratings (uniformly flat, not realistic)
 - No half-levels used anywhere (didn't showcase fine-tune feature)
-- All whole numbers (1, 2, 3) — no 1.5 or 2.5 ratings
+- All whole numbers (1, 2, 3) â no 1.5 or 2.5 ratings
 
 New profiles designed with Python verification script (`design_demo_firms.py`):
 - Each firm tells a distinct, relatable story with realistic rating distributions
 - Half-levels used extensively: Apex 33%, TechBridge 53%, Phoenix 18%
 - All 57 metrics rated for every firm (no unrated gaps)
-- Cross-firm ordering correct on 8/10 themes (intentional inversions on Cost Optimisation and Market Profile where TechBridge beats Apex — realistic for a tech firm)
+- Cross-firm ordering correct on 8/10 themes (intentional inversions on Cost Optimisation and Market Profile where TechBridge beats Apex â realistic for a tech firm)
 - SQL UPDATE executed in Supabase SQL Editor, verified via query and live site inspection
 
 **Verified on live site (growthlens.app):**
@@ -417,14 +418,14 @@ New profiles designed with Python verification script (`design_demo_firms.py`):
 - Strengths/Gaps tell compelling, non-overlapping stories per firm
 - Not Tracked option visible in assessment view
 
-### Session Changes (25 Feb 2026, continued — landing page & header updates)
+### Session Changes (25 Feb 2026, continued â landing page & header updates)
 
 **Site recovery (Builds #502-#504):**
 - Fixed App.jsx syntax error introduced during header layout edit (missing closing tag)
 - Fixed Vite base path: changed from `'/maturity-framework/'` to `'/'` for custom domain (growthlens.app)
-- Simplified browser tab title from "GrowthLens — M&A Growth Readiness" to just "GrowthLens"
+- Simplified browser tab title from "GrowthLens â M&A Growth Readiness" to just "GrowthLens"
 
-**Header layout — dropdown repositioned (Build #505):**
+**Header layout â dropdown repositioned (Build #505):**
 - Moved the Free/Premium dropdown from floating between the logo and nav into the logo's left flex group
 - Dropdown now sits directly next to the GrowthLens logo on the left side of the header
 - Structure change in App.jsx: removed premature `</div>` after logo, moved it to after the dropdown (before nav)
@@ -432,7 +433,7 @@ New profiles designed with Python verification script (`design_demo_firms.py`):
 **Landing page logo changes (Build #506):**
 - Header logo changed from `GrowthLens Logo_no strapline.png` to `GrowthLens Logo.png` (full logo with strapline "Clarity at every stage of growth"), size increased from `h-8` to `h-10 w-auto rounded-lg`
 - Hero section logo block removed entirely (was redundant with header logo)
-- App header (logged-in pages) kept with no-strapline version — more compact for the app interface
+- App header (logged-in pages) kept with no-strapline version â more compact for the app interface
 
 **Password resets (via Supabase SQL Editor):**
 - Reset demo account password: `demo@growthlens.app`
@@ -450,30 +451,30 @@ New profiles designed with Python verification script (`design_demo_firms.py`):
 - Fixed accidentally removed `<PreviewsSection />` component (was dropped during dashboard section insertion)
 
 **Landing page section order (final):**
-NavBar → HeroSection → Dashboard Preview (with heading) → PreviewsSection → HowItWorksSection → LogoCarousel → FeaturesSection → ContactSection → Footer
+NavBar â HeroSection â Dashboard Preview (with heading) â PreviewsSection â HowItWorksSection â LogoCarousel â FeaturesSection â ContactSection â Footer
 
-### Session Changes (25 Feb 2026, earlier — security fixes)
+### Session Changes (25 Feb 2026, earlier â security fixes)
 
-**Security hardening — all 22 audit findings implemented:**
+**Security hardening â all 22 audit findings implemented:**
 
 This session implemented fixes for all 22 findings from the security audit (24 Feb 2026). Status: all findings resolved.
 
 **GitHub commits (7 files pushed):**
-- `index.html` — SEC-03: CSP meta tag restricting script/style/img/font sources; SEC-04: SRI integrity hashes for Tailwind and html2pdf CDN scripts
-- `vite.config.js` — SEC-15: Security headers (X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy)
-- `src/LoginPage.jsx` — SEC-06: Client-side rate limiting (5 attempts / 15min lockout) on login and password reset; SEC-07: Minimum 8-char password with complexity requirements; SEC-12: Generic error messages preventing user enumeration
-- `src/SignupPage.jsx` — SEC-07: Password complexity (uppercase, lowercase, number, special char); SEC-12: Generic error messages; SEC-13: Input sanitisation (name/company field length limits, HTML tag stripping)
-- `src/App.jsx` — SEC-05: JSON import validation (5MB limit, schema checks, 100 firm / 500 assessment limits); SEC-10: CSV export formula injection protection (`sanitiseCell()` escapes `=+\-@\t\r` prefixes); SEC-14: localStorage → sessionStorage migration for lead info; SEC-21: Hardcoded email replaced with generic contact text
-- `SECURITY.md` — SEC-20: Vulnerability disclosure policy with contact info and response timeline
-- `supabase-security-fixes.sql` — Reference SQL file for all database-level fixes
+- `index.html` â SEC-03: CSP meta tag restricting script/style/img/font sources; SEC-04: SRI integrity hashes for Tailwind and html2pdf CDN scripts
+- `vite.config.js` â SEC-15: Security headers (X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy)
+- `src/LoginPage.jsx` â SEC-06: Client-side rate limiting (5 attempts / 15min lockout) on login and password reset; SEC-07: Minimum 8-char password with complexity requirements; SEC-12: Generic error messages preventing user enumeration
+- `src/SignupPage.jsx` â SEC-07: Password complexity (uppercase, lowercase, number, special char); SEC-12: Generic error messages; SEC-13: Input sanitisation (name/company field length limits, HTML tag stripping)
+- `src/App.jsx` â SEC-05: JSON import validation (5MB limit, schema checks, 100 firm / 500 assessment limits); SEC-10: CSV export formula injection protection (`sanitiseCell()` escapes `=+\-@\t\r` prefixes); SEC-14: localStorage â sessionStorage migration for lead info; SEC-21: Hardcoded email replaced with generic contact text
+- `SECURITY.md` â SEC-20: Vulnerability disclosure policy with contact info and response timeline
+- `supabase-security-fixes.sql` â Reference SQL file for all database-level fixes
 
 **Supabase SQL fixes (7 database changes executed):**
 - SEC-09: Admin DELETE policy on `contact_submissions` (already existed)
-- SEC-01: `check_firm_limit()` trigger — server-side enforcement of firm creation limits per tier
-- SEC-16: `check_assessment_limit()` trigger — server-side enforcement of assessment limits per tier
+- SEC-01: `check_firm_limit()` trigger â server-side enforcement of firm creation limits per tier
+- SEC-16: `check_assessment_limit()` trigger â server-side enforcement of assessment limits per tier
 - SEC-02: `is_admin()` function + admin RLS policies on `firms` (UPDATE/DELETE) and `assessments` (DELETE)
-- SEC-11: `audit_log_details_size` CHECK constraint — max 10KB on details JSONB column
-- SEC-18: `log_admin_action()` helper function — strips PII (email, password) from audit log entries
+- SEC-11: `audit_log_details_size` CHECK constraint â max 10KB on details JSONB column
+- SEC-18: `log_admin_action()` helper function â strips PII (email, password) from audit log entries
 - SEC-17: `admin_modified_at` and `admin_modified_by` columns added to `assessments` table
 
 **Edge Function deployment (SEC-08):**
@@ -484,8 +485,8 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 - Client-side (`AdminDashboard.jsx` line 458) already sends auth token automatically via `supabase.functions.invoke()`
 
 **LOW-priority items (completed 25 Feb 2026):**
-- SEC-19: ✓ `console.log` stripping already implemented in `vite.config.js` via `esbuild.drop: ['console', 'debugger']` (commit `6c2ffc2`). Production builds automatically strip all console statements.
-- SEC-22: ✓ Verified `.env` never committed to git history. `.gitignore` correctly excludes `.env`, `.env.local`, `.env.production`, `.env*.local`. GitHub API confirms zero commits ever touched a `.env` file.
+- SEC-19: â `console.log` stripping already implemented in `vite.config.js` via `esbuild.drop: ['console', 'debugger']` (commit `6c2ffc2`). Production builds automatically strip all console statements.
+- SEC-22: â Verified `.env` never committed to git history. `.gitignore` correctly excludes `.env`, `.env.local`, `.env.production`, `.env*.local`. GitHub API confirms zero commits ever touched a `.env` file.
 
 ### Session Changes (24 Feb 2026)
 
@@ -510,9 +511,9 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 - Uploaded new `GrowthLens Logo_transparent.png` to `public/` folder via GitHub
 - Updated `src/LandingPage.jsx` line 779: changed footer logo from `Logo_no%20strapline` to `Logo_transparent`
 - Three logo variants now available in `public/`:
-  1. `GrowthLens Logo.png` — full logo with amber background
-  2. `GrowthLens Logo_no strapline.png` — without strapline (used on login/signup pages)
-  3. `GrowthLens Logo_transparent.png` — transparent background (used in dark footer)
+  1. `GrowthLens Logo.png` â full logo with amber background
+  2. `GrowthLens Logo_no strapline.png` â without strapline (used on login/signup pages)
+  3. `GrowthLens Logo_transparent.png` â transparent background (used in dark footer)
 
 **Contact modal [object Object] fix (Build #490):**
 - **Bug:** Upgrade button in profile dropdown passed `{ subject: 'Premium Upgrade Enquiry' }` (an object) to `openContactModal()` which expects a string
@@ -520,7 +521,7 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 - Subject field now correctly shows "Premium Upgrade Enquiry" text
 
 **Change Password dropdown styling fix (Builds #490 + #491):**
-- **Bug:** Change Password button used `text-gray-300` (then `text-gray-100`) and `hover:bg-white/5` — styled for dark background but dropdown has white background, making text appear greyed out
+- **Bug:** Change Password button used `text-gray-300` (then `text-gray-100`) and `hover:bg-white/5` â styled for dark background but dropdown has white background, making text appear greyed out
 - **Fix:** Changed to `text-gray-700 hover:bg-gray-50 px-4` to match Sign Out button styling exactly
 - Both buttons now have identical styling in the white dropdown
 
@@ -537,7 +538,7 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 
 ### Session Changes (23 Feb 2026)
 
-**Email forwarding (hello@growthlens.app → richard@richardgoold.com):**
+**Email forwarding (hello@growthlens.app â richard@richardgoold.com):**
 - Resend inbound email receiving enabled on growthlens.app domain
 - MX record: `inbound-smtp.eu-west-1.amazonaws.com` (priority 10) added to GoDaddy DNS
 - Resend webhook (ID: ffd512e3-2894-410b-83b2-5ebd1b33574c) listens for `email.received` events
@@ -546,13 +547,13 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 - `RESEND_API_KEY` secret shared with `welcome-email` function
 
 **Premium upgrade toast notification:**
-- In-app toast when admin upgrades user from free → premium
+- In-app toast when admin upgrades user from free â premium
 - Uses `useRef` to track previous tier, `useEffect` on `profile?.tier`
 - Amber/gold gradient banner, auto-dismisses after 10 seconds
 - Works via existing Supabase Realtime subscription in AuthContext
 
 **Demo banners & firm scores:**
-- Demo account login shows amber banner: "Demo Mode — Explore freely, changes auto-reset"
+- Demo account login shows amber banner: "Demo Mode â Explore freely, changes auto-reset"
 - Demo firm scores recalibrated: Apex 72.5%, TechBridge 49.1%, Phoenix 14.6%
 
 **Multi-assessment trend tracking enhancement:**
@@ -599,7 +600,7 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 **Change Password feature:**
 - Added to user profile dropdown menu in App.jsx
 - Modal with new password + confirm fields, show/hide toggle
-- Uses supabase.auth.updateUser() — no email required
+- Uses supabase.auth.updateUser() â no email required
 - Amber-themed buttons matching app design
 
 **Account management:**
@@ -617,7 +618,7 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 - **Region:** (check dashboard)
 - **Auth:** Email/password, custom SMTP via Resend
 - **Edge Functions:** welcome-email, forward-email, upgrade-notification
-- **Webhooks:** welcome_email_on_confirm (auth.users UPDATE → welcome-email), Resend inbound webhook → forward-email
+- **Webhooks:** welcome_email_on_confirm (auth.users UPDATE â welcome-email), Resend inbound webhook â forward-email
 - **RLS:** Enabled on all tables
 
 ### Key Supabase IDs
@@ -632,31 +633,122 @@ This session implemented fixes for all 22 findings from the security audit (24 F
 
 1. **Check commits:** https://github.com/richardgoold/maturity-framework/commits/main
 2. **Read this CLAUDE.md** for current state
-3. **Verify live site:** https://growthlens.app — login should work, change password in dropdown
+3. **Verify live site:** https://growthlens.app â login should work, change password in dropdown
 4. **Resume editing:** Use GitHub web editor (github.com/.../edit/...)
 
 ### Common pitfalls
 - **Workspace sync:** Workspace was synced from GitHub on 24 Feb 2026. If code changes are made via GitHub web editor, the workspace will be out of sync again. The mounted workspace folder is NOT a git repo. Always check deployed code on GitHub as the source of truth
 - **Proxy blocking git/npm:** Use Chrome browser to edit via GitHub web editor instead
-- **Content filter blocking code:** Extract data points (line numbers, booleans) rather than raw code from JS execution. Emails and URLs in JS execution results get blocked — use sanitization or extract only non-sensitive values
+- **Content filter blocking code:** Extract data points (line numbers, booleans) rather than raw code from JS execution. Emails and URLs in JS execution results get blocked â use sanitization or extract only non-sensitive values
 - **CodeMirror access:** `document.querySelector('.cm-content').cmTile.view`
 - **Monaco access (Supabase):** `window.monaco.editor.getEditors()[0]`
-- **github.dev corruption:** Never use github.dev — use regular edit page only
+- **github.dev corruption:** Never use github.dev â use regular edit page only
 - **Large file editing (App.jsx, 409KB):** GitHub web editor is slow with this file. Use `read_page` with `filter: interactive` to find dialog elements when screenshots time out. Use `form_input` to set commit messages
-- **Supabase email unique constraint:** Each account needs a unique email — can't share emails between accounts
+- **Supabase email unique constraint:** Each account needs a unique email â can't share emails between accounts
 - **Typing newlines in web editors:** Use JavaScript API (executeEdits/dispatch) rather than keyboard typing for multi-line content
 
 ## Known Issues and Deferred Items
 
-- **Security audit findings** — All 22 findings fully resolved (25 Feb 2026). SEC-19 (console.log stripping) confirmed already deployed; SEC-22 (.env history) verified clean.
-- **Theme icons throughout the app** — FRAMEWORK data has icon properties but not rendered everywhere
-- **App header logo** — Uses no-strapline logo intentionally (more compact for app interface); landing page uses full logo with strapline
-- **Continuous scrolling assess tab** — Currently discrete theme-by-theme navigation
-- **Export button layout** — Third button spans full width on second row
-- **Consistent theme colours** — Not applied throughout all views
+- **Security audit findings** â All 22 findings fully resolved (25 Feb 2026). SEC-19 (console.log stripping) confirmed already deployed; SEC-22 (.env history) verified clean.
+- **Theme icons throughout the app** â FRAMEWORK data has icon properties but not rendered everywhere
+- **App header logo** â Uses no-strapline logo intentionally (more compact for app interface); landing page uses full logo with strapline
+- **Continuous scrolling assess tab** â Currently discrete theme-by-theme navigation
+- **Export button layout** â Third button spans full width on second row
+- **Consistent theme colours** â Not applied throughout all views
+
+## Team Assessment Feature (Scoped, Not Yet Implemented)
+
+**Status:** Fully scoped (25 Feb 2026). Awaiting Richard's go-ahead to begin implementation.
+**Scoping document:** `GrowthLens_Team_Assessment_Scoping.docx` (in repo root, 12 pages)
+
+### Overview
+Premium feature allowing a CEO to invite C-suite colleagues to independently complete the same 57-metric assessment for their firm. Individual responses are aggregated into a team consensus dashboard showing where leadership agrees and diverges on M&A readiness.
+
+### User Journey
+1. CEO (Premium) opens firm â clicks "Invite Team Members"
+2. Enters colleague emails (up to 10), optional role/title per person
+3. System sends branded invitation emails via Resend with unique 16-char access codes
+4. Each participant signs up/logs in â completes same 57-metric assessment independently
+5. CEO views "Team Assessment" tab on Dashboard with aggregated scores, consensus heatmap, divergence analysis
+6. Participants see anonymised team aggregates (no individual attribution)
+
+### Database Schema (3 new tables)
+```
+team_assessments: id, firm_id, user_id (CEO), name, description, status (active/archived/closed), timestamps
+team_assessment_participants: id, team_assessment_id, email, user_id (once joined), role, invitation_code (16-char), status (pending/accepted/completed/declined), assessment_id (once completed), timestamps
+team_assessment_invitations: id, team_assessment_id, participant_id, sent_at, sent_by, email_status, resend_email_id
+```
+Plus: `assessments.team_assessment_id` (UUID FK, nullable) â links participant assessment to team
+
+### Invitation System
+- Email-based via new `invite-to-assessment` Supabase Edge Function (Resend)
+- 16-char alphanumeric codes, cryptographically generated, expire after 30 days, single-use
+- CEO can revoke or resend invitations
+- Rate limit: max 10 participants per team assessment (DB trigger enforced)
+- Join route: `/join/[invitation_code]` with validation + auth flow
+
+### Aggregated Dashboard (new "Team Assessment" tab)
+- Team Readiness Overview: mean, median, range, consensus indicator (Ï)
+- Multi-line Radar: team mean (navy), median (dashed), M&A-Ready benchmark (amber)
+- Consensus Heatmap: 57 metrics Ã participants, colour-coded by agreement/divergence
+- Divergence Analysis: top disagreement metrics, sorted by standard deviation
+- Participant Summary Cards: name, role, score, completion status, link to individual assessment
+
+### Permissions
+- CEO: sees all individual assessments + full team dashboard with names
+- Participants: see own assessment + anonymised team aggregates (no individual scores)
+- Admin: sees all
+- Free users: cannot create team assessments (upgrade prompt shown)
+
+### Gating
+- `TIER_LIMITS.premium.canCreateTeamAssessments: true`, `maxTeamParticipants: 10`
+- Server-side: RLS policy restricts INSERT to premium tier + DB trigger enforces participant limit
+- Client-side: disabled button with UpgradePrompt for free users
+
+### RLS Policies (new tables)
+- team_assessments: CEO (CRUD), participants (SELECT via join), admin (SELECT all)
+- team_assessment_participants: CEO (SELECT/INSERT), participants (SELECT own), admin (SELECT all)
+- team_assessment_invitations: CEO (SELECT), admin (SELECT all)
+- assessments: extended SELECT policy for team participants
+
+### Edge Cases Handled
+- Existing user invited â auto-detected, login flow instead of signup
+- Participant doesn't complete â status stays "accepted", CEO can resend reminder
+- Premium lapses â team assessment read-only, existing participants can still complete
+- CEO deletes participant â assessment preserved (audit), aggregation recalculates
+- Multiple team assessments per firm â fully supported (Q1, Q2 etc.)
+- Code expiry â friendly error with CEO contact, CEO can resend new code
+
+### New Components
+- `TeamAssessmentInviteModal` (~150 lines) â email input, role/title, send
+- `TeamAssessmentDashboard` (~300 lines) â aggregation visualisations
+- `JoinTeamAssessmentRoute` (~80 lines) â /join/[code] route
+- `TeamInvitationAcceptance` (~100 lines) â acceptance screen before auth
+- `invite-to-assessment/index.ts` (~200 lines) â Edge Function for email dispatch
+
+### Modified Components
+- `FirmDetailView` â "Invite Team Members" button + pending invitations list
+- `DashboardView` â "Team Assessment" tab when team_assessment_id exists
+- `useSupabaseData.js` â CRUD methods for team assessments (~60 lines)
+- `gating.js` â team assessment tier limits (~10 lines)
+
+### Implementation Phases
+- **Phase 1 (2-3 sessions, ~6-8 hrs):** DB schema + RLS, invitation modal + Edge Function, /join/[code] route, FirmDetailView integration
+- **Phase 2 (3-4 sessions, ~8-10 hrs):** Team Assessment tab, aggregation logic, radar/heatmap/divergence visualisations, participant view
+- **Phase 3 (2-3 sessions, ~6-8 hrs):** Email templates, edge cases, resend/revoke, admin dashboard, security audit, testing
+- **Total: 8-12 sessions (20-26 hours)**
+
+### Open Questions (for Richard)
+1. Participant limit â 10 per team assessment, or higher?
+2. Can participants edit after completing, or locked on submission?
+3. Export format â PDF, CSV, or both?
+4. Role/title field â required or optional?
+5. CEO notification â real-time email per completion, or daily digest?
+6. Historical trends â show comparison across multiple team assessments?
 
 ## Potential Future Enhancements
 
+- **Team Assessment feature** â Fully scoped, ready to implement (see section above)
 - **Security hardening (ongoing):** Add MFA for admins, npm audit in CI, quarterly security reviews
 - Render theme icons in heatmap, gap analysis, and theme headers
 - Continuous scrolling assessment tab
