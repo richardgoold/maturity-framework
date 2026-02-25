@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #496] — 25 February 2026
+### Changes
+- Add rate limiting, generic errors, password policy (SEC-06, SEC-07, SEC-12)
+
+---
+
+
 ## [Build #495] — 25 February 2026
 ### Changes
 - Strip console.log from production builds (SEC-19)
