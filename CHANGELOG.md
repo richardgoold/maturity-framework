@@ -4,6 +4,17 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #502] — 25 February 2026
+### Changes
+- Fix build: restore calcScores line corrupted by SEC-14 edit
+- Update CLAUDE.md with security fix session details (25 Feb 2026)
+- Create supabase-security-fixes.sql
+- Create SECURITY.md
+- Add CSV injection protection, JSON validation, localStorage migration (SEC-05, SEC-10, SEC-14, SEC-21)
+
+---
+
+
 ## [Build #497] — 25 February 2026
 ### Changes
 - Add input sanitisation, password complexity, generic errors (SEC-07, SEC-12, SEC-13)
