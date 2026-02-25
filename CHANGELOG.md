@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #519] — 25 February 2026
+### Changes
+- Add tailwindcss and @tailwindcss/vite build dependencies
+
+---
+
+
 ## [Build #518] — 25 February 2026
 ### Changes
 - Add server-side rate limiting to login and password reset
