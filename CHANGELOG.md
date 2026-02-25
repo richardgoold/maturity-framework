@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #537] — 25 February 2026
+### Changes
+-    Update CLAUDE.md: Document build error fixes and syntax corrections
+
+---
+
+
 ## [Build #536] — 25 February 2026
 ### Changes
 - Remove duplicate variable declarations
