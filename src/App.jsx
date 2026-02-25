@@ -1884,7 +1884,7 @@ function HeatmapGrid({ ratings }) {
 
   const renderTheme = (theme) => (
     <div key={theme.id}>
-      <div className="text-xs font-semibold text-gray-500 mb-1 flex items-center gap-1">{getThemeIcon(theme.icon, 12, "text-gray-400")} {theme.name}</div>
+      <div className="text-xs font-semibold mb-1 flex items-center gap-1.5" style={{color: theme.color}}><span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{backgroundColor: theme.color}} />{getThemeIcon(theme.icon, 12, "flex-shrink-0")} {theme.name}</div>
       <div className="flex flex-wrap gap-1">
         {theme.metrics.map(m => {
           const r = ratings[m.id];
@@ -2272,7 +2272,7 @@ function ExportPanel({ assessment, firmName, firmSector, scores, benchmarkProfil
       <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
         <Download size={14} /> Export Assessment
       </h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <button onClick={() => { track("Export Exec Summary"); exportExecutiveSummary(assessment, firmName, firmSector, scores); }}
           className="flex flex-col items-center justify-center gap-2 px-3 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
           <ClipboardCheck size={20} />
@@ -2323,6 +2323,7 @@ function RadarOverview({ radarData , benchmarkProfile }) {
           <PolarGrid strokeDasharray="3 3" />
           <PolarAngleAxis dataKey="theme" tick={({ x, y, payload, textAnchor }) => {
               const n = payload.value;
+              const thObj = FRAMEWORK.themes.find(t => t.name === n);
               let lines;
               if (n.length <= 14) { lines = [n]; }
               else {
@@ -2330,7 +2331,7 @@ function RadarOverview({ radarData , benchmarkProfile }) {
                 if (a > 0) { lines = [n.substring(0, a + 1).trim(), n.substring(a + 2).trim()]; }
                 else { const s = n.lastIndexOf(" ", Math.ceil(n.length / 2)); lines = s > 0 ? [n.substring(0, s), n.substring(s + 1)] : [n]; }
               }
-              return (<text x={x} y={y} textAnchor={textAnchor} fontSize={9} fill="#666">{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? -(lines.length - 1) * 5 : 11}>{l}</tspan>))}</text>);
+              return (<g><text x={x} y={y} textAnchor={textAnchor} fontSize={9} fill={thObj?.color || "#666"}>{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? -(lines.length - 1) * 5 : 11}>{l}</tspan>))}</text></g>);
             }} />
           <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8 }} />
           <Radar name="Your Firm" dataKey="score" stroke="#f2a71b" fill="#f2a71b" fillOpacity={0.35} strokeWidth={3} />
@@ -2376,8 +2377,9 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
       <ResponsiveContainer width="100%" height={320}>
         <BarChart data={comparisonData} layout="vertical" margin={{ left: 20, right: 20 }}>
           <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
-          <YAxis dataKey="name" type="category" width={130} tick={({ x, y, payload }) => {
+          <YAxis dataKey="name" type="category" width={140} tick={({ x, y, payload }) => {
                 const n = payload.value;
+                const thObj = FRAMEWORK.themes.find(t => t.name === n);
                 let lines;
                 if (n.length <= 14) { lines = [n]; }
                 else {
@@ -2385,7 +2387,7 @@ function BenchmarkComparison({ scores , benchmarkProfile }) {
                   if (a > 0) { lines = [n.substring(0, a + 1).trim(), n.substring(a + 2).trim()]; }
                   else { const s = n.lastIndexOf(" ", Math.ceil(n.length / 2)); lines = s > 0 ? [n.substring(0, s), n.substring(s + 1)] : [n]; }
                 }
-                return (<text x={x} y={y} textAnchor="end" fontSize={9} fill="#666" dy={lines.length > 1 ? -4 : 4}>{lines.map((l, i) => (<tspan key={i} x={x} dy={i === 0 ? 0 : 11}>{l}</tspan>))}</text>);
+                return (<g><text x={x - 16} y={y} textAnchor="end" fontSize={9} fill={thObj?.color || "#666"} dy={lines.length > 1 ? -4 : 4}>{lines.map((l, i) => (<tspan key={i} x={x - 16} dy={i === 0 ? 0 : 11}>{l}</tspan>))}</text><foreignObject x={x - 14} y={y - 7} width={14} height={14} style={{overflow:"visible"}}>{getThemeIcon(thObj?.icon, 11, "")}</foreignObject></g>);
               }} />
           <Tooltip formatter={(v, name) => [v, name]} />
           <Bar dataKey="firm" name="Your Firm" radius={[0, 4, 4, 0]} label={({ x, y, width, height, value, index }) => { const d = comparisonData[index]; const gap = d.firm - d.benchmark; return <text x={x + width + 4} y={y + height / 2} fill={gap >= 0 ? "#16A34A" : "#DC2626"} fontSize={10} dominantBaseline="middle">{gap >= 0 ? "+" : ""}{gap}%</text>; }}>
@@ -3218,7 +3220,7 @@ function TrendAnalysisPanel({ firmAssessments }) {
           const isActive = activeThemes.has(t.id);
           return (
             <div key={t.id} className={`text-center cursor-pointer rounded-lg p-1.5 transition-all ${isActive ? "bg-gray-100 ring-2" : "hover:bg-gray-50"}`} style={isActive ? { ringColor: t.color } : {}} onClick={() => toggleTheme(t.id)}>
-              <div className="text-[10px] text-gray-500 font-medium truncate">{t.name}</div>
+              <div className="text-[10px] text-gray-500 font-medium truncate flex items-center justify-center gap-1">{getThemeIcon(t.icon, 10, "flex-shrink-0")}<span>{t.name}</span></div>
               <div className="text-base font-bold text-slate-800">{cur}%</div>
               <div className={`text-xs font-semibold ${diff > 0 ? "text-green-600" : diff < 0 ? "text-red-500" : "text-gray-400"}`}>
                 {diff > 0 ? "\u2191" : diff < 0 ? "\u2193" : "\u2192"}{Math.abs(diff)}%
@@ -3644,7 +3646,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
  <div id="dash-scores" style={{ display: activeTab === "scores" ? "block" : "none" }} className="scroll-mt-16 mb-6">
         {/* Executive Summary */}
         {(() => {
-          const themeArr = FRAMEWORK.themes.map(t => ({name: t.name, pct: scores.themeScores[t.id]?.pct || 0, gap: (activeBenchmark[t.id] || 65) - (scores.themeScores[t.id]?.pct || 0)}));
+          const themeArr = FRAMEWORK.themes.map(t => ({name: t.name, color: t.color, icon: t.icon, pct: scores.themeScores[t.id]?.pct || 0, gap: (activeBenchmark[t.id] || 65) - (scores.themeScores[t.id]?.pct || 0)}));
           const strengths = [...themeArr].sort((a,b) => b.pct - a.pct).slice(0,3);
           const gaps = [...themeArr].filter(t => t.gap > 0).sort((a,b) => b.gap - a.gap).slice(0,3);
           const critCount = themeArr.filter(t => t.gap > 20).length;
@@ -3713,7 +3715,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Top Strengths</div>
                   {strengths.map((s,i) => (
                     <div key={i} className="flex items-center gap-2 mb-1.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{backgroundColor: s.color}} />
                       <span className="text-xs text-gray-700 truncate">{s.name}</span>
                       <span className="text-xs font-bold text-green-600 ml-auto">{Math.round(s.pct)}%</span>
                     </div>
@@ -3723,7 +3725,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Largest Gaps</div>
                   {gaps.map((g,i) => (
                     <div key={i} className="flex items-center gap-2 mb-1.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{backgroundColor: g.color}} />
                       <span className="text-xs text-gray-700 truncate">{g.name}</span>
                       <span className="text-xs font-bold text-red-500 ml-auto">-{Math.round(g.gap)}%</span>
                     </div>
