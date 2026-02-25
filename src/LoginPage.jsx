@@ -36,6 +36,25 @@ export default function LoginPage() {
     }
     setLoading(true);
     setError(null);
+    // Server-side rate limiting (supplements client-side)
+    try {
+      const { data: allowed } = await supabase.rpc('check_rate_limit', {
+        p_identifier: form.email,
+        p_action: 'login',
+        p_max_attempts: 5,
+        p_window_seconds: 900,
+        p_lockout_seconds: 900,
+      });
+      if (allowed === false) {
+        setLoading(false);
+        setError('Too many login attempts. Please try again in 15 minutes.');
+        return;
+      }
+    } catch (rlErr) {
+      // Rate limit check failed — proceed without blocking (non-critical)
+      console.warn('Rate limit check failed:', rlErr);
+    }
+
     const { error: signInError } = await signIn({
       email: form.email,
       password: form.password,
@@ -56,6 +75,12 @@ export default function LoginPage() {
     } else {
       setAttempts(0);
       setLockedUntil(null);
+      // Reset server-side rate limit on successful login
+      try {
+        await supabase.rpc('reset_rate_limit', { p_identifier: form.email, p_action: 'login' });
+      } catch (rlErr) {
+        // Non-critical — don't block login
+      }
       // Check MFA status after successful password auth
       try {
         const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
@@ -103,6 +128,24 @@ export default function LoginPage() {
     if (!form.email) { setError('Please enter your email address first.'); return; }
     setLoading(true);
     setError(null);
+    // Server-side rate limiting for password resets
+    try {
+      const { data: allowed } = await supabase.rpc('check_rate_limit', {
+        p_identifier: form.email,
+        p_action: 'password_reset',
+        p_max_attempts: 3,
+        p_window_seconds: 3600,
+        p_lockout_seconds: 3600,
+      });
+      if (allowed === false) {
+        setLoading(false);
+        setResetSent(true); // Still show success to prevent enumeration
+        return;
+      }
+    } catch (rlErr) {
+      console.warn('Rate limit check failed:', rlErr);
+    }
+
     const { error: resetError } = await resetPassword(form.email);
     setLoading(false);
     // SEC-12: Always show success to prevent email enumeration
