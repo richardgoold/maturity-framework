@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #497] — 25 February 2026
+### Changes
+- Add input sanitisation, password complexity, generic errors (SEC-07, SEC-12, SEC-13)
+
+---
+
+
 ## [Build #496] — 25 February 2026
 ### Changes
 - Add rate limiting, generic errors, password policy (SEC-06, SEC-07, SEC-12)
