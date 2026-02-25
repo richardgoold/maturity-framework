@@ -1,52 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#f2a71b" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GrowthLens</title>
-    <meta name="description" content="Assess your professional services firm across 57 growth metrics. Benchmark against M&A-ready standards and build a roadmap to maximise firm value." />
-    <meta property="og:title" content="GrowthLens | Professional Services Growth Platform" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
-    <meta property="og:description" content="Rate your firm across 57 metrics and 10 growth themes, benchmarked against industry standards." />
+    <!-- SEC-03: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://plausible.io 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.tailwindcss.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://growthlens.app; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+    <!-- SEC-15: Security headers via meta tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>GrowthLens — M&A Due Diligence Assessment Platform</title>
+    <meta name="description" content="GrowthLens helps professional services firms assess M&A readiness across 57 metrics and 10 growth themes." />
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://growthlens.app/" />
-    <meta property="og:image" content="https://growthlens.app/og-image.png?v=2" />
+    <meta property="og:title" content="GrowthLens — Professional Services Growth Platform" />
+    <meta property="og:description" content="How strong is your firm, really? Assess M&A readiness across 57 metrics and 10 growth dimensions, benchmarked against industry standards." />
+    <meta property="og:image" content="https://growthlens.app/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="GrowthLens | Professional Services Growth Platform" />
-    <meta name="twitter:description" content="How strong is your firm, really? Assess across 57 metrics and 10 growth themes, benchmarked against industry standards." />
-    <meta name="twitter:image" content="https://growthlens.app/og-image.png?v=2" />
-    <link rel="canonical" href="https://growthlens.app/" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <meta name="twitter:title" content="GrowthLens — Professional Services Growth Platform" />
+    <meta name="twitter:description" content="How strong is your firm, really? Assess M&A readiness across 57 metrics and 10 growth dimensions." />
+    <meta name="twitter:image" content="https://growthlens.app/og-image.png" />
+    <!-- SEC-04: Tailwind play CDN does not support SRI (dynamic output). TODO: bundle via npm for production -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      // SPA redirect for GitHub Pages
-      (function(){
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" integrity="sha384-OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Arimo:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- GitHub Pages SPA redirect handler -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafgraph/spa-github-pages
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
         }
-      })();
+      }(window.location))
     </script>
-    <!-- Privacy-friendly analytics by Plausible -->
-    <script async src="https://plausible.io/js/pa-iTF0v_aQORYnSiFanT-Zt.js"></script>
-    <script>
-      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-      plausible.init()
-    </script>
-    <script type="module" crossorigin src="/assets/index-DH3v84At.js"></script>
+    <script type="module" crossorigin src="/assets/index-BLblk_2u.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-396bOupx.css">
   </head>
-  <body class="font-['Inter'] antialiased">
+  <body>
     <div id="root"></div>
   </body>
 </html>
