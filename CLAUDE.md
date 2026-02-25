@@ -7,9 +7,9 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 255a128 (25 Feb 2026) - UX improvements: contact form message, remove redundant button, darker text, Not Tracked completion counting, Share tooltip, Compare Assessments button
-- **Previous commit:** a6a15ba (25 Feb 2026) - Remove sector field and enforce free tier firm limit (max 1 firm until Premium)
-- **Last updated:** 25 February 2026 (UX improvements, firm tier gating, CLAUDE.md update)
+- **Latest commit:** 2878783 (25 Feb 2026) - Remove duplicate variable declarations blocking build
+- **Previous commit:** 255a128 (25 Feb 2026) - UX improvements: contact form message, remove redundant button, darker text, Not Tracked completion counting, Share tooltip, Compare Assessments button
+- **Last updated:** 25 February 2026 (Build error fixes, duplicate declarations, malformed JSX, CLAUDE.md update)
 
 ## Tech Stack
 
@@ -367,6 +367,53 @@ A comprehensive security audit was conducted covering all source files, Supabase
 | contact_submissions | â Admin | â Public | â Admin | â None | SEC-09: Add admin DELETE |
 | app_config | â Auth users | â Admin | â Admin | â None | Immutable by design |
 | audit_log | â Admin | â Admin | â None | â None | Immutable by design |
+
+### Session Changes (25 Feb 2026, continued – Build error fixes & syntax corrections)
+
+**Issue:** Duplicate variable declarations and malformed JSX caused build failures blocking all deployments.
+
+**Root Cause Investigation:**
+- User discovered that changing contact form placeholder text wouldn't deploy
+- GitHub Actions workflow failures revealed duplicate `const` declarations at lines 2700-2703 in App.jsx (duplicate of lines 2691-2693): `const userFirm`, `const demoFirms`, `const hasFirm`
+- Secondary syntax error at line 3626: malformed button element with duplicate `onClick` attributes and misplaced `title` attribute inside arrow function body
+
+**Fixes Applied (Commit 2878783):**
+
+**Fix #1: Remove duplicate variable declarations (lines 2700-2703)**
+- Deleted three duplicate lines that were causing "already been declared" errors
+- Kept only the first occurrence (lines 2691-2693)
+- These variables split user firms from demo firms and check firm existence
+- Build error messages: "The symbol 'userFirm' has already been declared" at 2701:8, 2702:8, 2703:8
+
+**Fix #2: Correct malformed Share button JSX (line 3626)**
+- **Before:** `<button onClick={(e) => { title="Copy a social sharing message to clipboard" onClick={(e) => { ... }}>`
+- **After:** `<button title="Copy a social sharing message to clipboard" onClick={(e) => { ... }}>`
+- Issue: `title` attribute was incorrectly placed inside the arrow function body instead of as a JSX attribute
+- Also removed duplicate `onClick` handler that appeared mid-code
+- Build error message: "Expected ';' but found 'onClick'" at line 3623:85
+
+**Testing & Verification:**
+- Build passed successfully after fixes (Deploy to GitHub Pages #536, 35 seconds)
+- GitHub Pages auto-deployed (pages-build-deployment #416, 24 seconds)
+- Live site verified: https://growthlens.app loading correctly
+- Deployment workflow shows green checkmarks ✓
+
+**Technical Challenges:**
+- GitHub web editor (CodeMirror) consistently timed out on large 45KB App.jsx file
+- Git push blocked by proxy (HTTPS) and DNS (SSH) restrictions
+- npm install blocked (403 Forbidden from registry)
+- Network infrastructure constraints required exploring multiple technical paths
+
+**Workaround Applied:**
+- Fixed file in workspace via local Edit tool
+- Uploaded corrected App.jsx directly via GitHub web interface
+- User successfully pushed commit 2878783 to deploy fixes
+
+**Files Modified:**
+- `src/App.jsx` (2 changes): Remove duplicate variable declarations + fix Share button JSX
+
+**Related Context:**
+This session unblocked the contact form placeholder text change that was initially requested but prevented from deploying due to build errors.
 
 ### Session Changes (25 Feb 2026, continued â Joe's feedback & demo data overhaul)
 
