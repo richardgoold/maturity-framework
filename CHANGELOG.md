@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #523] — 25 February 2026
+### Changes
+- Fix CSP img-src to allow Supabase storage images (portrait photo)
+
+---
+
+
 ## [Build #522] — 25 February 2026
 ### Changes
 - Remove Tailwind CDN, tighten CSP to remove unsafe-eval
