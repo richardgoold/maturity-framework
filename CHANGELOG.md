@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #494] — 25 February 2026
+### Changes
+- Add CSP, SRI, and security headers (SEC-03, SEC-04, SEC-15)
+
+---
+
+
 ## [Build #493] — 24 February 2026
 ### Changes
 - Increase logo size on signup page to match login page
