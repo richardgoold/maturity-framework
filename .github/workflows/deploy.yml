@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - name: Security audit
+        run: npm audit --audit-level=high
       - name: Build
         run: npm run build
         env:
