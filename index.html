@@ -8,8 +8,8 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#f2a71b" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- SEC-03: Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://plausible.io 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.tailwindcss.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://growthlens.app; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+    <!-- SEC-03: Content Security Policy (unsafe-eval removed via Tailwind build-time migration) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://plausible.io 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://growthlens.app; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://plausible.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
     <!-- SEC-15: Security headers via meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -28,8 +28,6 @@
     <meta name="twitter:title" content="GrowthLens — Professional Services Growth Platform" />
     <meta name="twitter:description" content="How strong is your firm, really? Assess M&A readiness across 57 metrics and 10 growth dimensions." />
     <meta name="twitter:image" content="https://growthlens.app/og-image.png" />
-    <!-- SEC-04: Tailwind play CDN does not support SRI (dynamic output). TODO: bundle via npm for production -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" integrity="sha384-OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,7 +47,7 @@
         }
       }(window.location))
     </script>
-    <script type="module" crossorigin src="/assets/index-BAbbLL2D.js"></script>
+    <script type="module" crossorigin src="/assets/index-BOIAAGxn.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CNSJ1jGS.css">
   </head>
   <body>
