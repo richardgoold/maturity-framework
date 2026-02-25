@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #527] — 25 February 2026
+### Changes
+- Update CLAUDE.md with Team Assessment feature scoping
+
+---
+
+
 ## [Build #526] — 25 February 2026
 ### Changes
 - Update CLAUDE.md with Joe's feedback, demo data overhaul, and session documentation
