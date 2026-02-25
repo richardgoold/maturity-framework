@@ -2697,11 +2697,6 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
   const canCreateFirm = isPremium || !hasFirm;
   const [sector, setSector] = useState("");
 
-  // Split user firms from demo firms
-  const userFirm = firms.find(f => !f.isDemo);
-  const demoFirms = firms.filter(f => f.isDemo);
-  const hasFirm = !!userFirm;
-
   const handleCreate = () => {
     if (!name.trim()) return;
     if (!canCreateFirm) return;
