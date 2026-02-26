@@ -1294,7 +1294,7 @@ export const calcScores = (ratings, benchmarkObj) => {
     const benchmarkAlignment = readyTotalWeight > 0 ? Math.round((readyWeightedSum / readyTotalWeight) * 100) : 0;
     // M&A Readiness Score uses the raw overall percentage (not benchmark-relative)
     const readinessScore = totalMaxPossible > 0 ? Math.round((totalScore / totalMaxPossible) * 100) : 0;
-    const readinessLevel = readinessScore >= 66 ? "On Track" : readinessScore >= 33 ? "Developing" : "Early Stage";
+    const readinessLevel = readinessScore >= 66 ? "On Track" : readinessScore >= 38 ? "Developing" : "Early Stage";
     themeGaps.sort((a, b) => b.gap - a.gap);
 
   return {
@@ -2749,8 +2749,8 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
       <div className="flex items-center gap-4 mb-4 px-1">
         <span className="text-xs text-gray-400 font-medium">Score:</span>
         <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#1E8449"}}></span>>=66% On Track</span>
-        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>33-65% Developing</span>
-        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;33% Early Stage</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#B7950B"}}></span>38-65% Developing</span>
+        <span className="flex items-center gap-1.5 text-xs text-gray-500"><span className="inline-block w-2.5 h-2.5 rounded-full" style={{backgroundColor:"#922B21"}}></span>&lt;38% Early Stage</span>
       </div>
 
       {/* Your Firm Section */}
