@@ -3837,7 +3837,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           return (
             <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-2 text-center border-t-2 hover:shadow-md transition-all" style={{ borderTopColor: t.color }}>
               <div className="text-xs font-medium truncate" style={{ color: t.color }}>{t.name}</div>
-              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 66 ? "#16A34A" : pct >= 38 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%
+              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 66 ? "#16A34A" : pct >= 38 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%</div>
             </div>
           );
         })}
