@@ -1294,7 +1294,7 @@ export const calcScores = (ratings, benchmarkObj) => {
     const benchmarkAlignment = readyTotalWeight > 0 ? Math.round((readyWeightedSum / readyTotalWeight) * 100) : 0;
     // M&A Readiness Score uses the raw overall percentage (not benchmark-relative)
     const readinessScore = totalMaxPossible > 0 ? Math.round((totalScore / totalMaxPossible) * 100) : 0;
-    const readinessLevel = readinessScore >= 90 ? "M&A Ready" : readinessScore >= 75 ? "Nearly Ready" : readinessScore >= 55 ? "In Progress" : readinessScore >= 35 ? "Early Stage" : "Foundational";
+    const readinessLevel = readinessScore >= 66 ? "On Track" : readinessScore >= 33 ? "Developing" : "Early Stage";
     themeGaps.sort((a, b) => b.gap - a.gap);
 
   return {
@@ -2016,7 +2016,7 @@ const generateCSV = (assessment) => {
     const date = new Date(assessment.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
     const { readinessScore, readinessLevel } = scores;
     const overallPct = scores.pct;
-    const lr = readinessLevel === "M&A Ready" ? [5,150,105] : readinessLevel === "Nearly Ready" ? [242,167,27] : readinessLevel === "In Progress" ? [217,119,6] : [234,88,12];
+    const lr = readinessLevel === "On Track" ? [30,132,73] : readinessLevel === "Developing" ? [183,149,11] : [146,43,33];
     const sc = (p, b) => p >= b ? [5,150,105] : p >= b - 10 ? [217,119,6] : [220,38,38];
     doc.setFontSize(8); doc.setTextColor(107,114,128);
     doc.text("GROWTH DRIVERS MATURITY FRAMEWORK", pw/2, y, { align: "center" }); y += 10;
@@ -2183,7 +2183,7 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
     const benchValues = BENCHMARK_PROFILES[benchmarkProfile] || BENCHMARK_PROFILES["M&A-Ready (PSF)"] || {};
     const dateStr = new Date(assessment.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
     const pct = scores.pct; const readiness = scores.readinessScore; const readinessLevel = scores.readinessLevel;
-    const lr = readinessLevel === "M&A Ready" ? [5,150,105] : readinessLevel === "Nearly Ready" ? [242,167,27] : readinessLevel === "In Progress" ? [217,119,6] : [234,88,12];
+    const lr = readinessLevel === "On Track" ? [30,132,73] : readinessLevel === "Developing" ? [183,149,11] : [146,43,33];
     const themeData = FRAMEWORK.themes.map(theme => {
       const ts = scores.themeScores[theme.id]; const bp = benchValues[theme.id] || 65;
       const gap = ts ? Math.round(ts.pct) - bp : -bp;
@@ -3100,10 +3100,9 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
 // ─── Readiness Score Banner ─────────────────────────────────────
 function ReadinessScoreBanner({ readinessScore, readinessLevel }) {
   const getColor = () => {
-    if (readinessLevel === "M&A Ready") return { text: "text-green-700", bg: "bg-green-50", border: "border-green-300", ring: "stroke-green-500" };
-    if (readinessLevel === "Nearly Ready") return { text: "text-[#f2a71b]", bg: "bg-amber-900/10", border: "border-[#f2a71b]/40", ring: "stroke-[#3b82f6]" };
-    if (readinessLevel === "In Progress") return { text: "text-amber-700", bg: "bg-amber-50", border: "border-amber-300", ring: "stroke-amber-500" };
-    return { text: "text-orange-700", bg: "bg-orange-50", border: "border-orange-300", ring: "stroke-[#ef4444]" };
+    if (readinessLevel === "On Track") return { text: "text-green-700", bg: "bg-green-50", border: "border-green-300", ring: "stroke-green-500" };
+    if (readinessLevel === "Developing") return { text: "text-amber-700", bg: "bg-amber-50", border: "border-amber-300", ring: "stroke-amber-500" };
+    return { text: "text-red-700", bg: "bg-red-50", border: "border-red-300", ring: "stroke-[#ef4444]" };
   };
   const c = getColor();
   const circumference = 2 * Math.PI * 54;
@@ -3667,7 +3666,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                   const rawPct = scores.totalMaxPossible > 0 ? Math.round((scores.totalScore / scores.totalMaxPossible) * 100) : 0;
                   const readyPct = scores.readinessScore;
                   const level = scores.readinessLevel;
-                  const ringColor = level === "M&A Ready" ? "#16a34a" : level === "Nearly Ready" ? "#3b82f6" : level === "In Progress" ? "#d97706" : "#ef4444";
+                  const ringColor = level === "On Track" ? "#16a34a" : level === "Developing" ? "#d97706" : "#ef4444";
                   const outerR = 88, outerStroke = 14, innerR = 64, innerStroke = 12;
                   const outerCirc = 2 * Math.PI * outerR;
                   const innerCirc = 2 * Math.PI * innerR;
