@@ -1611,7 +1611,7 @@ function LiveAssessmentPanel({ scores, ratings, onJumpToTheme }) {
 
 function ScoreGauge({ score, max, label }) {
   const pct = max > 0 ? (score / max) * 100 : 0;
-  const color = pct >= 66 ? "#16A34A" : pct >= 33 ? "#D97706" : "#DC2626";
+  const color = pct >= 66 ? "#16A34A" : pct >= 38 ? "#D97706" : "#DC2626";
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-36 h-36">
@@ -2129,7 +2129,7 @@ const exportToPDF = (assessment, firmName, firmSector, scores) => {
       const col = i % 5, row = Math.floor(i / 5);
       const x = mg + col * colW, yy = y + row * 24;
       const ts = scores.themeScores[t.id]; const pct = ts ? Math.round(ts.pct) : 0;
-      const color = pct >= 66 ? [30,132,73] : pct >= 33 ? [183,149,11] : [146,43,33];
+      const color = pct >= 66 ? [30,132,73] : pct >= 38 ? [183,149,11] : [146,43,33];
       doc.setDrawColor(200,200,200); doc.setFillColor(255,255,255);
       doc.roundedRect(x + 1, yy, colW - 2, 22, 1.5, 1.5, "FD");
       doc.setFontSize(6); doc.setTextColor(100,116,139);
@@ -2713,7 +2713,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
       <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 33 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
               {firm.name.charAt(0).toUpperCase()}
             </div>
             <div>
@@ -2724,7 +2724,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <div className="flex items-center gap-3">
             {latestScores && (
               <div className="text-right">
-                <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 33 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
+                <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                 <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
               </div>
             )}
@@ -2898,7 +2898,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         return (
           <div className="bg-gradient-to-r from-gray-50 to-amber-50/30 rounded-lg border border-gray-200 p-3 mb-3 flex items-center gap-6">
             <div className="text-center">
-              <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 33 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
+              <div className="text-2xl font-bold" style={{ color: s.pct >= 66 ? "#16A34A" : s.pct >= 38 ? "#D97706" : "#DC2626" }}>{s.pct}%</div>
               <div className="text-[10px] text-gray-500 uppercase flex items-center justify-center gap-1">Score<InfoTooltip text="Raw maturity score — the unweighted average across all rated metrics and themes" /></div>
             </div>
             <div className="h-8 w-px bg-gray-200"></div>
@@ -2935,7 +2935,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <div className="text-lg font-bold" style={{ color: scores.pct >= 66 ? "#16A34A" : scores.pct >= 33 ? "#D97706" : "#DC2626" }}>{scores.pct}%</div>
+                      <div className="text-lg font-bold" style={{ color: scores.pct >= 66 ? "#16A34A" : scores.pct >= 38 ? "#D97706" : "#DC2626" }}>{scores.pct}%</div>
                       <div className="text-xs text-gray-500">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
                   <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-500 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
@@ -3515,7 +3515,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
                   {assessData.map((ad, i) => (
                     <div key={ad.id} className="text-center p-4 rounded-xl border-2 border-gray-200">
                       <div className="text-xs text-gray-500 mb-1 font-medium">{ad.date}</div>
-                      <div className="text-3xl font-bold" style={{color: ad.scores.readinessScore >= 66 ? "#059669" : ad.scores.readinessScore >= 60 ? "#D97706" : "#DC2626"}}>{ad.scores.readinessScore}%</div>
+                      <div className="text-3xl font-bold" style={{color: ad.scores.readinessScore >= 66 ? "#059669" : ad.scores.readinessScore >= 38 ? "#D97706" : "#DC2626"}}>{ad.scores.readinessScore}%</div>
                       <div className="text-xs text-gray-400 mt-1">{ad.scores.readinessLevel}</div>
                       {i > 0 && (() => { const ch = ad.scores.readinessScore - assessData[i-1].scores.readinessScore; return <div className={`text-xs mt-1 font-medium ${ch >= 0 ? "text-green-600" : "text-red-600"}`}>{ch >= 0 ? "↑" : "↓"} {Math.abs(ch)}% from previous</div>; })()}
                     </div>
@@ -3837,7 +3837,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
           return (
             <div key={t.id} className="bg-white rounded-lg border border-gray-200 p-2 text-center border-t-2 hover:shadow-md transition-all" style={{ borderTopColor: t.color }}>
               <div className="text-xs font-medium truncate" style={{ color: t.color }}>{t.name}</div>
-              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 66 ? "#16A34A" : pct >= 33 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%</div>
+              <div className="text-lg font-bold mt-0.5" style={{ color: pct >= 66 ? "#16A34A" : pct >= 38 ? "#D97706" : "#DC2626" }}>{Math.round(pct)}%
             </div>
           );
         })}
