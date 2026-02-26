@@ -4,6 +4,14 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #541] — 26 February 2026
+### Changes
+- Fix: Update all colour thresholds to 38% and fix unclosed div
+- Fix: Raise Early Stage threshold to 38% so Phoenix shows correctly
+
+---
+
+
 ## [Build #539] — 26 February 2026
 ### Changes
 - Fix: Raise Early Stage threshold to 38% so Phoenix shows correctly
