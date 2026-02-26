@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #539] — 26 February 2026
+### Changes
+- Fix: Raise Early Stage threshold to 38% so Phoenix shows correctly
+
+---
+
+
 ## [Build #538] — 26 February 2026
 ### Changes
 - Fix: Align readiness level labels with legend (On Track/Developing/Early Stage)
