@@ -268,7 +268,7 @@ function AdminOverview({ users, firms, assessments, contacts, stats }) {
       <div className="bg-white rounded-xl border border-gray-200 p-5">
         <h3 className="text-sm font-semibold text-gray-700 mb-4">Recent Users</h3>
         <div className="space-y-2">
-          {displayUsers.slice(0, 5).map(u => (
+          {users.slice(0, 5).map(u => (
             <div key={u.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
               <div>
                 <span className="text-sm font-medium text-gray-900">{u.full_name}</span>
@@ -280,7 +280,7 @@ function AdminOverview({ users, firms, assessments, contacts, stats }) {
               </div>
             </div>
           ))}
-          {displayUsers.length === 0 && <p className="text-sm text-gray-400 text-center py-4">No users yet</p>}
+          {users.length === 0 && <p className="text-sm text-gray-400 text-center py-4">No users yet</p>}
         </div>
       </div>
     </div>
