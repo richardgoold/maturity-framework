@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #551] — 27 February 2026
+### Changes
+- Update CLAUDE.md: demo lockdown + delete firm session notes
+
+---
+
+
 ## [Build #550] — 27 February 2026
 ### Changes
 - Demo lockdown + Delete Firm button (Build #549)
