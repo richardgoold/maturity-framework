@@ -8,7 +8,7 @@ import { UpgradePrompt, LimitModal, UpgradeBanner } from "./UpgradePrompt";
 import { ContactModalProvider, useContactModal } from "./ContactModal";
 import { supabase } from './supabase';
 import MfaSetup from "./MfaSetup";
-import { useSupabaseData } from './useSupabaseData';
+import { useSupabaseData, DEMO_USER_ID } from './useSupabaseData';
 // ─── Plausible Analytics Helper ─────────────────
 const track = (name, props) => { try { window.plausible?.(name, props ? { props } : undefined); } catch(e) {} };
 // -----------------------------------------------------------------------
@@ -2682,7 +2682,7 @@ function LandingPage({ onGetStarted }) {
       </div>    </div>
   );
 }
-function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem, userTier }) {
+function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewDashboard, assessments, recentlyDeleted, restoreItem, userTier, isDemoAccount }) {
   const [showCreate, setShowCreate] = useState(false);
   const [showDemos, setShowDemos] = useState(false);
   const [name, setName] = useState("");
@@ -2754,53 +2754,64 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
       </div>
 
       {/* Your Firm Section */}
-      {hasFirm ? (
-        <div className="mb-6">
-          {renderFirmCard(userFirm, false)}
-        </div>
-      ) : (
-        <div className="mb-6">
-          {showCreate ? (
-            <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-gray-700 mb-3">Create Your Firm</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" autoFocus />
-                <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" />
+      {!isDemoAccount && (
+        hasFirm ? (
+          <div className="mb-6">
+            {renderFirmCard(userFirm, false)}
+          </div>
+        ) : (
+          <div className="mb-6">
+            {showCreate ? (
+              <div className="bg-white rounded-lg border border-[#f2a71b]/30 p-5 shadow-sm">
+                <h3 className="text-sm font-bold text-gray-700 mb-3">Create Your Firm</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                  <input value={name} onChange={e => setName(e.target.value)} placeholder="Firm name" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" autoFocus />
+                  <input value={sector} onChange={e => setSector(e.target.value)} placeholder="Sector (optional)" className="border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#f2a71b]" />
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={handleCreate} className="bg-[#f2a71b] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-[#d9950f]">Create</button>
+                  <button onClick={() => setShowCreate(false)} className="text-gray-500 px-4 py-1.5 rounded text-sm hover:bg-gray-100">Cancel</button>
+                </div>
+                {!canCreateFirm && <p className="text-xs text-red-600 mt-2">Upgrade to Premium to add multiple firms.</p>}
               </div>
-              <div className="flex gap-2">
-                <button onClick={handleCreate} className="bg-[#f2a71b] text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-[#d9950f]">Create</button>
-                <button onClick={() => setShowCreate(false)} className="text-gray-500 px-4 py-1.5 rounded text-sm hover:bg-gray-100">Cancel</button>
+            ) : (
+              <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+                <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Get started</h3>
+                <p className="text-gray-500 mb-6">Create your firm to begin an M&A readiness assessment.</p>
+                <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
+                  <Plus size={16} /> Create Your Firm
+                </button>
               </div>
-              {!canCreateFirm && <p className="text-xs text-red-600 mt-2">Upgrade to Premium to add multiple firms.</p>}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-              <Building2 size={48} className="mx-auto text-gray-300 mb-5" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Get started</h3>
-              <p className="text-gray-500 mb-6">Create your firm to begin an M&A readiness assessment.</p>
-              <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
-                <Plus size={16} /> Create Your Firm
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )
       )}
 
       {/* Demo Firms Section */}
       {demoFirms.length > 0 && (
-        <div className="mt-2">
-          <button onClick={() => setShowDemos(!showDemos)} className="flex items-center gap-2 w-full text-left px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors">
-            <Eye size={16} className="text-gray-400" />
-            <span className="text-sm font-medium text-gray-600">Explore Demo Firms</span>
-            <span className="text-xs text-gray-400 ml-1">- see example assessments</span>
-            <ChevronDown size={16} className={`text-gray-400 ml-auto transition-transform ${showDemos ? "rotate-180" : ""}`} />
-          </button>
-          {showDemos && (
-            <div className="mt-2 space-y-2">
+        isDemoAccount ? (
+          <div>
+            <p className="text-xs text-gray-400 mb-2 px-1">Select a firm below to explore a full M&A readiness assessment</p>
+            <div className="space-y-2">
               {demoFirms.map(firm => renderFirmCard(firm, true))}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="mt-2">
+            <button onClick={() => setShowDemos(!showDemos)} className="flex items-center gap-2 w-full text-left px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors">
+              <Eye size={16} className="text-gray-400" />
+              <span className="text-sm font-medium text-gray-600">Explore Demo Firms</span>
+              <span className="text-xs text-gray-400 ml-1">- see example assessments</span>
+              <ChevronDown size={16} className={`text-gray-400 ml-auto transition-transform ${showDemos ? "rotate-180" : ""}`} />
+            </button>
+            {showDemos && (
+              <div className="mt-2 space-y-2">
+                {demoFirms.map(firm => renderFirmCard(firm, true))}
+              </div>
+            )}
+          </div>
+        )
       )}
 
       {/* Recently Deleted */}
@@ -2828,7 +2839,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
 }
 
 
-function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack, userTier, isDemo }) {
+function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessment, onSelectAssessment, onViewDashboard, onBack, userTier, isDemo, onDeleteFirm, isDemoAccount }) {
   const { isPremium } = useAuth();
   const { openContactModal } = useContactModal();
   const [showAssessLimitModal, setShowAssessLimitModal] = useState(false);
@@ -2848,6 +2859,15 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
           <p className="text-sm text-gray-500">"Professional Services"</p>
         </div>
+        {!isDemo && !isDemoAccount && onDeleteFirm && (
+          <button
+            onClick={() => onDeleteFirm(firm.id)}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors border border-red-200 hover:border-red-300"
+            title="Delete this firm and all its assessments"
+          >
+            <Trash2 size={14} /> Delete Firm
+          </button>
+        )}
 
         {onboardingFirmId === firm.id && (
           <div style={{marginTop: "16px", padding: "20px", background: "rgba(242,167,27,0.06)", border: "1px solid rgba(242,167,27,0.2)", borderRadius: "12px"}}>
@@ -2921,7 +2941,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         <div className="text-center py-10 bg-white rounded-lg border border-gray-200">
           <ClipboardCheck size={48} className="mx-auto text-gray-300 mb-3" />
           <p className="text-gray-500 mb-4">No assessments yet. Start one to begin evaluating this firm.</p>
-          {!isDemo && !atAssessmentLimit && (
+          {!isDemo && !atAssessmentLimit && !isDemoAccount && (
             <button onClick={() => onCreateAssessment(firm.id)} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold hover:opacity-90 transition cursor-pointer" style={{ background: "#f2a71b" }}>
               <Plus size={16} /> Start Assessment
             </button>
@@ -4186,6 +4206,7 @@ function ContactView() {
 
 export default function App() {
   const { user, signOut, isPremium, profile , isAdmin , updatePassword } = useAuth();
+  const isDemoAccount = user?.id === DEMO_USER_ID;
   const navigate = useNavigate();
   const { openContactModal } = useContactModal();
   const [state, setState] = useState(() => {
@@ -4733,10 +4754,10 @@ export default function App() {
         <LandingPage onGetStarted={() => setView("firms")} />
       )}
       {view === "firms" && !selectedFirmId && (
-          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} isDemo={selectedFirm?.isDemo} userTier={profile?.tier} />
+          <FirmListView firms={state.firms} onCreateFirm={createFirm} onSelectFirm={id => { setSelectedFirmId(id); setView("firmDetail"); }} onDeleteFirm={deleteFirm} assessments={state.assessments} recentlyDeleted={recentlyDeleted} restoreItem={restoreItem} onViewDashboard={(firmId, assessmentId) => { setSelectedFirmId(firmId); setSelectedAssessmentId(assessmentId); setDashboardAssessmentId(assessmentId); setView("dashboard"); }} isDemo={selectedFirm?.isDemo} userTier={profile?.tier} isDemoAccount={isDemoAccount} />
         )}
         {view === "firmDetail" && selectedFirm && (
-          <FirmDetailView isDemo={selectedFirm?.isDemo} firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} userTier={profile?.tier} />
+          <FirmDetailView isDemo={selectedFirm?.isDemo} firm={selectedFirm} assessments={state.assessments} onCreateAssessment={createAssessment} onSelectAssessment={id => { setSelectedAssessmentId(id); setView("assess"); }} onBack={() => { setSelectedFirmId(null); setView("firms"); }}  onDeleteAssessment={deleteAssessment} onViewDashboard={id => { setSelectedAssessmentId(id); setDashboardAssessmentId(id); setView("dashboard"); }} userTier={profile?.tier} onDeleteFirm={deleteFirm} isDemoAccount={isDemoAccount} />
         )}
         {view === "assess" && selectedAssessment && (
           <AssessmentView assessment={selectedAssessment} onRate={rateMetric} onComment={commentMetric} onBack={() => { setView("firmDetail"); }}  onConfidence={handleConfidence} onEvidence={handleEvidence} onGuidance={() => setView("guidance")} isDemo={selectedFirm?.isDemo} userTier={profile?.tier} />
