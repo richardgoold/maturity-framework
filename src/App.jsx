@@ -2951,7 +2951,8 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         <div className="space-y-1.5">
           {firmAssessments.map(a => {
             const scores = calcScores(a.ratings);
-            const aIsComplete = scores.ratedCount === scores.totalMetrics && scores.totalMetrics > 0;
+            const aNotTrackedCount = Object.values(a.ratings || {}).filter(r => r && typeof r === 'object' && r.notTracked).length;
+            const aIsComplete = (scores.ratedCount + aNotTrackedCount) === scores.totalMetrics && scores.totalMetrics > 0;
             const aDaysSince = a.createdAt ? Math.floor((Date.now() - new Date(a.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0;
             const aIsLocked = isDemo || (isFree && (aIsComplete || aDaysSince >= 7));
             const canDelete = !isFree || !aIsLocked;
@@ -2994,7 +2995,8 @@ function AssessmentView({ assessment, onRate, onComment, onBack, onConfidence, o
   const scores = calcScores(assessment.ratings);
   const scrollRef = useRef(null);
   const isFree = userTier !== "premium";
-  const isComplete = scores.ratedCount === scores.totalMetrics && scores.totalMetrics > 0;
+  const notTrackedCount = Object.values(assessment.ratings || {}).filter(r => r && typeof r === 'object' && r.notTracked).length;
+  const isComplete = (scores.ratedCount + notTrackedCount) === scores.totalMetrics && scores.totalMetrics > 0;
   const daysSinceCreation = assessment.createdAt ? Math.floor((Date.now() - new Date(assessment.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0;
   const isTimeLocked = isFree && daysSinceCreation >= 7;
   const isLocked = isDemo || (isFree && (isComplete || isTimeLocked));
