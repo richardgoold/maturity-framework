@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #547] — 27 February 2026
+### Changes
+- Fix Detailed Report crash (mTarget undeclared) and Scenarios metric inconsistency
+
+---
+
+
 ## [Build #546] — 27 February 2026
 ### Changes
 - Update CLAUDE.md: session notes for 27 Feb 2026 (Insights fix, PDF fixes, contact form)
