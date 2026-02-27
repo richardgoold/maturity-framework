@@ -3,7 +3,7 @@ import { supabase } from './supabase';
 import { useAuth } from './AuthContext';
 
 // Demo account user ID - demo firms are always visible to all users (read-only)
-const DEMO_USER_ID = '45b175ff-37c1-4b75-a78e-fba01680dff2';
+export const DEMO_USER_ID = '45b175ff-37c1-4b75-a78e-fba01680dff2';
 
 /**
  * useSupabaseData — replaces the localStorage layer in App.jsx.
