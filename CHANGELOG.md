@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #544] — 27 February 2026
+### Changes
+- Fix PDF export: add standalone jsPDF CDN, remove broken SRI hash
+
+---
+
+
 ## [Build #543] — 27 February 2026
 ### Changes
 - Fix Insights benchmark cards to use benchmarkAlignment per profile
