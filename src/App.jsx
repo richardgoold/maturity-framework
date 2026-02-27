@@ -2193,7 +2193,7 @@ function exportDetailedReport(assessment, firmName, firmSector, scores, benchmar
       return { id: theme.id, name: theme.name, color: theme.color, pct: ts ? Math.round(ts.pct) : 0, benchmark: bp, gap, metrics };
     });
     const improvements = []; themeData.forEach(td => { td.metrics.forEach(m => {
-      const mPct = Math.round((m.score / m.max) * 100); mTarget = m.metricBenchmark || td.benchmark;
+      const mPct = Math.round((m.score / m.max) * 100); const mTarget = m.metricBenchmark || td.benchmark;
       const gapVal = mTarget - mPct;
       if (gapVal > 0) improvements.push({ theme: td.name, metric: m.name, pct: mPct, target: mTarget, gap: gapVal, action: m.action });
     }); }); improvements.sort((a,b) => b.gap - a.gap);
@@ -3349,14 +3349,14 @@ function ScenarioPanel({ assessment, benchmarkProfile }) {
   const benchValues = BENCHMARK_PROFILES[benchmarkProfile];
   const totalW = FRAMEWORK.themes.reduce((s, t) => s + t.totalWeight, 0);
   const projectedReadiness = totalW > 0 ? Math.round(FRAMEWORK.themes.reduce((s, theme) => s + theme.totalWeight * Math.min((sliders[theme.id] || 0) / (benchValues[theme.id] || 65), 1.0) * 100, 0) / totalW) : 0;
-  const delta = hasInteracted ? projectedReadiness - currentScores.readinessScore : 0;
+  const delta = hasInteracted ? projectedReadiness - currentScores.benchmarkAlignment : 0;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><TrendingUp size={20} className="text-[#f2a71b]"/> Scenario Modelling</h3>
       <p className="text-xs text-gray-500 mb-4">Drag the sliders to model how improving individual theme scores would impact your overall M&A Readiness. Changes are for modelling only and do not affect your saved assessment.</p>
       <div className="flex items-center justify-between p-4 bg-amber-900/10 rounded-lg mb-4">
-        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{currentScores.readinessScore}%</p></div>
+        <div><p className="text-sm text-gray-600">Current Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{currentScores.benchmarkAlignment}%</p></div>
         <div className="text-center"><p className="text-sm text-gray-600">Change</p><p className={"text-xl font-bold " + (delta >= 0 ? "text-green-600" : "text-red-600")}>{delta >= 0 ? "+" : ""}{delta}%</p></div>
         <div className="text-right"><p className="text-sm text-gray-600">Projected Readiness</p><p className="text-2xl font-bold text-[#f2a71b]">{projectedReadiness}%</p></div>
       </div>
