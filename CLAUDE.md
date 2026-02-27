@@ -7,9 +7,9 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 4f4d9a4 (27 Feb 2026) - Fix PDF export: add jspdf-autotable plugin CDN for doc.autoTable()
-- **Previous commits:** 90caf80 (27 Feb 2026) - Fix PDF export: add standalone jsPDF CDN, remove broken SRI hash; 20c9d71 (27 Feb 2026) - Fix Insights benchmark cards to use benchmarkAlignment per profile
-- **Last updated:** 27 February 2026 (Insights bug fix, PDF export fixes x3, contact form verified)
+- **Latest commit:** 05c11df (27 Feb 2026) - Demo lockdown + Delete Firm button (Build #549)
+- **Previous commits:** d616d4c (27 Feb 2026) - Export DEMO_USER_ID; e92e025 (27 Feb 2026) - Add Start Assessment button to FirmDetailView (Build #548); 4f4d9a4 (27 Feb 2026) - Fix PDF export
+- **Last updated:** 27 February 2026 (Demo lockdown: read-only demo account, Delete Firm button in FirmDetailView)
 
 ## Tech Stack
 
@@ -368,6 +368,27 @@ A comprehensive security audit was conducted covering all source files, Supabase
 | app_config | â Auth users | â Admin | â Admin | â None | Immutable by design |
 | audit_log | â Admin | â Admin | â None | â None | Immutable by design |
 
+### Session Changes (27 Feb 2026 — Demo lockdown, Delete Firm button, Start Assessment fix)
+
+**Three changes across 3 commits (Builds #548, #549 + useSupabaseData export):**
+
+#### Fix: Start Assessment button in empty FirmDetailView (Build #548, commit e92e025)
+
+Added "Start Assessment" button to the empty-state in `FirmDetailView` (when a firm has no assessments). Previously only accessible via an onboarding overlay.
+
+#### Demo account lockdown (Commits d616d4c + 05c11df, Build #549)
+
+**Problem:** The demo account was used during QA testing to create "Test Advisory Ltd" firms, polluting the demo. No guard existed preventing firm creation on the demo account.
+
+**Fix — 3-part implementation:**
+
+1. **Supabase SQL cleanup** — deleted "Test Advisory Ltd" rows from demo account (kept only Apex, TechBridge, Phoenix). Cascade delete removed assessments automatically.
+2. **`useSupabaseData.js`** — exported `DEMO_USER_ID` constant.
+3. **`App.jsx`** (Build #549) — `isDemoAccount = user?.id === DEMO_USER_ID` inside App component; `FirmListView` hides "Your Firm" section + shows demo firms expanded by default for demo account; `FirmDetailView` adds "Delete Firm" button (hidden for isDemo/isDemoAccount) + guards Start Assessment for demo account.
+
+**Result:** Demo account shows only 3 curated firms expanded, no create-firm UI, no Start Assessment. Real users get full functionality including a "Delete Firm" button in FirmDetailView.
+
+---
 ### Session Changes (27 Feb 2026 — Insights fix, PDF export fixes, contact form verification)
 
 **Three bugs discovered and fixed during end-to-end walkthrough:**
