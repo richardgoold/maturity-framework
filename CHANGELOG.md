@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #548] — 27 February 2026
+### Changes
+- Fix: Add Start Assessment button to FirmDetailView empty state (Build #548)
+
+---
+
+
 ## [Build #547] — 27 February 2026
 ### Changes
 - Fix Detailed Report crash (mTarget undeclared) and Scenarios metric inconsistency
