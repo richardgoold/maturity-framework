@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #545] — 27 February 2026
+### Changes
+- Fix PDF export: add jspdf-autotable plugin CDN for doc.autoTable()
+
+---
+
+
 ## [Build #544] — 27 February 2026
 ### Changes
 - Fix PDF export: add standalone jsPDF CDN, remove broken SRI hash
