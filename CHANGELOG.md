@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #563] — 27 February 2026
+### Changes
+- Fix admin blank screen: use users prop not out-of-scope displayUsers in AdminOverview (Build #563)
+
+---
+
+
 ## [Build #562] — 27 February 2026
 ### Changes
 - Fix contact form textarea: correct px-4 and bg-white typos (Build #562)
