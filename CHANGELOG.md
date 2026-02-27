@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #554] — 27 February 2026
+### Changes
+- Fix: prevent free users from deleting firm with locked assessment (Build #552)
+
+---
+
+
 ## [Build #553] — 27 February 2026
 ### Changes
 - Fix: count Not Tracked as addressed for assessment locking (Build #551)
