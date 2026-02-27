@@ -2849,7 +2849,13 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
   const isFree = userTier !== "premium";
   const FREE_ASSESSMENT_LIMIT = 1;
   const atAssessmentLimit = !isDemo && isFree && firmAssessments.length >= FREE_ASSESSMENT_LIMIT;
-
+  const canDeleteFirm = !isFree || !firmAssessments.some(a => {
+    const s = calcScores(a.ratings);
+    const ntc = Object.values(a.ratings || {}).filter(r => r && typeof r === 'object' && r.notTracked).length;
+    const complete = (s.ratedCount + ntc) === s.totalMetrics && s.totalMetrics > 0;
+    const days = a.createdAt ? Math.floor((Date.now() - new Date(a.createdAt).getTime()) / (1000*60*60*24)) : 0;
+    return complete || days >= 7;
+  });
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-6">
@@ -2859,7 +2865,7 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
           <h1 className="text-2xl font-bold text-gray-800">{firm.name}</h1>
           <p className="text-sm text-gray-500">"Professional Services"</p>
         </div>
-        {!isDemo && !isDemoAccount && onDeleteFirm && (
+        {!isDemo && !isDemoAccount && onDeleteFirm && canDeleteFirm && (
           <button
             onClick={() => onDeleteFirm(firm.id)}
             className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors border border-red-200 hover:border-red-300"
