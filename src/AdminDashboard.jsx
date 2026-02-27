@@ -1557,8 +1557,6 @@ export default function AdminDashboard() {
   const { users, firms, assessments, contacts, auditLog, appConfig, stats, loading, error, updateUserProfile, rejectUser, deleteUser, updateAssessmentRatings, markContactRead, markContactUnread, deleteContact, updateAppConfig, logAudit, reload } = adminData;
   const INTERNAL_EMAILS = ['demo@growthlens.app', 'richard@gooldy.com'];
   const displayUsers = users.filter(u => !INTERNAL_EMAILS.includes(u.email?.toLowerCase()));
-  const INTERNAL_EMAILS = ['demo@growthlens.app', 'richard@gooldy.com'];
-  const displayUsers = users.filter(u => !INTERNAL_EMAILS.includes(u.email?.toLowerCase()));
 
   const [view, setView] = useState("overview");
   const [selectedUser, setSelectedUser] = useState(null);
