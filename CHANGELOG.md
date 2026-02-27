@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #543] — 27 February 2026
+### Changes
+- Fix Insights benchmark cards to use benchmarkAlignment per profile
+
+---
+
+
 ## [Build #542] — 27 February 2026
 ### Changes
 - Fix: Donut outer ring now shows benchmark-adjusted alignment score
