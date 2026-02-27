@@ -7,9 +7,9 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 05c11df (27 Feb 2026) - Demo lockdown + Delete Firm button (Build #549)
-- **Previous commits:** d616d4c (27 Feb 2026) - Export DEMO_USER_ID; e92e025 (27 Feb 2026) - Add Start Assessment button to FirmDetailView (Build #548); 4f4d9a4 (27 Feb 2026) - Fix PDF export
-- **Last updated:** 27 February 2026 (Demo lockdown: read-only demo account, Delete Firm button in FirmDetailView)
+- **Latest commit:** 3abc42a (27 Feb 2026) - Fix admin blank screen: use users prop not out-of-scope displayUsers in AdminOverview (Build #563)
+- **Previous commits:** 314f7d7 (27 Feb 2026) - Fix contact form textarea: correct px-4 and bg-white typos (Build #562); 14334f2 (27 Feb 2026) - Fix InsightsView padding: add p-6 to outer container (Build #561); f4c9397 (27 Feb 2026) - Fix donut ring contrast: inner ring navy (#1B4F72) vs outer ring amber (Build #560)
+- **Last updated:** 27 February 2026 (UI/UX polish: donut ring contrast, InsightsView padding, admin blank screen fix, benchmark credibility, admin filter scoping fix)
 
 ## Tech Stack
 
@@ -150,8 +150,8 @@ WHERE email = 'demo@growthlens.app';
   - Sign Out button (~line 4561): `text-gray-700 hover:bg-gray-50`
   - Change password modal (~line 4455): overlay with z-[100]
 
-**Workspace sync status (updated 25 Feb 2026):**
-The workspace files were synced from GitHub on 24 Feb 2026 but are now BEHIND GitHub again due to edits made via the GitHub web editor on 25 Feb 2026 (header layout, landing page, security fixes, Joe's feedback). The GitHub repository (github.com/richardgoold/maturity-framework) remains the source of truth. Key deployed versions: App.jsx (~4750+ lines), LandingPage.jsx (~860 lines).
+**Workspace sync status (updated 27 Feb 2026):**
+The workspace files are BEHIND GitHub. All code changes in this session were made via the GitHub web editor using CodeMirror 6 API. The GitHub repository (github.com/richardgoold/maturity-framework) remains the source of truth. Key deployed versions: App.jsx (~4820+ lines), AdminDashboard.jsx (~1805 lines), LandingPage.jsx (~860 lines).
 
 ### Key Constants
 
@@ -171,7 +171,11 @@ Overall average: 67%
 - Container: relative, centred
 - Donut SVG: 160x160, r=66, strokeWidth=12
 - Score text: absolute inset-0 flex items-center justify-center
-- Shows percentage + readinessLevel label (e.g. "83% Nearly Ready")
+- **Outer ring** = M&A Readiness (benchmarkAlignment): colour = `ringColor` based on level
+- **Inner ring** = Raw Score: always navy `#1B4F72` (matches radar "Your Firm" line)
+- **4-level system** (updated 27 Feb 2026): Benchmark Met (≥100%, green #16a34a), Near Target (≥80%, amber #d97706), Developing (≥50%, amber #d97706), Early Stage (<50%, red #ef4444)
+- `benchmarkAlignment` is proportional: 80% = "80% of the way to the benchmark target" — NOT "benchmark met"
+- Legend: navy dot = Inner ring (Raw Score), coloured dot = Outer ring (M&A Readiness)
 
 ### Improvement Roadmap
 - Rating access: `const val = r ? (typeof r[1] === "object" ? r[1]?.value : r[1]) : null;`
@@ -272,6 +276,15 @@ editor.executeEdits('edit-name', [{
 ## Recent Commit History
 
 ```
+3abc42a  Fix admin blank screen: use users prop not out-of-scope displayUsers in AdminOverview (Build #563, 27 Feb 2026)
+314f7d7  Fix contact form textarea: correct px-4 and bg-white typos in LandingPage.jsx (Build #562)
+14334f2  Fix InsightsView padding: add p-6 to outer container (Build #561)
+f4c9397  Fix donut ring contrast: inner ring navy (#1B4F72) vs outer ring amber (Build #560)
+746ba0c  Fix build error: remove duplicate INTERNAL_EMAILS declaration in AdminDashboard (Build #559)
+         [Builds #555-#558 failed due to duplicate INTERNAL_EMAILS - now resolved]
+         Fix: benchmark cards and donut show Near Target not On Track (Build #554)
+         Fix: AdminDashboard filter internal accounts + SignupPage name validation + App permanently delete (Builds #551-#553)
+05c11df  Demo lockdown + Delete Firm button (Build #549, 27 Feb 2026)
 5f6d39b  Fix Joe's feedback: darker text, remove templates, not-tracked, deduplicate (Build #525, 25 Feb 2026)
          Update subtitle text and restore PreviewsSection (Build #510, 25 Feb 2026)
          Add heading and subtitle to dashboard preview section (Build #509)
@@ -367,6 +380,68 @@ A comprehensive security audit was conducted covering all source files, Supabase
 | contact_submissions | â Admin | â Public | â Admin | â None | SEC-09: Add admin DELETE |
 | app_config | â Auth users | â Admin | â Admin | â None | Immutable by design |
 | audit_log | â Admin | â Admin | â None | â None | Immutable by design |
+
+### Session Changes (27 Feb 2026 — UI/UX polish: donut contrast, padding fixes, admin blank screen)
+
+**Four bug fixes across Builds #560–#563, plus earlier session fixes in same day:**
+
+#### Build #560: Donut ring contrast fix (App.jsx)
+
+**Problem:** After the previous session changed the inner donut ring from purple to amber `#f2a71b`, both rings were identical in colour — the outer ring was also amber (level-based). The two rings were indistinguishable.
+
+**Fix:** Changed inner ring from amber to navy `#1B4F72` (the same colour already used for "Your Firm" in the radar chart — consistent visual language):
+- SVG circle: `stroke="#f2a71b"` → `stroke="#1B4F72"` on inner ring
+- Legend dot: `bg-[#f2a71b]` → `bg-[#1B4F72]` on the "Inner ring = Raw Score" label
+
+#### Build #561: InsightsView missing left padding (App.jsx)
+
+**Problem:** Screenshot showed the "Benchmark Position" button and heading hitting the left edge of the screen with no padding on the Insights view.
+
+**Root cause:** `InsightsView` outer div had `className="space-y-6"` with no padding, while `DashboardView` has `className="overflow-y-auto p-6"`.
+
+**Fix:** Added `p-6` to `InsightsView` outer container:
+- Before: `<div className="space-y-6">`
+- After: `<div className="p-6 space-y-6">`
+
+#### Build #562: Contact form textarea CSS typos (LandingPage.jsx)
+
+**Problem:** Landing page contact form "Message" textarea had no left padding and transparent background — text appeared flush against the left edge with a grey background.
+
+**Root cause:** Two typos in the textarea className at line 664 of LandingPage.jsx:
+- `pwwe4` instead of `px-4` (no horizontal padding)
+- `weg-white` instead of `bg-white` (transparent background)
+
+**Fix:** Corrected both typos:
+- `pwwe4` → `px-4`
+- `weg-white` → `bg-white`
+
+#### Build #563: Admin blank screen fix (AdminDashboard.jsx)
+
+**Problem:** Navigating to `/admin` as admin user showed a completely blank page (no content, just the bg-gray-50 background).
+
+**Root cause:** A previous "filter internal accounts" fix had incorrectly changed lines 271 and 283 inside the `AdminOverview()` function to reference `displayUsers` directly. However, `displayUsers` is declared inside the parent `AdminDashboard()` function and is NOT in scope inside `AdminOverview`. This caused a `ReferenceError: displayUsers is not defined` at runtime. Because `/admin` has no ErrorBoundary wrapping, the error crashed the entire React tree → blank screen.
+
+The correct pattern is:
+- `displayUsers` is declared inside `AdminDashboard()`: `const displayUsers = users.filter(u => !INTERNAL_EMAILS.includes(u.email?.toLowerCase()));`
+- `displayUsers` is passed as the `users` prop to `AdminOverview`: `<AdminOverview users={displayUsers} ...>`
+- Inside `AdminOverview`, the prop is `users` — NOT `displayUsers`
+
+**Fix:** Changed lines 271 and 283 inside `AdminOverview`:
+- Line 271: `{displayUsers.slice(0, 5).map(u => (` → `{users.slice(0, 5).map(u => (`
+- Line 283: `{displayUsers.length === 0 && ...` → `{users.length === 0 && ...`
+
+#### Earlier session fixes (same day, Builds #550–#559)
+
+These were implemented in the previous context window (before the UI/UX polish fixes above):
+
+- **Benchmark credibility fix** — `benchCards` in `InsightsView` now uses `s.benchmarkAlignment` (benchmark-relative, 4-level system) instead of `s.readinessScore` (raw score). 4-level labels: Benchmark Met (≥100%), Near Target (≥80%), Developing (≥50%), Early Stage (<50%). Thresholds changed from 90/70 → 100/80/50.
+- **Admin filter scoping** — `INTERNAL_EMAILS` constant and `displayUsers` filter added to `AdminDashboard` to hide internal accounts from the user list/count in the admin view.
+- **SignupPage name validation** — Added client-side validation rejecting names that look like email addresses (contain `@`) to prevent accidental PII in the name field.
+- **Permanently delete item** — App.jsx updated with a `permanentlyDeleteItem` handler for confirmed deletion flows.
+- **Not-Tracked assessment locking** — Build #551: locked assessments no longer show "Not Tracked" as an option (consistent with all other rating actions being disabled when locked).
+- **Free plan delete loophole** — Free users cannot delete locked assessments (complete: 57/57, or age ≥7 days). Delete button conditionally hidden in `FirmDetailView` using `aIsLocked` / `canDelete` logic. Demo account: always locked → always hidden.
+
+---
 
 ### Session Changes (27 Feb 2026 — Demo lockdown, Delete Firm button, Start Assessment fix)
 
