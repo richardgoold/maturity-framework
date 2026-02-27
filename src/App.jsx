@@ -3721,7 +3721,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                             strokeDasharray={outerCirc} strokeDashoffset={outerCirc - (readyPct / 100) * outerCirc} strokeLinecap="round"
                             style={{ transition: "stroke-dashoffset 1s ease" }} />
                           <circle cx="120" cy="120" r={innerR} fill="none" stroke="#e2e8f0" strokeWidth={innerStroke} />
-                          <circle cx="120" cy="120" r={innerR} fill="none" stroke="#f2a71b" strokeWidth={innerStroke}
+                          <circle cx="120" cy="120" r={innerR} fill="none" stroke="#1B4F72" strokeWidth={innerStroke}
                             strokeDasharray={innerCirc} strokeDashoffset={innerCirc - (rawPct / 100) * innerCirc} strokeLinecap="round"
                             style={{ transition: "stroke-dashoffset 1s ease" }} />
                         </svg>
@@ -3749,7 +3749,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                           </div>
                         </div>
                         <div className="flex gap-4 text-xs text-gray-400">
-                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#f2a71b] inline-block" /> Inner ring = Raw Score</span>
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#1B4F72] inline-block" /> Inner ring = Raw Score</span>
                           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: ringColor }} /> Outer ring = M&A Readiness</span>
                         </div>
                       </div>
