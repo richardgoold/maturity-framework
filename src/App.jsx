@@ -3453,7 +3453,7 @@ function InsightsView({ firmId, firmName, assessments, benchmarkProfile, onBack 
   const offTab = "px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200";
 
   return (
-    <div className="space-y-6">
+    <div className="p-6 space-y-6">
       <div className="flex justify-between items-start">
         <h2 className="text-2xl font-bold text-gray-900">{firmName} — Insights</h2>
         <button onClick={onBack} className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 font-medium">Back to Dashboard</button>
