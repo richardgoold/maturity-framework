@@ -3664,8 +3664,8 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
               <div className="p-6 border-b border-gray-100">
                 {(() => {
                   const rawPct = scores.totalMaxPossible > 0 ? Math.round((scores.totalScore / scores.totalMaxPossible) * 100) : 0;
-                  const readyPct = scores.readinessScore;
-                  const level = scores.readinessLevel;
+                  const readyPct = scores.benchmarkAlignment;
+                  const level = readyPct >= 80 ? "On Track" : readyPct >= 50 ? "Developing" : "Early Stage";
                   const ringColor = level === "On Track" ? "#16a34a" : level === "Developing" ? "#d97706" : "#ef4444";
                   const outerR = 88, outerStroke = 14, innerR = 64, innerStroke = 12;
                   const outerCirc = 2 * Math.PI * outerR;
