@@ -7,9 +7,9 @@ An M&A due diligence assessment platform (branded as **GrowthLens**) that evalua
 - **Repo:** richardgoold/maturity-framework
 - **Live site:** https://growthlens.app (custom domain, was richardgoold.github.io/maturity-framework)
 - **Owner:** Richard Goold (richard@richardgoold.com)
-- **Latest commit:** 2878783 (25 Feb 2026) - Remove duplicate variable declarations blocking build
-- **Previous commit:** 255a128 (25 Feb 2026) - UX improvements: contact form message, remove redundant button, darker text, Not Tracked completion counting, Share tooltip, Compare Assessments button
-- **Last updated:** 25 February 2026 (Build error fixes, duplicate declarations, malformed JSX, CLAUDE.md update)
+- **Latest commit:** 4f4d9a4 (27 Feb 2026) - Fix PDF export: add jspdf-autotable plugin CDN for doc.autoTable()
+- **Previous commits:** 90caf80 (27 Feb 2026) - Fix PDF export: add standalone jsPDF CDN, remove broken SRI hash; 20c9d71 (27 Feb 2026) - Fix Insights benchmark cards to use benchmarkAlignment per profile
+- **Last updated:** 27 February 2026 (Insights bug fix, PDF export fixes x3, contact form verified)
 
 ## Tech Stack
 
@@ -367,6 +367,42 @@ A comprehensive security audit was conducted covering all source files, Supabase
 | contact_submissions | â Admin | â Public | â Admin | â None | SEC-09: Add admin DELETE |
 | app_config | â Auth users | â Admin | â Admin | â None | Immutable by design |
 | audit_log | â Admin | â Admin | â None | â None | Immutable by design |
+
+### Session Changes (27 Feb 2026 — Insights fix, PDF export fixes, contact form verification)
+
+**Three bugs discovered and fixed during end-to-end walkthrough:**
+
+#### Bug 1: Insights benchmark cards all showing 60% (Commit 20c9d71, Deploy #543)
+- **Root cause:** `benchCards` in InsightsView used `s.readinessScore` (raw score, same regardless of profile) instead of `s.benchmarkAlignment` (varies per benchmark)
+- **Fix:** Changed to `s.benchmarkAlignment` with new 80/50 thresholds (On Track/Developing). Also updated colour thresholds and label text.
+- **Verified:** TechBridge now shows M&A-Ready=88%, Top Decile=76%, Industry Average=98%, Consulting=86%, Tech Services=89% — all distinct ✓
+
+#### Bug 2: PDF export completely broken (Commits 90caf80 + 4f4d9a4, Deploys #544 + #545)
+Three separate root causes in `index.html`:
+1. **Broken SRI hash** on html2pdf CDN — browser downloaded (200 OK) but silently refused to execute. No JS error appeared.
+2. **html2pdf bundle does NOT expose `window.jspdf`** — requires separate standalone jsPDF library even when html2pdf loads.
+3. **Missing jspdf-autotable plugin** — PDF code calls `doc.autoTable()` which requires separate plugin.
+
+**Final CDN block in index.html:**
+```html
+<!-- jsPDF standalone (exposes window.jspdf) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+<!-- jspdf-autotable plugin (for doc.autoTable()) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js" crossorigin="anonymous"></script>
+<!-- html2pdf (for HTML-to-PDF conversion) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+```
+Verified: all three libraries load correctly on live site. Full end-to-end PDF test requires demo login — Richard to verify manually.
+
+#### Contact form verified ✓
+Landing page contact form tested and confirmed working — shows green "Message sent" confirmation.
+
+#### Score consistency analysis (no code changes — design discussion)
+- **Firm list** shows raw `pct` (totalScore/totalMaxPossible × 100): TechBridge = 60%
+- **Dashboard outer ring + centre** shows `benchmarkAlignment` (benchmark-relative): TechBridge = 88% vs M&A-Ready, 98% vs Industry Average
+- Dashboard ALREADY shows both numbers (raw as inner ring + amber badge; readiness as outer ring + centre text) with clear labels
+- The Insights fix makes the benchmark cards now show distinct values per profile, greatly reducing confusion
+- **Optional future improvement:** Show `benchmarkAlignment` vs M&A-Ready on firm list cards instead of raw `pct`, so headline numbers align with dashboard
 
 ### Session Changes (25 Feb 2026, continued – Build error fixes & syntax corrections)
 
