@@ -268,7 +268,7 @@ function AdminOverview({ users, firms, assessments, contacts, stats }) {
       <div className="bg-white rounded-xl border border-gray-200 p-5">
         <h3 className="text-sm font-semibold text-gray-700 mb-4">Recent Users</h3>
         <div className="space-y-2">
-          {users.slice(0, 5).map(u => (
+          {displayUsers.slice(0, 5).map(u => (
             <div key={u.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
               <div>
                 <span className="text-sm font-medium text-gray-900">{u.full_name}</span>
@@ -280,7 +280,7 @@ function AdminOverview({ users, firms, assessments, contacts, stats }) {
               </div>
             </div>
           ))}
-          {users.length === 0 && <p className="text-sm text-gray-400 text-center py-4">No users yet</p>}
+          {displayUsers.length === 0 && <p className="text-sm text-gray-400 text-center py-4">No users yet</p>}
         </div>
       </div>
     </div>
@@ -1555,6 +1555,10 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const adminData = useAdminData();
   const { users, firms, assessments, contacts, auditLog, appConfig, stats, loading, error, updateUserProfile, rejectUser, deleteUser, updateAssessmentRatings, markContactRead, markContactUnread, deleteContact, updateAppConfig, logAudit, reload } = adminData;
+  const INTERNAL_EMAILS = ['demo@growthlens.app', 'richard@gooldy.com'];
+  const displayUsers = users.filter(u => !INTERNAL_EMAILS.includes(u.email?.toLowerCase()));
+  const INTERNAL_EMAILS = ['demo@growthlens.app', 'richard@gooldy.com'];
+  const displayUsers = users.filter(u => !INTERNAL_EMAILS.includes(u.email?.toLowerCase()));
 
   const [view, setView] = useState("overview");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -1647,9 +1651,9 @@ export default function AdminDashboard() {
   const renderContent = () => {
     switch (view) {
       case "overview":
-        return <AdminOverview users={users} firms={firms} assessments={assessments} contacts={contacts} stats={stats} />;
+        return <AdminOverview users={displayUsers} firms={firms} assessments={assessments} contacts={contacts} stats={stats} />;
       case "users":
-        return <AdminUsersTable users={users} firms={firms} assessments={assessments} onSelectUser={handleUserAction} appConfig={appConfig} />;
+        return <AdminUsersTable users={displayUsers} firms={firms} assessments={assessments} onSelectUser={handleUserAction} appConfig={appConfig} />;
       case "user-detail":
         return selectedUser ? (
           <AdminUserDetail
