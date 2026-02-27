@@ -4,6 +4,17 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #559] — 27 February 2026
+### Changes
+- Fix build error: remove duplicate INTERNAL_EMAILS declaration in AdminDashboard
+- Fix: inner ring colour changed from purple to amber to match legend key
+- Fix: benchmark cards and donut show Near Target not On Track when below benchmark; add permanent delete
+- Signup: enforce name is required, add trim and minLength validation
+- Admin: filter internal accounts from users list (displayUsers)
+
+---
+
+
 ## [Build #554] — 27 February 2026
 ### Changes
 - Fix: prevent free users from deleting firm with locked assessment (Build #552)
