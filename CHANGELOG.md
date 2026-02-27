@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #549] — 27 February 2026
+### Changes
+- Export DEMO_USER_ID for use in App.jsx isDemoAccount check
+
+---
+
+
 ## [Build #548] — 27 February 2026
 ### Changes
 - Fix: Add Start Assessment button to FirmDetailView empty state (Build #548)
