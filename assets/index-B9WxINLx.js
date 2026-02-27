@@ -114,6 +114,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #550] — 27 February 2026
+### Changes
+- Demo lockdown + Delete Firm button (Build #549)
+
+---
+
+
 ## [Build #549] — 27 February 2026
 ### Changes
 - Export DEMO_USER_ID for use in App.jsx isDemoAccount check
