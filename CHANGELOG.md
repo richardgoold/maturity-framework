@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #552] — 27 February 2026
+### Changes
+- Fix: prevent free users from deleting locked assessments (Build #550)
+
+---
+
+
 ## [Build #551] — 27 February 2026
 ### Changes
 - Update CLAUDE.md: demo lockdown + delete firm session notes
