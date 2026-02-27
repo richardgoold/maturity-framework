@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #561] — 27 February 2026
+### Changes
+- Fix InsightsView padding: add p-6 to outer container (Build #561)
+
+---
+
+
 ## [Build #560] — 27 February 2026
 ### Changes
 - Fix donut ring contrast: inner ring navy (#1B4F72) vs outer ring amber (Build #560)
