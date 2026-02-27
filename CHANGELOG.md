@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #562] — 27 February 2026
+### Changes
+- Fix contact form textarea: correct px-4 and bg-white typos (Build #562)
+
+---
+
+
 ## [Build #561] — 27 February 2026
 ### Changes
 - Fix InsightsView padding: add p-6 to outer container (Build #561)
