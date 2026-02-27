@@ -43,12 +43,20 @@ export default function SignupPage() {
     }
 
     // SEC-13: Validate and sanitise all inputs
-    const cleanName = sanitise(form.fullName, 100);
+    const cleanName = sanitise(form.fullName, 100).trim();
     const cleanCompany = sanitise(form.companyName, 150);
     const cleanJob = sanitise(form.jobTitle, 100);
     const cleanEmail = form.email.trim().toLowerCase().slice(0, 254);
 
-    if (!cleanName || !cleanCompany || !cleanJob) {
+    if (!cleanName) {
+      setError('Please enter your full name.');
+      return;
+    }
+    if (cleanName.length < 2) {
+      setError('Please enter your full name (at least 2 characters).');
+      return;
+    }
+    if (!cleanCompany || !cleanJob) {
       setError('Please fill in all required fields.');
       return;
     }
@@ -135,6 +143,7 @@ export default function SignupPage() {
                   <input
                     type="text"
                     required
+                    minLength={2}
                     maxLength={100}
                     value={form.fullName}
                     onChange={(e) => updateField('fullName', e.target.value)}
