@@ -3721,7 +3721,7 @@ function DashboardView({ assessment, firmName, firmSector, onBack, firmAssessmen
                             strokeDasharray={outerCirc} strokeDashoffset={outerCirc - (readyPct / 100) * outerCirc} strokeLinecap="round"
                             style={{ transition: "stroke-dashoffset 1s ease" }} />
                           <circle cx="120" cy="120" r={innerR} fill="none" stroke="#e2e8f0" strokeWidth={innerStroke} />
-                          <circle cx="120" cy="120" r={innerR} fill="none" stroke="#8b5cf6" strokeWidth={innerStroke}
+                          <circle cx="120" cy="120" r={innerR} fill="none" stroke="#f2a71b" strokeWidth={innerStroke}
                             strokeDasharray={innerCirc} strokeDashoffset={innerCirc - (rawPct / 100) * innerCirc} strokeLinecap="round"
                             style={{ transition: "stroke-dashoffset 1s ease" }} />
                         </svg>
