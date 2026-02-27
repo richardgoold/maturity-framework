@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #542] — 27 February 2026
+### Changes
+- Fix: Donut outer ring now shows benchmark-adjusted alignment score
+
+---
+
+
 ## [Build #541] — 26 February 2026
 ### Changes
 - Fix: Update all colour thresholds to 38% and fix unclosed div
