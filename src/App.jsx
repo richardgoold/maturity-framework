@@ -2951,6 +2951,10 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
         <div className="space-y-1.5">
           {firmAssessments.map(a => {
             const scores = calcScores(a.ratings);
+            const aIsComplete = scores.ratedCount === scores.totalMetrics && scores.totalMetrics > 0;
+            const aDaysSince = a.createdAt ? Math.floor((Date.now() - new Date(a.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0;
+            const aIsLocked = isDemo || (isFree && (aIsComplete || aDaysSince >= 7));
+            const canDelete = !isFree || !aIsLocked;
             return (
               <div key={a.id} onClick={() => onSelectAssessment(a.id)} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer">
                 <div className="flex items-center justify-between">
@@ -2964,7 +2968,9 @@ function FirmDetailView({ firm, assessments, onCreateAssessment, onDeleteAssessm
                       <div className="text-xs text-gray-500">{scores.totalScore} / {scores.totalMaxPossible}</div>
                     </div>
                   <button onClick={(e) => { e.stopPropagation(); onViewDashboard(a.id); }} className="p-1 text-gray-500 hover:text-[#f2a71b] transition-colors" title="View Dashboard"><LayoutDashboard size={16} /></button>
+                  {canDelete && (
                   <button onClick={(e) => { e.stopPropagation(); onDeleteAssessment(a.id); }} className="p-1 text-gray-500 hover:text-red-500 transition-colors" title="Delete assessment"><Trash2 size={16} /></button>
+                  )}
                     <ChevronRight size={20} className="text-gray-500 group-hover:text-amber-500 transition-colors" />
                   </div>
                 </div>
