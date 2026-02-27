@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #564] — 27 February 2026
+### Changes
+- Update CLAUDE.md: session changes Builds #550-#563 (27 Feb 2026)
+
+---
+
+
 ## [Build #563] — 27 February 2026
 ### Changes
 - Fix admin blank screen: use users prop not out-of-scope displayUsers in AdminOverview (Build #563)
