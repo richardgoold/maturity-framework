@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #546] — 27 February 2026
+### Changes
+- Update CLAUDE.md: session notes for 27 Feb 2026 (Insights fix, PDF fixes, contact form)
+
+---
+
+
 ## [Build #545] — 27 February 2026
 ### Changes
 - Fix PDF export: add jspdf-autotable plugin CDN for doc.autoTable()
