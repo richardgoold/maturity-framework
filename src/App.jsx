@@ -2716,14 +2716,14 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
             <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
               {firm.name.charAt(0).toUpperCase()}
             </div>
-            <div>
+            <div className="min-w-0 overflow-hidden">
               <h3 className="font-semibold text-gray-800">{firm.name}</h3>
-              <p className="text-xs text-gray-400">"Professional Services"{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
+              <p className="text-xs text-gray-400 truncate">"Professional Services"{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
             </div>
           </div>
           <div className="flex items-center gap-3 ml-auto">
             {latestScores && (
-              <div className="text-right">
+              <div className="text-right shrink-0 ml-4">
                 <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                 <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
               </div>
