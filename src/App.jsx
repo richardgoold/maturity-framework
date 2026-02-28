@@ -2718,7 +2718,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           <div className="flex-1 min-w-0 flex items-center gap-4">
             <div className="min-w-0 overflow-hidden">
               <h3 className="font-semibold text-gray-800">{firm.name}</h3>
-              <p className="text-xs text-gray-400 truncate">"Professional Services"{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
+              <p className="text-xs text-gray-500">{latestScores ? `${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? "No assessment yet" : ""}</p>
             </div>
             {latestScores && (
               <div className="text-right shrink-0">
