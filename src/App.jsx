@@ -2721,7 +2721,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
               <p className="text-xs text-gray-500">{latestScores ? `${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? "No assessment yet" : ""}</p>
             </div>
             {latestScores && (
-              <div className="text-right shrink-0">
+              <div className="text-center shrink-0">
                 <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                 <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
               </div>
