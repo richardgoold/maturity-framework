@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #569] — 28 February 2026
+### Changes
+- Fix firm card: proper 2-col flex layout for pixel-perfect row alignment (Build #569)
+
+---
+
+
 ## [Build #568] — 28 February 2026
 ### Changes
 - Fix firm card layout: constrain text overflow, truncate sector, shrink-0 score block (Build #568)
