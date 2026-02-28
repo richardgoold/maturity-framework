@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #565] — 28 February 2026
+### Changes
+- Fix firm card spacing: add shrink-0 ml-4 to score container (Build #565)
+
+---
+
+
 ## [Build #564] — 27 February 2026
 ### Changes
 - Update CLAUDE.md: session changes Builds #550-#563 (27 Feb 2026)
