@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #571] — 28 February 2026
+### Changes
+- Centre readiness level label under score percentage in firm card (Build #571)
+
+---
+
+
 ## [Build #570] — 28 February 2026
 ### Changes
 - Remove hardcoded Professional Services label from firm card (Build #570)
