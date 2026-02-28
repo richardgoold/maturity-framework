@@ -2712,7 +2712,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
     return (
       <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-1 items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
               {firm.name.charAt(0).toUpperCase()}
             </div>
@@ -2723,7 +2723,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           </div>
           <div className="flex items-center gap-3">
             {latestScores && (
-              <div className="text-right shrink-0 ml-4">
+              <div className="text-right">
                 <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                 <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
               </div>
