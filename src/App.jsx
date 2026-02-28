@@ -2711,23 +2711,23 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
     const latestScores = latest ? calcScores(latest.ratings) : null;
     return (
       <div key={firm.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:border-[#f2a71b]/40 hover:shadow-sm transition-all cursor-pointer group" onClick={() => onSelectFirm(firm.id)}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
-              {firm.name.charAt(0).toUpperCase()}
-            </div>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ backgroundColor: latestScores ? (latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21") : "#4e5b73" }}>
+            {firm.name.charAt(0).toUpperCase()}
+          </div>
+          <div className="flex-1 min-w-0 flex items-center gap-4">
             <div className="min-w-0 overflow-hidden">
               <h3 className="font-semibold text-gray-800">{firm.name}</h3>
               <p className="text-xs text-gray-400 truncate">"Professional Services"{latestScores ? ` \u00B7 ${latestScores.ratedCount}/${latestScores.totalMetrics} rated` : firmAssessments.length === 0 ? " \u00B7 No assessment yet" : ""}</p>
             </div>
-          </div>
-          <div className="flex items-center gap-3 ml-auto">
             {latestScores && (
-              <div className="text-right shrink-0 ml-4">
+              <div className="text-right shrink-0">
                 <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                 <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
               </div>
             )}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
             {firmAssessments.length > 0 && <button onClick={e => { e.stopPropagation(); onViewDashboard(firm.id, firmAssessments[0].id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-[#f2a71b] p-1 transition-all" title="View Dashboard"><LayoutDashboard size={14} /></button>}
             {!isDemo && <button onClick={e => { e.stopPropagation(); onDeleteFirm(firm.id); }} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 p-1 transition-all" title="Delete firm"><Trash2 size={14} /></button>}
             <ChevronRight size={20} className="text-gray-400 group-hover:text-amber-500 transition-colors" />
