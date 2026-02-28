@@ -2723,7 +2723,7 @@ function FirmListView({ firms, onCreateFirm, onSelectFirm, onDeleteFirm, onViewD
           </div>
           <div className="flex items-center gap-3">
             {latestScores && (
-              <div className="text-right">
+              <div className="text-right shrink-0 ml-4">
                 <div className="text-lg font-bold" style={{ color: latestScores.pct >= 66 ? "#1E8449" : latestScores.pct >= 38 ? "#B7950B" : "#922B21" }}>{latestScores.pct}%</div>
                 <div className="text-xs text-gray-400">{latestScores.readinessLevel}</div>
               </div>
