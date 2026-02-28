@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #568] — 28 February 2026
+### Changes
+- Fix firm card layout: constrain text overflow, truncate sector, shrink-0 score block (Build #568)
+
+---
+
+
 ## [Build #567] — 28 February 2026
 ### Changes
 - Fix firm card: ml-auto on right group pushes score flush to right edge (Build #567)
