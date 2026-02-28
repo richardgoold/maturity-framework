@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #570] — 28 February 2026
+### Changes
+- Remove hardcoded Professional Services label from firm card (Build #570)
+
+---
+
+
 ## [Build #569] — 28 February 2026
 ### Changes
 - Fix firm card: proper 2-col flex layout for pixel-perfect row alignment (Build #569)
