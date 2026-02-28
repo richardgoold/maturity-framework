@@ -4,6 +4,13 @@ All notable changes to the GrowthLens platform are documented here.
 
 ---
 
+## [Build #566] — 28 February 2026
+### Changes
+- Fix firm card layout: flex-1 on left group pushes score flush right (Build #566)
+
+---
+
+
 ## [Build #565] — 28 February 2026
 ### Changes
 - Fix firm card spacing: add shrink-0 ml-4 to score container (Build #565)
